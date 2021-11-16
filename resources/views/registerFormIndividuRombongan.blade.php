@@ -4,11 +4,11 @@
 
 @section('link')
 <!-- daterange picker -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
   <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
   <!-- Select2 -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/select2/dist/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}">
   
 
 @endsection
@@ -129,12 +129,12 @@
 
 @section('script')
 <!-- Select2 -->
-<script src="{{ asset('public/adminlte/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <!-- date-range-picker -->
-<script src="{{ asset('public/adminlte/bower_components/moment/min/moment.min.js')}}"></script>
-<script src="{{ asset('public/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/moment/min/moment.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <!-- bootstrap datepicker -->
-<script src="{{ asset('public/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 
 <script>
   $(function () {

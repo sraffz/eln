@@ -8,13 +8,13 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">{{-- 
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/font-awesome/css/font-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/Ionicons/css/ionicons.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/Ionicons/css/ionicons.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/dist/css/AdminLTE.min.css')}}"> --}}
+  <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.min.css')}}"> --}}
 
   <style>
             /** 
@@ -59,7 +59,7 @@
   
     {{-- format surat --}}
      <div id="watermark">
-            <img src="{{ asset('public/adminlte/dist/img/letterhead.jpeg')}}" height="100%" width="100%" />
+            <img src="{{ asset('adminlte/dist/img/letterhead.jpeg')}}" height="100%" width="100%" />
     </div>
     <div class="page">
         <div class="container" >
@@ -149,17 +149,17 @@
 
 
 {{-- <!-- jQuery 3 -->
-<script src="{{ asset('public/adminlte/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{{ asset('public/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- SlimScroll -->
-<script src="{{ asset('public/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
-<script src="{{ asset('public/adminlte/bower_components/fastclick/lib/fastclick.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('public/adminlte/dist/js/adminlte.min.js')}}"></script>
+<script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('public/adminlte/dist/js/demo.js')}}"></script> --}}
+<script src="{{ asset('adminlte/dist/js/demo.js')}}"></script> --}}
 
 </body>
 </html>

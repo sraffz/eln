@@ -11,7 +11,7 @@
 <body>
 
 <div class="container">
-  <p align="center"><img src="{{ asset('public/adminlte/dist/img/kelantan.png')}}" width="200" height="150" alt="User Image" align="center"><br></p>
+  <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png')}}" width="200" height="150" alt="User Image" align="center"><br></p>
   <p align="center"><strong>PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA ATAS URUSAN RASMI/PERSENDIRIAN<BR>BAGI BIL /2021 </strong></p>            
   <table class="table">
     <thead>

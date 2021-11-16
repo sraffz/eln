@@ -1,6 +1,6 @@
 @extends('layouts.starter')
 
-@section('title', 'daftar penghulu')
+@section('title', 'E-Luar Negara')
 
 @section('link')
 

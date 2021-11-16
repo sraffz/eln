@@ -4,11 +4,11 @@
 
 @section('link')
 <!-- daterange picker -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
   <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
   <!-- Select2 -->
-  <link rel="stylesheet" href="{{ asset('public/adminlte/bower_components/select2/dist/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}">
 
 @endsection
 
@@ -33,7 +33,8 @@
                 <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
                 {!! Form::model($userDetail,['method' => 'POST', 
                              'url' => array('daftarPermohonan',$userDetail->usersID),
-                             'class' => 'form-horizontal','enctype' =>'multipart/form-data']) !!}
+                             'class' => 'form-horizontal','enctype' =>'multipart/form-data',
+                             'autocomplete' => 'off']) !!}
 
                 {!! Form::hidden('id', $userDetail->usersID) !!}
 
@@ -54,7 +55,7 @@
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="date" class="form-control pull-right" id="datepicker" name="tarikh">
+                                <input type="text" class="form-control pull-right" id="datepicker" name="tarikh">
                               </div>
                           </td>
                           <td><label>Tempoh lawatan<span style="color:red;">*</span><br>{{-- <small>(Tarikh permohonan tidak boleh kurang daripada 14 hari dari tarikh berlepas.)</small> --}}</label>
@@ -322,12 +323,12 @@
 
 @section('script')
 <!-- Select2 -->
-<script src="{{ asset('public/adminlte/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <!-- date-range-picker -->
-<script src="{{ asset('public/adminlte/bower_components/moment/min/moment.min.js')}}"></script>
-<script src="{{ asset('public/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/moment/min/moment.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <!-- bootstrap datepicker -->
-<script src="{{ asset('public/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 
 <script>
   $(function () {
