@@ -54,7 +54,7 @@
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" id="datepicker" name="tarikh">
+                                <input type="date" class="form-control pull-right" id="datepicker" name="tarikh">
                               </div>
                           </td>
                           <td><label>Tempoh lawatan<span style="color:red;">*</span><br>{{-- <small>(Tarikh permohonan tidak boleh kurang daripada 14 hari dari tarikh berlepas.)</small> --}}</label>
