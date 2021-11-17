@@ -53,7 +53,7 @@
                     echo $no;
                     $no=$no+1;
                   @endphp</td>
-                  <td><a href="/eln/detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->negara }}</a></td>
+                  <td><a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}</a></td>
                   <td>{{\Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y')}}</td>
                   <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td>
                   <td>{{ $mohonan->JenisPermohonan }}({{ $mohonan->lainTujuan }})</td>
@@ -82,11 +82,11 @@
                     
                     @elseif($mohonan->statusPermohonan == "simpanan") 
                      
-                      <a href="/eln/senaraiPermohonan/{{$mohonan->permohonansID}}/hantarIndividu" class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');" data-toggle="tooltip" title="Hantar Permohonan" data-placement="left"><i class="fa fa-check-square-o"></i></a>
+                      <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/hantarIndividu") }}' class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');" data-toggle="tooltip" title="Hantar Permohonan" data-placement="left"><i class="fa fa-check-square-o"></i></a>
                       
-                      <a href="/eln/senaraiPermohonan/{{$mohonan->permohonansID}}/kemaskini" class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan?');" data-toggle="tooltip" title="Kemaskini Permohonan" data-placement="left"><i class="fa fa-pencil-square-o"></i></a>
-
-                      <a href="/eln/senaraiPermohonan/{{$mohonan->permohonansID}}/hapus" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');" data-toggle="tooltip" title="Padam Permohonan" data-placement="left"><i class="fa fa-user-times"></i></a> 
+                      <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/kemaskini") }}' class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan?');" data-toggle="tooltip" title="Kemaskini Permohonan" data-placement="left"><i class="fa fa-pencil-square-o"></i></a>
+                      
+                      <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/hapus") }}' class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');" data-toggle="tooltip" title="Padam Permohonan" data-placement="left"><i class="fa fa-user-times"></i></a> 
                      
                     @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
 
@@ -214,11 +214,11 @@
                     
                     @elseif($rombo->statusPermohonanRom == "simpanan")
 
-                    <a href="/eln/senaraiPermohonan/{{$rombo->rombongans_id}}/hantarRombongan" class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');" data-toggle="tooltip" title="Hantar Permohonan" data-placement="left"><i class="fa fa-check-square-o"></i></a>
-
+                    <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/hantarRombongan") }}' class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');" data-toggle="tooltip" title="Hantar Permohonan" data-placement="left"><i class="fa fa-check-square-o"></i></a>
+                    
                     {{-- <a href="/eln/editPermohonan/{{$rombo->rombongans_id}}/edit" class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan??');"><i class="fa fa-pencil-square-o"></i></a> --}}
-
-                    <a href="/eln/senaraiPermohonan/{{$rombo->rombongans_id}}/tamat" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times" data-toggle="tooltip" title="Padam Permohonan" data-placement="right"></i></a>
+                    
+                    <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/tamat") }}' class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times" data-toggle="tooltip" title="Padam Permohonan" data-placement="right"></i></a>
                     
                     @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
 

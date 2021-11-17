@@ -56,7 +56,7 @@
                     echo $no1;
                     $no1=$no1+1;
                   @endphp</td>
-                  <td><a href="/eln/detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a></td>
+                  <td><a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a></td>
                   <td>{{ $rombo->codeRom }}</td>
                   <td>{{\Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y')}}</td>
                   <td>{{\Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y')}}</td>
@@ -101,11 +101,11 @@
                     
                     @elseif($rombo->statusPermohonanRom == "simpanan")
 
-                    <a href="/eln/senaraiPermohonan/{{$rombo->rombongans_id}}/hantarRombongan" class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i class="fa fa-check-square-o"></i></a>
+                    <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/hantarRombongan") }}' class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i class="fa fa-check-square-o"></i></a>
 
-                    <a href="/eln/editPermohonan/{{$rombo->rombongans_id}}/edit" class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan??');"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href='{{ url("editPermohonan/{$rombo->rombongans_id}/edit") }}' class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan??');"><i class="fa fa-pencil-square-o"></i></a>
 
-                    <a href="/eln/senaraiPermohonan/{{$rombo->rombongans_id}}/tamat" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a>
+                    <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/tamat") }}' class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a>
                     
                     @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
 
