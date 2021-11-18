@@ -169,7 +169,7 @@
                     echo $no1;
                     $no1=$no1+1;
                   @endphp</td>
-                  <td><a href="/eln/detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a></td>
+                  <td><a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a></td>
                   <td>{{ $rombo->codeRom }}</td>
                   <td>{{\Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y')}}</td>
                   <td>{{\Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y')}}</td>

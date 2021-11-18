@@ -3,6 +3,8 @@
 @section('title', 'Sistem Ke Luar Negara: Daftar Pengguna')
 
 @section('link')
+<link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}">
+
 @endsection
 
 @section('content')
@@ -173,6 +175,12 @@
 
 
 @section('script')
+<script>
+   $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()}
+   );
+</script>
 @endsection
 
 

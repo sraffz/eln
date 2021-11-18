@@ -17,6 +17,7 @@ use DB;
 use Auth;
 use Carbon\Carbon;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -899,7 +900,7 @@ class permohonanController extends Controller
                     ->where('permohonansID','=', $id)
                     ->first();
                 
-                if ($dokumen != null) 
+                if ($dokumen > 0) 
                 {
                     $path=$dokumen->pathFile;
                     $pas=Pasangan::where('permohonansID',$id)->delete();
@@ -954,20 +955,19 @@ class permohonanController extends Controller
                     ->where('rombongans_id','=', $id)
                     ->first();
 
-        if ($dokumen != null) 
-        {
-        $path=$dokumen->pathFile;
-        unlink($path);
-        $doku=Dokumen::where('rombongans_id',$id)->delete();
-        $rombong=Rombongan::where('rombongans_id',$id)->delete();
-
-        flash('Permohonan Rombongan berjaya dipadamkan.')->success();
-        return redirect()->back();
+        if (!$dokumen) {
+            $rombong=Rombongan::where('rombongans_id',$id)->delete();
+            flash('Dokumen berjaya dipadamkan.')->success();
+            return redirect()->back();
         }
         else
         {
+            $path=$dokumen->pathFile;
+            Storage::delete($path);
+            $doku=Dokumen::where('rombongans_id',$id)->delete();
             $rombong=Rombongan::where('rombongans_id',$id)->delete();
-            flash('Dokumen berjaya dipadamkan.')->success();
+    
+            flash('Permohonan Rombongan berjaya dipadamkan.')->success();
             return redirect()->back();
         }  
 
