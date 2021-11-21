@@ -16,7 +16,6 @@ use App\GredAngka;
 use DB;
 use Auth;
 use Carbon\Carbon;
-use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
 
 
