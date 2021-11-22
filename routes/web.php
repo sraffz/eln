@@ -52,13 +52,9 @@ Route::get('/senaraiPermohonan/{id}/hantarIndividu',[
 	// 'middleware' =>'admin',
 	'uses'=>'permohonanController@hantarIndividu']);
 
-Route::get('/senaraiPermohonan/{id}/hantarRombongan',[
-	// 'middleware' =>'admin',
-	'uses'=>'permohonanController@hantarRombongan']);
+Route::get('/hantarRombongan/{id}','permohonanController@hantarRombongan');
 
-Route::get('/senaraiPermohonan/{id}/hapus',[
-	// 'middleware' =>'admin',
-	'uses'=>'permohonanController@hapus']);
+Route::get('/padam/{id}','permohonanController@hapus');
 
 Route::get('/senaraiPermohonan/{id}/edit', [
 		//'middleware' =>'admin',

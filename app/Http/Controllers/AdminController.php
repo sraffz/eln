@@ -212,11 +212,12 @@ class AdminController extends Controller
 
     public function editPaparanRombongan($id)
     {
-        
-        //$permohonan = Permohonan::find($id);
-       
-       echo "xsiap";
+        $negara = Negara::all();
 
+        $rombongan = Rombongan::where('rombongans_id', $id)->get();
+
+        return view('pengguna.kemaskini-permohonan', compact('negara'));
+     
     }
 
     /**

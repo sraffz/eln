@@ -844,16 +844,21 @@ class permohonanController extends Controller
                     ->where('rombongans_id','=', $id)
                     ->count();
         
-        $peserta = DB::table('permohonans')
+        $peserta = DB::table('rombongans')
                     ->where('rombongans_id','=', $id)
                     ->count();
         //echo $peserta;
-        if ($d>=1 && $peserta>=1)
+        if (($d>=1) && ($peserta>=1))
         {
-            $ubah = "Pending";
-            Rombongan::where('rombongans_id', '=', $id)->update(['statusPermohonanRom' => $ubah]);
+          
+            Rombongan::where('rombongans_id',  $id)
+            ->update([
+                'statusPermohonanRom' => 'Pending'
+            ]);
 
             flash('Berjaya.')->success();
+
+            // return dd($d);
             return redirect()->back();
         }
         elseif ($d==0 && $peserta==0)
