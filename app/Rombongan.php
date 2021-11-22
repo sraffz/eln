@@ -12,6 +12,8 @@ class Rombongan extends Model
 
     protected $table = 'rombongans';
 
+    protected $dates = ['tarikhInsuranRom', 'tarikhMulaRom', 'tarikhAkhirRom'];
+
     public $timestamps = true;
 
     public function permohonanRombongan()

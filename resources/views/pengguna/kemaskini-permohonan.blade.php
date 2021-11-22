@@ -28,7 +28,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <form action="{{ url('kemaskini-rombongan') }}" method="post" autocomplete="off">
-                        {{ crsf_field() }}
+                        {{ csrf_field() }}
                         @foreach ($rombongan as $rmbgn)
                         <table class="table table-responsive">
                             <tr>
@@ -39,7 +39,7 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" class="form-control pull-right" id="datepicker"
-                                            name="tarikhInsuranRom" required="required">
+                                            name="tarikhInsuranRom" required="required" value="{{ $rmbgn->tarikhInsuranRom->format('d/m/yy') }}">
                                     </div>
                                 </td>
                                 <td>
@@ -49,7 +49,7 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" class="form-control pull-right" id="reservation"
-                                            name="tarikhmulaAkhir" required="required">
+                                            name="tarikhmulaAkhir" required="required" value="{{ $rmbgn->tarikhMulaRom->format('d/m/yy') }} - {{ $rmbgn->tarikhAkhirRom->format('d/m/yy') }}">
                                     </div>
                                 </td>
                             </tr>
@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="form-group">
                                           <input type="text"
-                                            class="form-control" name="tujuanRom" id="tujuanRom" aria-describedby="helpId" placeholder="">
+                                            class="form-control" name="tujuanRom" id="tujuanRom" aria-describedby="helpId" placeholder="" value="{{ $rmbgn->tujuanRom }}">
                                         </div>
                                     </div>
                                 </td>
@@ -76,7 +76,7 @@
                                             name="negaraRom" required="required">
                                             <option value="" selected="selected"></option>
                                             @foreach ($negara as $jaw)
-                                                <option value="{{ $jaw->namaNegara }}">{{ $jaw->namaNegara }}</option>
+                                                <option value="{{ $jaw->namaNegara }}" {{ $jaw->namaNegara == $rmbgn->negaraRom ? "selected":"" }}>{{ $jaw->namaNegara }}</option>
                                             @endforeach
                                         </select>{{-- {{$k->anugerah}} --}}
                                     </div>
@@ -89,22 +89,34 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-money"></i>
                                         </div>
-                                        <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom"
+                                        {{-- <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom"
                                             required="required">
-                                            <option value="Kerajaan">Kerajaan</option>
-                                            <option value="Federal">Federal</option>
-                                            <option value="Persendirian">Persendirian</option>
-                                            <option value="Jabatan">Jabatan</option>
-                                            <option value="Syarikat">Syarikat</option>
-                                            <option value="lain-lain">lain-lain</option>
-                                        </select>
+                                            <option value="Kerajaan" {{ 'Kerajaan' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Kerajaan</option>
+                                            <option value="Federal" {{ 'Federal' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Federal</option>
+                                            <option value="Persendirian" {{ 'Persendirian' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Persendirian</option>
+                                            <option value="Jabatan" {{ 'Jabatan' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Jabatan</option>
+                                            <option value="Syarikat" {{ 'Syarikat' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Syarikat</option>
+                                            <option value="lain-lain" {{ 'lain-lain' == $rmbgn->jenisKewanganRom ? "selected":"" }}>lain-lain</option>
+                                        </select> --}}
+                                        {!! Form::select(
+                                            'jenisKewanganRom', 
+                                            array(
+                                                'Kerajaan' => 'Kerajaan', 
+                                                'Federal' => 'Federal',
+                                                'Persendirian' => 'Persendirian',
+                                                'Jabatan' => 'Jabatan',
+                                                'Syarikat' => 'Syarikat',
+                                                'lain-lain' => 'lain-lain',
+                                            ), 
+                                            $rmbgn->jenisKewanganRom, ['class' => 'form-control']); 
+                                        !!}
                                     </div>
                                 </td>
                                 <td>
     
                                     <div {{ $errors->has('anggaranBelanja') ? ' has-error' : '' }}>
                                         {!! Form::label('anggaranBelanja', 'Anggaran Belanja(RM)') !!}
-                                        {!! Form::text('anggaranBelanja', null, ['class' => 'form-control']) !!}
+                                        {!! Form::text('anggaranBelanja', $rmbgn->anggaranBelanja, ['class' => 'form-control'], ) !!}
                                         <small class="text-danger">{{ $errors->first('anggaranBelanja') }}</small>
                                     </div>
                                 </td>
@@ -116,7 +128,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-map-o"></i>
                                         </div>
-                                        <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170"></textarea>
+                                        <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170">{{ $rmbgn->alamatRom }}</textarea>
                                     </div>
                                 </td>
     

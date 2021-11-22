@@ -149,19 +149,19 @@ class permohonanController extends Controller
     // --------------------Pengguna---------------------------------------------------------------------------------
             if ($role == "pengguna")
             {
-                return view('pengguna.homepage',compact('userDetail','user','mula','TotalPerm','TotalBerjaya','TotalGagal','TotalProces','senarai'));
+                return view('pengguna.homepage',compact('user','mula','TotalPerm','TotalBerjaya','TotalGagal','TotalProces','senarai'));
             }
             elseif ($role == "adminBPSM")
             {
-                return view('admin.homepage',compact('userDetail','user','mula','TotalPerm1','TotalBerjaya1','TotalGagal1','TotalProces1','senarai1'));
+                return view('admin.homepage',compact('user','mula','TotalPerm1','TotalBerjaya1','TotalGagal1','TotalProces1','senarai1'));
             }
             elseif ($role == "DatoSUK")
             {
-                return view('ketua.homepage',compact('userDetail','user','mula','TotalBerjaya1','TotalGagal1','senarai1','jumlahPendingKelulusanDato','listnegara','listcount'));
+                return view('ketua.homepage',compact('user','mula','TotalBerjaya1','TotalGagal1','senarai1','jumlahPendingKelulusanDato','listnegara','listcount'));
             }
             elseif ($role == "jabatan")
             {
-                return view('jabatan.homepage',compact('userDetail','user','mula','TotalPerm1','TotalBerjaya1','TotalGagal1','TotalProces1','senarai1'));
+                return view('jabatan.homepage',compact('user','mula','TotalPerm1','TotalBerjaya1','TotalGagal1','TotalProces1','senarai1'));
             }
 
 

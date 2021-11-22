@@ -216,7 +216,7 @@ class AdminController extends Controller
 
         $rombongan = Rombongan::where('rombongans_id', $id)->get();
 
-        return view('pengguna.kemaskini-permohonan', compact('negara'));
+        return view('pengguna.kemaskini-permohonan', compact('negara', 'rombongan'));
      
     }
 
