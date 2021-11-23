@@ -117,7 +117,8 @@ Route::get('detailPermohonanRombongan/{id}','AdminController@showRombongan');
 Route::get('/images/{name}', 'AdminController@gambar');
 
 
-Route::get('editPermohonan/{id}/edit','AdminController@editPaparanRombongan');
+Route::get('kemaskini-rombongan/{id}','AdminController@editPaparanRombongan');
+Route::post('kemaskini-rombongan','AdminController@kemaskinirombongan');
 
 Route::get('daftarPic','AdminController@daftarPic')->name('daftarPic');
 

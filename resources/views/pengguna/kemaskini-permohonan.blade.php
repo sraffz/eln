@@ -6,20 +6,15 @@
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap datepicker -->
-    <link rel="stylesheet"
-        href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    {{-- <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}"> --}}
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css') }}">
-
-
 @endsection
 
 @section('content')
-
-
     <div class="row">
         <!-- left column -->
-
         <div class="col-md-12">
             <div class="box box-primary box-solid">
                 <div class="box-header with-border">
@@ -30,155 +25,157 @@
                     <form action="{{ url('kemaskini-rombongan') }}" method="post" autocomplete="off">
                         {{ csrf_field() }}
                         @foreach ($rombongan as $rmbgn)
-                        <table class="table table-responsive">
-                            <tr>
-                                <td>
-                                    <label>Tarikh Terima Insuran</label>
-                                    <div class="input-group date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control pull-right" id="datepicker"
-                                            name="tarikhInsuranRom" required="required" value="{{ $rmbgn->tarikhInsuranRom->format('d/m/yy') }}">
-                                    </div>
-                                </td>
-                                <td>
-                                    <label>Tarikh Mula Rombongan dan sehingga</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control pull-right" id="reservation"
-                                            name="tarikhmulaAkhir" required="required" value="{{ $rmbgn->tarikhMulaRom->format('d/m/yy') }} - {{ $rmbgn->tarikhAkhirRom->format('d/m/yy') }}">
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Tujuan Permohonan</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <div class="form-group">
-                                          <input type="text"
-                                            class="form-control" name="tujuanRom" id="tujuanRom" aria-describedby="helpId" placeholder="" value="{{ $rmbgn->tujuanRom }}">
+                            <input type="hidden" name="id" id="id" value="{{ $rmbgn->rombongans_id }}">
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tarikh Terima Insuran</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <input type="text" class="form-control pull-right" id="datepicker"
+                                                name="tarikhInsuranRom" required="required"
+                                                value="{{ $rmbgn->tarikhInsuranRom->format('d/m/Y') }}">
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <label>Negara</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-globe"></i>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tarikh Mula Rombongan</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="tarikhmula" id="datepicker1"
+                                                    value="{{ $rmbgn->tarikhMulaRom->format('d/m/Y') }}">
+                                            </div>
                                         </div>
-                                        <select style="width: 100%;" id="negaraRom" class="form-control select2"
-                                            name="negaraRom" required="required">
-                                            <option value="" selected="selected"></option>
-                                            @foreach ($negara as $jaw)
-                                                <option value="{{ $jaw->namaNegara }}" {{ $jaw->namaNegara == $rmbgn->negaraRom ? "selected":"" }}>{{ $jaw->namaNegara }}</option>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tarikh Akhir Rombongan</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="tarikhakhir"
+                                                    id="datepicker2"
+                                                    value="{{ $rmbgn->tarikhAkhirRom->format('d/m/Y') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tujuan Permohonan</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="tujuanRom" id="tujuanRom"
+                                                    aria-describedby="helpId" placeholder=""
+                                                    value="{{ $rmbgn->tujuanRom }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Negara</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-globe"></i>
+                                            </div>
+                                            <select style="width: 100%;" id="negaraRom" class="form-control select2"
+                                                name="negaraRom" required="required">
+                                                <option value="" selected="selected"></option>
+                                                @foreach ($negara as $jaw)
+                                                    <option value="{{ $jaw->namaNegara }}"
+                                                        {{ $jaw->namaNegara == $rmbgn->negaraRom ? 'selected' : '' }}>
+                                                        {{ $jaw->namaNegara }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sumber Kewangan</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-money"></i>
+                                            </div>
+                                            {!! Form::select('jenisKewanganRom', ['' => 'Sila pilih', 'Kerajaan' => 'Kerajaan', 'Federal' => 'Federal', 'Persendirian' => 'Persendirian', 'Jabatan' => 'Jabatan', 'Syarikat' => 'Syarikat', 'lain-lain' => 'lain-lain'], $rmbgn->jenisKewanganRom, ['class' => 'form-control', 'required']) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Anggaran Belanja(RM)</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-money"></i></div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="anggaranBelanja"
+                                                    id="anggaranBelanja" placeholder=""
+                                                    value="{{ $rmbgn->anggaranBelanja }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Alamat Rombongan</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-map-o"></i>
+                                            </div>
+                                            <textarea class="form-control" name="alamatRom" id="alamatRom"
+                                                cols="170">{{ $rmbgn->alamatRom }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Dokumen Rasmi</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="file" class="form-control" name="fileRasmiRom[]" multiple>
+                                        </div>
+                                        @if ($dokumen->isEmpty())
+                                            Tiada Dokumen.
+                                        @else
+                                            @foreach ($dokumen as $doku)
+                                                <a class="btn btn-sm btn-info"
+                                                    href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">{{ $doku->namaFile }}</a><a
+                                                    href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"
+                                                    onclick="javascript: return confirm('Padam dokumen ini?');"><i
+                                                        class="fa fa-remove"></i></a>
                                             @endforeach
-                                        </select>{{-- {{$k->anugerah}} --}}
+                                        @endif
+
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Sumber Kewangan</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-money"></i>
+                                </div>
+                                <div class="text-center">
+                                    <div class="form-group">
+                                        <div class="btn-group pull-center">
+                                            <a class="btn btn-warning"
+                                                href="{{ url('senaraiPermohonanRombongan', [Auth::user()->usersID]) }}"
+                                                role="button">Kembali</a>
+                                            {!! Form::submit('kemaskini', ['class' => 'btn btn-primary']) !!}
                                         </div>
-                                        {{-- <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom"
-                                            required="required">
-                                            <option value="Kerajaan" {{ 'Kerajaan' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Kerajaan</option>
-                                            <option value="Federal" {{ 'Federal' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Federal</option>
-                                            <option value="Persendirian" {{ 'Persendirian' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Persendirian</option>
-                                            <option value="Jabatan" {{ 'Jabatan' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Jabatan</option>
-                                            <option value="Syarikat" {{ 'Syarikat' == $rmbgn->jenisKewanganRom ? "selected":"" }}>Syarikat</option>
-                                            <option value="lain-lain" {{ 'lain-lain' == $rmbgn->jenisKewanganRom ? "selected":"" }}>lain-lain</option>
-                                        </select> --}}
-                                        {!! Form::select(
-                                            'jenisKewanganRom', 
-                                            array(
-                                                'Kerajaan' => 'Kerajaan', 
-                                                'Federal' => 'Federal',
-                                                'Persendirian' => 'Persendirian',
-                                                'Jabatan' => 'Jabatan',
-                                                'Syarikat' => 'Syarikat',
-                                                'lain-lain' => 'lain-lain',
-                                            ), 
-                                            $rmbgn->jenisKewanganRom, ['class' => 'form-control']); 
-                                        !!}
                                     </div>
-                                </td>
-                                <td>
-    
-                                    <div {{ $errors->has('anggaranBelanja') ? ' has-error' : '' }}>
-                                        {!! Form::label('anggaranBelanja', 'Anggaran Belanja(RM)') !!}
-                                        {!! Form::text('anggaranBelanja', $rmbgn->anggaranBelanja, ['class' => 'form-control'], ) !!}
-                                        <small class="text-danger">{{ $errors->first('anggaranBelanja') }}</small>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <label>Alamat Rombongan</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-map-o"></i>
-                                        </div>
-                                        <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170">{{ $rmbgn->alamatRom }}</textarea>
-                                    </div>
-                                </td>
-    
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <label>Dokumen Rasmi</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="file" class="form-control" name="fileRasmiRom[]" multiple
-                                            required="required" />
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <div class="btn-group pull-left">
-                                        {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
-                                        {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
-                                    </div>
-    
-                                    {!! Form::close() !!}
-                                </td>
-                            </tr>
-    
-                        </table>
+                                </div>
+                            </div>
                         @endforeach
                     </form>
                 </div>
-                <!-- /.box-body -->
-                {{-- <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">&laquo;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">&raquo;</a></li>
-              </ul>
-            </div> --}}
             </div>
-            <!-- general form elements -->
-
-
-
         </div>
-    </div>
-    </div>
-
     </div>
 @endsection
 
@@ -189,13 +186,14 @@
     <script src="{{ asset('adminlte/bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <!-- bootstrap datepicker -->
-    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}">
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    {{-- <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"> --}}
     </script>
 
     <script>
         $(function() {
             //Initialize Select2 Elements
-            $('.select2').select2()
+            $('.select2').select2();
             //Date range picker
             $('#reservation').daterangepicker()
             //Date range as a button
@@ -217,11 +215,28 @@
                         'MMMM D, YYYY'))
                 }
             )
-            //Date picker
-            $('#datepicker').datepicker({
-                autoclose: true
-            })
-        })
+
+        });
+
+        $(function() {
+            $("#datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy'
+            });
+
+            $("#datepicker1").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy'
+            });
+
+            $("#datepicker2").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy'
+            });
+        });
     </script>
 
 @endsection

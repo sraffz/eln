@@ -102,8 +102,8 @@
                     @elseif($rombo->statusPermohonanRom == "simpanan")
 
                     <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/hantarRombongan") }}' class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i class="fa fa-check-square-o"></i></a>
-
-                    <a href='{{ url("editPermohonan/{$rombo->rombongans_id}/edit") }}' class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan??');"><i class="fa fa-pencil-square-o"></i></a>
+                    
+                    <a href="{{ url('kemaskini-rombongan', [$rombo->rombongans_id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil-square-o"></i></a>
 
                     <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/tamat") }}' class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a>
                     

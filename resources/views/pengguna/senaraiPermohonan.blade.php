@@ -84,7 +84,7 @@
                      
                       <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/hantarIndividu") }}' class="btn btn-success btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');" data-toggle="tooltip" title="Hantar Permohonan" data-placement="left"><i class="fa fa-check-square-o"></i></a>
                       
-                      <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/kemaskini") }}' class="btn btn-info btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat permohonan?');" data-toggle="tooltip" title="Kemaskini Permohonan" data-placement="left"><i class="fa fa-pencil-square-o"></i></a>
+                      <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/kemaskini") }}' class="btn btn-info btn-xs" data-toggle="tooltip" title="Kemaskini Permohonan" data-placement="left"><i class="fa fa-pencil-square-o"></i></a>
                       
                       <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/hapus") }}' class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');" data-toggle="tooltip" title="Padam Permohonan" data-placement="left"><i class="fa fa-user-times"></i></a> 
                      

@@ -216,8 +216,28 @@ class AdminController extends Controller
 
         $rombongan = Rombongan::where('rombongans_id', $id)->get();
 
-        return view('pengguna.kemaskini-permohonan', compact('negara', 'rombongan'));
+        $dokumen = DB::table('dokumens')
+                    ->where('rombongans_id', $id)
+                    ->get();
+        
+
+        return view('pengguna.kemaskini-permohonan', compact('negara', 'rombongan', 'dokumen'));
      
+    }
+
+    public function kemaskinirombongan(Request $req)
+    {
+        $id = $req->input('id');
+         
+        Rombongan::where('rombongans_id', $id)
+        ->update([
+            'tarikhInsuranRom' => $req->input('tarikhInsuranRom'),
+            'tarikhMulaRom' => $req->input('tarikhmula'),
+            'tarikhMulaRom' => $req->input('tarikhakhir'),
+            'tarikhMulaRom' => $req->input('tarikhakhir'),
+        ]);
+
+        return back();
     }
 
     /**
@@ -637,7 +657,7 @@ class AdminController extends Controller
         $users = User::find($id);
         $users->update($request->all());
         flash('kemaskini dah berjaya!!', 'success');
-        return redirect('senaraiPic');
+        return redirect('senaraiPic'); 
     }
 
 
