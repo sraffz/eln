@@ -4,12 +4,12 @@
 
 @section('link')
     <!-- daterange picker -->
-    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    {{-- <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}"> --}}
+    {{-- <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}"> --}}
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
 @endsection
 
 @section('content')
@@ -181,13 +181,13 @@
 
 @section('script')
     <!-- Select2 -->
-    <script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- date-range-picker -->
-    <script src="{{ asset('adminlte/bower_components/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <!-- bootstrap datepicker -->
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    {{-- <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"> --}}
+    {{-- <script src="{{ asset('adminlte/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"> --}}
     </script>
 
     <script>
