@@ -1,4 +1,4 @@
-@extends('layouts.starter')
+@extends('layouts.eln')
 
 @section('title', 'Permohonan Individu')
 

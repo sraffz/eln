@@ -29,7 +29,6 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
@@ -37,15 +36,12 @@
                                 <img class="profile-user-img img-fluid img-circle"
                                     src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" alt="User profile picture">
                             </div>
-
                             <h3 class="profile-username text-center">{{ $user->nama }}</h3>
-
                             <p class="text-muted text-center">{{ $user->nokp }}</p>
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-
                     <!-- About Me Box -->
                     <div class="card card-primary">
                         <div class="card-header">

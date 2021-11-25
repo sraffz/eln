@@ -1,58 +1,107 @@
-<ul class="sidebar-menu" data-widget="tree">
-        <li class="header">Menu Pentadbir</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="{{ url('/') }}"><i class="fa fa-link"></i> <span>Halaman Utama</span></a></li>
-       <li class="header">Pendaftaran</li>
-         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-user"></i> <span>Individu</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{route('registerFormIndividu', "rasmi" )}}" data-toggle="tooltip" title="Permohonan rasmi untuk individu." data-placement="right" ><i class="glyphicon glyphicon-pencil"></i>Rasmi</a></li>
-            <li><a href="{{route('registerFormIndividu', "tidakRasmi" )}}" data-toggle="tooltip" title="Permohonan tidak rasmi untuk individu." data-placement="right"><i class="fa fa-edit"></i>Tidak Rasmi</a></li>
-            <li><a href="{{route('registerFormIndividuRombongan', Auth::user()->usersID )}}" data-toggle="tooltip" title="Permohonan individu untuk menyertai rombongan." data-placement="right"><i class="glyphicon glyphicon-briefcase"></i>Rombongan</a></li>
-            {{-- <li><a href="#" data-toggle="tooltip" title="Permohonan secara blanket aproval untuk individu" data-placement="right"><i class="fa fa-child"></i>Blanket Aproval</a></li> --}}
-          </ul>
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-header">MENU PENTADBIR</li>
+        <li class="nav-item">
+            <a href="{{ url('/') }}" class="nav-link ">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Halaman Utama</p>
+            </a>
         </li>
 
-         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-users"></i> <span>Rombongan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{route('registerFormRombangan', Auth::user()->usersID )}}" data-toggle="tooltip" title="Permohonan secara rombongan." data-placement="right"><i class="fa fa-edit"></i>Permohonanan</a></li> 
-            
-          </ul>
+        <li class="nav-header">PERMOHONAN</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                    individu
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('registerFormIndividu', 'rasmi') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Rasmi</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('registerFormIndividu', 'tidakRasmi') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Tidak Rasmi</p>
+                    </a>
+                </li>
+            </ul>
         </li>
 
-        <li class="header">Permohonan</li>
-        <li><a href="{{route('senaraiPermohonanProses',Auth::user()->usersID )}}"><i class="fa fa-link"></i> <span>Permohonan Baru</span></a></li>
-       
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-users"></i> <span>Keputusan Permohonan</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{route('senaraiPermohonanIndividu',Auth::user()->usersID )}}"><i class="fa fa-user-times"></i>Individu</a></li>
-            <li><a href="{{route('senaraiPermohonanRombongan',Auth::user()->usersID )}}"><i class="fa fa-user-times"></i>Rombongan</a></li>
-          </ul>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Rombongan
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('registerFormRombangan', Auth::user()->usersID) }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Permohonan</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('registerFormIndividuRombongan', Auth::user()->usersID) }}"
+                        class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Sertai Rombongan</p>
+                    </a>
+                </li>
+            </ul>
         </li>
 
-        
+        <li class="nav-header">SENARAI & KEPUTUSAN</li>
+        <li class="nav-item">
+            <a href="{{ route('senaraiPermohonanProses', Auth::user()->usersID) }}" class="nav-link">
+                <i class="nav-icon fas fa-book"></i>
+                <p>Permohonan Baru</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Senarai Permohonan
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('senaraiPermohonanIndividu', Auth::user()->usersID) }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Individu</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('senaraiPermohonanRombongan', Auth::user()->usersID) }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Rombongan</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
-         <li class="header">Configurasi</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li><a href="{{ url('profil') }}"><i class="fa fa-circle-o text-red"></i> <span>Profil</span></a></li>
-       
- 
- 
-</ul>
+        <li class="nav-header">PENGGUNA</li>
+        <li class="nav-item">
+            <a href="{{ url('profil') }}" class="nav-link">
+                {{-- <i class="nav-icon far fa-circle text-warning"></i> --}}
+                <i class="nav-icon fas fa-id-card"></i>
+                <p class="text">Profil</p>
+            </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('logout') }}" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p class="text">Log Keluar</p>
+          </a>
+      </li>
+    </ul>
+</nav>
