@@ -15,6 +15,161 @@
 
 @section('content')
     @include('flash::message')
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h3 class="box-title">Kemaskini Permohonan</h3>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Senarai Permohonan</a></li>
+                        <li class="breadcrumb-item active">Kemaskini Permohonan</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    {!! Form::model($permohonan, ['method' => 'POST', 'url' => ['updatePermohonan', $permohonan->permohonansID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::hidden('id', $permohonan->permohonansID) !!}
+    <section class="content">
+        <div class="container-fluid">
+            <!-- general form elements disabled -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Maklumat Permohonan Perjalanan</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
+                                <div class="input-group date">
+                                    @php
+                                        $da = date('d-m-Y', strtotime($permohonan->tarikhInsuran));
+                                    @endphp
+                                    <input type="text" class="form-control pull-right" id="datepicker" name="tarikh"
+                                        value="{{ $da }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><i class="fa fa-calendar"></i> Tarikh Mula Perjalanan</label>
+                                <div class="input-group date">
+                                    @php
+                                        $mula = date('d-m-Y', strtotime($permohonan->tarikhMulaPerjalanan));
+                                    @endphp
+                                    <input type="text" class="form-control pull-right" id="datepicker3"
+                                        name="tarikhMulaPerjalanan" value="{{ $mula }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><i class="fa fa-calendar"></i> Tarikh Akhir Perjalanan</label>
+                                <div class="input-group date">
+                                    @php
+                                        $akhir = date('d-m-Y', strtotime($permohonan->tarikhAkhirPerjalanan));
+                                    @endphp
+                                    <input type="text" class="form-control pull-right" id="datepicker4"
+                                        name="tarikhAkhirPerjalanan" value="{{ $akhir }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><i class="fa fa-globe"></i> Negara</label>
+                                <div class="input-group">
+                                    <select style="width: 100%;" id="negara" class="form-control select2bs4" name="negara">
+                                        <option value="" selected="selected"></option>
+                                        @foreach ($negara as $jaw)
+                                            <option value="{{ $jaw->namaNegara }}"
+                                                {{ $permohonan->negara == $jaw->namaNegara ? 'selected' : '' }}>
+                                                {{ $jaw->namaNegara }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            @if ($typeForm == 'rasmi')
+                                <div class="form-group">
+                                    <label><i class="fa fa-edit"></i> Tujuan Permohonan</label>
+                                    <div class="input-group">
+                                        <input type="text" name="tujuan" class="form-control"
+                                            value="{{ $permohonan->lainTujuan }}">
+                                    </div>
+                                </div>
+                            @elseif($typeForm =="tidakRasmi")
+                                <div class="form-group">
+                                    <label><i class="fa fa-edit"></i> Tujuan Permohonan</label>
+                                    <div class="input-group">
+                                        <input type="text" id="tujuan" name="tujuan" class="form-control"
+                                            value="{{ $permohonan->lainTujuan }}">
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><i class="fa fa-edit"></i> Alamat Semasa Bercuti</label>
+                                <div class="input-group">
+                                    <input type="text" name="alamat" class="form-control"
+                                        value="{{ $permohonan->alamat }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label><i class="fa fa-phone"></i> No. Telefon</label>
+                            <div class="input-group">
+                                <input type="text" name="phone" class="form-control"
+                                    value="{{ $permohonan->telefonPemohon }}">
+                            </div>
+                        </div>
+                        @if ($typeForm == 'rasmi')
+                            <div class="col-md-4">
+                                <label><i class="fa fa-calendar"></i> Jenis Kewangan</label>
+                                <div class="input-group">
+                                    {!! Form::select('jenisKewangan', ['' => 'Sila pilih', 'Kerajaan' => 'Kerajaan', 'Federal' => 'Federal', 'Persendirian' => 'Persendirian', 'Jabatan' => 'Jabatan', 'Syarikat' => 'Syarikat', 'lain-lain' => 'lain-lain'], $permohonan->jenisKewangan, ['class' => 'form-control', 'required']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label><i class="fa fa-file"></i> Dokumen Rasmi </label>
+                                <div class="input-group">
+                                        @if ($dokumen->isEmpty())
+                                            <label for="nama" class="label-danger">Tiada Dokumen</label>
+                                        @else
+                                            @foreach ($dokumen as $doku)
+                                                <a class="btn btn-sm btn-info"
+                                                    href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">{{ $doku->namaFile }}</a><a
+                                                    href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"><i
+                                                        class="fa fa-remove"></i></a>
+                                            @endforeach
+                                        @endif
+                                         <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="fileRasmi[]" id="exampleInputFile" multiple>
+                                        <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                    </div>
+                                </div>
+                            </div>
+                        @elseif($typeForm == "tidakRasmi")
+                            <input type="hidden" name="jenisKewangan" value="Persendirian">
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info box-solid">
@@ -103,7 +258,7 @@
                                                             @endif
 
                                                         @endforeach
-                                                    </select>{{-- {{$k->anugerah}} --}}
+                                                    </select>
                                                 </div>
                                             </td>
                                             <td>
@@ -147,61 +302,23 @@
                                                 <label>No. Telefon</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
+                                                        <i class="fa fa-phone"></i>
                                                     </div>
                                                     <input type="text" name="phone" class="form-control"
                                                         value="{{ $permohonan->telefonPemohon }}">
                                                 </div>
                                             </td>
                                             <td>
-                                                @if ($typeForm == 'rasmi')
 
-                                                    <label>Jenis Kewangan</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                        {!! Form::select('jenisKewangan', ['' => 'Sila pilih', 'Kerajaan' => 'Kerajaan', 'Federal' => 'Federal', 'Persendirian' => 'Persendirian', 'Jabatan' => 'Jabatan', 'Syarikat' => 'Syarikat', 'lain-lain' => 'lain-lain'], $permohonan->jenisKewangan, ['class' => 'form-control', 'required']) !!}
-                                                    </div>
-                                            </td>
-                                            <td>
-                                                <label>Dokumen Rasmi</label>
+                                                <label>Jenis Kewangan</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-
-                                                    <?php
-                                                      if($dokumen->isEmpty())
-                                                      {  ?>
-                                                      <label for="nama" class="label-danger">Tiada Dokumen</label>
-                                                      <?php     }
-                                                      else
-                                                      { 
-                                                        ?>
-                                                    @foreach ($dokumen as $doku)
-                                                        <a class="btn btn-sm btn-info"
-                                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">{{ $doku->namaFile }}</a><a
-                                                            href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"><i
-                                                                class="fa fa-remove"></i></a>
-                                                    @endforeach
-
-                                                    <?php } ?>
-                                                    {{-- @if (is_null($permohonan->namaFileCuti))
-                                  <label class="label label-warning">NO File</label>
-                                @else
-                                <a class="btn btn-sm btn-info" href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">{{ $permohonan->namaFileCuti }}</a>
-                                @endif --}}
-
-
-                                                    <input type="file" class="form-control" name="fileRasmi[]" multiple />
+                                                    {!! Form::select('jenisKewangan', ['' => 'Sila pilih', 'Kerajaan' => 'Kerajaan', 'Federal' => 'Federal', 'Persendirian' => 'Persendirian', 'Jabatan' => 'Jabatan', 'Syarikat' => 'Syarikat', 'lain-lain' => 'lain-lain'], $permohonan->jenisKewangan, ['class' => 'form-control', 'required']) !!}
                                                 </div>
-                                            @elseif($typeForm =="tidakRasmi")
-
-                                                <input type="hidden" name="jenisKewangan" value="Persendirian">
-
-                                                @endif
                                             </td>
+
                                         </tr>
                                     </table>
                                 </div>
@@ -366,7 +483,8 @@
                         @elseif($typeForm =="tidakRasmi")
                             <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
                         @endif
-                        <input type="hidden" name="pasanganID" value="{{ $permohonan->pasanganPermohonan->pasangansID }}">
+                        <input type="hidden" name="pasanganID"
+                            value="{{ $permohonan->pasanganPermohonan->pasangansID }}">
 
                         <div class="btn-group pull-left">
                             {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
