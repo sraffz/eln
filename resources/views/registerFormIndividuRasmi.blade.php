@@ -3,367 +3,299 @@
 @section('title', 'Permohonan Individu')
 
 @section('link')
-<!-- daterange picker -->
-  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
-  <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}">
-
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @endsection
 
 @section('content')
-@include('flash::message')
-
-<div class="row">
-        <div class="col-md-12">
-          <div class="box box-info box-solid">
-            <div class="box-header with-border"> 
-              @if ($typeForm =="rasmi")  
-                <h3 class="box-title">Borang Pemohonan Rasmi Keluar Negara </h3>
-              @elseif($typeForm =="tidakRasmi")
-                <h3 class="box-title">Borang Pemohonan Tidak Rasmi Keluar Negara </h3>
-              @endif 
-                 
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    @if ($typeForm == 'rasmi')
+                        <h3 class="box-title">Borang Pemohonan Rasmi</h3>
+                    @elseif($typeForm =="tidakRasmi")
+                        <h3 class="box-title">Borang Pemohonan Tidak Rasmi</h3>
+                    @endif
+                    {{-- <h1>Borang Permohonan (Rasmi)</h1> --}}
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Halaman Utama</a></li>
+                        <li class="breadcrumb-item active">Permohonan</li>
+                    </ol>
+                </div>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body"> 
+        </div><!-- /.container-fluid -->
+    </section>
+    @include('flash::message')
+    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftarPermohonan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'autocomplete' => 'off']) !!}
 
-              <div class="box-group" id="accordion">
-                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                {!! Form::model($userDetail,['method' => 'POST', 
-                             'url' => array('daftarPermohonan',$userDetail->usersID),
-                             'class' => 'form-horizontal','enctype' =>'multipart/form-data',
-                             'autocomplete' => 'off']) !!}
-
-                {!! Form::hidden('id', $userDetail->usersID) !!}
-
-                <div class="panel box box-success">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                       .::Maklumat permohonan perjalanan Keluar Negara::.
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseTwo" class="panel-collapse collapse in">
-                    <div class="box-body">
-                      <table class="table table-responsive">
-                        <tr> 
-                          <td><label>Tarikh Terima Insuran</label>
-                              <div class="input-group date">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="datepicker" name="tarikh">
-                              </div>
-                          </td>
-                          <td><label>Tempoh lawatan<span style="color:red;">*</span><br>{{-- <small>(Tarikh permohonan tidak boleh kurang daripada 14 hari dari tarikh berlepas.)</small> --}}</label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="reservation" name="tempohPerjalanan">
-                              </div>
-                            </td>
-                          <td>
-                              <label>Negara<span style="color:red;">*</span></label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-globe"></i>
-                                </div>
-                                <select style="width: 100%;" id="negara" class="form-control select2" name="negara" required="required">
-                                    <option value="" selected="selected"></option>
-                                  @foreach($negara as $jaw)
-                                      <option value="{{ $jaw->namaNegara }}">{{ $jaw->namaNegara }}</option>
-                                  @endforeach
-                                </select>{{-- {{$k->anugerah}}  --}}
-                              </div>
-                          </td>
-                        </tr>
-                        <tr> 
-                          <td>@if ($typeForm =="rasmi")
-
-                               <label>Tujuan Permohonan<span style="color:red;">*</span></label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-edit"></i>
-                                  </div>
-                                 <input type="text" name="tujuan" class="form-control" required="required">
-                                </div>
-
-                              @elseif($typeForm =="tidakRasmi")
-
-                              <label>Tujuan Permohonan<span style="color:red;">*</span></label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-edit"></i>
-                                  </div>
-                                 <input type="text" name="tujuan" class="form-control" required="required">
-                                </div>
-
-                              @endif
-                          </td>
-                          <td> <label>Alamat semasa bertugas / bercuti<span style="color:red;">*</span></label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-edit"></i>
-                                  </div>
-                                 <input type="text" name="alamat" class="form-control" required="required">
-                                </div>
-                          </td>
-                          <td> <label>No. Telefon<span style="color:red;">*</span></label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-phone"></i>
-                                </div>
-                               <input type="text" name="phone" class="form-control" required="required">
-                              </div>
-                          </td>
-                        </tr>
-                        
-                          @if ($typeForm =="rasmi")
-                          <tr>
-                            <td>
-                              <label>Jenis Kewangan<span style="color:red;">*</span></label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-money"></i>
-                                </div>
-                                <select class="form-control" id="jenisKewangan" name="jenisKewangan" required="required">
-                                      <option value="Kerajaan">Kerajaan</option>
-                                      <option value="Federal">Federal</option>
-                                      <option value="Persendirian">Persendirian</option>
-                                      <option value="Jabatan">Jabatan</option>
-                                      <option value="Syarikat">Syarikat</option>
-                                      <option value="lain-lain">lain-lain</option>
+    {!! Form::hidden('id', $userDetail->usersID) !!}
+    <section class="content">
+        <div class="container-fluid">
+            <!-- general form elements disabled -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Maklumat Permohonan Perjalanan</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
+                                <input type="text" class="form-control" id="datepicker" name="tarikh">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tempoh lawatan<span
+                                        style="color:red;">*</span></label>
+                                <input type="text" class="form-control" id="reservation" name="tempohPerjalanan" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label><i class="fas fa-globe"></i> Negara<span style="color:red;">*</span></label>
+                                <select class="form-control select2bs4" name="negara" style="width: 100%;"
+                                    required>
+                                    @foreach ($negara as $jaw)
+                                        <option value="{{ $jaw->namaNegara }}">{{ $jaw->namaNegara }}</option>
+                                    @endforeach
                                 </select>
-                              </div>
-                            </td>
-                            <td>
-                                <label>Dokumen Rasmi<span style="color:red;">*</span> <br><small class="text-danger">(Format: pdf,jpg,jpeg,png,docx,doc)</small></label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-file"></i>
-                                  </div>
-                                    <input type="file" class="form-control" name="fileRasmi[]" multiple />
-                                </div>
-                            </td>
-                          <td></td>
-                          </tr>
-                       
-                              @elseif($typeForm =="tidakRasmi")
-                       
-                                <input type="hidden" name="jenisKewangan" value="Persendirian">
-               
-                              @endif
-                       </table>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel box box-success">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                        .:::Maklumat Pasangan / Keluarga / Saudara Pegawai Keluar negara:::.
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseThree" class="panel-collapse collapse in">
-                    <div class="box-body">
-                      <table class="table table-responsive">
-                        <tr>
-                          <td>
-                            <label>Nama Pasangan</label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-user"></i>
-                                </div>
-                               <input type="text" name="namaPasangan" class="form-control">
-                              </div>
-                          </td>
-                          <td> 
-                            <label>Hubungan</label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-male"></i>
-                                </div>
-                               <input type="text" name="hubungan" class="form-control">
-                              </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                             <label>No. Telefon Pasangan</label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-phone"></i>
-                                </div>
-                               <input type="text" name="phonePasangan" class="form-control">
-                              </div>
-                           </td>
-                           <td>
-                            <label>E-mel Pasangan</label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-envelope-o"></i>
-                                </div>
-                               <input type="email" name="emailPasangan" class="form-control">
-                              </div> 
-                            </td>
-                        </tr>
-                        <tr>
-                           <td colspan="2">
-                              <label>Alamat Pasangan</label>
-                                <div class="input-group">
-                                  <div class="input-group-addon">
-                                    <i class="fa fa-map-o"></i>
-                                  </div>
-                                 <textarea class="form-control" name="alamatPasangan" id="alamatPasangan" cols="170"></textarea>
-                                </div>
-                              </td>
-                          <td></td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-
-
-                @if ($typeForm =="tidakRasmi")
-                <div class="panel box box-success">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
-                        .:::Maklumat kelulusan cuti rehat(Sekiranya memerlukan kelulusan cuti rehat):::.
-                      </a>
-                    </h4>
-                  </div>
-                  
-                  <div id="collapseFour" class="panel-collapse collapse in">
-                    <div class="box-body">
-
-                    <table class="table table-responsive">
-                      <tr>
-                        <td>
-                          <label>Tempoh Cuti</label>
-                          <div class="input-group">
-                            <div class="input-group-addon">
-                              <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" class="form-control pull-right" id="reservation2" name="tempohCuti">
-                          </div>
-                        </td>
-                        <td>
-                          <label>Tarikh Kembali Bertugas</label>
-                          <div class="input-group date">
-                            <div class="input-group-addon">
-                              <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control pull-right" id="datepicker2" name="tarikhKembaliBertugas">
-                          </div>
-                        </td>
-                        <td>
-                            <label>Dokumen Cuti</label>
-                              <div class="input-group">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-file"></i>
-                                </div>
-                                <input type="file" class="form-control" name="fileCuti[]" multiple />
-                              </div>
-                        </td>
-                      </tr>
-                    </table>
+                        </div>
                     </div>
-                  </div>
-                   
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @if ($typeForm == 'rasmi')
+                                <div class="form-group">
+                                    <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
+                                            style="color:red;">*</span></label>
+                                    <input type="text" class="form-control" name="tujuan" required>
+                                </div>
+                            @elseif($typeForm =="tidakRasmi")
+                                <div class="form-group">
+                                    <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
+                                            style="color:red;">*</span></label>
+                                    <input type="text" class="form-control" name="tujuan" required>
+                                </div>
+                            @endif
+                            <!-- text input -->
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fa fa-edit"> </i> Alamat semasa bertugas / bercuti <span
+                                        style="color:red;">*</span></label>
+                                <input type="text" name="alamat" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label><i class="fa fa-phone"> </i> No. Telefon<span style="color:red;">*</span></label>
+                                <input type="text" name="phone" class="form-control" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if ($typeForm == 'rasmi')
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-money-bill-alt"></i> Jenis Kewangan<span
+                                            style="color:red;">*</span></label>
+                                    <select class="form-control" id="jenisKewangan" name="jenisKewangan"
+                                        required="required">
+                                        <option value="Kerajaan">Kerajaan</option>
+                                        <option value="Federal">Federal</option>
+                                        <option value="Persendirian">Persendirian</option>
+                                        <option value="Jabatan">Jabatan</option>
+                                        <option value="Syarikat">Syarikat</option>
+                                        <option value="lain-lain">lain-lain</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span style="color:red;">*</span></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="fileRasmi[]" id="exampleInputFile" multiple>
+                                    <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                </div>
+                            </div>
+                        @elseif($typeForm =="tidakRasmi")
+                            <input type="hidden" name="jenisKewangan" value="Persendirian">
+                        @endif
+                    </div>
                 </div>
-                @endif
-                
-
-                <div class="panel box box-success">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
-                        .::Perakuan Pemohonan::.
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseFive" class="panel-collapse collapse in">
-                    <div class="box-body">
-                      <input type="checkbox" name="tick" id="tick" value="yes" required="required">Segala keterangan adalah benar dan mematuhi peraturan. 
-
-                  </div>
-                </div>
-
-              </div>
+                <!-- /.card-body -->
             </div>
-            
-                  @if ($typeForm =="rasmi")
-                  <input type="hidden" name="jenisPermohonan" value="Rasmi">
-                  @elseif($typeForm =="tidakRasmi")
-                  <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
-                  @endif
-            
-                 <div class="btn-group">
-                    {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!}
-                    {!! Form::submit("Hantar", ['class' => 'btn btn-success']) !!}
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Maklumat Pasangan/Keluarga/Saudara Pegawai</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fa fa-user"></i> Nama Pasangan</label>
+                                <input type="text" name="namaPasangan" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fa fa-user-friends"></i> Hubungan</label>
+                                <input type="text" name="hubungan" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
+                                <input type="text" name="phonePasangan" class="form-control" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fa fa-envelope"></i> Email Pasangan</label>
+                                <input type="email" name="emailPasangan" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- textarea -->
+                            <div class="form-group">
+                                <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
+                                <textarea class="form-control" name="alamatPasangan" rows="3" placeholder=""></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            {!! Form::close() !!}
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+                <!-- /.card-body -->
+            </div>
+            @if ($typeForm == 'tidakRasmi')
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Maklumat Kelulusan Cuti rehat (Jika Perlu)</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar"></i> Tempoh Cuti</label>
+                                    <input type="text" class="form-control" id="reservation2" name="tempohCuti">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
+                                    <input type="text" class="form-control" id="datepicker2" name="tarikhKembaliBertugas">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="fileCuti[]" id="exampleInputFile" multiple>
+                                        <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Perakuan Permohonan</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- checkbox -->
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tick" id="tick" value="yes"
+                                        required>
+                                    <label class="form-check-label">Segala keterangan adalah benar dan mematuhi
+                                        peraturan.</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if ($typeForm == 'rasmi')
+                            <input type="hidden" name="jenisPermohonan" value="Rasmi">
+                        @elseif($typeForm =="tidakRasmi")
+                            <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
+                        @endif
+                        <div class="btn-group">
+                            {!! Form::reset('Semula', ['class' => 'btn btn-warning']) !!}
+                            {!! Form::submit('Hantar', ['class' => 'btn btn-success']) !!}
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
         </div>
-        <!-- /.col -->
-        
-        <!-- /.col -->
-      </div>
+    </section>
+    {!! Form::close() !!}
+
 @endsection
 
 @section('script')
-<!-- Select2 -->
-<script src="{{ asset('adminlte/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-<!-- date-range-picker -->
-<script src="{{ asset('adminlte/bower_components/moment/min/moment.min.js')}}"></script>
-<script src="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-<!-- bootstrap datepicker -->
-<script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+    <!-- bootstrap datepicker -->
+    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}">
+    </script>
 
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-    //Date range picker
-    $('#reservation').daterangepicker()
-    $('#reservation2').daterangepicker()
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-      {
-        ranges   : {
-          'Today'       : [moment(), moment()],
-          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
-      },
-      function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-      }
-    )
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    })
-    $('#datepicker2').datepicker({
-      autoclose: true
-    })
-  })
-</script>
+    <script>
+        $(function() {
+            //Date range picker
+            $('#reservation').daterangepicker()
+            $('#reservation2').daterangepicker()
+            //Date range as a button
+            $('#daterange-btn').daterangepicker({
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                            'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function(start, end) {
+                    $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format(
+                        'MMMM D, YYYY'))
+                }
+            )
+            //Date picker
+            $('#datepicker').datepicker({
+                autoclose: true
+            })
+            $('#datepicker2').datepicker({
+                autoclose: true
+            })
+        })
+    </script>
 
 @endsection
-
