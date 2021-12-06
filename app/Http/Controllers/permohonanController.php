@@ -22,6 +22,11 @@ use Illuminate\Support\Facades\Storage;
 
 class permohonanController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth');
+    }
+
     public function index()
     {
         $negara = Negara::all();
