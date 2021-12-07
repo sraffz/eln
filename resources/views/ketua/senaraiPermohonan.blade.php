@@ -80,13 +80,13 @@
                                                         @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
                                                             <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-success btn-xs"
-                                                                onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
-                                                                    class="fa fa-thumbs-o-up"></i>
+                                                                onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
+                                                                <i class="far fa-thumbs-up"></i>
                                                             </a>
                                                             <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-danger btn-xs"
                                                                 onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                                    class="fa fa-thumbs-o-down"></i>
+                                                                    class="far fa-thumbs-down"></i>
                                                             </a>
                                                             <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-warning btn-xs"
