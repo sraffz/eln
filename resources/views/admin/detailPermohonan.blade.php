@@ -37,34 +37,28 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                          <div class="row">
-                            <strong><i class="fas fa-pencil-alt mr-1"></i> Nama</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->user->nama }}
-                            </p>
-                            <hr>
-                            <strong><i class="fas fa-pencil-alt mr-1"></i> Kad Pengenalan</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->user->nokp }}
-                            </p>
-                          </div>
-                            <hr>
-                            <strong><i class="fas fa-book mr-1"></i> Email</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->user->email }}
-                            </p>
-                            <hr>
-                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Jawatan & Gred</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->user->userJawatan->namaJawatan }}
-                                ({{ $permohonan->user->userGredKod->gred_kod_abjad }}{{ $permohonan->user->userGredAngka->gred_angka_nombor }})
-                            </p>
-                            <hr>
-                            <strong><i class="far fa-file-alt mr-1"></i> Jabatan</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->user->userJabatan->nama_jabatan }}
-                                ({{ $permohonan->user->userJabatan->kod_jabatan }})
-                            </p>
+                            <div class="form-group">
+                                <label for="">Nama</label>
+                                <input type="text" class="form-control" disabled value="{{ $permohonan->user->nama }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Kad Pengenalan</label>
+                                <input type="text" class="form-control" disabled value="{{ $permohonan->user->nokp }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="text" class="form-control" disabled value="{{ $permohonan->user->email }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Jawatan & Gred</label>
+                                <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                    disabled>{{ $permohonan->user->userJawatan->namaJawatan }}({{ $permohonan->user->userGredKod->gred_kod_abjad }}{{ $permohonan->user->userGredAngka->gred_angka_nombor }})</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Jabatan</label>
+                                <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                    disabled>{{ $permohonan->user->userJabatan->nama_jabatan }} ({{ $permohonan->user->userJabatan->kod_jabatan }})</textarea>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -76,31 +70,42 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <strong><i class="fas fa-book mr-1"></i> Negara</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->negara }}
-                            </p>
-                            <hr>
-                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->alamat }}
-                            </p>
-                            <hr>
-                            <strong><i class="fas fa-pencil-alt mr-1"></i> Jenis Permohonan</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->JenisPermohonan }}
-                            </p>
-                            <hr>
-                            <strong><i class="far fa-file-alt mr-1"></i> Tujuan</strong>
-                            <p class="text-muted">
-                                {{ $permohonan->lainTujuan }}
-                            </p>
-                            <hr>
-                            <strong><i class="far fa-file-alt mr-1"></i> Tarikh Perjalanan</strong>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Negara</label>
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ $permohonan->negara }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Alamat</label>
+                                        <textarea style="resize: none" class="form-control" disabled
+                                            rows="3">{{ $permohonan->alamat }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Jenis Permohonan</label>
+                                        <input type="text" class="form-control" disabled
+                                            value=" {{ $permohonan->JenisPermohonan }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Tujuan</label>
+                                        <input type="text" class="form-control" disabled
+                                            value=" {{ $permohonan->lainTujuan }}">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="mula">Mula</label>
+                                        <label for="mula">Mula Perjalanan</label>
                                         <input id="mula" type="text" class="form-control"
                                             value="{{ \Carbon\Carbon::parse($permohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}"
                                             disabled>
@@ -108,7 +113,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="akhir">Akhir</label>
+                                        <label for="akhir">Tamat Perjalanan</label>
                                         <input id="akhir" type="text" class="form-control"
                                             value="{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}"
                                             disabled>
@@ -218,7 +223,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <a href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}"
+                    <a href="{{ URL::previous() }}"
                         class="btn btn-primary">Kembali</a>
                 </div>
             </div>

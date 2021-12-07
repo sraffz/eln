@@ -50,7 +50,7 @@
                                 <label><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
                                 <div class="input-group date">
                                     @php
-                                        $da = date('d-m-Y', strtotime($permohonan->tarikhInsuran));
+                                        $da = date('m/d/Y', strtotime($permohonan->tarikhInsuran));
                                     @endphp
                                     <input type="text" class="form-control pull-right" id="datepicker" name="tarikh"
                                         value="{{ $da }}">
@@ -62,7 +62,7 @@
                                 <label><i class="fa fa-calendar"></i> Tarikh Mula Perjalanan</label>
                                 <div class="input-group date">
                                     @php
-                                        $mula = date('d-m-Y', strtotime($permohonan->tarikhMulaPerjalanan));
+                                        $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaPerjalanan));
                                     @endphp
                                     <input type="text" class="form-control pull-right" id="datepicker3"
                                         name="tarikhMulaPerjalanan" value="{{ $mula }}">
@@ -74,7 +74,7 @@
                                 <label><i class="fa fa-calendar"></i> Tarikh Akhir Perjalanan</label>
                                 <div class="input-group date">
                                     @php
-                                        $akhir = date('d-m-Y', strtotime($permohonan->tarikhAkhirPerjalanan));
+                                        $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirPerjalanan));
                                     @endphp
                                     <input type="text" class="form-control pull-right" id="datepicker4"
                                         name="tarikhAkhirPerjalanan" value="{{ $akhir }}">
@@ -242,7 +242,7 @@
                                     <label><i class="fa fa-calendar"></i> Tarikh Mula Cuti</label>
                                     <div class="input-group date">
                                         @php
-                                            $mula = date('d-m-Y', strtotime($permohonan->tarikhMulaCuti));
+                                            $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaCuti));
                                         @endphp
                                         <input type="text" class="form-control pull-right" id="datepicker5"
                                             name="tarikhMulaCuti" value="{{ $mula }}">
@@ -254,7 +254,7 @@
                                     <label><i class="fa fa-calendar"></i> Tarikh Akhir Cuti</label>
                                     <div class="input-group date">
                                         @php
-                                            $akhir = date('d-m-Y', strtotime($permohonan->tarikhAkhirCuti));
+                                            $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirCuti));
                                         @endphp
                                         <input type="text" class="form-control pull-right" id="datepicker6"
                                             name="tarikhAkhirCuti" value="{{ $akhir }}">
@@ -266,7 +266,7 @@
                                     <label><i class="fa fa-calendar"></i> Tarikh Kembali Bertugas</label>
                                     <div class="input-group date">
                                         @php
-                                            $kembali = date('d-m-Y', strtotime($permohonan->tarikhKembaliBertugas));
+                                            $kembali = date('m/d/Y', strtotime($permohonan->tarikhKembaliBertugas));
                                         @endphp
                                         <input type="text" class="form-control pull-right" id="datepicker7"
                                             name="tarikhKembaliBertugas" value="{{ $kembali }}">
@@ -352,7 +352,7 @@
             )
             //Date picker
             $('#datepicker').datepicker({
-                autoclose: true
+                autoclose: true,
             })
             $('#datepicker2').datepicker({
                 autoclose: true
