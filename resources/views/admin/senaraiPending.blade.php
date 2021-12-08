@@ -130,8 +130,9 @@
                                                                 class="label label-info">{{ $mohonan->statusPermohonan }}</span>
                                                         </td>
                                                     @endif
+                                
 
-                                                    @if ($url != 'http://aplikasi1.kelantan.gov.my/eln/senaraiRekodIndividu')
+                                                    @if ($url != url('senaraiRekodIndividu'))
                                                         <td>
                                                             @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
 
@@ -191,17 +192,14 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- /.chart-responsive -->
                                 </div>
                                 <!-- /.col -->
-
                                 <!-- /.col -->
                             </div>
                             <!-- /.row -->
                         </div>
                         <!-- ./box-body -->
-
                         <!-- /.box-footer -->
                     </div>
                     <!-- /.box -->

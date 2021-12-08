@@ -127,7 +127,7 @@ class permohonanController extends Controller
 
             $jumlahPendingKelulusanDato = DB::table('permohonans')
                         ->where('statusPermohonan','=', 'Lulus Semakan BPSM')
-                        ->whereYear('tarikhMulaPerjalanan', $year)
+                        // ->whereYear('tarikhMulaPerjalanan', $year)
                         ->count();
 
             $senaraiNegara=Permohonan::where('statusPermohonan', 'Permohonan Berjaya')

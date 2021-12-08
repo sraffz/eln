@@ -30,7 +30,6 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -45,8 +44,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <table class="table table-bordered table-striped display">
-                                        <thead>
-                                            <tr bgcolor="#7abcb9">
+                                        <thead class="thead-primary">
+                                            <tr>
                                                 <th>No</th>
                                                 <th>Nama</th>
                                                 <th>Jabatan</th>

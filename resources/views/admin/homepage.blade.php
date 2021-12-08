@@ -1,9 +1,8 @@
 @extends('layouts.eln')
-
 @section('title', 'Halaman Utama')
 
-@section('link')
 
+@section('link')
 
 @endsection
 
