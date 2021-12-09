@@ -121,7 +121,7 @@
 
                                   Sekian, terima kasih.<br><br>
                                      
-                                  <strong> " {{ $cogan->maklumat1 }} "</strong><br><br>
+                                  <strong> "{{ $cogan->maklumat1 }}"</strong><br><br>
 
                                   Saya yang menjalankan amanah,<br><br><br>
 

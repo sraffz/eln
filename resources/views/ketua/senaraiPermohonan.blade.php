@@ -77,6 +77,7 @@
                                                     <td>{{ $mohonan->JenisPermohonan }}</td>
                                                     <td>
                                                         @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                        
                                                             <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-success btn-xs"
                                                                 onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">

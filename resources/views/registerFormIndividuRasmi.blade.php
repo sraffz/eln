@@ -240,14 +240,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        @if ($typeForm == 'rasmi')
-                            <input type="hidden" name="jenisPermohonan" value="Rasmi">
-                        @elseif($typeForm =="tidakRasmi")
-                            <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
-                        @endif
-                        <div class="btn-group">
-                            {!! Form::reset('Semula', ['class' => 'btn btn-warning']) !!}
-                            {!! Form::submit('Hantar', ['class' => 'btn btn-success']) !!}
+                        <div class="text-center">
+                            @if ($typeForm == 'rasmi')
+                                <input type="hidden" name="jenisPermohonan" value="Rasmi">
+                            @elseif($typeForm =="tidakRasmi")
+                                <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
+                            @endif
+                            <div class="btn-group">
+                                {!! Form::reset('Semula', ['class' => 'btn btn-warning']) !!}
+                                {!! Form::submit('Hantar', ['class' => 'btn btn-success']) !!}
+                            </div>
                         </div>
                     </div>
                 </div>

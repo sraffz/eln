@@ -32,15 +32,39 @@
         </div> --}}
 
         <!-- Sidebar Menu -->
-        @if (Auth::user()->role == 'pengguna')
-            @include('layouts.sidebarMenu')
-        @elseif (Auth::user()->role == "adminBPSM")
-            @include('layouts.sidebarMenuAdminBPSM')
-        @elseif (Auth::user()->role == "DatoSUK")
-            @include('layouts.sidebarMenuKPP')
-        @elseif (Auth::user()->role == "jabatan")
-            @include('layouts.sidebarMenuJabatan')
-        @endif
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-header">MENU PENTADBIR</li>
+                <li class="nav-item">
+                    <a href="{{ url('/') }}"
+                        class="nav-link {{ $activePage == 'halamaUtama' ? ' active' : '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Halaman Utama</p>
+                    </a>
+                </li>
+                @if (Auth::user()->role == 'pengguna')
+                    @include('layouts.sidebarMenu')
+                @elseif (Auth::user()->role == "adminBPSM")
+                    @include('layouts.sidebarMenuAdminBPSM')
+                @elseif (Auth::user()->role == "DatoSUK")
+                    @include('layouts.sidebarMenuKPP')
+                @elseif (Auth::user()->role == "jabatan")
+                    @include('layouts.sidebarMenuJabatan')
+                @endif
+                <li class="nav-item">
+                    <a href="{{ url('profil') }}" class="nav-link {{ $activePage == 'profil' ? ' active' : '' }}">
+                        <i class="nav-icon fas fa-id-card"></i>
+                        <p class="text">Profil</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p class="text">Log Keluar</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

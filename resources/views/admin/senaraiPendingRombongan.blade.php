@@ -40,96 +40,96 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped display">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Negara</th>
-                                                <th>Code</th>
-                                                <th>Tarikh Mula Perjalanan</th>
-                                                <th>Tarikh Akhir Perjalanan</th>
-                                                <th>Tujuan Rombongan</th>
-                                                <th>Peserta</th>
-                                                <th>Status Permohonan</th>
-                                                {{-- <th>Tarikh Lulusan Permohonan</th> --}}
-                                                <th>Dokumen</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($rombongan as $index => $rombo)
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped display">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td><a
-                                                            href="detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a>
-                                                    </td>
-                                                    <td>{{ $rombo->codeRom }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}
-                                                    </td>
-                                                    <td>{{ $rombo->tujuanRom }}</td>
-                                                    <td>
-                                                        @foreach ($allPermohonan as $element)
-                                                            @if ($element->rombongans_id == $rombo->rombongans_id)
-                                                                {{ $element->user->nama }} &nbsp;&nbsp;
-
-                                                                @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
-                                                                    {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
-                                                                    <br>
-                                                                @elseif($rombo->statusPermohonanRom == "Pending")
-                                                                    <a href="senaraiPermohonan/{{ $element->permohonansID }}/tamat-individu"
-                                                                        class="btn-danger btn-xs"
-                                                                        onclick="javascript: return confirm('Padam maklumat ini?');"><i
-                                                                            class="fa  fa-remove"></i></a><br>
+                                                    <th>No</th>
+                                                    <th>Negara</th>
+                                                    <th>Code</th>
+                                                    <th>Tarikh Mula Perjalanan</th>
+                                                    <th>Tarikh Akhir Perjalanan</th>
+                                                    <th>Tujuan Rombongan</th>
+                                                    <th>Peserta</th>
+                                                    <th>Status Permohonan</th>
+                                                    {{-- <th>Tarikh Lulusan Permohonan</th> --}}
+                                                    <th>Dokumen</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($rombongan as $index => $rombo)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td><a
+                                                                href="detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a>
+                                                        </td>
+                                                        <td>{{ $rombo->codeRom }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ $rombo->tujuanRom }}</td>
+                                                        <td>
+                                                            @foreach ($allPermohonan as $element)
+                                                                @if ($element->rombongans_id == $rombo->rombongans_id)
+                                                                    {{ $element->user->nama }} &nbsp;&nbsp;
+    
+                                                                    @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
+                                                                        {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
+                                                                        <br>
+                                                                    @elseif($rombo->statusPermohonanRom == "Pending")
+                                                                        <a href="senaraiPermohonan/{{ $element->permohonansID }}/tamat-individu"
+                                                                            class="btn-danger btn-xs"
+                                                                            onclick="javascript: return confirm('Padam maklumat ini?');"><i
+                                                                                class="fa  fa-remove"></i></a><br>
+                                                                    @endif
                                                                 @endif
+                                                            @endforeach
+                                                        </td>
+                                                        <td><span
+                                                                class="label label-info">{{ $rombo->statusPermohonanRom }}</span>
+                                                        </td>
+                                                        {{-- <td>{{\Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y')}}</td> --}}
+    
+                                                        <td>
+                                                            @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
+    
+                                                                <span class="label label-warning">Lulus Semakan</span>
+    
+                                                            @elseif($rombo->statusPermohonanRom == "Pending")
+    
+                                                                <a href="senaraiPendingRombongan/{{ $rombo->rombongans_id }}/sent-Permohonan"
+                                                                    class="btn btn-success btn-xs"
+                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i
+                                                                        class="fa fa-check-square-o"></i></a>
+    
+                                                                <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                                                    href='#mdl-tolak' data-id="{{ $rombo->rombongans_id }}"
+                                                                    onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
+                                                                        class="fa fa-times"></i></a>
+    
+                                                                {{-- <a href="/senaraiPendingRombongan/{{$rombo->rombongans_id}}/Tolak" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a> --}}
+    
+                                                            @elseif($rombo->statusPermohonanRom == "Diluluskan")
+    
+                                                                <span class="label label-success">Diluluskan</span>
+    
+                                                            @elseif($rombo->statusPermohonanRom == "Permohonan Diluluskan"
+                                                                or $rombo->statusPermohonanRom == "Permohonan Ditolak" or
+                                                                $rombo->statusPermohonanRom == "Lulus Semakan")
+    
+                                                                <span class="label label-primary">Tiada</span>
+    
                                                             @endif
-                                                        @endforeach
-                                                    </td>
-                                                    <td><span
-                                                            class="label label-info">{{ $rombo->statusPermohonanRom }}</span>
-                                                    </td>
-                                                    {{-- <td>{{\Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y')}}</td> --}}
-
-                                                    <td>
-                                                        @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
-
-                                                            <span class="label label-warning">Lulus Semakan</span>
-
-                                                        @elseif($rombo->statusPermohonanRom == "Pending")
-
-                                                            <a href="senaraiPendingRombongan/{{ $rombo->rombongans_id }}/sent-Permohonan"
-                                                                class="btn btn-success btn-xs"
-                                                                onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i
-                                                                    class="fa fa-check-square-o"></i></a>
-
-                                                            <a class="btn btn-danger btn-xs" data-toggle="modal"
-                                                                href='#mdl-tolak' data-id="{{ $rombo->rombongans_id }}"
-                                                                onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
-                                                                    class="fa fa-times"></i></a>
-
-                                                            {{-- <a href="/senaraiPendingRombongan/{{$rombo->rombongans_id}}/Tolak" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a> --}}
-
-                                                        @elseif($rombo->statusPermohonanRom == "Diluluskan")
-
-                                                            <span class="label label-success">Diluluskan</span>
-
-                                                        @elseif($rombo->statusPermohonanRom == "Permohonan Diluluskan"
-                                                            or $rombo->statusPermohonanRom == "Permohonan Ditolak" or
-                                                            $rombo->statusPermohonanRom == "Lulus Semakan")
-
-                                                            <span class="label label-primary">Tiada</span>
-
-                                                        @endif
-                                                    </td>
-
-
-                                            @endforeach
-
-                                        </tbody>
-
-                                    </table>
-
-
+                                                        </td>
+    
+    
+                                                @endforeach
+    
+                                            </tbody>
+    
+                                        </table>
+                                    </div>
                                     <div class="modal fade" id="mdl-tolak">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -159,21 +159,11 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                <!-- /.col -->
-
-                                <!-- /.col -->
                             </div>
-                            <!-- /.row -->
                         </div>
-                        <!-- ./card-body -->
-
-                        <!-- /.box-footer -->
                     </div>
-                    <!-- /.box -->
                 </div>
-                <!-- /.col -->
             </div>
         </div>
     </section>

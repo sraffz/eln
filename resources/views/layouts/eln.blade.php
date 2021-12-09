@@ -39,7 +39,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet"href="{{ asset('adminlte-3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <!-- sweetalert2 -->
+    <link rel="stylesheet" href="{{ asset('sweetalert/sweetalert2.min.css') }}">
     @yield('link')
 
     <link rel="stylesheet"
@@ -125,9 +128,35 @@ desired effect
     <!-- InputMask -->
     <script src="{{ asset('adminlte-3/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+    <!-- SweetAlert -->
+    <script src="{{ asset('sweetalert/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('sweetalert/sweetalert2.min.js') }}"></script>
     @yield('script')
 
     <script>
+         $('#luluspermohonan').click(function(){
+             Swal.fire({
+                title: 'Adakah anda pasti?',
+                text: "Permohonan ini akan diluluskan",
+                icon: 'question',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',                
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Luluskan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Diluluskan!',
+                        'Permohonan telah berjaya diluluskan.',
+                        'success'
+                    )
+                }
+            });
+         });
+
+        
+
         $(function() {
             bsCustomFileInput.init();
         });

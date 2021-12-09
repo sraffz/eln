@@ -1,12 +1,3 @@
-<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-header">MENU PENTADBIR</li>
-        <li class="nav-item">
-            <a href="{{ url('/') }}" class="nav-link ">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>Halaman Utama</p>
-            </a>
-        </li>
         <li class="nav-header">SENARAI PERMOHONAN</li>
         {{-- <li class="nav-header">KELULUSAN PERMOHONAN YB DATO'</li> --}}
         <li class="nav-item">
@@ -88,30 +79,16 @@
             </ul>
         </li>
         <li class="nav-item">
-          <a href="{{ url('laporanDato') }}" class="nav-link">
-              {{-- <i class="nav-icon far fa-circle text-warning"></i> --}}
-              <i class="nav-icon fas fa-print"></i>
-              <p class="text"> Bundle</p>
-          </a>
-      </li>
-        <li class="nav-item">
-          <a href="{{ route('jumlahKeluarnegara') }}" class="nav-link">
-            <i class="nav-icon fas fa-print"></i>
-                <p> Jumlah Keluar Negara</p>
-            </a></li>
-        <li class="nav-header">PENGGUNA</li>
-        <li class="nav-item">
-            <a href="{{ url('profil') }}" class="nav-link">
+            <a href="{{ url('laporanDato') }}" class="nav-link">
                 {{-- <i class="nav-icon far fa-circle text-warning"></i> --}}
-                <i class="nav-icon fas fa-id-card"></i>
-                <p class="text">Profil</p>
+                <i class="nav-icon fas fa-print"></i>
+                <p class="text"> Bundle</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('logout') }}" class="nav-link">
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                <p class="text">Log Keluar</p>
+            <a href="{{ route('jumlahKeluarnegara') }}" class="nav-link">
+                <i class="nav-icon fas fa-print"></i>
+                <p> Jumlah Keluar Negara</p>
             </a>
         </li>
-    </ul>
-</nav>
+        <li class="nav-header">PENGGUNA</li>

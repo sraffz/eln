@@ -38,7 +38,8 @@
                     <div class="card">
                         <div class="card-header with-border">
                             @if ($url != 'http://aplikasi1.kelantan.gov.my/eln/senaraiRekodIndividu')
-                                <h3 class="card-title">Senarai Permohonan Individu<br><small>Tidak termasuk individu yg mengikut
+                                <h3 class="card-title">Senarai Permohonan Individu<br><small>Tidak termasuk individu yg
+                                        mengikut
                                         rombongan</small> </h3>
                             @else
                                 <h3 class="card-title">Rekod Permohonan</h3>
@@ -48,121 +49,107 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped display">
-                                        <thead>
-                                            <tr bgcolor="#7abcb9">
-                                                <th>No</th>
-                                                <th>Nama</th>
-                                                <th>Jabatan</th>
-                                                <th>Tarikh Permohonan</th>
-                                                <th>Negara</th>
-                                                <th>Tarikh Mula Perjalanan</th>
-                                                {{-- <th>Tarikh Akhir Perjalanan</th> --}}
-                                                <th>Jenis Permohonan</th>
-                                                <th>No Rujukan</th>
-                                                <th>Status Permohonan</th>
-                                                @if ($url != 'http://aplikasi1.kelantan.gov.my/eln/senaraiRekodIndividu')
-                                                    <th>Tindakan</th>
-                                                @else
-                                                    <th>Dokumen(Cetak)</th>
-                                                @endif
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                            @foreach ($permohonan as $index => $mohonan)
-                                                <tr>
-                                                    <td>{{ $index + 1 }} </td>
-                                                    <td><a
-                                                            href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
-                                                    </td>
-                                                    <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
-                                                    </td>
-                                                    <td>{{ $mohonan->negara }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                                    </td>
-                                                    {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                    <td>{{ $mohonan->JenisPermohonan }}</td>
-                                                    <td>SUK.D.200 (06) 455/16 ELN.JLD.{{ $mohonan->no_ruj_file }}
-                                                        ({{ $mohonan->no_ruj_bil }})</td>
-                                                    @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                        <td>
-                                                            <span
-                                                                class="label label-success">{{ $mohonan->statusPermohonan }}</span>
-                                                        </td>
-                                                        @if ($mohonan->JenisPermohonan == 'Rasmi')
-                                                            <td>
-                                                                <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                    Kelulusan</a>
-                                                                <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                    Kelulusan</a>
-                                                            </td>
-
-                                                        @elseif($mohonan->JenisPermohonan == "Tidak Rasmi")
-                                                            <td>
-                                                                <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                    Kelulusan</a>
-                                                                <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                    Kelulusan</a>
-                                                            </td>
-                                                        @endif
-
-
-
-                                                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                        <td>
-                                                            <span
-                                                                class="label label-danger">{{ $mohonan->statusPermohonan }}</span>
-                                                        </td>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped display">
+                                            <thead>
+                                                <tr bgcolor="#7abcb9">
+                                                    <th>No</th>
+                                                    <th>Nama</th>
+                                                    <th>Jabatan</th>
+                                                    <th>Tarikh Permohonan</th>
+                                                    <th>Negara</th>
+                                                    <th>Tarikh Mula Perjalanan</th>
+                                                    {{-- <th>Tarikh Akhir Perjalanan</th> --}}
+                                                    <th>Jenis Permohonan</th>
+                                                    <th>No Rujukan</th>
+                                                    <th>Status Permohonan</th>
+                                                    @if ($url != 'http://aplikasi1.kelantan.gov.my/eln/senaraiRekodIndividu')
+                                                        <th>Tindakan</th>
                                                     @else
-                                                        <td>
-                                                            <span
-                                                                class="label label-info">{{ $mohonan->statusPermohonan }}</span>
-                                                        </td>
+                                                        <th>Dokumen(Cetak)</th>
                                                     @endif
-                                
+                                                </tr>
+                                            </thead>
 
-                                                    @if ($url != url('senaraiRekodIndividu'))
+                                            <tbody>
+
+                                                @foreach ($permohonan as $index => $mohonan)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
                                                         <td>
-                                                            @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
-
-                                                                <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-success btn-xs"
-                                                                    onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
-                                                                        class="fa fa-check-square-o"> Terima</i></a>
-
-                                                                <a class="btn btn-danger btn-xs" data-toggle="modal"
-                                                                    href='#mdl-tolak'
-                                                                    data-id="{{ $mohonan->permohonansID }}"
-                                                                    onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
-                                                                        class="fa fa-times">Tolak</i></a>
-
-                                                                {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
-
-                                                            @elseif($mohonan->statusPermohonan == "Lulus Semakan BPSM")
-
-                                                                {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mencetak maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
-
+                                                          {{-- <a class="btn btn-primary btn-xs" href="#" role="button" id="luluspermohonan">SweetAlert</a> --}}
+                                                          <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                        </td>
+                                                        <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ $mohonan->negara }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                        </td>
+                                                        {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                                        <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                        <td>SUK.D.200 (06) 455/16 ELN.JLD.{{ $mohonan->no_ruj_file }}
+                                                            ({{ $mohonan->no_ruj_bil }})</td>
+                                                        <td>
+                                                            @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                                <span class="badge badge-success">{{ $mohonan->statusPermohonan }}</span>
+                                                            @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                                                                <span class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
+                                                            @else
+                                                                <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
                                                             @endif
                                                         </td>
-                                                    @endif
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-
-
+                                                        <td>
+                                                            @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                                @if ($mohonan->JenisPermohonan == 'Rasmi')
+                                                                    <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
+                                                                        Kelulusan</a> 
+                                                                    <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
+                                                                        Kelulusan</a>
+                                                                @elseif($mohonan->JenisPermohonan == "Tidak Rasmi")
+                                                                    <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
+                                                                        Kelulusan</a>
+                                                                    <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
+                                                                        Kelulusan</a>
+                                                                @endif
+                                                            @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                                                               
+                                                            @else
+                                                               
+                                                            @endif
+                                                        </td>
+                                                @if ($url != url('senaraiRekodIndividu'))
+                                                    <td>
+                                                        @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
+                                                            <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
+                                                                class="btn btn-success btn-xs"
+                                                                onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
+                                                                    class="fa fa-check-square-o"> Terima</i></a>
+                                                            <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                                                href='#mdl-tolak' data-id="{{ $mohonan->permohonansID }}"
+                                                                onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
+                                                                    class="fa fa-times">Tolak</i></a>
+                                                            {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
+                                                        @elseif($mohonan->statusPermohonan == "Lulus Semakan
+                                                            BPSM")
+                                                            {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mencetak maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div class="modal fade" id="mdl-tolak">
                                         <div class="modal-dialog">
                                             <div class="modal-content">

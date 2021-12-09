@@ -1,5 +1,5 @@
-@extends('layouts.eln')
-@section('title', 'Halaman Utama')
+@extends('layouts.eln',  ['activePage' => 'halamaUtama'])
+@section('title', 'Halaman Utama' )
 
 
 @section('link')
