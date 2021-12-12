@@ -50,7 +50,7 @@
                             <p>Permohonan Berjaya</p>
                         </div>
                         <div class="icon">
-                            <i class="fa  fa-check-square-o"></i>
+                            <i class="fa  fa-check-square"></i>
                         </div>
                         <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -64,7 +64,7 @@
                             <p>Permohonan Gagal</p>
                         </div>
                         <div class="icon">
-                            <i class="fa fa-remove"></i>
+                            <i class="fa fa-minus-circle"></i>
                         </div>
                         <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -104,7 +104,6 @@
                             <!-- timeline item -->
                             <div>
                                 <i class="fas fa-envelope bg-primary"></i>
-
                                 <div class="timeline-item">
                                     <h3 class="timeline-header"><a href="#">{{ $sena->negara }}</a>
                                         ({{ $sena->JenisPermohonan }})</h3>
@@ -129,6 +128,4 @@
             <!-- /.row -->
         </div>
     </section>
-
-
 @endsection

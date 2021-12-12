@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-xs-6">
                         <!-- small box -->
-                        <div class="small-box bg-aqua">
+                        <div class="small-box bg-primary">
                             <div class="inner">
                                 <h3>{{ $TotalPerm1 }}</h3>
 
@@ -65,7 +65,7 @@
                                 <p>Permohonan Berjaya</p>
                             </div>
                             <div class="icon">
-                                <i class="fa  fa-check-square-o"></i>
+                                <i class="fa  fa-check-square"></i>
                             </div>
                             <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
@@ -80,7 +80,7 @@
                                 <p>Permohonan Gagal</p>
                             </div>
                             <div class="icon">
-                                <i class="fa fa-remove"></i>
+                                <i class="fa fa-minus-circle"></i>
                             </div>
                             <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                         </div>

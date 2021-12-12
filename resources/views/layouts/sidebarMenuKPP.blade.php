@@ -1,7 +1,7 @@
         <li class="nav-header">SENARAI PERMOHONAN</li>
         {{-- <li class="nav-header">KELULUSAN PERMOHONAN YB DATO'</li> --}}
-        <li class="nav-item">
-            <a href="#" class="nav-link">
+        <li class="nav-item {{ (url()->current() == url('semakkanDato') ||  url()->current() == url('senaraiRombonganKetua')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (url()->current() == url('semakkanDato') ||  url()->current() == url('senaraiRombonganKetua')) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user"></i>
                 <p> Permohonan Baru
                     <i class="fas fa-angle-left right"></i>
@@ -9,21 +9,21 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('semakkanDato') }}" class="nav-link">
+                    <a href="{{ route('semakkanDato') }}" class="nav-link {{ url()->current() == url('semakkanDato') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Individu</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('senaraiRombonganKetua') }}" class="nav-link">
+                    <a href="{{ route('senaraiRombonganKetua') }}" class="nav-link {{ url()->current() == url('senaraiRombonganKetua') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Rombongan</p>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
+        <li class="nav-item {{ (url()->current() == url('senaraiRekodIndividu') ||  url()->current() == url('senaraiRekodRombongan')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (url()->current() == url('senaraiRekodIndividu') ||  url()->current() == url('senaraiRekodRombongan')) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                     Rekod Permohonan
@@ -32,13 +32,13 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('senaraiRekodIndividu') }}" class="nav-link">
+                    <a href="{{ route('senaraiRekodIndividu') }}" class="nav-link {{ url()->current() == url('senaraiRekodIndividu') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Individu</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('senaraiRekodRombongan') }}" class="nav-link">
+                    <a href="{{ route('senaraiRekodRombongan') }}" class="nav-link {{ url()->current() == url('senaraiRekodRombongan') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Rombongan</p>
                     </a>
@@ -86,7 +86,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('jumlahKeluarnegara') }}" class="nav-link">
+            <a href="{{ route('jumlahKeluarnegara') }}" class="nav-link {{ url()->current() == url('jumlahKeluarnegara') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-print"></i>
                 <p> Jumlah Keluar Negara</p>
             </a>

@@ -3,214 +3,242 @@
 @section('title', 'Senarai Permohonan baru')
 
 @section('link')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-<!-- DataTables -->
-<script src="{{ asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
-@include('flash::message')
-
-<div class="row">
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Senarai Permohonan Baru {{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-wrench"></i></button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                  </ul>
-                </div>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <br>
+            @include('flash::message')
+            <br>
+              <div class="card">
+                  <div class="card-header with-border">
+                      <h3 class="card-title">Senarai Permohonan Baru {{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <table  class="table table-bordered table-striped display2">
+                                  <thead>
+                                      <tr>
+                                          <th>No</th>
+                                          <th>Nama</th>
+                                          {{-- <th>Jabatan</th> --}}
+                                          <th>Tarikh Permohonan</th>
+                                          <th>Negara</th>
+                                          <th>Tarikh Mula Perjalanan</th>
+                                          {{-- <th>Tarikh Akhir Perjalanan</th> --}}
+                                          <th>Jenis Permohonan</th>
+                                          <th>Status Permohonan</th>
+                                          <th>Tindakan</th>
+                                      </tr>
+                                  </thead>
+  
+                                  <tbody>
+                                      <?php $i = 1; ?>
+                                      @foreach ($permohonan as $mohonan)
+                                          <tr>
+                                              <td><?php echo $i;
+                                              $i = $i + 1; ?></td>
+                                              <td><a
+                                                      href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                              </td>
+                                              {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
+                                              <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                              </td>
+                                              <td>{{ $mohonan->negara }}</td>
+                                              <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                              </td>
+                                              {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                              <td>{{ $mohonan->JenisPermohonan }}</td>
+                                              <td>{{ $mohonan->statusPermohonan }}</td>
+                                              <td>
+                                                  @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
+  
+                                                      {{-- <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}" 
+                            class="btn btn-success btn-xs" onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i class="fa fa-thumbs-o-up"></i>
+                        </a> --}}
+  
+                                                      <a onClick="setUserData({{ $mohonan->permohonansID }});"
+                                                          data-toggle="modal" data-target="#favoritesModal"
+                                                          class="btn btn-success btn-xs"><i class="fa fa-thumbs-o-up"></i></a>
+  
+                                                      <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
+                                                          class="btn btn-danger btn-xs"
+                                                          onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
+                                                              class="fa fa-thumbs-o-down"></i>
+                                                      </a>
+  
+                                                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
+                        </a> --}}
+  
+                                                  @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
+  
+                                                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
+                        </a> --}}
+  
+                                                  @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+  
+                                                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
+                        </a> --}}
+  
+                                                  @endif
+                                              </td>
+  
+                                      @endforeach
+  
+                                  </tbody>
+                              </table>
+  
+  
+                              {{-- <div class="modal fade" id="mdl-kemaskini">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                              <h4 class="modal-title">Sebab Ditolak</h4>
+                          </div>
+                          {!! Form::open(['method' => 'POST', 'url' => '/sebab']) !!}
+                          <div class="modal-body">
+                             <div class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
+                                 {!! Form::label('sebb', 'Sebab') !!}
+                                 {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                 <small class="text-danger">{{ $errors->first('sebb') }}</small>
+                             </div>
+                            
+                            {!! Form::hidden('id_edit', 'value',['id'=>'id_edit']) !!}
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                              <button type="submit" class="btn btn-success">Hantar</button>
+                          </div>
+                          {!! Form::close() !!}
+                      </div>
+                  </div>
+              </div> --}}
+  
+                              <!-- /.chart-responsive -->
+                          </div>
+                          <!-- /.col -->
+  
+                          <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+                  </div>
+                  <!-- ./card-body -->
+  
+                  <!-- /.box-footer -->
               </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12">
-             
-                  <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr bgcolor="#7abcb9">
-                  <th>No</th>
-                  <th>Nama</th>
-                  {{-- <th>Jabatan</th> --}}
-                  <th>Tarikh Permohonan</th>
-                  <th>Negara</th>
-                  <th>Tarikh Mula Perjalanan</th>
-                  {{-- <th>Tarikh Akhir Perjalanan</th> --}}
-                  <th>Jenis Permohonan</th>
-                  <th>Status Permohonan</th>
-                  <th>Tindakan</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                  <?php $i=1; ?>
-               @foreach($permohonan as $mohonan)
-                <tr>
-                  <td><?php echo $i; $i=$i+1; ?></td>
-                  <td><a href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a></td>
-                  {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
-                  <td>{{\Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y')}}</td>
-                  <td>{{ $mohonan->negara }}</td>
-                  <td>{{\Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y')}}</td>
-                  {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                  <td>{{ $mohonan->JenisPermohonan }}</td>
-                  <td>{{ $mohonan->statusPermohonan }}</td>
-                  <td>
-                    @if ( $mohonan->statusPermohonan == "Ketua Jabatan")
-
-                    {{-- <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}" 
-                          class="btn btn-success btn-xs" onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i class="fa fa-thumbs-o-up"></i>
-                      </a> --}}
-
-                      <a onClick="setUserData({{$mohonan->permohonansID}});" data-toggle="modal" data-target="#favoritesModal" class="btn btn-success btn-xs"><i class="fa fa-thumbs-o-up"></i></a>
-
-                       <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}" 
-                          class="btn btn-danger btn-xs" onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i class="fa fa-thumbs-o-down"></i>
-                      </a> 
-
-                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                          class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                      </a> --}}
-                                      
-                    @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-
-                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                          class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                      </a> --}}
-
-                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-
-                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                          class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                      </a> --}}
-
-                    @endif
-                  </td>
-                  
-               @endforeach
-            
-                </tbody>
-              </table>
-
-
-             {{--  <div class="modal fade" id="mdl-kemaskini">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Sebab Ditolak</h4>
-                        </div>
-                        {!! Form::open(['method' => 'POST', 'url' => '/sebab']) !!}
-                        <div class="modal-body">
-                           <div class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
-                               {!! Form::label('sebb', 'Sebab') !!}
-                               {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                               <small class="text-danger">{{ $errors->first('sebb') }}</small>
-                           </div>
-                          
-                          {!! Form::hidden('id_edit', 'value',['id'=>'id_edit']) !!}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-success">Hantar</button>
-                        </div>
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div> --}}
-
-                  <!-- /.chart-responsive -->
-                </div>
-                <!-- /.col -->
-                
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- ./box-body -->
-            
-            <!-- /.box-footer -->
+              <!-- /.box -->
           </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
- </div>
-
-
- <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="favoritesModalLabel">Ulasan</h4>
-            </div>
-
-          <div class="modal-body">
-            <form action="senaraiPermohonanJabatan/hantar"><div class="modal-body">Sila masukkan ulasan.<br>
-                <textarea name="ulasan" required="required" class="form-control"></textarea>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="get">
-                <input name="kopeID" id="kopeID" type="hidden" value="">  
-          </div>
-
-          <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" value="Hantar" />
-                {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
-            </form>
-          </div>
-        </div>
+          <!-- /.col -->
       </div>
     </div>
-               
+  </section>
+
+
+    <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="favoritesModalLabel">Ulasan</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form action="senaraiPermohonanJabatan/hantar">
+                        <div class="modal-body">Sila masukkan ulasan.<br>
+                            <textarea name="ulasan" required="required" class="form-control"></textarea>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_method" value="get">
+                            <input name="kopeID" id="kopeID" type="hidden" value="">
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Hantar" />
+                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
 
-      <script>
-        $(function () {
-          $('#example1').DataTable()
-          $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-          })
-        })
-      </script>
-      
-  <script language="javascript">
-    function setUserData(id){
-        var userHidden = document.getElementById('kopeID');
-        userHidden.value=id;
-    }
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('adminlte-3/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('table.display2').DataTable({
+                "pageLength": 10,
+                "lengthMenu": [10, 20, 50, 100],
+                "language": {
+                    "emptyTable": "Tiada data",
+                    "lengthMenu": "_MENU_ Rekod setiap halaman",
+                    "zeroRecords": "Tiada padanan rekod yang dijumpai.",
+                    "info": "Paparan dari _START_ hingga _END_ dari _TOTAL_ rekod",
+                    "infoEmpty": "Paparan 0 hingga 0 dari 0 rekod",
+                    "infoFiltered": "(Ditapis dari jumlah _MAX_ rekod)",
+                    "search": "Carian:",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelum",
+                        "sNext": "Seterusnya",
+                        "sLast": "Akhir"
+                    }
+                },
+            });
+        });
+
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
     </script>
-     {{--  <script>
-          $('#mdl-kemaskini').on('show.bs.modal',function (event){
 
-              var button = $(event.relatedTarget);
-              var id = button.data('id');
-
-              $('#id_edit').val(id);
-          });
-      </script> --}}
-
+    <script language="javascript">
+        function setUserData(id) {
+            var userHidden = document.getElementById('kopeID');
+            userHidden.value = id;
+        }
+    </script>
 @endsection
