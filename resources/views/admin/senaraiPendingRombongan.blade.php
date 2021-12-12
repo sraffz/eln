@@ -1,4 +1,4 @@
-@extends('layouts.eln')
+@extends('layouts.eln', ['activePage' => 'senaraipendingrombongan'])
 
 @section('title', 'Senarai Rombongan')
 
@@ -44,16 +44,16 @@
                                         <table class="table table-bordered table-striped display">
                                             <thead>
                                                 <tr>
-                                                    <th>No</th>
-                                                    <th>Negara</th>
-                                                    <th>Code</th>
-                                                    <th>Tarikh Mula Perjalanan</th>
-                                                    <th>Tarikh Akhir Perjalanan</th>
-                                                    <th>Tujuan Rombongan</th>
-                                                    <th>Peserta</th>
-                                                    <th>Status Permohonan</th>
-                                                    {{-- <th>Tarikh Lulusan Permohonan</th> --}}
-                                                    <th>Dokumen</th>
+                                                    <th style="vertical-align: middle">No</th>
+                                                    <th style="vertical-align: middle">Negara</th>
+                                                    <th style="vertical-align: middle">Code</th>
+                                                    <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
+                                                    <th style="vertical-align: middle">Tarikh Akhir Perjalanan</th>
+                                                    <th style="vertical-align: middle">Tujuan Rombongan</th>
+                                                    <th style="vertical-align: middle">Peserta</th>
+                                                    <th style="vertical-align: middle">Status Permohonan</th>
+                                                    {{-- <th style="vertical-align: middle">Tarikh Lulusan Permohonan</th> --}}
+                                                    <th style="vertical-align: middle">Dokumen</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

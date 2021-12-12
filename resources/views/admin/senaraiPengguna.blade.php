@@ -3,110 +3,151 @@
 @section('title', 'Senarai Pic Jabatan')
 
 @section('link')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-<!-- DataTables -->
-<script src="{{ asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
-@include('flash::message')
- <div class="row">
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Senarai Permohonan</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
+    @include('flash::message')
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Senarai Permohonan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Senarai Permohonan</li>
+                    </ol>
+                </div>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
+        </div><!-- /.container-fluid -->
+    </section>
+    @include('flash::message')
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-12">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead style="background-color:powderblue;">
-                <tr>
-                  <th>No</th>
-                  <th>NO KP</th>
-                  <th>Nama</th>
-                  <th>Jawatan</th>
-                  <th>Jabatan</th>
-                  {{-- <th>Jabatan</th> --}}
-                  <th>Email</th>
-                  <th>Peranan</th>
-                  <th>Jumlah Permohonan<br>2019</th>
-                  <th>Keseluruhan<br> Permohonan</th>
-                  <th>Tindakan</th>
-                </tr>
-                </thead>
+                    <div class="card">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">Senarai Permohonan</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-striped display">
+                                        <thead style="background-color:powderblue;">
+                                            <tr>
+                                                <th style="vertical-align: middle">No</th>
+                                                <th style="vertical-align: middle">NO KP</th>
+                                                <th style="vertical-align: middle">Nama</th>
+                                                <th style="vertical-align: middle">Jawatan</th>
+                                                <th style="vertical-align: middle">Jabatan</th>
+                                                <th style="vertical-align: middle">Email</th>
+                                                <th style="vertical-align: middle">Peranan</th>
+                                                <th style="vertical-align: middle">Jumlah Permohonan<br>2019</th>
+                                                <th style="vertical-align: middle">Keseluruhan<br> Permohonan</th>
+                                                <th style="vertical-align: middle">Tindakan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($user as $index => $users)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $users->nokp }}</td>
+                                                    <td>{{ $users->nama }}</td>
+                                                    <td>{{ $users->userJawatan->namaJawatan }}</td>
+                                                    <td>{{ $users->userJabatan->nama_jabatan }}
+                                                        ({{ $users->userJabatan->kod_jabatan }})</td>
+                                                    <td>{{ $users->email }}</td>
+                                                    <td>{{ $users->role }}</td>
+                                                    <td>{{ $users->jumlah_permohonan_semasa }}</td>
+                                                    <td>{{ $users->jumlah_permohonan }}</td>
+                                                    <td>
+                                                        <a href="{{ url('kemaskini-pengguna', [$users->usersID]) }}">
+                                                            <button type="button" class="btn btn-primary btn-xs" >Kemaskini</button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                  </div>
+                                    <!-- /.chart-responsive -->
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </div>
 
-                @php
-                  $no=1;
-                @endphp
-
-                <tbody>
-               @foreach($user as $users)
-                <tr>
-                  <td>@php
-                    echo $no;
-                    $no=$no+1;
-                  @endphp</td>
-                  <td>{{$users->nokp}}</td>
-                  <td>{{$users->nama}}</td>
-                  <td>{{$users->userJawatan->namaJawatan}}</td>
-                  <td>{{$users->userJabatan->nama_jabatan}} ({{$users->userJabatan->kod_jabatan}})</td>
-                  <td>{{$users->email }}</td>
-                  <td>{{$users->role }}</td>
-                  <td>{{$users->jumlah_permohonan_semasa}}</td>
-                  <td>{{$users->jumlah_permohonan}}</td>
-                  <td><a href="mengemaskiniPengguna/{{ $users->usersID }}/kemaskiniPengguna"><button type="button" class="btn btn-primary btn-xs" onclick="return confirm('Adakah anda pasti untuk mengemaskini katalaluan?')">Mengemaskini</button></a></td>
-                  
-                  
-               @endforeach
-            
-                </tbody>
-              </table>
-                  <!-- /.chart-responsive -->
+                    </div>
+                    <!-- /.box -->
                 </div>
                 <!-- /.col -->
-                
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
             </div>
-            <!-- ./box-body -->
-            
-            <!-- /.box-footer -->
-          </div>
-          <!-- /.box -->
         </div>
-        <!-- /.col -->
- </div>
-            
+    </section>
 @endsection
 
 @section('script')
-      <script>
-        $(function () {
-          $('#example1').DataTable()
-          $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-          })
-        })
-      </script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('adminlte-3/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable({
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 15, 20],
+                "language": {
+                    "emptyTable": "Tiada data",
+                    "lengthMenu": "_MENU_ Rekod setiap halaman",
+                    "zeroRecords": "Tiada padanan rekod yang dijumpai.",
+                    "info": "Paparan dari _START_ hingga _END_ dari _TOTAL_ rekod",
+                    "infoEmpty": "Paparan 0 hingga 0 dari 0 rekod",
+                    "infoFiltered": "(Ditapis dari jumlah _MAX_ rekod)",
+                    "search": "Carian:",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelum",
+                        "sNext": "Seterusnya",
+                        "sLast": "Akhir"
+                    }
+                },
+            });
+        });
+
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection
-
-
-
-

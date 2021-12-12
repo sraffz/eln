@@ -132,7 +132,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('senaraiPic', 'AdminController@senaraiPic')->name('senaraiPic');
 	Route::get('senaraiPengguna', 'AdminController@senaraiPengguna')->name('senaraiPengguna');
 	Route::get('senaraiPIC/{id}/edit', 'AdminController@editPIC');
-	Route::get('mengemaskiniPengguna/{id}/kemaskiniPengguna', 'AdminController@kemaskiniPengguna');
+	Route::get('kemaskini-pengguna/{id}', 'AdminController@kemaskiniPengguna');
 	Route::PUT('senaraiPIC/{id}', 'AdminController@updateDataPIC');
 	
 	//Konfigurasi------------------------------------------------------------------------------

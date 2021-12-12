@@ -37,7 +37,7 @@
                 <li class="nav-header">MENU PENTADBIR</li>
                 <li class="nav-item">
                     <a href="{{ url('/') }}"
-                        class="nav-link {{ $activePage == 'halamaUtama' ? ' active' : '' }}">
+                        class="nav-link {{  url()->current() == url('/') ? ' active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Halaman Utama</p>
                     </a>
@@ -52,7 +52,7 @@
                     @include('layouts.sidebarMenuJabatan')
                 @endif
                 <li class="nav-item">
-                    <a href="{{ url('profil') }}" class="nav-link {{ $activePage == 'profil' ? ' active' : '' }}">
+                    <a href="{{ url('profil') }}" class="nav-link {{ url()->current() == url('profil') ? ' active' : '' }}">
                         <i class="nav-icon fas fa-id-card"></i>
                         <p class="text">Profil</p>
                     </a>

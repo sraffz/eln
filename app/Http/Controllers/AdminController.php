@@ -525,7 +525,11 @@ class AdminController extends Controller
     {
         $jawatan = Jawatan::where('statusDato','=','Aktif')
                     ->get();
-        return view('konfigurasi.terusDato',compact('jawatan'));
+
+        $jawatan2 = Jawatan::get()
+                    ->sortBy("namaJawatan");
+                    
+        return view('konfigurasi.terusDato',compact('jawatan', 'jawatan2'));
     }
 
     public function tambahterusDato()

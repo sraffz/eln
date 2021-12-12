@@ -1,4 +1,4 @@
-@extends('layouts.eln')
+@extends('layouts.eln', ['activePage' => 'senaraipending'])
 
 @section('title', 'Senarai Keputusan')
 
@@ -52,21 +52,21 @@
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-striped display">
                                             <thead>
-                                                <tr bgcolor="#7abcb9">
-                                                    <th>No</th>
-                                                    <th>Nama</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Tarikh Permohonan</th>
-                                                    <th>Negara</th>
-                                                    <th>Tarikh Mula Perjalanan</th>
-                                                    {{-- <th>Tarikh Akhir Perjalanan</th> --}}
-                                                    <th>Jenis Permohonan</th>
-                                                    <th>No Rujukan</th>
-                                                    <th>Status Permohonan</th>
+                                                <tr>
+                                                    <th style="vertical-align: middle">No</th>
+                                                    <th style="vertical-align: middle">Nama</th>
+                                                    <th style="vertical-align: middle">Jabatan</th>
+                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
+                                                    <th style="vertical-align: middle">Negara</th>
+                                                    <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
+                                                    {{-- <th style="vertical-align: middle">Tarikh Akhir Perjalanan</th> --}}
+                                                    <th style="vertical-align: middle">Jenis Permohonan</th>
+                                                    <th style="vertical-align: middle">No Rujukan</th>
+                                                    <th style="vertical-align: middle">Status Permohonan</th>
                                                     @if ($url != 'http://aplikasi1.kelantan.gov.my/eln/senaraiRekodIndividu')
-                                                        <th>Tindakan</th>
+                                                        <th style="vertical-align: middle">Tindakan</th>
                                                     @else
-                                                        <th>Dokumen(Cetak)</th>
+                                                        <th style="vertical-align: middle">Dokumen(Cetak)</th>
                                                     @endif
                                                 </tr>
                                             </thead>

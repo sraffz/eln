@@ -3,180 +3,195 @@
 @section('title', 'Senarai Permohonan')
 
 @section('link')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
-<!-- DataTables -->
-<script src="{{ asset('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
-@include('flash::message')
-
-<div class="row">
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Senarai Permohonan </h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-wrench"></i></button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                  </ul>
-                </div>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-12">
-             
-                  <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr bgcolor="#7abcb9">
-                  <th>No</th>
-                  <th>Nama</th>
-                  {{-- <th>Jabatan</th> --}}
-                  <th>Tarikh Permohonan</th>
-                  <th>Negara</th>
-                  <th>Tarikh Mula Perjalanan</th>
-                  {{-- <th>Tarikh Akhir Perjalanan</th> --}}
-                  <th>Jenis Permohonan</th>
-                  <th>Status Permohonan</th>
-                </tr>
-                </thead>
+                    <br>
+                    @include('flash::message')
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Senarai Permohonan </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
 
-                <tbody>
-                  <?php $i=1; ?>
-               @foreach($permohonan as $mohonan)
-                <tr>
-                  <td><?php echo $i; $i=$i+1; ?></td>
-                  <td><a href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a></td>
-                  {{-- <td>{{ $mohonan->user->userJabatan->nama_jabatan }}</td> --}}
-                  <td>{{\Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y')}}</td>
-                  <td>{{ $mohonan->negara }}</td>
-                  <td>{{\Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y')}}</td>
-                  {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                  <td>{{ $mohonan->JenisPermohonan }}</td>
-                  <td>
-                      <?php
-                          if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan') 
-                          { ?>
-                            <span class="label label-warning">Dalam Tindakkan BPSM</span>
-                    <?php }
-                          elseif ($mohonan->statusPermohonan == 'Ketua Jabatan')
-                          { ?>
-                            <span class="label label-warning">Dalam Tindakkan Ketua Jabatan</span>
-                    <?php }
-                          elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                          { ?>
-                            <span class="label label-primary">Lulus Semakan BPSM</span> 
-                    <?php }
-                          elseif ($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                          { ?>
-                            <span class="label label-success">Permohonan Berjaya</span>
-                    <?php }
-                          else
-                          {
-                            echo $mohonan->statusPermohonan;
-                          }
-                      ?>
+                                    <table class="table table-bordered table-striped display2">
+                                        <thead>
+                                            <tr>
+                                                <th style="vertical-align: middle;">No</th>
+                                                <th style="vertical-align: middle;">Nama</th>
+                                                <th style="vertical-align: middle;">Tarikh Permohonan</th>
+                                                <th style="vertical-align: middle;">Negara</th>
+                                                <th style="vertical-align: middle;">Tarikh Mula Perjalanan</th>
+                                                <th style="vertical-align: middle;">Jenis Permohonan</th>
+                                                <th style="vertical-align: middle;">Status Permohonan</th>
+                                            </tr>
+                                        </thead>
 
-                    </td>
-                  
-               @endforeach
-            
-                </tbody>
-              </table>
-           
+                                        <tbody>
+                                            <?php $i = 1; ?>
+                                            @foreach ($permohonan as $mohonan)
+                                                <tr>
+                                                    <td><?php echo $i;
+                                                    $i = $i + 1; ?></td>
+                                                    <td><a
+                                                            href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                                    </td>
+                                                    <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                    </td>
+                                                    <td>{{ $mohonan->negara }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                    </td>
+                                                    {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                                    <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                    <td>
+                                                        <?php
+                            if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan') 
+                            { ?>
+                                                        <span class="label label-warning">Dalam Tindakkan BPSM</span>
+                                                        <?php }
+                            elseif ($mohonan->statusPermohonan == 'Ketua Jabatan')
+                            { ?>
+                                                        <span class="label label-warning">Dalam Tindakkan Ketua
+                                                            Jabatan</span>
+                                                        <?php }
+                            elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                            { ?>
+                                                        <span class="label label-primary">Lulus Semakan BPSM</span>
+                                                        <?php }
+                            elseif ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                            { ?>
+                                                        <span class="label label-success">Permohonan Berjaya</span>
+                                                        <?php }
+                            else
+                            {
+                              echo $mohonan->statusPermohonan;
+                            }
+                        ?>
 
-                  <!-- /.chart-responsive -->
+                                                    </td>
+
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+
+
+                                    <!-- /.chart-responsive -->
+                                </div>
+                                <!-- /.col -->
+
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- ./box-body -->
+
+                        <!-- /.box-footer -->
+                    </div>
+                    <!-- /.box -->
                 </div>
                 <!-- /.col -->
-                
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
             </div>
-            <!-- ./box-body -->
-            
-            <!-- /.box-footer -->
-          </div>
-          <!-- /.box -->
         </div>
-        <!-- /.col -->
- </div>
+    </section>
 
 
- <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
+    <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-             <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="favoritesModalLabel">Ulasan</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form action="senaraiPermohonanJabatan/hantar">
+                        <div class="modal-body">Sila masukkan ulasan.<br>
+                            <textarea name="ulasan" required="required" class="form-control"></textarea>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_method" value="get">
+                            <input name="kopeID" id="kopeID" type="hidden" value="">
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Hantar" />
+                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                    </form>
+                </div>
             </div>
-
-          <div class="modal-body">
-            <form action="senaraiPermohonanJabatan/hantar"><div class="modal-body">Sila masukkan ulasan.<br>
-                <textarea name="ulasan" required="required" class="form-control"></textarea>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="_method" value="get">
-                <input name="kopeID" id="kopeID" type="hidden" value="">  
-          </div>
-
-          <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" value="Hantar" />
-                {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
-            </form>
-          </div>
         </div>
-      </div>
     </div>
-               
+
 @endsection
 
 @section('script')
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('adminlte-3/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
-      <script>
-        $(function () {
-          $('#example1').DataTable()
-          $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-          })
-        })
-      </script>
-      
-  <script language="javascript">
-    function setUserData(id){
-        var userHidden = document.getElementById('kopeID');
-        userHidden.value=id;
-    }
+    <script>
+        $(document).ready(function() {
+            $('table.display2').DataTable({
+                "pageLength": 10,
+                "lengthMenu": [10, 30, 50, 100],
+                "language": {
+                    "emptyTable": "Tiada data",
+                    "lengthMenu": "_MENU_ Rekod setiap halaman",
+                    "zeroRecords": "Tiada padanan rekod yang dijumpai.",
+                    "info": "Paparan dari _START_ hingga _END_ dari _TOTAL_ rekod",
+                    "infoEmpty": "Paparan 0 hingga 0 dari 0 rekod",
+                    "infoFiltered": "(Ditapis dari jumlah _MAX_ rekod)",
+                    "search": "Carian:",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelum",
+                        "sNext": "Seterusnya",
+                        "sLast": "Akhir"
+                    }
+                },
+            });
+        });
+
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
     </script>
-     {{--  <script>
-          $('#mdl-kemaskini').on('show.bs.modal',function (event){
-
-              var button = $(event.relatedTarget);
-              var id = button.data('id');
-
-              $('#id_edit').val(id);
-          });
-      </script> --}}
-
 @endsection

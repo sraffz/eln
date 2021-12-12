@@ -1,99 +1,93 @@
 @extends('layouts.eln')
 
-@section('title','Jumlah Keluar Negera')
+@section('title', 'Jumlah Keluar Negera')
 
 @section('link')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
-@include('flash::message')
- <div class="row">
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Senarai laporan Jumlah Keluar Negara</h3>
-
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-wrench"></i></button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                  </ul>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Laporan Ke Luar Negara</h1>
                 </div>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Laporan Ke Luar Negara</li>
+                    </ol>
+                </div>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
+        </div><!-- /.container-fluid -->
+    </section>
+    @include('flash::message')
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-12">
-              <table class="table table-bordered table-striped display">
-                <thead>
-                <tr bgcolor="#ddd">
-                  <th>No</th>       
-                  <th>Nama</th> 
-                  <th>Jumlah Keluar Negera</th>
-                </tr>
-                </thead>
-                @php
-                  $no=1;
-                @endphp
-                <tbody>
-               @foreach($senaraiPengguna as $pengguna)
-                <tr>
-                  <td>@php
-                    echo $no;
-                    $no=$no+1;
-                  @endphp</td>
-                  <td>{{ $pengguna->user->nama}}</td>
-                  <td>
-                      @php
-                        $jumlah=0;
-                      @endphp
-                      @foreach ($senaraiPermohonan as $senaraiPermohonans)
-                        @if ($pengguna->user->usersID == $senaraiPermohonans->usersID)
-                        {{ $senaraiPermohonans->negara }} ({{ date('d-m-Y', strtotime($senaraiPermohonans->tarikhMulaPerjalanan)) }} - {{ date('d-m-Y', strtotime($senaraiPermohonans->tarikhAkhirPerjalanan)) }})<br>
-                          @php
-                            $jumlah++;
-                          @endphp
-                        @endif
-                      @endforeach
-                      <strong>Jumlah:{{ $jumlah }}</strong>
-                  </td>
-                </tr>
-               @endforeach
-            
-                </tbody>
-              </table>
-                  <!-- /.chart-responsive -->
+                    <div class="card">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">Senarai laporan Jumlah Keluar Negara</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-striped display">
+                                        <thead>
+                                            <tr>
+                                                <th style="vertical-align: middle">No</th>
+                                                <th style="vertical-align: middle">Nama</th>
+                                                <th style="vertical-align: middle">Jumlah Keluar Negera</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($senaraiPengguna as $index => $pengguna)
+                                                <tr>
+                                                    <td> {{ $index + 1 }} </td>
+                                                    <td>{{ $pengguna->user->nama }}</td>
+                                                    <td>
+                                                        @php
+                                                            $jumlah = 0;
+                                                        @endphp
+                                                        @foreach ($senaraiPermohonan as $senaraiPermohonans)
+                                                            @if ($pengguna->user->usersID == $senaraiPermohonans->usersID)
+                                                                {{ $senaraiPermohonans->negara }}
+                                                                ({{ date('d-m-Y', strtotime($senaraiPermohonans->tarikhMulaPerjalanan)) }}
+                                                                -
+                                                                {{ date('d-m-Y', strtotime($senaraiPermohonans->tarikhAkhirPerjalanan)) }})<br>
+                                                                @php
+                                                                    $jumlah++;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        <strong>Jumlah:{{ $jumlah }}</strong>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <!-- /.chart-responsive -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- ./card-body -->
+                    </div>
+                    <!-- /.box -->
                 </div>
                 <!-- /.col -->
-                
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
             </div>
-            <!-- ./box-body -->
-            
-            <!-- /.box-footer -->
-          </div>
-          <!-- /.box -->
         </div>
-        <!-- /.col -->
- </div>
-           
+    </section>
+
 @endsection
 
 @section('script')
@@ -153,6 +147,3 @@
         });
     </script>
 @endsection
-
-
-

@@ -47,6 +47,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style>
+        th {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <!--
@@ -134,13 +139,13 @@ desired effect
     @yield('script')
 
     <script>
-         $('#luluspermohonan').click(function(){
-             Swal.fire({
+        $('#luluspermohonan').click(function() {
+            Swal.fire({
                 title: 'Adakah anda pasti?',
                 text: "Permohonan ini akan diluluskan",
                 icon: 'question',
                 showCancelButton: true,
-                cancelButtonText: 'Batal',                
+                cancelButtonText: 'Batal',
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Luluskan'
@@ -153,9 +158,9 @@ desired effect
                     )
                 }
             });
-         });
+        });
 
-        
+
 
         $(function() {
             bsCustomFileInput.init();
