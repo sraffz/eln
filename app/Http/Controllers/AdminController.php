@@ -773,6 +773,7 @@ class AdminController extends Controller
 
         $penolongPengarah = InfoSurat::where('perkara','=',$ppengarah)
                     ->first();
+                    
         // dd($penolongPengarah);
         return view('konfigurasi.infoSurat',compact('cogankata','penolongPengarah'));
     }

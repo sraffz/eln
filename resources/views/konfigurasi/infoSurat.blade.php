@@ -49,13 +49,23 @@
                                                 placeholder="RAJA BERDAULAT, RAKYAT MUAFAKAT, NEGERI BERKAT">
                                             <input type="hidden" id="cogan" name="cogan" value="Cogan Kata">
                                         </div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="kata" name="kata" required
+                                                placeholder="RAJA BERDAULAT, RAKYAT MUAFAKAT, NEGERI BERKAT">
+                                            <input type="hidden" id="cogan" name="cogan" value="Cogan Kata">
+                                        </div>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="kata" name="kata" required
+                                                placeholder="RAJA BERDAULAT, RAKYAT MUAFAKAT, NEGERI BERKAT">
+                                            <input type="hidden" id="cogan" name="cogan" value="Cogan Kata">
+                                        </div>
                                         <br>
                                         <div class="text-center">
                                             {!! Form::submit('Kemaskini', ['class' => 'btn btn-success']) !!}
                                         </div>
                                         {!! Form::close() !!}
                                         <br>
-                                        <table class="table table-bordered table-striped display2">
+                                        <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr bgcolor="#7abcb9">
                                                     <th>Tema dan Cogan Kata</th>
@@ -64,6 +74,12 @@
                                             <tbody>
                                                 <tr>
                                                     <td>{{ $cogankata->maklumat1 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ $cogankata->maklumat2 }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ $cogankata->maklumat3 }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

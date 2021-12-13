@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sistem Ke Luar Negara: Log Masuk</title>
     <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
     <!-- Google Font: Source Sans Pro -->
@@ -15,8 +16,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
 </head>
-
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-color: rgb(194, 194, 194)">
     <div class="login-box">
         <div class="login-logo">
             <a href="{{ url('/') }}">
@@ -61,11 +61,11 @@
                         @endif
                     </div>
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-7">
 
                         </div>
                         <!-- /.col -->
-                        <div class="col-4">
+                        <div class="col-5">
                             <button type="submit" class="btn btn-danger btn-block">Log Masuk</button>
                         </div>
                         <!-- /.col -->

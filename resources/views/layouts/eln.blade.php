@@ -187,7 +187,7 @@ desired effect
                 'placeholder': 'mm/dd/yyyy'
             })
             //Money Euro
-            $('[data-mask]').inputmask()
+            $('[data-mask]').inputmask();
 
             //Date picker
             $('#reservationdate').datetimepicker({
