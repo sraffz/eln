@@ -11,141 +11,130 @@
 @endsection
 
 @section('content')
-<section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <br>
-            @include('flash::message')
-            <br>
-              <div class="card">
-                  <div class="card-header with-border">
-                      <h3 class="card-title">Senarai Permohonan Baru {{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
-                  </div>
-                  <!-- /.card-header -->
-                  <div class="card-body">
-                      <div class="row">
-                          <div class="col-md-12">
-                              <table  class="table table-bordered table-striped display2">
-                                  <thead>
-                                      <tr>
-                                          <th>No</th>
-                                          <th>Nama</th>
-                                          {{-- <th>Jabatan</th> --}}
-                                          <th>Tarikh Permohonan</th>
-                                          <th>Negara</th>
-                                          <th>Tarikh Mula Perjalanan</th>
-                                          {{-- <th>Tarikh Akhir Perjalanan</th> --}}
-                                          <th>Jenis Permohonan</th>
-                                          <th>Status Permohonan</th>
-                                          <th>Tindakan</th>
-                                      </tr>
-                                  </thead>
-  
-                                  <tbody>
-                                      <?php $i = 1; ?>
-                                      @foreach ($permohonan as $mohonan)
-                                          <tr>
-                                              <td><?php echo $i;
-                                              $i = $i + 1; ?></td>
-                                              <td><a
-                                                      href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
-                                              </td>
-                                              {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
-                                              <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
-                                              </td>
-                                              <td>{{ $mohonan->negara }}</td>
-                                              <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                              </td>
-                                              {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                              <td>{{ $mohonan->JenisPermohonan }}</td>
-                                              <td>{{ $mohonan->statusPermohonan }}</td>
-                                              <td>
-                                                  @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
-  
-                                                      {{-- <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}" 
-                            class="btn btn-success btn-xs" onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i class="fa fa-thumbs-o-up"></i>
-                        </a> --}}
-  
-                                                      <a onClick="setUserData({{ $mohonan->permohonansID }});"
-                                                          data-toggle="modal" data-target="#favoritesModal"
-                                                          class="btn btn-success btn-xs"><i class="fa fa-thumbs-o-up"></i></a>
-  
-                                                      <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
-                                                          class="btn btn-danger btn-xs"
-                                                          onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                              class="fa fa-thumbs-o-down"></i>
-                                                      </a>
-  
-                                                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                        </a> --}}
-  
-                                                  @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-  
-                                                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                        </a> --}}
-  
-                                                  @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-  
-                                                      {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                        </a> --}}
-  
-                                                  @endif
-                                              </td>
-  
-                                      @endforeach
-  
-                                  </tbody>
-                              </table>
-  
-  
-                              {{-- <div class="modal fade" id="mdl-kemaskini">
-                  <div class="modal-dialog">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                              <h4 class="modal-title">Sebab Ditolak</h4>
-                          </div>
-                          {!! Form::open(['method' => 'POST', 'url' => '/sebab']) !!}
-                          <div class="modal-body">
-                             <div class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
-                                 {!! Form::label('sebb', 'Sebab') !!}
-                                 {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                                 <small class="text-danger">{{ $errors->first('sebb') }}</small>
-                             </div>
-                            
-                            {!! Form::hidden('id_edit', 'value',['id'=>'id_edit']) !!}
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                              <button type="submit" class="btn btn-success">Hantar</button>
-                          </div>
-                          {!! Form::close() !!}
-                      </div>
-                  </div>
-              </div> --}}
-  
-                              <!-- /.chart-responsive -->
-                          </div>
-                          <!-- /.col -->
-  
-                          <!-- /.col -->
-                      </div>
-                      <!-- /.row -->
-                  </div>
-                  <!-- ./card-body -->
-  
-                  <!-- /.box-footer -->
-              </div>
-              <!-- /.box -->
-          </div>
-          <!-- /.col -->
-      </div>
-    </div>
-  </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    @include('flash::message')
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Senarai Permohonan Baru {{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped display2">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            {{-- <th>Jabatan</th> --}}
+                                            <th>Tarikh Permohonan</th>
+                                            <th>Negara</th>
+                                            <th>Tarikh Mula Perjalanan</th>
+                                            {{-- <th>Tarikh Akhir Perjalanan</th> --}}
+                                            <th>Jenis Permohonan</th>
+                                            <th>Status Permohonan</th>
+                                            <th>Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($permohonan as $index => $mohonan)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td><a
+                                                        href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                                </td>
+                                                {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ $mohonan->negara }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                </td>
+                                                {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                                <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                <td>{{ $mohonan->statusPermohonan }}</td>
+                                                <td>
+                                                    @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
+    
+                                                        {{-- <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}" 
+                                                                                            class="btn btn-success btn-xs" onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i class="fa fa-thumbs-o-up"></i>
+                                                                                        </a> --}}
+    
+                                                        <a onClick="setUserData({{ $mohonan->permohonansID }});"
+                                                            data-toggle="modal" data-target="#favoritesModal"
+                                                            class="btn btn-success btn-xs"><i class="fa fa-thumbs-o-up"></i></a>
+    
+                                                        <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
+                                                                class="fa fa-thumbs-o-down"></i>
+                                                        </a>
+    
+                                                        {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                                                                class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
+                                                            </a> --}}
+    
+                                                    @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
+    
+                                                        {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                                                                        class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
+                                                                    </a> --}}
+    
+                                                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+    
+                                                        {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
+                                                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
+                                                        </a> --}}
+    
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{-- <div class="modal fade" id="mdl-kemaskini">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title">Sebab Ditolak</h4>
+                                            </div>
+                                            {!! Form::open(['method' => 'POST', 'url' => '/sebab']) !!}
+                                            <div class="modal-body">
+                                                <div class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
+                                                    {!! Form::label('sebb', 'Sebab') !!}
+                                                    {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                                    <small class="text-danger">{{ $errors->first('sebb') }}</small>
+                                                </div>
+                                                
+                                                {!! Form::hidden('id_edit', 'value',['id'=>'id_edit']) !!}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-success">Hantar</button>
+                                            </div>
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+                            <!-- /.chart-responsive -->
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    <!-- ./card-body -->
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        </div>
+    </section>
 
 
     <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">

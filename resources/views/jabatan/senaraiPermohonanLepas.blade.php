@@ -26,79 +26,59 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-
-                                    <table class="table table-bordered table-striped display2">
-                                        <thead>
-                                            <tr>
-                                                <th style="vertical-align: middle;">No</th>
-                                                <th style="vertical-align: middle;">Nama</th>
-                                                <th style="vertical-align: middle;">Tarikh Permohonan</th>
-                                                <th style="vertical-align: middle;">Negara</th>
-                                                <th style="vertical-align: middle;">Tarikh Mula Perjalanan</th>
-                                                <th style="vertical-align: middle;">Jenis Permohonan</th>
-                                                <th style="vertical-align: middle;">Status Permohonan</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <?php $i = 1; ?>
-                                            @foreach ($permohonan as $mohonan)
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped display2">
+                                            <thead>
                                                 <tr>
-                                                    <td><?php echo $i;
-                                                    $i = $i + 1; ?></td>
-                                                    <td><a
-                                                            href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
-                                                    </td>
-                                                    <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
-                                                    </td>
-                                                    <td>{{ $mohonan->negara }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                                    </td>
-                                                    {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                    <td>{{ $mohonan->JenisPermohonan }}</td>
-                                                    <td>
-                                                        <?php
-                            if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan') 
-                            { ?>
-                                                        <span class="label label-warning">Dalam Tindakkan BPSM</span>
-                                                        <?php }
-                            elseif ($mohonan->statusPermohonan == 'Ketua Jabatan')
-                            { ?>
-                                                        <span class="label label-warning">Dalam Tindakkan Ketua
-                                                            Jabatan</span>
-                                                        <?php }
-                            elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                            { ?>
-                                                        <span class="label label-primary">Lulus Semakan BPSM</span>
-                                                        <?php }
-                            elseif ($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                            { ?>
-                                                        <span class="label label-success">Permohonan Berjaya</span>
-                                                        <?php }
-                            else
-                            {
-                              echo $mohonan->statusPermohonan;
-                            }
-                        ?>
-
-                                                    </td>
-
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
-
-
+                                                    <th style="vertical-align: middle;">No</th>
+                                                    <th style="vertical-align: middle;">Nama</th>
+                                                    <th style="vertical-align: middle;">Tarikh Permohonan</th>
+                                                    <th style="vertical-align: middle;">Negara</th>
+                                                    <th style="vertical-align: middle;">Tarikh Mula Perjalanan</th>
+                                                    <th style="vertical-align: middle;">Jenis Permohonan</th>
+                                                    <th style="vertical-align: middle;">Status Permohonan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($permohonan as $index => $mohonan)
+                                                    <tr class="text-center">
+                                                        <td> {{ $index + 1 }} </td>
+                                                        <td>
+                                                            <a href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ $mohonan->negara }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                        </td>
+                                                        {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                                        <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                        <td>
+                                                            @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
+                                                                <span class="label label-warning">Dalam Tindakkan
+                                                                    BPSM</span>
+                                                            @elseif($mohonan->statusPermohonan == 'Ketua Jabatan')
+                                                                <span class="label label-warning">Dalam Tindakkan Ketua
+                                                                    Jabatan</span>
+                                                            @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                <span class="label label-primary">Lulus Semakan BPSM</span>
+                                                            @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                                <span class="label label-success">Permohonan Berjaya</span>
+                                                            @else
+                                                                {{ $mohonan->statusPermohonan }}
+                                                            @endif
+                                                        </td>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <!-- /.chart-responsive -->
                                 </div>
-                                <!-- /.col -->
-
                                 <!-- /.col -->
                             </div>
                             <!-- /.row -->
                         </div>
                         <!-- ./box-body -->
-
                         <!-- /.box-footer -->
                     </div>
                     <!-- /.box -->

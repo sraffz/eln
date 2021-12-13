@@ -79,15 +79,13 @@ class permohonanController extends Controller
                         ->count();
             $TotalProces = DB::table('permohonans')
                         ->where('usersID','=', $id)
-                        ->where('statusPermohonan','=', 'Pending')
-                        ->orwhere('statusPermohonan','=', 'Lulus Semakan')
+                        ->where('statusPermohonan', ['Pending', 'Lulus Semakan'])
                         ->whereYear('tarikhLulusan', $year)
                         ->count();
 
             $senarai = DB::table('permohonans')
-                        ->where('usersID','=', $id)
-                        ->where('statusPermohonan','=', 'Permohonan Berjaya')
-                        ->orwhere('statusPermohonan','=', 'Permohonan Gagal')
+                        ->where('usersID', Auth::user()->usersID)
+                        ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'] )
                         ->whereYear('tarikhLulusan', $year)
                         ->orderBy('tarikhLulusan', 'DESC')
                         ->get();
@@ -108,14 +106,12 @@ class permohonanController extends Controller
                         ->whereYear('tarikhLulusan', $year)
                         ->count();
             $TotalProces1 = DB::table('permohonans')
-                        ->where('statusPermohonan','=', 'Lulus Semakkan ketua Jabatan')
-                        ->orwhere('statusPermohonan','=', 'Lulus Semakan BPSM')
+                        ->wherein('statusPermohonan', ['Lulus Semakkan ketua Jabatan', 'Lulus Semakan BPSM'])
                         ->whereYear('tarikhMulaPerjalanan', $year)
                         ->count();
 
             $senarai1 = DB::table('permohonans')
-                        ->where('statusPermohonan','=', 'Permohonan Berjaya')
-                        ->orwhere('statusPermohonan','=', 'Permohonan Gagal')
+                        ->wherein('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
                         ->whereYear('tarikhLulusan', $year)
                         ->orderBy('tarikhLulusan', 'DESC')
                         ->get();

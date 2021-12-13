@@ -1,82 +1,94 @@
-@extends('layouts.layoutHalamanUtama')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Sistem Ke Luar Negara: Log Masuk')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistem Ke Luar Negara: Log Masuk</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
+</head>
 
-@section('link')
-@endsection
-
-@section('content')
-@include('flash::message')
-
-<main class="py-4">
-    <section class="content-header">
-        <h1 align="center">
-          <img src="{{ asset('img/logoKelantan.png')}}" alt="" height="13%" width="13%">
-          <br><p style="font-family: adigiana toybox">SISTEM PERMOHONAN <br> KE LUAR NEGARA</p>
-          <br>
-        </h1>
-        
-      </section>
-      <div class="col-md-2">
-      </div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header" style="background-color:#476b6b">{{-- {{ __('Login') }} --}}{{-- Log Masuk --}}&nbsp</div>
-
-                <div class="card-body" style="background-color:#b3cccc">
-                    <form method="POST" action="{{ route('login') }}">
-                        {{ csrf_field() }}
-    <br>
-                        <div class="form-group row" align="right">
-                            <label for="nokp" class="col-sm-4 col-form-label text-md-right">{{ __('No. Kad Pengenalan') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="nokp" type="nokp" class="form-control{{ $errors->has('nokp') ? ' is-invalid' : '' }}" name="nokp" value="{{ old('nokp') }}" required autofocus>
-
-                                @if ($errors->has('nokp'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('nokp') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row" align="right">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Katalaluan') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('KataLaluan') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right"></label>
-
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Log Masuk') }}
-                                </button>
-                                
-                                {{-- <a type="button" class="btn btn-secondary" href="{{ route('register') }}">{{ __('Daftar') }}</a> --}}
-                                <br
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
+                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+            </a>
         </div>
-        <div class="col-md-2">
-      </div>
-@endsection
+        <!-- /.login-logo -->
+        <div class="card card-outline card-danger">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Log masuk untuk membuat permohonan</p>
+                <form action="{{ route('login') }}" method="post">
+                    {{ csrf_field() }}
+                    <div class="input-group mb-3">
+                        <input type="text" name="nokp"
+                            class="form-control {{ $errors->has('nokp') ? ' is-invalid' : '' }}"
+                            placeholder="No Kad Pengenalan" value="{{ old('nokp') }}" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-id-card-alt"></span>
+                            </div>
+                        </div>
+                        @if ($errors->has('nokp'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('nokp') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" name="password"
+                            class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                            placeholder="Kata Laluan" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        @if ($errors->has('password'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
 
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-danger btn-block">Log Masuk</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+                <p class="mb-1">
+                    {{-- <a href="forgot-password.html">Lupa Kata laluan</a> --}}
+                </p>
+                <p class="mb-0">
+                    <a href="{{ url('registerBaru') }}" class="text-center">Daftar Akaun</a>
+                </p>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
 
-@section('script')
-@endsection
+    <!-- jQuery -->
+    <script src="{{ asset('adminlte-3/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('adminlte-3/dist/js/adminlte.min.js') }}"></script>
+</body>
 
-
+</html>

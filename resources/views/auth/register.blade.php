@@ -1,186 +1,255 @@
-@extends('layouts.layoutHalamanUtama')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('title', 'Sistem Ke Luar Negara: Daftar Pengguna')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistem Ke Luar Negara: Daftar Pengguna</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 
-@section('link')
-<link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}">
+</head>
 
-@endsection
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
+                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+            </a>
+        </div>
+        <div class="card card-outline card-danger">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Daftar untuk mencipta akaun</p>
 
-@section('content')
-@include('flash::message')
-
-<main class="py-4">
-    <section class="content-header">
-        <h1 align="center">
-          <img src="{{ asset('img/logoKelantan.png')}}" alt="" height="13%" width="13%">
-          <br><p style="font-family: adigiana toybox">SISTEM PERMOHONAN <br> KE LUAR NEGARA</p>
-          <br>
-        </h1>
-        
-      </section>
-      <div class="col-md-2">
-      </div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header" style="background-color:#476b6b">{{-- {{ __('Login') }} --}}{{-- Log Masuk --}}&nbsp</div>
-
-                <div class="card-body" style="background-color:#b3cccc">
-                    <form method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
-                        <br>
-                        <div class="form-group row" align="right">
-                            <label for="nama" class="col-md-4 col-form-label text-md-right">{{ __('Nama Pegawai') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="nama" type="text" class="form-control{{ $errors->has('nama') ? ' is-invalid' : '' }}" name="nama" value="{{ old('nama') }}" required autofocus>
-
-                                @if ($errors->has('nama'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('nama') }}</strong>
-                                    </span>
-                                @endif
+                <form method="POST" action="{{ route('register') }}">
+                    {{ csrf_field() }}
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Nama Pegawai" name="nama"
+                            value="{{ old('nama') }}" required autofocus>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
                             </div>
                         </div>
-
-                        <div class="form-group row" align="right">
-                            <label for="nokp" class="col-md-4 col-form-label text-md-right">{{ __('No. Kad Pengenalan') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="nokp" type="text" class="form-control{{ $errors->has('nokp') ? ' is-invalid' : '' }}" name="nokp" value="{{ old('nokp') }}" required autofocus>
-
-                                @if ($errors->has('nokp'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('nokp') }}</strong>
-                                    </span>
-                                @endif
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" max="12" class="form-control" placeholder="No. Kad Pengenalan" name="nokp"
+                            value="{{ old('nokp') }}" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-id-card-alt"></span>
                             </div>
                         </div>
-
-                        <div class="form-group row" align="right">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mel') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email" name="email"
+                            value="{{ old('email') }}" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
-                        <div class="form-group row" align="right">
-                            <label for="jantina" class="col-md-4 col-form-label text-md-right">{{ __('Jantina') }}</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <select name="jantina" id="jantina" class="form-control select22" required>
+                            <option value="">Pilih Jantina</option>
+                            <option value="Lelaki">Lelaki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <select id="jawatan" class="form-control select22" name="jawatan" required>
+                            <option value="">Pilih Jawatan</option>
+                            @foreach ($jawatan as $jaw)
+                                <option value="{{ $jaw->idJawatan }}">{{ $jaw->namaJawatan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
+                    <div class="form-group">
+                        <div class="row">
                             <div class="col-md-6">
-                                <select name="jantina" id="jantina" class="form-control" required>
-                                    <option>Pilih</option>
-                                    <option value="Lelaki">Lelaki</option>
-                                    <option value="Perempuan">Perempuan</option>
+                                <select id="gredKod" class="form-control select22" name="gredKod" required="required">
+                                    <option value="">Pilih Kod Gred</option>
+                                    @foreach ($gredKod as $gredKods)
+                                        <option value="{{ $gredKods->gred_kod_ID }}">
+                                            {{ $gredKods->gred_kod_abjad }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="gredAngka" class="form-control select22" name="gredAngka"
+                                    required="required">
+                                    <option value="">Pilih Gred</option>
+                                    @foreach ($gredAngka as $gredAngkas)
+                                        <option value="{{ $gredAngkas->gred_angka_ID }}">
+                                            {{ $gredAngkas->gred_angka_nombor }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group row" align="right">
-                            <label for="jawatan" class="col-md-4 col-form-label text-md-right">Jawatan<span style="color:red;">**</span></label>
-
-                            <div class="col-md-6">
-                                <select style="width: 100%;" id="jawatan" class="form-control select2" name="jawatan" required="required">
-                                    <option value="" selected="selected"></option>
-                                  @foreach($jawatan as $jaw)
-                                      <option value="{{ $jaw->idJawatan }}">{{ $jaw->namaJawatan }}</option>
-                                  @endforeach
-                                </select>{{-- {{$k->anugerah}}  --}}
+                    <div class="input-group mb-3">
+                        <select id="jabatan" class="form-control select22" name="jabatan" required>
+                            <option value="">Pilih Jabatan</option>
+                            @foreach ($jabatan as $jab)
+                                <option value="{{ $jab->jabatan_id }}">
+                                    {{ $jab->nama_jabatan }}({{ $jab->kod_jabatan }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input id="password" type="password"
+                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
+                            required placeholder="kata Laluan">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
                             </div>
                         </div>
-
-                        
-
-                         <div class="form-group row" align="right">
-                            <label for="gred" class="col-md-4 col-form-label text-md-right">{{ __('Gred') }}</label>
-                            
-                            <div class="col-md-3">
-                                <select style="width: 100%;" id="gredKod" class="form-control select2" name="gredKod" required="required">
-                                    <option value="" selected="selected"></option>
-                                  @foreach($gredKod as $gredKods)
-                                      <option value="{{ $gredKods->gred_kod_ID }}">{{ $gredKods->gred_kod_abjad }}</option>
-                                  @endforeach
-                                </select>{{-- {{$k->anugerah}}  --}}
-                            </div>
-
-                            <div class="col-md-3">
-                                <select style="width: 100%;" id="gredAngka" class="form-control select2" name="gredAngka" required="required">
-                                    <option value="" selected="selected"></option>
-                                  @foreach($gredAngka as $gredAngkas)
-                                      <option value="{{ $gredAngkas->gred_angka_ID }}">{{ $gredAngkas->gred_angka_nombor }}</option>
-                                  @endforeach
-                                </select>{{-- {{$k->anugerah}}  --}}
-                            </div>
-
-                            
-                        </div>
-
-                        <div class="form-group row" align="right">
-                            <label for="jabatan" class="col-md-4 col-form-label text-md-right">{{ __('Jabatan') }}</label>
-
-                            <div class="col-md-6">
-                                <select style="width: 100%;" id="jabatan" class="form-control select2" name="jabatan" required="required">
-                                    <option value="" selected="selected"></option>
-                                  @foreach($jabatan as $jab)
-                                      <option value="{{ $jab->jabatan_id }}">{{ $jab->nama_jabatan }}({{ $jab->kod_jabatan }})</option>
-                                  @endforeach
-                                </select>{{-- {{$k->anugerah}}  --}}
+                    </div>
+                    <div class="input-group mb-3">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                            required placeholder="Taip Semula Kata Laluan">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
                             </div>
                         </div>
-
-                        <div class="form-group row" align="right">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Katalaluan') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            {{-- <div class="icheck-primary">
+                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                                <label for="agreeTerms">
+                                    I agree to the <a href="#">terms</a>
+                                </label>
+                            </div> --}}
                         </div>
-
-                        <div class="form-group row" align="right">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Pengesahan Katalaluan') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-danger btn-block">Daftar</button>
                         </div>
-
-                        <div class="form-group row mb-0" align="right">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Daftar') }}
-                                </button>
-                            </div>
-                        </div>
-                        <br>
-                    </form>
-                </div>
-                <div class="card-footer" style="background-color:#476b6b">{{-- {{ __('Login') }} --}}{{-- Log Masuk --}}&nbsp</div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+                <a href="{{ url('login') }}" class="text-center">Saya telah mempunyai akaun.</a>
             </div>
-        </div>
-        <div class="col-md-2">
-      </div>
-@endsection
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+    <!-- /.register-box -->
 
+    <!-- jQuery -->
+    <script src="{{ asset('adminlte-3/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('adminlte-3/dist/js/adminlte.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('adminlte-3/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
 
-@section('script')
 <script>
-   $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()}
-   );
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+        //Initialize Select2 Elements
+        $('.select22').select2({
+            theme: 'bootstrap4'
+        });
+
+        //Datemask dd/mm/yyyy
+        $('#datemask').inputmask('dd/mm/yyyy', {
+            'placeholder': 'dd/mm/yyyy'
+        })
+        //Datemask2 mm/dd/yyyy
+        $('#datemask2').inputmask('mm/dd/yyyy', {
+            'placeholder': 'mm/dd/yyyy'
+        })
+        //Money Euro
+        $('[data-mask]').inputmask()
+
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+
+        //Date and time picker
+        $('#reservationdatetime').datetimepicker({
+            icons: {
+                time: 'far fa-clock'
+            }
+        });
+
+        //Date range picker
+        $('#reservation').daterangepicker()
+        //Date range picker with time picker
+        $('#reservationtime').daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 30,
+            locale: {
+                format: 'MM/DD/YYYY hh:mm A'
+            }
+        })
+        //Date range as a button
+        $('#daterange-btn').daterangepicker({
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+            },
+            function(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format(
+                    'MMMM D, YYYY'))
+            }
+        )
+
+        //Timepicker
+        $('#timepicker').datetimepicker({
+            format: 'LT'
+        })
+
+        //Bootstrap Duallistbox
+        $('.duallistbox').bootstrapDualListbox()
+
+        //Colorpicker
+        $('.my-colorpicker1').colorpicker()
+        //color picker with addon
+        $('.my-colorpicker2').colorpicker()
+
+        $('.my-colorpicker2').on('colorpickerChange', function(event) {
+            $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+        })
+
+        $("input[data-bootstrap-switch]").each(function() {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+    });
 </script>
-@endsection
 
-
+</html>

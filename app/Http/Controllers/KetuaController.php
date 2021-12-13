@@ -28,13 +28,11 @@ class KetuaController extends Controller
 
     public function senaraiLulus()
     {
-        $rombongan = Rombongan::where('statusPermohonanRom', 'Permohonan Berjaya')
-                    ->orwhere('statusPermohonanRom', 'Permohonan Gagal')
+        $rombongan = Rombongan::whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
                     ->get();
 
         $allPermohonan = Permohonan::with('user')
-                        ->where('statusPermohonan', 'Permohonan Berjaya')
-                        ->orwhere('statusPermohonan', 'Permohonan Gagal')
+                        ->where('statusPermohonan', ['Permohonan Berjaya','Permohonan Gagal'])
                         ->get();
 
         return view('ketua/senaraiDiLuluskan',compact('allPermohonan','rombongan'));
