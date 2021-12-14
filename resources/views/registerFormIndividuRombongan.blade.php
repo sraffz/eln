@@ -111,8 +111,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="btn-group">
-                            {!! Form::reset('Semula', ['class' => 'btn btn-warning']) !!}
+                        <div class="col-md-12 text-center">
+                            {!! Form::reset('Semula', ['class' => 'btn btn-danger']) !!}
                             {!! Form::submit('Hantar', ['class' => 'btn btn-success']) !!}
                         </div>
                     </div>

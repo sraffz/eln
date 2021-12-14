@@ -43,4 +43,9 @@ class Permohonan extends Model
                     ->count();
         return $jumlah;
     }
+    
+    public function tpermohonan()
+    {
+       return $tpermohonan =  $this->create_at;
+    }
 }

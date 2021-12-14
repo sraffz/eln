@@ -52,8 +52,8 @@
                                     @php
                                         $da = date('m/d/Y', strtotime($permohonan->tarikhInsuran));
                                     @endphp
-                                    <input type="text" class="form-control pull-right" id="datepicker" name="tarikh"
-                                        value="{{ $da }}">
+                                    <input type="date" class="form-control pull-right" name="tarikh"
+                                        value="{{ $permohonan->tarikhInsuran }}">
                                 </div>
                             </div>
                         </div>
@@ -64,8 +64,8 @@
                                     @php
                                         $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaPerjalanan));
                                     @endphp
-                                    <input type="text" class="form-control pull-right" id="datepicker3"
-                                        name="tarikhMulaPerjalanan" value="{{ $mula }}">
+                                    <input type="date" class="form-control pull-right" 
+                                        name="tarikhMulaPerjalanan" value="{{ $permohonan->tarikhMulaPerjalanan }}">
                                 </div>
                             </div>
                         </div>
@@ -76,8 +76,8 @@
                                     @php
                                         $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirPerjalanan));
                                     @endphp
-                                    <input type="text" class="form-control pull-right" id="datepicker4"
-                                        name="tarikhAkhirPerjalanan" value="{{ $akhir }}">
+                                    <input type="date" class="form-control pull-right"  
+                                        name="tarikhAkhirPerjalanan" value="{{ $permohonan->tarikhAkhirPerjalanan }}">
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
 
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Maklumat Pasangan / Keluarga / Saudara Pegawai Keluar negara</h3>
+                    <h3 class="card-title">Maklumat Pasangan / Keluarga / Saudara Pegawai Keluar Negara</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -304,9 +304,9 @@
                     <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
                 @endif
                 <input type="hidden" name="pasanganID" value="{{ $permohonan->pasanganPermohonan->pasangansID }}">
-                <div class="btn-group pull-left">
+                <div class="">
                     {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
-                    <a href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}" class="btn btn-warning">Kembali</a>
+                    <a href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}" class="btn btn-danger">Kembali</a>
                     {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}

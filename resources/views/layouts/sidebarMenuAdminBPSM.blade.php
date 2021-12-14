@@ -21,7 +21,9 @@
         </li>
     </ul>
 </li>
-<li class="nav-header">KELULUSAN PERMOHONAN YB DATO'</li>
+
+
+<li class="nav-header">KELULUSAN OLEH YB DATO'</li>
 <li class="nav-item {{ url()->current() == route('senaraiRekodIndividu') || url()->current() == route('senaraiRekodRombongan') ? 'menu-open' : ''}}">
     <a href="#" class="nav-link {{ url()->current() == route('senaraiRekodIndividu') || url()->current() == route('senaraiRekodRombongan') ? 'active' : ''}}">
         <i class="nav-icon fas fa-user"></i>
@@ -92,7 +94,6 @@
 <li class="nav-header">PENGGUNA</li>
 <li class="nav-item">
     <a href="{{ url('senaraiPengguna') }}" class="nav-link {{ url()->current() == url('senaraiPengguna') ? ' active' : '' }}">
-        {{-- <i class="nav-icon far fa-circle text-warning"></i> --}}
         <i class="nav-icon fa fa-user-plus"></i>
         <p class="text">Senarai Pengguna</p>
     </a>

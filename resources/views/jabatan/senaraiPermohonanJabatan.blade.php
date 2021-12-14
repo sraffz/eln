@@ -44,11 +44,12 @@
                                         @foreach ($permohonan as $index => $mohonan)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td><a
-                                                        href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                                <td>
+                                                    <a
+                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                 </td>
                                                 {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->user->tpermohonan)->format('d/m/Y') }}
                                                 </td>
                                                 <td>{{ $mohonan->negara }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
@@ -58,37 +59,24 @@
                                                 <td>{{ $mohonan->statusPermohonan }}</td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
-    
-                                                        {{-- <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}" 
-                                                                                            class="btn btn-success btn-xs" onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i class="fa fa-thumbs-o-up"></i>
-                                                                                        </a> --}}
-    
                                                         <a onClick="setUserData({{ $mohonan->permohonansID }});"
                                                             data-toggle="modal" data-target="#favoritesModal"
-                                                            class="btn btn-success btn-xs"><i class="fa fa-thumbs-o-up"></i></a>
-    
+                                                            class="btn btn-success btn-xs"><i
+                                                                class="fa fa-thumbs-up"></i></a>
+
                                                         <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                                class="fa fa-thumbs-o-down"></i>
+                                                                class="fa fa-thumbs-down"></i>
                                                         </a>
-    
-                                                        {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                                                                class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                                                            </a> --}}
-    
                                                     @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-    
                                                         {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                                                         class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
                                                                     </a> --}}
-    
                                                     @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-    
                                                         {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                                             class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
                                                         </a> --}}
-    
                                                     @endif
                                                 </td>
                                             </tr>
@@ -121,7 +109,6 @@
                                         </div>
                                     </div>
                                 </div> --}}
-
                             <!-- /.chart-responsive -->
                             <!-- /.row -->
                         </div>
@@ -133,41 +120,35 @@
             </div>
             <!-- /.col -->
         </div>
-        </div>
     </section>
-
-
     <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title" id="favoritesModalLabel">Catatan</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="favoritesModalLabel">Ulasan</h4>
                 </div>
-
-                <div class="modal-body">
-                    <form action="senaraiPermohonanJabatan/hantar">
-                        <div class="modal-body">Sila masukkan ulasan.<br>
+                <form method="GET" action="{{ url('senaraiPermohonanJabatan/hantar') }}">
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="ulasan">Catatan (Jika perlu).</label>
                             <textarea name="ulasan" required="required" class="form-control"></textarea>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="_method" value="get">
                             <input name="kopeID" id="kopeID" type="hidden" value="">
                         </div>
-
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" value="Hantar" />
-                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
-                    </form>
-                </div>
+                        {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Hantar" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('script')
-
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('adminlte-3/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -181,7 +162,6 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             $('table.display2').DataTable({

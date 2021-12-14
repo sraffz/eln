@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
+use App\Permohonan;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -79,6 +81,4 @@ class User extends Authenticatable
         
         return $sideCountCetak;
     }
-
-
 }

@@ -780,29 +780,46 @@ class AdminController extends Controller
 
     public function prosesTambahCoganKata(Request $request)
     {
-        $cogan=$request->cogan;
-        $kata=$request->kata;
-        $bilanganCogan = InfoSurat::where('perkara','=',$cogan)
-                    ->count();
-        if ($bilanganCogan == 0) 
-        {
-           $data = [
-                'perkara'=>$cogan,
-                'maklumat1'=>$kata,
-                'created_at' =>  \Carbon\Carbon::now(), # \Datetime()
-                'updated_at' => \Carbon\Carbon::now()  # \Datetime()
-            ];
-            infoSurat::create($data);
-            flash('Berjaya mendaftar cogan kata. ')->success();
-            return redirect()->back();
-        }
-        else
-        {
-            infoSurat::where('perkara', $cogan)
-            ->update(['maklumat1' => $kata]);
+        $id = $request->input('id');
+
+        infoSurat::where('info_surat_ID', $id)
+            ->update([
+                'maklumat1' => $request->input('kata'),
+                'maklumat2' => $request->input('kata2'),
+                'maklumat3' => $request->input('kata3')
+            ]);
             flash('kemaskini dah berjaya!!', 'success');
+            
             return redirect()->back();
-        }
+
+        // $cogan=$request->cogan;
+        // $kata=$request->kata;
+        // $bilanganCogan = InfoSurat::where('perkara','=',$cogan)
+        //             ->count();
+        // if ($bilanganCogan == 0) 
+        // {
+        //    $data = [
+        //         'perkara'=>$cogan,
+        //         'maklumat1'=>$kata,
+        //         'created_at' =>  \Carbon\Carbon::now(), # \Datetime()
+        //         'updated_at' => \Carbon\Carbon::now()  # \Datetime()
+        //     ];
+        //     infoSurat::create($data);
+        //     flash('Berjaya mendaftar cogan kata. ')->success();
+        //     return redirect()->back();
+        // }
+        // else
+        // {
+        //     infoSurat::where('info_surat_ID', $cogan)
+        //     ->update([
+        //         'maklumat1' => $cogan,
+        //         'maklumat2' => $cogan2,
+        //         'maklumat3' => $cogan3,
+        //     ]);
+        //     flash('kemaskini dah berjaya!!', 'success');
+
+        //     return redirect()->back();
+        // }
         
     }
 

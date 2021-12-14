@@ -47,7 +47,8 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
-                                <input type="text" class="form-control" id="datepicker" name="tarikh">
+                                {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
+                                <input type="date" class="form-control" name="tarikh">
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -240,14 +241,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="text-center">
+                        <div class="col-md-12 text-center">
                             @if ($typeForm == 'rasmi')
                                 <input type="hidden" name="jenisPermohonan" value="Rasmi">
                             @elseif($typeForm =="tidakRasmi")
                                 <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
                             @endif
-                            <div class="btn-group">
-                                {!! Form::reset('Semula', ['class' => 'btn btn-warning']) !!}
+                            <div class="">
+                                {!! Form::reset('Semula', ['class' => 'btn btn-danger']) !!}
                                 {!! Form::submit('Hantar', ['class' => 'btn btn-success']) !!}
                             </div>
                         </div>

@@ -121,8 +121,14 @@
 
                                   Sekian, terima kasih.<br><br>
                                      
-                                  <strong> "{{ $cogan->maklumat1 }}"</strong><br><br>
-
+                                  <strong> "{{ $cogan->maklumat1 }}"</strong><br>
+                                  @if ( $cogan->maklumat2 != null)
+                                  <strong> "{{ $cogan->maklumat2 }}"</strong><br>
+                                  @endif
+                                  @if ( $cogan->maklumat3 != null)
+                                  <strong> "{{ $cogan->maklumat3 }}"</strong><br>
+                                  @endif
+                                  <br>
                                   Saya yang menjalankan amanah,<br><br><br>
 
 

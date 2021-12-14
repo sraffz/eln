@@ -44,22 +44,25 @@
                                         aria-labelledby="custom-tabs-two-home-tab">
                                         {!! Form::open(['method' => 'POST', 'url' => 'prosesTambahCoganKata']) !!}
                                         {{ csrf_field() }}
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="kata" name="kata" required
-                                                placeholder="RAJA BERDAULAT, RAKYAT MUAFAKAT, NEGERI BERKAT">
-                                            <input type="hidden" id="cogan" name="cogan" value="Cogan Kata">
+                                        <input type="hidden" id="id" name="id" value="1">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="kata" name="kata" required
+                                                    placeholder="COGAN KATA 1">
+                                            </div>
                                         </div>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="kata" name="kata" required
-                                                placeholder="RAJA BERDAULAT, RAKYAT MUAFAKAT, NEGERI BERKAT">
-                                            <input type="hidden" id="cogan" name="cogan" value="Cogan Kata">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="kata" name="kata2" required
+                                                    placeholder="COGAN KATA 2">
+                                            </div>
                                         </div>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="kata" name="kata" required
-                                                placeholder="RAJA BERDAULAT, RAKYAT MUAFAKAT, NEGERI BERKAT">
-                                            <input type="hidden" id="cogan" name="cogan" value="Cogan Kata">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="kata" name="kata3"
+                                                    placeholder="COGAN KATA 3">
+                                            </div>
                                         </div>
-                                        <br>
                                         <div class="text-center">
                                             {!! Form::submit('Kemaskini', ['class' => 'btn btn-success']) !!}
                                         </div>
@@ -88,24 +91,24 @@
                                         aria-labelledby="custom-tabs-two-profile-tab">
                                         {!! Form::open(['method' => 'POST', 'url' => 'prosesTambahNamaPenolongPengarah']) !!}
                                         {{ csrf_field() }}
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-book"></i>
-                                            </div>
-                                            <input type="text" class="form-control" id="maklumat1" name="maklumat1"
-                                                value="{{ $penolongPengarah->maklumat1 }}" required
-                                                placeholder="Nama Penolong Pengarah">
-                                            <input type="text" class="form-control" id="maklumat2" name="maklumat2"
-                                                value="{{ $penolongPengarah->maklumat2 }}" required
-                                                placeholder="Penolong Pengarah (Perkhimatan)">
-                                            <input type="text" class="form-control" id="maklumat3" name="maklumat3"
+                                        <input type="hidden" id="pp" name="pp" value="Penolong Pengarah">
+                                        <div class="form-group">
+                                            <input type="text" name="maklumat1" id="maklumat1" class="form-control"
+                                                value="{{ $penolongPengarah->maklumat1 }}" placeholder="Nama Pegawai">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="maklumat2" id="maklumat2" class="form-control"
+                                                value="{{ $penolongPengarah->maklumat2 }}" placeholder="Jawatan">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="maklumat3" id="maklumat3" class="form-control"
                                                 value="{{ $penolongPengarah->maklumat3 }}"
                                                 placeholder="b.p:SETIAUSAHA KERAJAAN">
-                                            <input type="text" class="form-control" id="maklumat4" name="maklumat4"
-                                                value="{{ $penolongPengarah->maklumat4 }}" placeholder="NEGERI KELANTAN">
-                                            <input type="hidden" id="pp" name="pp" value="Penolong Pengarah">
                                         </div>
-                                        <br>
+                                        <div class="form-group">
+                                            <input type="text" name="maklumat4" id="maklumat4" class="form-control"
+                                                value="{{ $penolongPengarah->maklumat4 }}" placeholder="NEGERI KELANTAN">
+                                        </div>
                                         <div class="text-center">
                                             {!! Form::submit('Kemaskini', ['class' => 'btn btn-success']) !!}
                                         </div>

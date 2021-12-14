@@ -135,10 +135,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
-                            </div>
+                        <div class="col-sm-12 text-center">
+                            {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
                         </div>
                     </div>
                 </div>
