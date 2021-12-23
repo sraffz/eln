@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran<span
                                         style="color:red;">**</span></label>
-                                <input type="text" class="form-control" id="datepicker" name="tarikhInsuranRom" required>
+                                <input type="date" class="form-control"  name="tarikhInsuranRom" required>
                             </div>
                         </div>
                         <div class="col-sm-6">

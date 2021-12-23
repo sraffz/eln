@@ -64,7 +64,7 @@
                         <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti dan sehingga</label>
+                                <label><i class="fas fa-calendar"></i> Tarikh Mula dan Akhir Cuti</label>
                                 <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhirCuti">
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="text" class="form-control" id="datepicker" name="tarikhKembaliBertugas">
+                                <input type="date" class="form-control" name="tarikhKembaliBertugas">
                             </div>
                         </div>
                         <div class="col-sm-4">
