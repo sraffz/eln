@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
 	// Route::POST('/proLogin','LoginController@proLogin');
 	// Route::get('/home','HomeController@index');//untuk login../home
 	Route::get('profil', 'AdminController@profil')->name('profil');
+	Route::POST('kemaskini-profil', 'AdminController@kemaskiniprofil')->name('kemaskiniprofil');
 	//untuk individu
 	Route::get('registerFormIndividu/{typeForm}', 'permohonanController@individu')->name('registerFormIndividu');
 	Route::get('registerFormIndividuRombongan/{id}', 'permohonanController@individuRombongan')->name('registerFormIndividuRombongan');

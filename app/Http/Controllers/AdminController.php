@@ -19,6 +19,7 @@ use DB;
 use Carbon\Carbon;
 use File;
 use PDF;
+use Session;
 use Auth;
 
 class AdminController extends Controller
@@ -42,6 +43,11 @@ class AdminController extends Controller
 
     public function profil()
     {
+        $jabatan = Jabatan::orderBy('nama_jabatan', 'asc')->get();
+        $gredAngka = GredAngka::all();
+        $gredKod = GredKod::all();
+        $jawatan = Jawatan::orderBy('namaJawatan', 'asc')->get();
+
         $user = User::with('userJabatan')
                     ->where('usersID','=', Auth::user()->usersID)
                     ->first();
@@ -52,7 +58,25 @@ class AdminController extends Controller
 
         $senaraiNegara = $nega->pluck('negara');
         // dd($senaraiNegara);
-        return view('profil',compact('user','senaraiNegara'));
+        return view('profil',compact('user','senaraiNegara', 'jabatan','gredAngka','gredKod','jawatan'));
+    }
+
+    public function kemaskiniprofil(Request $req)
+    {
+        User::where('usersID', Auth::user()->usersID)
+        ->update([
+            'nama' => $req->input('nama'),
+            'nokp' => $req->input('kp'),
+            'email' => $req->input('email'),
+            'jawatan' => $req->input('jawatan'),
+            'jabatan' => $req->input('jabatan'),
+            'gredKod' => $req->input('gredKod'),
+            'gredAngka' => $req->input('gredangka')
+        ]);
+
+        Session::flash('message','Berjaya dikemaskini.');
+
+        return back();
     }
 
     public function senaraiRekodIndividu()

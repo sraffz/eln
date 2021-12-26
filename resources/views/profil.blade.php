@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <!-- Profile Image -->
-                    <div class="card card-primary card-outline">
+                    <div class="card card-danger card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <img class="profile-user-img img-fluid img-circle"
@@ -43,7 +43,7 @@
                     </div>
                     <!-- /.card -->
                     <!-- About Me Box -->
-                    <div class="card card-primary">
+                    <div class="card card-danger">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Diri</h3>
                         </div>
@@ -51,8 +51,8 @@
                         <div class="card-body">
                             <strong><i class="fas fa-book mr-1"></i> Email</strong>
                             <p class="text-muted">
-                                {{ $user->email }} 
-                              </p>
+                                {{ $user->email }}
+                            </p>
                             <hr>
                             <strong><i class="fas fa-map-marker-alt mr-1"></i> Jawatan & Gred</strong>
                             <p class="text-muted">
@@ -76,6 +76,13 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
+                    @if (Session::has('message'))
+                        <div class="alert {{ Session::get('alert-class', 'alert-success') }} alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert"
+                            aria-hidden="true">&times;</button>
+                            <i class="icon fas fa-check"></i> {{ Session::get('message') }}
+                        </div>
+                    @endif
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
@@ -108,55 +115,82 @@
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="settings">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" method="POST" action="{{ url('kemaskini-profil') }}">
+                                        {{ csrf_field() }}
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                            <label for="inputName" class="col-sm-2 col-form-label">Nama</label>
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputName"
-                                                    placeholder="Name">
+                                                <input type="text" class="form-control" id="inputName" placeholder="Name"
+                                                    name="nama" value="{{ $user->nama }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputkp" class="col-sm-2 col-form-label">No Kad Pengenalan</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputkp" placeholder="kp"
+                                                    name="kp" value="{{ $user->nokp }}" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputEmail"
-                                                    placeholder="Email">
+                                                <input type="email" name="email" class="form-control" id="inputEmail"
+                                                    placeholder="Email" value="{{ $user->email }}" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName2"
-                                                    placeholder="Name">
+                                            <label for="jawatan" class="col-sm-2 col-form-label">Jawatan & Gred</label>
+                                            <div class="col-sm-6">
+                                                <select class="form-control select2bs4" name="jawatan" id="jawatan"
+                                                    required>
+                                                    <option value="">Sila Pilih</option>
+                                                    @foreach ($jawatan as $jwtn)
+                                                        <option value="{{ $jwtn->idJawatan }}"
+                                                            {{ $jwtn->idJawatan == $user->jawatan ? 'selected' : '' }}>
+                                                            {{ $jwtn->namaJawatan }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="form-control select2bs4" name="gredKod" id="gredKod"
+                                                    required>
+                                                    <option value="">Sila Pilih</option>
+                                                    @foreach ($gredKod as $kodg)
+                                                        <option value="{{ $kodg->gred_kod_ID }}"
+                                                            {{ $kodg->gred_kod_ID == $user->gredKod ? 'selected' : '' }}>
+                                                            {{ $kodg->gred_kod_abjad }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <select class="form-control select2bs4" name="gredangka" id="gredangka"
+                                                    required>
+                                                    <option value="">Sila Pilih</option>
+                                                    @foreach ($gredAngka as $gred)
+                                                        <option value="{{ $gred->gred_angka_ID }}"
+                                                            {{ $gred->gred_angka_ID == $user->gredAngka ? 'selected' : '' }}>
+                                                            {{ $gred->gred_angka_nombor }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                            <label class="col-sm-2 col-form-label" for="jabatan">Jabatan</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience"
-                                                    placeholder="Experience"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkills"
-                                                    placeholder="Skills">
+                                                <select class="form-control select2bs4" name="jabatan" id="jabatan"
+                                                    required>
+                                                    <option value="">Sila Pilih</option>
+                                                    @foreach ($jabatan as $jbtn)
+                                                        <option value="{{ $jbtn->jabatan_id }}"
+                                                            {{ $jbtn->jabatan_id == $user->jabatan ? 'selected' : '' }}>
+                                                            {{ $jbtn->nama_jabatan }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> I agree to the <a href="#">terms and
-                                                            conditions</a>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger">Submit</button>
+                                                <button type="submit" class="btn btn-danger">Kemaskini</button>
                                             </div>
                                         </div>
                                     </form>

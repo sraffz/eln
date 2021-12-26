@@ -37,12 +37,10 @@ class permohonanController extends Controller
 
     public function registerBaru()
     {
-        $jabatan = Jabatan::orderBy('nama_jabatan', 'asc')
-                   ->get();
+        $jabatan = Jabatan::orderBy('nama_jabatan', 'asc')->get();
         $gredAngka = GredAngka::all();
         $gredKod = GredKod::all();
-        $jawatan = Jawatan::orderBy('namaJawatan', 'asc')
-                   ->get();
+        $jawatan = Jawatan::orderBy('namaJawatan', 'asc')->get();
         
         
         //dd($negara);
