@@ -39,10 +39,11 @@ class User extends Authenticatable
         return $this->belongsTo(Jabatan::class, 'jabatan', 'jabatan_id');
     }
 
-    public function userJawatan()
-    {
-        return $this->belongsTo(Jawatan::class, 'jawatan', 'idJawatan');
-    }
+    // public function userJawatan()
+    // {
+    //     return $this->hasOne('App\Jawatan', 'idJawatan', 'jawatan');
+    //     // return $this->belongsTo(Jawatan::class, 'jawatan', 'idJawatan');
+    // }
 
     public function userGredAngka()
     {

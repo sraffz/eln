@@ -20,6 +20,8 @@ use Carbon\Carbon;
 use File;
 use PDF;
 use Session;
+use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 
 class AdminController extends Controller
@@ -75,6 +77,24 @@ class AdminController extends Controller
         ]);
 
         Session::flash('message','Berjaya dikemaskini.');
+
+        return back();
+    }
+
+    public function kemaskinikatalaluan(Request $req)
+    {
+        $req->validate([
+            'password' => ['required', new MatchOldPassword],
+            'newpassword' => ['required'],
+            'confirmpassword' => ['same:newpassword'],
+        ]);
+
+        User::where('usersID', Auth::user()->usersID)
+        ->update([
+            'password' => Hash::make($req->newpassword)
+        ]);
+
+        Session::flash('message','Kata laluan berjaya ditukar.');
 
         return back();
     }
@@ -663,10 +683,15 @@ class AdminController extends Controller
 
     public function senaraiPengguna()
     {
-        $user = User::with('userJabatan')
-                    ->get();
+
+        $user = User::leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+        ->get();
+        // $user = User::where('jabatan', Auth::user()->jabatan)->get();
+
+        // $user = User::with('userJabatan')->get();
+
         // dd($user);
-        return view('admin.senaraiPengguna',compact('user'));
+        return view('admin.senaraiPengguna', compact('user'));
     }
 
     public function editPIC($id)

@@ -79,7 +79,7 @@
                     @if (Session::has('message'))
                         <div class="alert {{ Session::get('alert-class', 'alert-success') }} alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert"
-                            aria-hidden="true">&times;</button>
+                                aria-hidden="true">&times;</button>
                             <i class="icon fas fa-check"></i> {{ Session::get('message') }}
                         </div>
                     @endif
@@ -88,10 +88,10 @@
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#activity"
                                         data-toggle="tab">Negara</a></li>
-                                {{-- <li class="nav-item"><a class="nav-link" href="#timeline"
-                                        data-toggle="tab">Timeline</a></li> --}}
                                 <li class="nav-item"><a class="nav-link" href="#settings"
                                         data-toggle="tab">Kemaskini</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#password" data-toggle="tab">Kata
+                                        Laluan</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
@@ -196,6 +196,43 @@
                                     </form>
                                 </div>
                                 <!-- /.tab-pane -->
+                                <div class="tab-pane" id="password">
+                                    <form class="form-horizontal" method="POST"
+                                        action="{{ url('kemaskini-katalaluan') }}">
+                                        {{ csrf_field() }}
+                                        @foreach ($errors->all() as $error)
+                                            <p class="text-danger">{{ $error }}</p>
+                                        @endforeach
+                                        <div class="form-group row">
+                                            <label for="currentpass" class="col-sm-3 col-form-label">Kata laluan
+                                                Sekarang</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="currentpass"
+                                                    placeholder="Kata laluan Sekarang" name="password" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="newpass" class="col-sm-3 col-form-label">Kata laluan Baru</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="newpass"
+                                                    placeholder="Kata laluan Baru" name="newpassword" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="confirmnewpass" class="col-sm-3 col-form-label">Sahkan Kata laluan
+                                                Baru</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="confirmpass"
+                                                    placeholder="Sahkan Kata laluan Baru" name="confirmpassword" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="offset-sm-5 col-sm-6">
+                                                <button type="submit" class="btn btn-danger">Tukar Kata Laluan</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->

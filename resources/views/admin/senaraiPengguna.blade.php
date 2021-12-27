@@ -57,20 +57,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($user as $index => $users)
+                                            @foreach ($user as $index => $ss)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $users->nokp }}</td>
-                                                    <td>{{ $users->nama }}</td>
-                                                    <td>{{ $users->userJawatan->namaJawatan }}</td>
-                                                    <td>{{ $users->userJabatan->nama_jabatan }}
-                                                        ({{ $users->userJabatan->kod_jabatan }})</td>
-                                                    <td>{{ $users->email }}</td>
-                                                    <td>{{ $users->role }}</td>
-                                                    <td>{{ $users->jumlah_permohonan_semasa }}</td>
-                                                    <td>{{ $users->jumlah_permohonan }}</td>
+                                                    <td>{{ $ss->nokp }}</td>
+                                                    <td>{{ $ss->nama }}</td>
+                                                    <td>{{ $ss->namaJawatan }}</td>
+                                                    <td>{{ $ss->userJabatan->nama_jabatan }}
+                                                        ({{ $ss->userJabatan->kod_jabatan }})</td>
+                                                    <td>{{ $ss->email }}</td>
+                                                    <td>{{ $ss->role }}</td>
+                                                    <td>{{ $ss->jumlah_permohonan_semasa }}</td>
+                                                    <td>{{ $ss->jumlah_permohonan }}</td>
                                                     <td>
-                                                        <a href="{{ url('kemaskini-pengguna', [$users->usersID]) }}">
+                                                        <a href="{{ url('kemaskini-pengguna', [$ss->usersID]) }}">
                                                             <button type="button" class="btn btn-primary btn-xs" >Kemaskini</button>
                                                         </a>
                                                     </td>

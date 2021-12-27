@@ -14,8 +14,8 @@ class Jawatan extends Model
 
     public $timestamps = true;
 
-    // public function userJabatan()
-    // {
-    //     return $this->belongsTo('App\User');
-    // }
+    public function userJabatan()
+    {
+        return $this->belongsTo('App\User', 'jawatan', 'idJawatan');
+    }
 }

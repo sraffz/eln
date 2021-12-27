@@ -48,19 +48,19 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="kata" name="kata" required
-                                                    placeholder="COGAN KATA 1">
+                                                    placeholder="COGAN KATA 1" value="{{ $cogankata->maklumat1 }}">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="kata" name="kata2" required
-                                                    placeholder="COGAN KATA 2">
+                                                <input type="text" class="form-control" id="kata" name="kata2"
+                                                    placeholder="COGAN KATA 2" value="{{ $cogankata->maklumat2 }}">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="kata" name="kata3"
-                                                    placeholder="COGAN KATA 3">
+                                                    placeholder="COGAN KATA 3" value="{{ $cogankata->maklumat3 }}">
                                             </div>
                                         </div>
                                         <div class="text-center">
@@ -79,11 +79,15 @@
                                                     <td>{{ $cogankata->maklumat1 }}</td>
                                                 </tr>
                                                 <tr>
+                                                @if ($cogankata->maklumat2 != null)
                                                     <td>{{ $cogankata->maklumat2 }}</td>
                                                 </tr>
+                                                @endif
+                                                @if ($cogankata->maklumat3 != null)
                                                 <tr>
                                                     <td>{{ $cogankata->maklumat3 }}</td>
                                                 </tr>
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
