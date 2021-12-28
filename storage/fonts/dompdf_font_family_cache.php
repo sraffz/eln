@@ -90,4 +90,10 @@
     'italic' => $fontDir . '/8c083019ac1877268942f8eec90d7c2c',
     'normal' => $fontDir . '/302e2dc707bd747512a5d4b16bfd7a0f',
   ),
+  'font awesome 5 brands' => array(
+    'normal' => $fontDir . '\b7318e8e28042d65737f730d75eb2bf4',
+  ),
+  'font awesome 5 free' => array(
+    'normal' => $fontDir . '\6fa6ce0fd8b33aa559807eed2989ebb5',
+  ),
 ) ?>

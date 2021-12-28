@@ -100,7 +100,7 @@
                     <div class="row">
                         <div class="col-xl-12" >
                             
-                      <strong>PERMOHONAN KEBENARAN  KE LUAR NEGARA BAGI URUSAN RASMI UNTUK MENGHADIRI {{ strtoupper($permohon->lainTujuan) }} PADA {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y')}} HINGGA {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y')}} DI {{ strtoupper($permohon->negara) }}.</strong>
+                       <strong>PERMOHONAN KEBENARAN  KE LUAR NEGARA BAGI URUSAN RASMI UNTUK MENGHADIRI {{ strtoupper($permohon->lainTujuan) }} PADA {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y')}} HINGGA {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y')}} DI {{ strtoupper($permohon->negara) }}.</strong>
                             
                         
                         </div>
@@ -112,7 +112,7 @@
                                   <strong>
                                   NAMA    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ strtoupper($permohon->user->nama) }}<br>
                                   NO. K/P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $permohon->user->nokp }}<br>
-                                  JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->user->userJawatan->namaJawatan) }} / {{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }}<br> <br>
+                                  JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->namaJawatan) }} ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})<br> <br>
                                   </strong>
 
                                   Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br>

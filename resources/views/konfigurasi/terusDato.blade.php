@@ -48,7 +48,7 @@
                                                     <td>{{ $index+1 }}</td>
                                                     <td>{{ $jawatans->namaJawatan }}</td>
                                                     <td>
-                                                        <a href="padamTerusDato/{{ $jawatans->idJawatan }}" class="btn btn-danger btn-xs">
+                                                        <a href="{{ url('padamTerusDato', [$jawatans->idJawatan]) }}" class="btn btn-danger btn-xs">
                                                             <i class="fa fa-close"></i>
                                                             <span>Hapus</span>
                                                         </a>

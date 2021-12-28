@@ -602,7 +602,8 @@ class AdminController extends Controller
         $ulasan="Tidak Aktif";
         Jawatan::where('idJawatan', $id)
           ->update(['statusDato' => $ulasan ]);
-        flash('Berjaya dihapuskan. ')->success();
+
+        flash('Jawatan terus ke Dato dihapuskan.')->error();
         return redirect('terusDato');
        
     }

@@ -58,7 +58,7 @@
                                   <strong>
                                   NAMA    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ strtoupper($permohon->user->nama) }}<br>
                                   NO. K/P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $permohon->user->nokp }}<br>
-                                  JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->user->userJawatan->namaJawatan) }} / {{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }}<br> <br>
+                                  JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->namaJawatan) }} ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})<br> <br>
                                   </strong>
 
                                   Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br><br>
@@ -67,7 +67,14 @@
 
                                   Sekian, terima kasih.<br><br>
                                      
-                                  <strong> " {{ $cogan->maklumat1 }} "</strong><br><br>
+                                  <strong> "{{ $cogan->maklumat1 }}"</strong><br>
+                                  @if ( $cogan->maklumat2 != null)
+                                  <strong> "{{ $cogan->maklumat2 }}"</strong><br>
+                                  @endif
+                                  @if ( $cogan->maklumat3 != null)
+                                  <strong> "{{ $cogan->maklumat3 }}"</strong><br>
+                                  @endif
+                                  <br>
 
                                   Saya yang menjalankan amanah,<br><br><br><br>
 
