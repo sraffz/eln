@@ -37,13 +37,13 @@
             </thead>
 
             <tbody>
-                @foreach ($list as $index => $mohonan)
+                @foreach ($permohon as $index => $mohonan)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $mohonan->nama }}</td>
-                        <td>{{ $mohonan->namaJawatan }}/{{ $mohonan->gred_kod_abjad }}{{ $mohonan->gredAngka }}
+                        <td>{{ $mohonan->user->nama }}</td>
+                        <td>{{ $mohonan->user->userJawatan->namaJawatan }}/{{ $mohonan->user->userGredKod->gred_kod_abjad }}{{ $mohonan->user->userGredAngka->gred_angka_nombor }}
                         </td>
-                        <td>{{ $mohonan->nama_jabatan }}</td>
+                        <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
                         <td>{{ $mohonan->lainTujuan }}</td>
                         <td>{{ $mohonan->negara }}</td>
                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}</td>
@@ -64,7 +64,7 @@
                               @endif --}}
                         </td>
                         <td>
-                            {{-- <small>Bil. Keluar Negara:
+                            <small>Bil. Keluar Negara:
                                 {{ $mohonan->jumlahKeluarNegara($mohonan->usersID) }}</small>
                             <br>
                             <br>
@@ -74,43 +74,66 @@
                             @else
                                 <small
                                     class="label label-success">{{ $mohonan->jumlahHariPermohonanBerlepas }}</small>
-                            @endif --}}
+                            @endif
                         </td>
 
                         @php
                             $a = [];
                         @endphp
-{{-- 
+
                         @foreach ($PermohonanRombongan as $index => $PermohonanRombongan)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>
-                                @if (in_array($PermohonanRombongan->jenisKewangan, $a))
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>
+                            @if (in_array($PermohonanRombongan->jenisKewangan, $a))
 
-                                @else
-                                    @php
-                                        array_push($a, $PermohonanRombongan->jenisKewangan);
-                                    @endphp
-                                    {{ $PermohonanRombongan->lainTujuan }}
-                                @endif
-                            </td>
-                            <td>{{ $mohonan->negara }}</td>
-                            <td>{{ $PermohonanRombongan->user->nama }}</td>
-                            <td>{{ $mohonan->user->userJawatan->namaJawatan }}/{{ $mohonan->user->userGredKod->gred_kod_abjad }}{{ $mohonan->user->userGredAngka->gred_angka_nombor }}
-                            </td>
-                            <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                            <td>{{ \Carbon\Carbon::parse($PermohonanRombongan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($PermohonanRombongan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
-                            </td>
-                            <td>{{ $PermohonanRombongan->jenisKewangan }}</td>
-                            <td>
-                            </td>
-                            <td>
+                            @else
+                                @php
+                                    array_push($a, $PermohonanRombongan->jenisKewangan);
+                                @endphp
+                                {{ $PermohonanRombongan->lainTujuan }}
+                            @endif
 
-                            </td>
-                        </tr>
-                        @endforeach --}}
+                            {{-- @php
+                              if (in_array($PermohonanRombongan->jenisKewangan, $a)) 
+                              {
+                                  
+                              }
+                              else
+                              {
+                                array_push($a,$PermohonanRombongan->jenisKewangan);
+                                @endphp
+                                {{ $PermohonanRombongan->lainTujuan }}
+                                @php
+                              }
+                            @endphp --}}
+                        </td>
+                        <td>{{ $mohonan->negara }}</td>
+                        <td>{{ $PermohonanRombongan->user->nama }}</td>
+                        <td>{{ $mohonan->user->userJawatan->namaJawatan }}/{{ $mohonan->user->userGredKod->gred_kod_abjad }}{{ $mohonan->user->userGredAngka->gred_angka_nombor }}
+                        </td>
+                        <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
+                        <td>{{ \Carbon\Carbon::parse($PermohonanRombongan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($PermohonanRombongan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
+                        </td>
+                        <td>{{ $PermohonanRombongan->jenisKewangan }}</td>
+                        <td>
+                            {{-- @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                        <span>Lulus</span>
+                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                        <span>Tolak</span>
+                    @endif --}}
+                        </td>
+                        <td>
+                            {{-- @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                        <span>Lulus</span>
+                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                        <span>Tolak</span>
+                    @endif --}}
+                        </td>
+                        {{-- <td>Ya</td> --}}
+                @endforeach
                 @endforeach
             </tbody>
         </table>

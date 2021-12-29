@@ -23,43 +23,43 @@
 </head>
 
 <body>
-
     <div class="container">
-
         <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="200" height="150"
                 alt="User Image" align="center"><br></p>
         <p align="center"><strong>LAPORAN JUMLAH PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA <BR>BAGI TAHUN
-                {{ $year }}</strong></p>
-        <table class="table table-stripe">
-            <thead>
+                {{ $year }}</strong></p><br>
+        <div class="text-center">
+            <p><strong>PERMOHONAN BERJAYA</strong></p>
+        </div>
+        <table class="table table-bordered table-sm">
+            <thead class="thead-dark">
                 <tr>
-                    <th colspan="2" class="text-center">PERMOHONAN BERJAYA</th>
-                </tr>
-                <tr>
-                    <th class="text-center">LELAKI</th>
+                    <th class="text-center" style="width: 50%">LELAKI</th>
                     <th class="text-center">PEREMPUAN</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-center">{{ $countLBerjaya }}</td>
-                    <td class="text-center">{{ $countPBerjaya }}</td>
+                    <td class="text-center"><strong>{{ $countLBerjaya }}</strong> </td>
+                    <td class="text-center"><strong>{{ $countPBerjaya }}</strong></td>
                 </tr>
             </tbody>
-            <hr>
-            <thead>
+        </table>
+        <br><br>
+        <div class="text-center">
+            <p><strong>PERMOHONAN GAGAL</strong></p>
+        </div>
+        <table class="table table-bordered table-sm">
+            <thead class="thead-dark">
                 <tr>
-                    <th colspan="2" class="text-center">PERMOHONAN GAGAL</th>
-                </tr>
-                <tr>
-                    <th class="text-center">LELAKI</th>
+                    <th class="text-center" style="width: 50%">LELAKI</th>
                     <th class="text-center">PEREMPUAN</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-center">{{ $countLGagal }}</td>
-                    <td class="text-center">{{ $countPGagal }}</td>
+                    <td class="text-center"><strong>{{ $countLGagal }}</strong></td>
+                    <td class="text-center"><strong>{{ $countPGagal }}</strong></td>
                 </tr>
             </tbody>
         </table>

@@ -454,6 +454,8 @@ class AdminController extends Controller
    
      public function laporanDato()
     {
+        $list = DB::table('laporan_senarai_permohonan')->get();
+
         $permohon = Permohonan::with('user')
                     ->where('statusPermohonan','=','Lulus Semakan BPSM')
                     ->get(); 
@@ -474,9 +476,9 @@ class AdminController extends Controller
             // $pdf = PDF::loadView('admin.laporanIndividu',['permohon'=>$permohon,'PermohonanRombongan'=>$PermohonanRombongan])->setPaper('a4', 'landscape');
             // return $pdf->download('laporan.pdf');  
         }
-        $pdf = PDF::loadView('admin.laporanIndividu',['permohon'=>$permohon,'PermohonanRombongan'=>$PermohonanRombongan])->setPaper('a4', 'landscape');
+        return view('admin.laporanIndividu',compact('permohon','PermohonanRombongan','list'));
+        $pdf = PDF::loadView('admin.laporanIndividu', compact('permohon','PermohonanRombongan','list'))->setPaper('a4', 'landscape');
         return $pdf->download('Laporan Secara Bundle.pdf');  
-        // return view('admin.laporanIndividu',compact('permohon','PermohonanRombongan'));
         
     }
 

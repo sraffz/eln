@@ -55,26 +55,19 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanLP') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanLP') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Lelaki & Perempuan</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanJabatan') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanJabatan') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Jabatan</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewIndividu') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewIndividu') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Individu</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanNegara') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanNegara') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Negara</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewBG') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewBG') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Lulus / Gagal</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewTahun') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewTahun') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Tahun</span></a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('laporanBulanan') }}"
-                onclick="return confirm('Adakah anda pasti untuk mencetak laporan ini?')"><i
+        <li class="nav-item"><a class="nav-link" href="{{ route('laporanBulanan') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Berjaya Setiap Bulan</span></a></li>
     </ul>
 </li>
