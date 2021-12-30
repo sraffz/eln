@@ -5,44 +5,63 @@
     <title>Laporan Dato</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .table thead th {
+            background-color: #227292;
+            color: white;
+            font-size: 12px;
+        }
+
+        .table tbody td {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <p align="center"><strong>PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA ATAS URUSAN RASMI/PERSENDIRIAN
-                <BR>BAGI TAHUN {{ now()->year }}</strong></p>
-        <table class="table table-bordered">
-            <thead class="text-center">
-                <tr border="1">
-                    <th style="vertical-align: middle" rowspan="2">BIL</th>
-                    <th style="vertical-align: middle" rowspan="2">NAMA</th>
-                    <th style="vertical-align: middle" rowspan="2">JAWATAN/GRED</th>
-                    <th style="vertical-align: middle" rowspan="2">JABATAN</th>
-                    <th style="vertical-align: middle" rowspan="2">TUJUAN PERMOHONAN</th>
-                    <th style="vertical-align: middle" rowspan="2">NEGARA</th>
-                    <th style="vertical-align: middle" colspan="2">TARIKH</th>
-                    <th style="vertical-align: middle" rowspan="2">SUMBER KEWANGAN/JENIS PERMOHONAN</th>
-                    <th style="vertical-align: middle" colspan="2">KELULUSAN</th>
-                    <th style="vertical-align: middle" rowspan="2">ULASAN</th>
+    <div class="text-center">
+        <p>
+            <strong>
+                PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA ATAS URUSAN RASMI/PERSENDIRIAN
+                <BR>BAGI TAHUN {{ now()->year }}
+            </strong>
+        </p>
+    </div>
+    <div>
+        <table class="table table-bordered table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="vertical-align: middle; text-align: center; width: 2%" rowspan="2">BIL</th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">NAMA</th>
+                    {{-- <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">JAWATAN/GRED</th> --}}
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">JABATAN</th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">TUJUAN PERMOHONAN
+                    </th>
+                    <th style="vertical-align: middle; text-align: center; width: 5%" rowspan="2">NEGARA</th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" colspan="2">TARIKH</th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">SUMBER KEWANGAN/JENIS
+                        PERMOHONAN
+                    </th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">KELULUSAN PERMOHONAN
+                    </th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">ULASAN</th>
                 </tr>
                 <tr>
-                    <th>PERGI</th>
-                    <th>BALIK</th>
-                    <th>LULUS</th>
-                    <th>GAGAL</th>
+                    <th style="vertical-align: middle; text-align: center">PERGI</th>
+                    <th style="vertical-align: middle; text-align: center">BALIK</th>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach ($list as $index => $mohonan)
-                    <tr>
+                    <tr class="text-center">
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $mohonan->nama }}</td>
-                        <td>{{ $mohonan->namaJawatan }}/{{ $mohonan->gred_kod_abjad }}{{ $mohonan->gredAngka }}
-                        </td>
+                        <td class="text-left">{{ $mohonan->nama }} <br> {{ $mohonan->namaJawatan }}
+                            ({{ $mohonan->gred_kod_abjad }}{{ $mohonan->gredAngka }})</td>
                         <td>{{ $mohonan->nama_jabatan }}</td>
                         <td>{{ $mohonan->lainTujuan }}</td>
                         <td>{{ $mohonan->negara }}</td>
@@ -50,71 +69,82 @@
                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}</td>
                         <td>{{ $mohonan->jenisKewangan }}/{{ $mohonan->JenisPermohonan }}</td>
                         <td>
-                            {{-- @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                <span>Lulus</span>
+                            @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                <span>Diluluskan</span>
                             @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                <span>Tolak</span>
-                            @endif --}}
+                                <span>Ditolak</span>
+                            @endif
                         </td>
                         <td>
-                            {{-- @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                  <span>Lulus</span>
-                              @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                  <span>Tolak</span>
-                              @endif --}}
-                        </td>
-                        <td>
-                            {{-- <small>Bil. Keluar Negara:
-                                {{ $mohonan->jumlahKeluarNegara($mohonan->usersID) }}</small>
+                            Bil. Keluar Negara:
+                            @foreach ($bilkluarneagara as $bkn)
+                                @if ($bkn->usersID == $mohonan->usersID)
+                                    {{ $bkn->bil }}
+                                @endif
+                            @endforeach
+
+                            {{-- {{ $mohonan->jumlahKeluarNegara($mohonan->usersID) }}</small> --}}
                             <br>
                             <br>
-                            <small>Bil. Hari Permohonan:</small>
+                            Tempoh Permohonan: <br>
                             @if ($mohonan->jumlahHariPermohonanBerlepas <= 14)
-                                <small class="label label-danger">{{ $mohonan->jumlahHariPermohonanBerlepas }}</small>
+                                {{ $mohonan->jumlahHariPermohonanBerlepas }}
                             @else
-                                <small
-                                    class="label label-success">{{ $mohonan->jumlahHariPermohonanBerlepas }}</small>
-                            @endif --}}
+                                {{ $mohonan->jumlahHariPermohonanBerlepas }}
+                            @endif
+                            Hari
                         </td>
 
                         @php
                             $a = [];
                         @endphp
-{{-- 
-                        @foreach ($PermohonanRombongan as $index => $PermohonanRombongan)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>
-                                @if (in_array($PermohonanRombongan->jenisKewangan, $a))
 
-                                @else
-                                    @php
-                                        array_push($a, $PermohonanRombongan->jenisKewangan);
-                                    @endphp
-                                    {{ $PermohonanRombongan->lainTujuan }}
-                                @endif
-                            </td>
-                            <td>{{ $mohonan->negara }}</td>
-                            <td>{{ $PermohonanRombongan->user->nama }}</td>
-                            <td>{{ $mohonan->user->userJawatan->namaJawatan }}/{{ $mohonan->user->userGredKod->gred_kod_abjad }}{{ $mohonan->user->userGredAngka->gred_angka_nombor }}
-                            </td>
-                            <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                            <td>{{ \Carbon\Carbon::parse($PermohonanRombongan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($PermohonanRombongan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
-                            </td>
-                            <td>{{ $PermohonanRombongan->jenisKewangan }}</td>
-                            <td>
-                            </td>
-                            <td>
-
-                            </td>
-                        </tr>
-                        @endforeach --}}
+                @endforeach
+                @foreach ($PermohonanRombongan as $index => $prombongan)
+                    <tr class="text-center">
+                        <td>{{ $index + 1 }}</td>
+                        <td class="text-left">
+                            {{ $prombongan->user->nama }}
+                            <br>
+                            {{ $mohonan->namaJawatan }}
+                            ({{ $mohonan->gred_kod_abjad }}{{ $mohonan->gredAngka }})
+                        </td>
+                        <td>{{ $mohonan->nama_jabatan }}</td>
+                        <td>
+                            @if (in_array($prombongan->jenisKewangan, $a))
+                            @else
+                                @php
+                                    array_push($a, $prombongan->jenisKewangan);
+                                @endphp
+                                {{ $prombongan->lainTujuan }}
+                            @endif
+                        </td>
+                        <td>{{ $mohonan->negara }}</td>
+                  
+                        <td>{{ \Carbon\Carbon::parse($prombongan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($prombongan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
+                        </td>
+                        <td>{{ $prombongan->jenisKewangan }}</td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

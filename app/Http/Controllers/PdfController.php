@@ -152,53 +152,31 @@ class PdfController extends Controller
 
     public function laporanJabatan()
     {
-        $year = '2021';
+        $year = now()->year;
 
-        // $infoUser = User::get();
-        // $plucked = $infoUser->pluck('jabatan');
-        // $unique = $plucked->unique();
 
-        // foreach ($unique as $value)
-        // {
-        //     foreach ($infoUser as $info)
-        //     {
-        //         if ($value == $info->jabatan)
-        //         {
-        //             $count = Permohonan::with('user')
-        //                             ->whereYear('tarikhMulaPerjalanan', $year)
-        //                             ->whereHas('user', function($q) {$q->where('jabatan',$value);})
-        //                             ->count();
-        //             echo $count;
-        //         }
-        //         # code...
-        //     }
-        // }
-        // $countLBerjaya = Permohonan::with('user')
-        //             ->where('statusPermohonan','Permohonan Berjaya')
-        //             ->whereYear('tarikhMulaPerjalanan', $year)
-        //             ->whereHas('user', function($q) {$q->where('jantina','Lelaki');})
-        //             ->count();
-        // dd($unique);
-        // return view('pdf.laporanJabatan',compact('year'));
-        $pdf = PDF::loadView('pdf.laporanJabatan', ['year' => $year])->setPaper('a4', 'portrait');
+        return view('pdf.laporanJabatan',compact('year'));
+        $pdf = PDF::loadView('pdf.laporanJabatan', compact('year'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Jabatan.pdf');
     }
 
     public function laporanNegara()
     {
-        $year = '2021';
-
-        // return view('pdf.laporanJabatan',compact('year'));
-        $pdf = PDF::loadView('pdf.laporanNegara', ['year' => $year])->setPaper('a4', 'portrait');
+        $year = now()->year;
+        
+        return view('pdf.laporanJabatan',compact('year'));
+        $pdf = PDF::loadView('pdf.laporanNegara', compact('year'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Negara.pdf');
     }
 
     public function laporanBulanan()
     {
-        $year = '2021';
+        $year = now()->year;
 
-        // return view('pdf.laporanBulanan',compact('year'));
-        $pdf = PDF::loadView('pdf.laporanBulanan', ['year' => $year])->setPaper('a4', 'portrait');
+        // return dd($year);
+
+        return view('pdf.laporanBulanan', compact('year'));
+        $pdf = PDF::loadView('pdf.laporanBulanan', compact('year'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Negara.pdf');
     }
 

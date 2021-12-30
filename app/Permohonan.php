@@ -41,6 +41,7 @@ class Permohonan extends Model
                     ->where('statusPermohonan', 'Permohonan Berjaya')
                     ->whereYear('tarikhMulaPerjalanan', '=', $tahun)
                     ->count();
+                    
         return $jumlah;
     }
     
