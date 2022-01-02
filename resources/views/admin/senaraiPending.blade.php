@@ -107,22 +107,14 @@
                                                             @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
                                                                 @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                     <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs">Surat Kelulusan</a>
                                                                     <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs">Memo Kelulusan</a>
                                                                 @elseif($mohonan->JenisPermohonan == "Tidak Rasmi")
                                                                     <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs">Surat Kelulusan</a>
                                                                     <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs">Memo Kelulusan</a>
                                                                 @endif
                                                             @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
 
@@ -144,7 +136,8 @@
                                                                             class="fa fa-times">Tolak</i></a>
                                                                     {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                             class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
-                                                                @elseif($mohonan->statusPermohonan == "Lulus Semakan BPSM")
+                                                                @elseif($mohonan->statusPermohonan == "Lulus Semakan
+                                                                    BPSM")
                                                                     {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                             class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mencetak maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
                                                                 @endif

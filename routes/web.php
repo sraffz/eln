@@ -171,7 +171,10 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('laporanViewIndividu', 'PdfController@laporanViewIndividu')->name('laporanViewIndividu');
 	Route::get('laporanBulanan/{tahun}', 'PdfController@laporanBulanan')->name('laporanBulanan');
 	Route::get('laporan-bulanan', 'AdminController@laporanbulanan')->name('laporan-bulanan');
-	Route::POST('proViewIndividu', 'PdfController@proViewIndividu')->name('proViewIndividu');
+	Route::get('laporan-tahunan', 'AdminController@laporantahunan')->name('laporan-tahunan');
+	Route::get('laporanTahunan', 'PdfController@laporanTahunan')->name('laporanTahunan');
+	Route::get('laporan-individu', 'AdminController@laporanindividu')->name('laporan-individu');
+	Route::get('laporanIndividu/{tahun}', 'PdfController@laporanIndividu')->name('laporanIndividu');
 	
 	Route::get('laporanViewBG', 'PdfController@laporanViewBG')->name('laporanViewBG');
 	Route::POST('proViewBG', 'PdfController@proViewBG')->name('proViewBG');

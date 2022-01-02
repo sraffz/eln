@@ -16,11 +16,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Laporan Mengikut Jantina</h1>
+                    <h1>Laporan Mengikut Individu</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Mengikut Jantina</li>
+                        <li class="breadcrumb-item active">Laporan Mengikut Individu</li>
                     </ol>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method="get" action="{{ url('laporan-jantina') }}">
+                            <form method="get" action="{{ url('laporan-individu') }}">
                                 {{-- {{ csrf_field() }} --}}
                                 <div class="form-group">
                                     <label for="tahun">Tahun</label>
@@ -47,7 +47,6 @@
                                 </div>
                                 <div class="form-group text-center">
                                     <button type="submit" class="btn btn-primary" >Papar</button>
-                                    <a class="btn btn-info" href="{{ route('laporanLP', [$tahun]) }}">Cetak Laporan</a>
                                 </div>
                             </form>
                         </div>
@@ -57,61 +56,21 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header with-border">
-                            <h3 class="card-title">PERMOHONAN BERJAYA</h3>
+                        <div class="card-header with-border text-right">
+                            <a type="button" href="{{ route('laporanIndividu', [$tahun]) }}" class="btn btn-dark">Cetak Laporan</a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th style="vertical-align: middle">Lelaki</th>
-                                                <th style="vertical-align: middle">Perempuan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-center"><strong>{{ $countLBerjaya }}</strong> </td>
-                                                <td class="text-center"><strong>{{ $countPBerjaya }}</strong></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <!-- /.chart-responsive -->
-                                </div>
-                                <!-- /.col -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- ./card-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-                <!-- /.col -->
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header with-border">
-                            <h3 class="card-title">PERMOHONAN GAGAL</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-bordered table-striped">
+                                    <table class="table table-bordered table-striped data">
                                         <thead  class="thead-dark">
                                             <tr>
-                                                <th style="vertical-align: middle">Lelaki</th>
-                                                <th style="vertical-align: middle">Perempuan</th>
+                                                <th style="vertical-align: middle">JABATAN</th>
+                                                <th style="vertical-align: middle">JUMLAH</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center"><strong>{{ $countLGagal }}</strong> </td>
-                                                <td class="text-center"><strong>{{ $countPGagal }}</strong></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                     <!-- /.chart-responsive -->
@@ -148,9 +107,10 @@
 
     <script>
         $(document).ready(function() {
-            $('table.display').DataTable({
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 15, 20],
+            $('table.data').DataTable({
+                "order": [[ 1, "desc" ]],
+                "pageLength": 10,
+                "lengthMenu": [10, 20, 50, 100],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

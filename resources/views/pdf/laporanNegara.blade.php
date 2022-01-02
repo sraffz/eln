@@ -38,7 +38,7 @@
         <br>
         <div class="text-center">
           <table class="table table-bordered table-sm">
-              <thead>
+              <thead class="thead-dark">
                   <tr>
                       <th class="text-center" style="width: 80%">NEGARA</th>
                       <th class="text-center">JUMLAH</th>

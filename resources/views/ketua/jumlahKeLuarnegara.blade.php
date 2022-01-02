@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <style>
+        table td {
+            text-transform: uppercase;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -39,10 +44,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped display">
-                                        <thead>
+                                    <table class="table table-bordered table-striped table-sm display">
+                                        <thead class="thead-dark">
                                             <tr>
-                                                <th style="vertical-align: middle">No</th>
+                                                <th style="vertical-align: middle; width:5%">No</th>
                                                 <th style="vertical-align: middle">Nama</th>
                                                 <th style="vertical-align: middle">Jumlah Keluar Negera</th>
                                             </tr>
@@ -50,7 +55,7 @@
                                         <tbody>
                                             @foreach ($senaraiPengguna as $index => $pengguna)
                                                 <tr>
-                                                    <td> {{ $index + 1 }} </td>
+                                                    <td class="text-center"> {{ $index + 1 }} </td>
                                                     <td>{{ $pengguna->user->nama }}</td>
                                                     <td>
                                                         @php
@@ -108,8 +113,8 @@
     <script>
         $(document).ready(function() {
             $('table.display').DataTable({
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 15, 20],
+                "pageLength": 10,
+                "lengthMenu": [10, 20, 50, 100],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

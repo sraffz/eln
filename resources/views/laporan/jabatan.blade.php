@@ -65,7 +65,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <table class="table table-bordered table-striped data">
-                                        <thead>
+                                        <thead  class="thead-dark">
                                             <tr>
                                                 <th style="vertical-align: middle">JABATAN</th>
                                                 <th style="vertical-align: middle">JUMLAH</th>

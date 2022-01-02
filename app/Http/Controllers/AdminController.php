@@ -51,6 +51,7 @@ class AdminController extends Controller
         $jawatan = Jawatan::orderBy('namaJawatan', 'asc')->get();
 
         $user = User::with('userJabatan')
+            // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
 
@@ -565,31 +566,30 @@ class AdminController extends Controller
             })
             ->count();
 
-        return view('laporan.jantina', compact('countLBerjaya','countPBerjaya','countLGagal','countPGagal','tahun'));
+        return view('laporan.jantina', compact('countLBerjaya', 'countPBerjaya', 'countLGagal', 'countPGagal', 'tahun'));
     }
-    
+
     public function laporanjabatan(Request $req)
     {
         $tahun = $req->tahun;
-        
-        $list = DB::table('jumlah_jabatan_tahunan')
-        ->where('tahun', $tahun)
-        ->get();
-        
-        return view('laporan.jabatan', compact('list','tahun'));
 
+        $list = DB::table('jumlah_jabatan_tahunan')
+            ->where('tahun', $tahun)
+            ->get();
+
+        return view('laporan.jabatan', compact('list', 'tahun'));
     }
 
     public function laporannegara(Request $req)
     {
         $tahun = $req->tahun;
-        
+
         $list = DB::table('jumlah_mengikut_negara_tahunan')
-        ->where('tahun', $tahun)
-        ->orderBy('jumlah', 'desc')
-        ->get();
-        
-        return view('laporan.negara', compact('list','tahun'));
+            ->where('tahun', $tahun)
+            ->orderBy('jumlah', 'desc')
+            ->get();
+
+        return view('laporan.negara', compact('list', 'tahun'));
     }
 
     public function laporanbulanan(Request $req)
@@ -597,14 +597,30 @@ class AdminController extends Controller
         $tahun = $req->tahun;
 
         $bil = DB::table('jumlah_permohonan_bulanan_tahunan')
-        ->where('tahun', $tahun)
-        ->get();
+            ->where('tahun', $tahun)
+            ->get();
 
         $jumlah = DB::table('jumlah_permohonan_bulanan_tahunan')
-        ->where('tahun', $tahun)
-        ->sum('bil');
+            ->where('tahun', $tahun)
+            ->sum('bil');
 
         return view('laporan.bulanan', compact('tahun', 'bil', 'jumlah'));
+    }
+
+    public function laporantahunan()
+    {
+        $data = DB::table('jumlah_permohonan_tahunan')
+            ->orderBy('tahun', 'desc')
+            ->get();
+
+        return view('laporan.tahun', compact('data'));
+    }
+
+    public function laporanindividu(Request $req)
+    {
+        $tahun = $req->tahun;
+
+        return view('laporan.individu', compact('tahun'));
     }
 
     public function terusDato()

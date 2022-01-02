@@ -23,38 +23,31 @@
 
     <style>
         table td {
-            font-size: 13px
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
     </style>
 </head>
 
 <body>
-
     <div class="container">
-
         <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="200" height="150"
                 alt="User Image" align="center"><br></p>
-        <p align="center"><strong>LAPORAN JUMLAH MENGIKUT JABATAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA <BR>BAGI TAHUN
-                {{ $tahun }}</strong></p> <br>
-        <table class="table table-stripe table-bordered table-sm">
+        <p align="center"><strong>LAPORAN MENGIKUT TAHUN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA</strong></p> <br>
+        <table class="table table-bordered table-sm">
             <thead class="thead-dark">
                 <tr>
-                    <th class="text-center" style="width: 80%">JABATAN</th>
-
-                    <th class="text-center">JUMLAH</th>
+                    <th class="text-center" style="width: 50%">TAHUN</th>
+                    <th class="text-center">JUMLAH PEGAWAI</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($list as $ll)
-                    <tr>
-                        <td class="text-center">
-                            <font style="text-transform: uppercase">
-                                <strong>{{ $ll->nama_jabatan }}
-                                    ({{ $ll->kod_jabatan }})</strong>
-                            </font>
-                        </td>
-                        <td class="text-center"><strong>{{ $ll->jumlah }}</strong></td>
+                @foreach ($data as $dtahun)
+                    <tr class="text-center">
+                        <td>{{ $dtahun->tahun }}</td>
+                        <td>{{ $dtahun->bil }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -65,6 +58,5 @@
     <script src="{{ asset('adminlte-3/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-</body>
 
 </html>

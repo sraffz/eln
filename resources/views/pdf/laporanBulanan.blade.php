@@ -20,9 +20,12 @@
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
+
     <style>
         table td {
-            font-size: 15px
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
     </style>
@@ -35,7 +38,7 @@
         <p align="center"><strong>LAPORAN MENGIKUT BULANAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA <BR>BAGI TAHUN
                 {{ $year }}</strong></p> <br>
         <table class="table table-bordered table-sm">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th class="text-center" style="width: 50%">BULAN</th>
                     <th class="text-center">JUMLAH PEGAWAI</th>
@@ -177,6 +180,5 @@
     <script src="{{ asset('adminlte-3/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-</body>
 
 </html>

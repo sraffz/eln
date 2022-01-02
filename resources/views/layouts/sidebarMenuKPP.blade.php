@@ -55,19 +55,24 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanLP') }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Lelaki & Perempuan</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanJabatan') }}"><i
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('laporan-jantina?tahun='.now()->year) }}">
+                    {{-- <a class="nav-link" href="{{ route('laporanLP') }}"> --}}
+                        <i  class="far fa-circle nav-icon"></i> 
+                        <span>Lelaki & Perempuan</span>
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{{ url('laporan-jabatan?tahun='.now()->year) }}"><i
                             class="far fa-circle nav-icon"></i> <span>Jabatan</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewIndividu') }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Individu</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanNegara') }}"><i
+                {{-- <li class="nav-item"><a class="nav-link" href="{{ url('laporan-individu?tahun='.now()->year) }}"><i
+                            class="far fa-circle nav-icon"></i> <span>Individu</span></a></li> --}}
+                <li class="nav-item"><a class="nav-link" href="{{ url('laporan-negara?tahun='.now()->year) }}"><i
                             class="far fa-circle nav-icon"></i> <span>Negara</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewBG') }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Lulus / Gagal</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewTahun') }}"><i
+                {{-- <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewBG') }}"><i
+                            class="far fa-circle nav-icon"></i> <span>Lulus / Gagal</span></a></li> --}}
+                <li class="nav-item"><a class="nav-link" href="{{ route('laporan-tahunan') }}"><i
                             class="far fa-circle nav-icon"></i> <span>Tahun</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporanBulanan') }}"><i
+                <li class="nav-item"><a class="nav-link" href="{{ url('laporan-bulanan?tahun='.now()->year) }}"><i
                             class="far fa-circle nav-icon"></i> <span>Berjaya Setiap Bulan</span></a></li>
             </ul>
         </li>

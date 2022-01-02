@@ -187,14 +187,15 @@ class PdfController extends Controller
 
         // return dd($year);
 
-        return view('pdf.laporanBulanan', compact('bil','year', 'jumlah'));
-        $pdf = PDF::loadView('pdf.laporanBulanan', compact('bil','year'))->setPaper('a4', 'portrait');
+        // return view('pdf.laporanBulanan', compact('bil','year', 'jumlah'));
+        $pdf = PDF::loadView('pdf.laporanBulanan', compact('bil','year', 'jumlah'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Negara.pdf');
     }
 
-    public function laporanViewIndividu()
+    public function laporanIndividu($tahun)
     {
-        return view('pdf.viewIndividu');
+
+        return view('pdf.laporanIndividu', compact('tahun'));
     }
 
     public function laporanViewBG()
@@ -202,9 +203,15 @@ class PdfController extends Controller
         return view('pdf.viewBG');
     }
 
-    public function laporanViewTahun()
+    public function laporanTahunan()
     {
-        return view('pdf.viewTahun');
+        $data = DB::table('jumlah_permohonan_tahunan')
+        ->orderBy('tahun', 'desc')
+        ->get();
+
+        // return view('pdf.laporanTahunan', compact('data'));
+        $pdf = PDF::loadView('pdf.laporanTahunan', compact('data'))->setPaper('a4', 'portrait');
+        return $pdf->download('Laporan Negara Mengikut Tahun.pdf');
     }
 
     public function proViewIndividu(request $request)
