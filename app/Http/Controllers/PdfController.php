@@ -109,13 +109,13 @@ class PdfController extends Controller
         return $pdf->download('memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
-    public function laporanLP()
+    public function laporanLP($tahun)
     {
-        $year = '2021';
+        // $year = '2021';
 
         $countLBerjaya = Permohonan::with('user')
             ->where('statusPermohonan', 'Permohonan Berjaya')
-            // ->whereYear('tarikhMulaPerjalanan', $year)
+            ->whereYear('tarikhMulaPerjalanan', $tahun)
             ->whereHas('user', function ($q) {
                 $q->where('jantina', 'Lelaki');
             })
@@ -123,7 +123,7 @@ class PdfController extends Controller
 
         $countPBerjaya = Permohonan::with('user')
             ->where('statusPermohonan', 'Permohonan Berjaya')
-            // ->whereYear('tarikhMulaPerjalanan', $year)
+            ->whereYear('tarikhMulaPerjalanan', $tahun)
             ->whereHas('user', function ($q) {
                 $q->where('jantina', 'Perempuan');
             })
@@ -131,7 +131,7 @@ class PdfController extends Controller
 
         $countLGagal = Permohonan::with('user')
             ->where('statusPermohonan', 'Permohonan Gagal')
-            // ->whereYear('tarikhMulaPerjalanan', $year)
+            ->whereYear('tarikhMulaPerjalanan', $tahun)
             ->whereHas('user', function ($q) {
                 $q->where('jantina', 'Lelaki');
             })
@@ -139,44 +139,56 @@ class PdfController extends Controller
 
         $countPGagal = Permohonan::with('user')
             ->where('statusPermohonan', 'Permohonan Gagal')
-            // ->whereYear('tarikhMulaPerjalanan', $year)
+            ->whereYear('tarikhMulaPerjalanan', $tahun)
             ->whereHas('user', function ($q) {
                 $q->where('jantina', 'Perempuan');
             })
             ->count();
 
         // return view('pdf.laporanLP',compact('countLBerjaya','countPBerjaya','countLGagal','countPGagal','year'));
-        $pdf = PDF::loadView('pdf.laporanLP', ['countLBerjaya' => $countLBerjaya, 'countPBerjaya' => $countPBerjaya, 'countLGagal' => $countLGagal, 'countPGagal' => $countPGagal, 'year' => $year])->setPaper('a4', 'portrait');
+        $pdf = PDF::loadView('pdf.laporanLP', ['countLBerjaya' => $countLBerjaya, 'countPBerjaya' => $countPBerjaya, 'countLGagal' => $countLGagal, 'countPGagal' => $countPGagal, 'tahun' => $tahun])->setPaper('a4', 'portrait');
         return $pdf->download('Laporan lelaki dan perempuan.pdf');
     }
 
-    public function laporanJabatan()
+    public function laporanJabatan($tahun)
     {
-        $year = now()->year;
+        $list = DB::table('jumlah_jabatan_tahunan')
+        ->where('tahun', $tahun)
+        ->get();
 
-
-        return view('pdf.laporanJabatan',compact('year'));
-        $pdf = PDF::loadView('pdf.laporanJabatan', compact('year'))->setPaper('a4', 'portrait');
+        // return view('pdf.laporanJabatan',compact('list', 'tahun'));
+        $pdf = PDF::loadView('pdf.laporanJabatan', compact('list', 'tahun'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Jabatan.pdf');
     }
 
-    public function laporanNegara()
+    public function laporanNegara($tahun)
     {
-        $year = now()->year;
+        $list = DB::table('jumlah_mengikut_negara_tahunan')
+        ->where('tahun', $tahun)
+        ->get();
         
-        return view('pdf.laporanJabatan',compact('year'));
-        $pdf = PDF::loadView('pdf.laporanNegara', compact('year'))->setPaper('a4', 'portrait');
+        // return view('pdf.laporanNegara',compact('list', 'tahun'));
+        $pdf = PDF::loadView('pdf.laporanNegara', compact('list', 'tahun'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Negara.pdf');
     }
+    
 
-    public function laporanBulanan()
+    public function laporanBulanan($tahun)
     {
-        $year = now()->year;
+        $year = $tahun;
+
+        $bil = DB::table('jumlah_permohonan_bulanan_tahunan')
+        ->where('tahun', $year)
+        ->get();
+
+        $jumlah = DB::table('jumlah_permohonan_bulanan_tahunan')
+        ->where('tahun', $year)
+        ->sum('bil');
 
         // return dd($year);
 
-        return view('pdf.laporanBulanan', compact('year'));
-        $pdf = PDF::loadView('pdf.laporanBulanan', compact('year'))->setPaper('a4', 'portrait');
+        return view('pdf.laporanBulanan', compact('bil','year', 'jumlah'));
+        $pdf = PDF::loadView('pdf.laporanBulanan', compact('bil','year'))->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Negara.pdf');
     }
 

@@ -20,6 +20,12 @@
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
+
+    <style>
+        table td {
+            font-size: 13px
+        }
+    </style>
 </head>
 
 <body>
@@ -27,7 +33,7 @@
         <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="200" height="150"
                 alt="User Image" align="center"><br></p>
         <p align="center"><strong>LAPORAN JUMLAH PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA <BR>BAGI TAHUN
-                {{ $year }}</strong></p><br>
+                {{ $tahun }}</strong></p><br>
         <div class="text-center">
             <p><strong>PERMOHONAN BERJAYA</strong></p>
         </div>
