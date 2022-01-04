@@ -51,6 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         th {
             text-align: center;
         }
+
     </style>
 </head>
 
@@ -135,6 +136,7 @@ desired effect
     <!-- SweetAlert -->
     <script src="{{ asset('sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('sweetalert/sweetalert2.min.js') }}"></script>
+
     @yield('script')
 
     <script>

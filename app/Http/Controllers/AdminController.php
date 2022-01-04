@@ -22,6 +22,7 @@ use PDF;
 use Session;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 
 class AdminController extends Controller
@@ -300,13 +301,17 @@ class AdminController extends Controller
     {
         $permohonan = Permohonan::find($id);
         $path = $permohonan->pathFileCuti;
-        return response()->download($path);
+        
+        return Storage::download($path);
     }
     public function downloadDokumen($id)
     {
         $dokumen = Dokumen::find($id);
+        // $path = $dokumen->namaFile;
         $path = $dokumen->pathFile;
-        return response()->download($path);
+
+        // return dd($path);
+        return Storage::download($path);
     }
 
     public function gambar($name)
@@ -445,7 +450,7 @@ class AdminController extends Controller
             // $pdf = PDF::loadView('admin.laporanIndividu',['permohon'=>$permohon,'PermohonanRombongan'=>$PermohonanRombongan])->setPaper('a4', 'landscape');
             // return $pdf->download('laporan.pdf');
         }
-        return view('admin.laporanIndividu', compact('permohon', 'PermohonanRombongan', 'list', 'bilkluarneagara'));
+        // return view('admin.laporanIndividu', compact('permohon', 'PermohonanRombongan', 'list', 'bilkluarneagara'));
         $pdf = PDF::loadView('admin.laporanIndividu', compact('permohon', 'PermohonanRombongan', 'list', 'bilkluarneagara'))->setPaper('a4', 'landscape');
         return $pdf->download('Laporan Secara Bundle.pdf');
     }
@@ -575,6 +580,7 @@ class AdminController extends Controller
 
         $list = DB::table('jumlah_jabatan_tahunan')
             ->where('tahun', $tahun)
+            ->orderBy('jumlah', 'desc')
             ->get();
 
         return view('laporan.jabatan', compact('list', 'tahun'));

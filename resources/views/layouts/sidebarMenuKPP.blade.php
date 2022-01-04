@@ -1,7 +1,9 @@
         <li class="nav-header">SENARAI PERMOHONAN</li>
         {{-- <li class="nav-header">KELULUSAN PERMOHONAN YB DATO'</li> --}}
-        <li class="nav-item {{ (url()->current() == url('semakkanDato') ||  url()->current() == url('senaraiRombonganKetua')) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (url()->current() == url('semakkanDato') ||  url()->current() == url('senaraiRombonganKetua')) ? 'active' : '' }}">
+        <li
+            class="nav-item {{ request()->is('semakkanDato') || request()->is('senaraiRombonganKetua') ? 'menu-open' : '' }}">
+            <a href="#"
+                class="nav-link {{ request()->is('semakkanDato') || request()->is('senaraiRombonganKetua') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user"></i>
                 <p> Permohonan Baru
                     <i class="fas fa-angle-left right"></i>
@@ -9,21 +11,23 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('semakkanDato') }}" class="nav-link {{ url()->current() == url('semakkanDato') ? 'active' : '' }}">
+                    <a href="{{ route('semakkanDato') }}"
+                        class="nav-link {{ request()->is('semakkanDato') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Individu</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('senaraiRombonganKetua') }}" class="nav-link {{ url()->current() == url('senaraiRombonganKetua') ? 'active' : '' }}">
+                    <a href="{{ route('senaraiRombonganKetua') }}"
+                        class="nav-link {{ request()->is('senaraiRombonganKetua') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Rombongan</p>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="nav-item {{ (url()->current() == url('senaraiRekodIndividu') ||  url()->current() == url('senaraiRekodRombongan')) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (url()->current() == url('senaraiRekodIndividu') ||  url()->current() == url('senaraiRekodRombongan')) ? 'active' : '' }}">
+        <li class="nav-item {{ request()->is('senaraiRekod*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('senaraiRekod*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                     Rekod Permohonan
@@ -32,13 +36,15 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('senaraiRekodIndividu') }}" class="nav-link {{ url()->current() == url('senaraiRekodIndividu') ? 'active' : '' }}">
+                    <a href="{{ route('senaraiRekodIndividu') }}"
+                        class="nav-link {{ request()->is('senaraiRekodIndividu') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Individu</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('senaraiRekodRombongan') }}" class="nav-link {{ url()->current() == url('senaraiRekodRombongan') ? 'active' : '' }}">
+                    <a href="{{ route('senaraiRekodRombongan') }}"
+                        class="nav-link {{ request()->is('senaraiRekodRombongan') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Rombongan</p>
                     </a>
@@ -46,8 +52,8 @@
             </ul>
         </li>
         <li class="nav-header">LAPORAN</li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
+        <li class="nav-item {{ request()->is('laporan-*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ request()->is('laporan-*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-vote-yea"></i>
                 <p>
                     Tahunan
@@ -56,35 +62,45 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('laporan-jantina?tahun='.now()->year) }}">
-                    {{-- <a class="nav-link" href="{{ route('laporanLP') }}"> --}}
-                        <i  class="far fa-circle nav-icon"></i> 
+                    <a class="nav-link {{ request()->is('laporan-jantina') ? 'active' : '' }}"
+                        href="{{ url('laporan-jantina?tahun=' . now()->year) }}">
+                        {{-- <a class="nav-link" href="{{ route('laporanLP') }}"> --}}
+                        <i class="far fa-circle nav-icon"></i>
                         <span>Lelaki & Perempuan</span>
                     </a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('laporan-jabatan?tahun='.now()->year) }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Jabatan</span></a></li>
+                <li class="nav-item"><a
+                        class="nav-link {{ request()->is('laporan-jabatan') ? 'active' : '' }}"
+                        href="{{ url('laporan-jabatan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
+                        <span>Jabatan</span></a></li>
                 {{-- <li class="nav-item"><a class="nav-link" href="{{ url('laporan-individu?tahun='.now()->year) }}"><i
                             class="far fa-circle nav-icon"></i> <span>Individu</span></a></li> --}}
-                <li class="nav-item"><a class="nav-link" href="{{ url('laporan-negara?tahun='.now()->year) }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Negara</span></a></li>
-                {{-- <li class="nav-item"><a class="nav-link" href="{{ route('laporanViewBG') }}"><i
+                <li class="nav-item"><a
+                        class="nav-link {{ request()->is('laporan-negara') ? 'active' : '' }} "
+                        href="{{ url('laporan-negara?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
+                        <span>Negara</span></a></li>
+                {{-- <li class="nav-item"><a class="nav-link {{  request()->is('laporan-jabatan') ? 'active' : '' }}" href="{{ route('laporanViewBG') }}"><i
                             class="far fa-circle nav-icon"></i> <span>Lulus / Gagal</span></a></li> --}}
-                <li class="nav-item"><a class="nav-link" href="{{ route('laporan-tahunan') }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Tahun</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url('laporan-bulanan?tahun='.now()->year) }}"><i
-                            class="far fa-circle nav-icon"></i> <span>Berjaya Setiap Bulan</span></a></li>
+                <li class="nav-item"><a
+                        class="nav-link {{ request()->is('laporan-tahunan') ? 'active' : '' }}"
+                        href="{{ route('laporan-tahunan') }}"><i class="far fa-circle nav-icon"></i>
+                        <span>Tahun</span></a></li>
+                <li class="nav-item"><a
+                        class="nav-link {{ request()->is('laporan-bulanan') ? 'active' : '' }}"
+                        href="{{ url('laporan-bulanan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
+                        <span>Berjaya Setiap Bulan</span></a></li>
             </ul>
         </li>
         <li class="nav-item">
             <a href="{{ url('laporanDato') }}" class="nav-link">
                 {{-- <i class="nav-icon far fa-circle text-warning"></i> --}}
                 <i class="nav-icon fas fa-print"></i>
-                <p class="text"> Bundle</p>
+                <p class="text"> Cetak</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('jumlahKeluarnegara') }}" class="nav-link {{ url()->current() == url('jumlahKeluarnegara') ? 'active' : '' }}">
+            <a href="{{ route('jumlahKeluarnegara') }}"
+                class="nav-link {{ request()->is('jumlahKeluarnegara') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-print"></i>
                 <p> Jumlah Keluar Negara</p>
             </a>

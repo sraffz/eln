@@ -35,20 +35,19 @@
                     <div class="card">
                         <div class="card-body">
                             <form method="get" action="{{ url('laporan-jantina') }}">
-                                {{-- {{ csrf_field() }} --}}
-                                <div class="form-group">
-                                    <label for="tahun">Tahun</label>
-                                    <select class="form-control" name="tahun" id="tahun">
+                              <div class="form-row">
+                                <div class="col">
+                                  <select class="form-control mb-2 mr-sm-2" name="tahun" id="inlineFormInputTahun">
                                         <option value="{{ now()->year }}" @if ($tahun == now()->year) selected @endif>{{ now()->year }}</option>
                                         <option value="2021" {{ $tahun == '2021' ? 'selected' : '' }}>2021</option>
                                         <option value="2020" {{ $tahun == '2020' ? 'selected' : '' }}>2020</option>
                                         <option value="2019" {{ $tahun == '2019' ? 'selected' : '' }}>2019</option>
-                                    </select>
+                                    </select> 
                                 </div>
-                                <div class="form-group text-center">
-                                    <button type="submit" class="btn btn-primary" >Papar</button>
-                                    <a class="btn btn-info" href="{{ route('laporanLP', [$tahun]) }}">Cetak Laporan</a>
+                                <div class="col">
+                                     <button type="submit" class="btn btn-dark mb-2">Papar Laporan</button> <a class="btn btn-info mb-2" href="{{ route('laporanLP', [$tahun]) }}">Cetak Laporan</a>
                                 </div>
+                              </div>
                             </form>
                         </div>
                     </div>

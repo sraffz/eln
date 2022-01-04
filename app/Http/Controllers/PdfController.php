@@ -147,29 +147,31 @@ class PdfController extends Controller
 
         // return view('pdf.laporanLP',compact('countLBerjaya','countPBerjaya','countLGagal','countPGagal','year'));
         $pdf = PDF::loadView('pdf.laporanLP', ['countLBerjaya' => $countLBerjaya, 'countPBerjaya' => $countPBerjaya, 'countLGagal' => $countLGagal, 'countPGagal' => $countPGagal, 'tahun' => $tahun])->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan lelaki dan perempuan.pdf');
+        return $pdf->download('Laporan ELN Mengikut Jantina '.$tahun.'.pdf');
     }
 
     public function laporanJabatan($tahun)
     {
         $list = DB::table('jumlah_jabatan_tahunan')
         ->where('tahun', $tahun)
+        ->orderBy('jumlah', 'desc')
         ->get();
-
+        
         // return view('pdf.laporanJabatan',compact('list', 'tahun'));
         $pdf = PDF::loadView('pdf.laporanJabatan', compact('list', 'tahun'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Jabatan.pdf');
+        return $pdf->download('Laporan ELN Mengikut Jabatan '.$tahun.'.pdf');
     }
-
+    
     public function laporanNegara($tahun)
     {
         $list = DB::table('jumlah_mengikut_negara_tahunan')
         ->where('tahun', $tahun)
+        ->orderBy('jumlah', 'desc')
         ->get();
         
         // return view('pdf.laporanNegara',compact('list', 'tahun'));
         $pdf = PDF::loadView('pdf.laporanNegara', compact('list', 'tahun'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Negara.pdf');
+        return $pdf->download('Laporan ELN Mengikut Negara '.$tahun.'.pdf');
     }
     
 
@@ -189,7 +191,7 @@ class PdfController extends Controller
 
         // return view('pdf.laporanBulanan', compact('bil','year', 'jumlah'));
         $pdf = PDF::loadView('pdf.laporanBulanan', compact('bil','year', 'jumlah'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Negara.pdf');
+        return $pdf->download('Laporan Bulanan ELN '.$tahun.'.pdf');
     }
 
     public function laporanIndividu($tahun)
@@ -211,7 +213,7 @@ class PdfController extends Controller
 
         // return view('pdf.laporanTahunan', compact('data'));
         $pdf = PDF::loadView('pdf.laporanTahunan', compact('data'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Negara Mengikut Tahun.pdf');
+        return $pdf->download('Laporan ELN Mengikut Tahun.pdf');
     }
 
     public function proViewIndividu(request $request)

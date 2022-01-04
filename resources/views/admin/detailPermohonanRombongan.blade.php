@@ -151,4 +151,60 @@
             </div>
         </div>
     </section>
+
+    <div class="modal fade" id="mdl-kemaskini">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Maklumat Pemohon</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                 {!! Form::open(['method' => 'POST', 'url' => '#']) !!}
+                <div class="modal-body">
+                    <div class="form-group{{ $errors->has('nama_edit') ? ' has-error' : '' }}">
+                        {!! Form::label('nama_edit', 'Nama') !!}
+                        {!! Form::text('nama_edit', null, ['class' => 'form-control', 'disabled' => 'disabled','id'=>'nama_edit']) !!}
+                        <small class="text-danger">{{ $errors->first('nama_edit') }}</small>
+                    </div>
+                    <div class="form-group{{ $errors->has('nokp_edit') ? ' has-error' : '' }}">
+                        {!! Form::label('nokp_edit', 'Kad Pengenalan') !!}
+                        {!! Form::text('nokp_edit', null, ['class' => 'form-control', 'disabled' => 'disabled','id'=>'nokp_edit']) !!}
+                        <small class="text-danger">{{ $errors->first('nokp_edit') }}</small>
+                    </div>
+                    <div class="form-group{{ $errors->has('email_edit') ? ' has-error' : '' }}">
+                        {!! Form::label('email_edit', 'Email') !!}
+                        {!! Form::email('email_edit', null, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
+                        <small class="text-danger">{{ $errors->first('email_edit') }}</small>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                    {{-- <button type="submit" class="btn btn-primary">Kemaskini</button> --}}
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+@endsection
+@section('script')
+
+      <script>
+          $('#mdl-kemaskini').on('show.bs.modal',function (event){
+
+              var button = $(event.relatedTarget);
+              var nama = button.data('nama');
+              var nokp = button.data('nokp');
+              var email = button.data('email');
+              var jawatan = button.data('jawatan');
+              var jabatan = button.data('jabatan');
+
+              $('#nama_edit').val(nama);
+              $('#nokp_edit').val(nokp);
+              $('#email_edit').val(email);
+              $('#jawatan_edit').val(jawatan);
+              $('#jabatan_edit').val(jabatan);
+          });
+      </script>
+
 @endsection

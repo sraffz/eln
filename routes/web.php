@@ -68,12 +68,12 @@ Route::middleware(['auth'])->group(function () {
 		'as' => 'editPermohonan.edit',
 	]);
 	
-	Route::get('/senaraiPermohonan/{id}/tamat', [
+	Route::get('/padam-rombongan/{id}', [
 		//'middleware' =>'admin',
 		'uses' => 'permohonanController@tamat',
 	]);
 	
-	Route::get('/senaraiPermohonan/{id}/tamat-individu', [
+	Route::get('/padam-permohonan/{id}', [
 		//'middleware' =>'admin',
 		'uses' => 'permohonanController@tamatIndividu',
 	]);

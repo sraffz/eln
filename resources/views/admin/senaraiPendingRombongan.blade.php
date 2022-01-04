@@ -73,15 +73,15 @@
                                                             @foreach ($allPermohonan as $element)
                                                                 @if ($element->rombongans_id == $rombo->rombongans_id)
                                                                     {{ $element->user->nama }} &nbsp;&nbsp;
-    
+
                                                                     @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
                                                                         {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
                                                                         <br>
                                                                     @elseif($rombo->statusPermohonanRom == "Pending")
                                                                         <a href="senaraiPermohonan/{{ $element->permohonansID }}/tamat-individu"
-                                                                            class="btn-danger btn-xs"
-                                                                            onclick="javascript: return confirm('Padam maklumat ini?');"><i
-                                                                                class="fa  fa-remove"></i></a><br>
+                                                                            class="btn-danger btn-xs">
+                                                                            <i class="fa  fa-times"></i>
+                                                                        </a><br>
                                                                     @endif
                                                                 @endif
                                                             @endforeach
@@ -90,59 +90,69 @@
                                                                 class="label label-info">{{ $rombo->statusPermohonanRom }}</span>
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y')}}</td> --}}
-    
+
                                                         <td>
                                                             @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
-    
+
                                                                 <span class="label label-warning">Lulus Semakan</span>
-    
+
                                                             @elseif($rombo->statusPermohonanRom == "Pending")
-    
+
                                                                 <a href="senaraiPendingRombongan/{{ $rombo->rombongans_id }}/sent-Permohonan"
                                                                     class="btn btn-success btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i
-                                                                        class="fa fa-check-square-o"></i></a>
-    
+                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');">
+                                                                    <i class="fa fa-check-square"></i>
+                                                                </a>
+
                                                                 <a class="btn btn-danger btn-xs" data-toggle="modal"
-                                                                    href='#mdl-tolak' data-id="{{ $rombo->rombongans_id }}"
-                                                                    onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
-                                                                        class="fa fa-times"></i></a>
-    
+                                                                    href='#mdl-tolak'
+                                                                    data-id="{{ $rombo->rombongans_id }}">
+                                                                    <i class="fa fa-times"></i>
+                                                                </a>
+
                                                                 {{-- <a href="/senaraiPendingRombongan/{{$rombo->rombongans_id}}/Tolak" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a> --}}
-    
+
                                                             @elseif($rombo->statusPermohonanRom == "Diluluskan")
-    
+
                                                                 <span class="label label-success">Diluluskan</span>
-    
-                                                            @elseif($rombo->statusPermohonanRom == "Permohonan Diluluskan"
+
+                                                            @elseif($rombo->statusPermohonanRom == "Permohonan
+                                                                Diluluskan"
                                                                 or $rombo->statusPermohonanRom == "Permohonan Ditolak" or
                                                                 $rombo->statusPermohonanRom == "Lulus Semakan")
-    
+
                                                                 <span class="label label-primary">Tiada</span>
-    
+
                                                             @endif
                                                         </td>
-    
-    
+
+
                                                 @endforeach
-    
+
                                             </tbody>
-    
+
                                         </table>
                                     </div>
                                     <div class="modal fade" id="mdl-tolak">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
+                                                    <h4 class="modal-title">Menolak Permohonan</h4>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-hidden="true">&times;</button>
-                                                    <h4 class="modal-title">Sebab Ditolak</h4>
                                                 </div>
                                                 {!! Form::open(['method' => 'POST', 'url' => '/sebabRombongan']) !!}
                                                 <div class="modal-body">
                                                     <div
                                                         class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
-                                                        {!! Form::label('sebb', 'Sebab') !!}
+                                                        {!! Form::label('sebb', 'Adakah anda pasti untuk menolak permohonan ini?') !!}
+                                                        {{-- {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!} --}}
+                                                        <small
+                                                            class="text-danger">{{ $errors->first('sebb') }}</small>
+                                                    </div>
+                                                    <div
+                                                        class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
+                                                        {!! Form::label('sebb', 'Catatan') !!}
                                                         {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                         <small
                                                             class="text-danger">{{ $errors->first('sebb') }}</small>
@@ -153,7 +163,7 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-success">Hantar</button>
+                                                    <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
                                                 </div>
                                                 {!! Form::close() !!}
                                             </div>
