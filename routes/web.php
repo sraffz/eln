@@ -25,7 +25,7 @@ Route::get('/logout', function () {
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('/', 'permohonanController@index2')->name('halamanUtama');
-	Route::get('senaraiPermohonan/{id}/kemaskini', 'permohonanController@kemaskiniPermohonan');
+	Route::get('kemaskini-permohonan-individu/{id}', 'permohonanController@kemaskiniPermohonan');
 	// Route::POST('/proLogin','LoginController@proLogin');
 	// Route::get('/home','HomeController@index');//untuk login../home
 	Route::get('profil', 'AdminController@profil')->name('profil');
@@ -53,41 +53,21 @@ Route::middleware(['auth'])->group(function () {
 	// 	// 'middleware' =>'admin',
 	// 	'uses'=>'permohonanController@senarai']);
 	
-	Route::get('/senaraiPermohonan/{id}/hantarIndividu', [
-		// 'middleware' =>'admin',
-		'uses' => 'permohonanController@hantarIndividu',
-	]);
+	Route::get('hantar-permohonan-individu/{id}', 'permohonanController@hantarIndividu');
 	
 	Route::get('/hantarRombongan/{id}', 'permohonanController@hantarRombongan');
 	
 	Route::get('/padam/{id}', 'permohonanController@hapus');
 	
-	Route::get('/senaraiPermohonan/{id}/edit', [
-		//'middleware' =>'admin',
-		'uses' => 'permohonanController@editIndividu',
-		'as' => 'editPermohonan.edit',
-	]);
+	Route::get('/senaraiPermohonan/{id}/edit', 'permohonanController@editIndividu');
 	
-	Route::get('/padam-rombongan/{id}', [
-		//'middleware' =>'admin',
-		'uses' => 'permohonanController@tamat',
-	]);
+	Route::get('/padam-rombongan/{id}', 'permohonanController@padamrombongan');
 	
-	Route::get('/padam-permohonan/{id}', [
-		//'middleware' =>'admin',
-		'uses' => 'permohonanController@tamatIndividu',
-	]);
+	Route::get('/padam-permohonan/{id}', 'permohonanController@tamatIndividu');
 	
-	Route::get('detailPermohonan/{id}/deleteFileCuti', [
-		//'middleware' =>'admin',
-		'uses' => 'permohonanController@deleteFileCuti',
-		'as' => 'detailPermohonan.deleteFileCuti',
-	]);
-	Route::get('detailPermohonan/{id}/deleteFileRasmi', [
-		//'middleware' =>'admin',
-		'uses' => 'permohonanController@deleteFileRasmi',
-		'as' => 'detailPermohonan.deleteFileRasmi',
-	]);
+	Route::get('detailPermohonan/{id}/deleteFileCuti','permohonanController@deleteFileCuti')->name('detailPermohonan.deleteFileCuti');
+	Route::get('detailPermohonan/{id}/deleteFileRasmi', 'permohonanController@deleteFileRasmi')->name('detailPermohonan.deleteFileRasmi');
+
 	// ------------------------admin----------------------
 	Route::get('senaraiPending', 'AdminController@index')->name('senaraiPending');
 	Route::get('senaraiRekodIndividu', 'AdminController@senaraiRekodIndividu')->name('senaraiRekodIndividu');
@@ -97,27 +77,12 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::post('/sebabRombongan', 'AdminController@sebabRombongan');
 	
-	Route::get('/senaraiPending/{id}/hantar', [
-		//'middleware' =>'admin',
-		'uses' => 'AdminController@hantar',
-		'as' => 'senaraiPending.hantar',
-	]);
+	Route::get('/senaraiPending/{id}/hantar', 'AdminController@hantar')->name('senaraiPending.hantar');
 	
-	Route::get('/senaraiPendingRombongan/{id}/sent-Permohonan', [
-		//'middleware' =>'admin',
-		'uses' => 'AdminController@hantarRombo',
-	]);
+	Route::get('/senaraiPendingRombongan/{id}/sent-Permohonan', 'AdminController@hantarRombo');
 	
-	Route::get('detailPermohonan/{id}/download', [
-		//'middleware' =>'admin',
-		'uses' => 'AdminController@download',
-		'as' => 'detailPermohonan.download',
-	]);
-	Route::get('detailPermohonanDokumen/{id}/download', [
-		//'middleware' =>'admin',
-		'uses' => 'AdminController@downloadDokumen',
-		'as' => 'detailPermohonanDokumen.download',
-	]);
+	Route::get('detailPermohonan/{id}/download', 'AdminController@download')->name('detailPermohonan.download');
+	Route::get('detailPermohonanDokumen/{id}/download', 'AdminController@downloadDokumen')->name('detailPermohonanDokumen.download');
 	
 	Route::get('detailPermohonan/{id}', 'AdminController@show');
 	Route::get('detailPermohonanRombongan/{id}', 'AdminController@showRombongan');
@@ -194,36 +159,19 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('semakkanDato', 'KetuaController@index')->name('semakkanDato');
 	Route::get('senaraiRombonganKetua', 'KetuaController@senaraiRombonganKetua')->name('senaraiRombonganKetua');
 	
-	Route::get('/senaraiPermohonan/{id}/hantar', [
-		//'middleware' =>'admin',
-		'uses' => 'KetuaController@hantar',
-		'as' => 'senaraiPermohonan.hantar',
-	]);
+	Route::get('/senaraiPermohonan/{id}/hantar', 'KetuaController@hantar')->name('senaraiPermohonan.hantar');
 	
-	Route::get('/senaraiPermohonan/{id}/tolak-Permohonan', [
-		//'middleware' =>'admin',
-		'uses' => 'KetuaController@tolakPermohonan',
-		'as' => 'senaraiPermohonan.tolakPermohonan',
-	]);
+	Route::get('/senaraiPermohonan/{id}/tolak-Permohonan', 'KetuaController@tolakPermohonan')->name('senaraiPermohonan.tolakPermohonan');
 	
 	Route::get('senaraiPermohonanDiluluskan', 'KetuaController@senaraiLulus')->name('senaraiPermohonanDiluluskan');
 	
 	Route::get('kelulusan/proses', 'KetuaController@editPermohonan');
 	
-	Route::get('senaraiRombonganKetua/{id}/sent-Rombongan', [
-		//'middleware' =>'admin',
-		'uses' => 'KetuaController@ketuaSentRombongan',
-	]);
+	Route::get('senaraiRombonganKetua/{id}/sent-Rombongan', 'KetuaController@ketuaSentRombongan');
 	
-	Route::get('senaraiRombonganKetua/{id}/reject-Rombongan', [
-		//'middleware' =>'admin',
-		'uses' => 'KetuaController@ketuaRejectRombongan',
-	]);
+	Route::get('senaraiRombonganKetua/{id}/reject-Rombongan', 'KetuaController@ketuaRejectRombongan');
 	
-	Route::get('senaraiRombonganKetua/{id}/tolakPermohonan-individu', [
-		//'middleware' =>'admin',
-		'uses' => 'KetuaController@permohonanGagalKetua',
-	]);
+	Route::get('senaraiRombonganKetua/{id}/tolakPermohonan-individu', 'KetuaController@permohonanGagalKetua');
 	
 	Route::get('jumlahKeluarnegara', 'KetuaController@jumlahKeluarnegara')->name('jumlahKeluarnegara');
 	

@@ -408,6 +408,7 @@ class permohonanController extends Controller
                                 'created_at' => \Carbon\Carbon::now(), # \Datetime()
                                 'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                             ];
+
                             DB::table('pasangans')->insert($dataPasangan);
                             return redirect('');
                         } else {
@@ -821,16 +822,31 @@ class permohonanController extends Controller
         }
     }
 
-    public function tamat($id)
+    public function padamrombongan($id)
     {
+
+        Permohonan::where('permohonansID',$id)->delete(); // Padam data permohonan
+
+        Pasangan::where('permohonansID', $id)->delete(); // Padam data pasangan
+
+        $doc = Dokumen::where('permohonansID', $id)->get();
+
+        foreach ($doc as $file) {
+            $url = $doc->pathFile;
+
+            Storage::delete($url); //Padam Fail Dokumen Rasmi
+        }
+
+        Dokumen::where('permohonansID', $id)->delete(); //Padam data Dokumen Rasmi
+        // ---------------------------------------------------------------?
+
         $permohonan = DB::table('permohonans')
             ->where('rombongans_id', '=', $id)
             ->get();
 
         foreach ($permohonan as $p) {
             $pathCuti = $p->pathFileCuti;
-            echo $pathCuti;
-            unlink($pathCuti);
+            Storage::delete($pathCuti);
             $per = Permohonan::where('rombongans_id', $id)->delete();
         }
 
@@ -855,42 +871,27 @@ class permohonanController extends Controller
 
     public function tamatIndividu($id)
     {
-        $perm = Permohonan::findOrFail($id);
+        // return dd($id);
+        $delfilecuti = Permohonan::where('permohonansID', $id)->first();
 
-        unlink($perm->pathFileCuti);
-        $perm->delete();
+        Storage::delete($delfilecuti->pathFileCuti); // Padam file cuti
+
+        Permohonan::where('permohonansID',$id)->delete(); // Padam data permohonan
+
+        Pasangan::where('permohonansID', $id)->delete(); // Padam data pasangan
+
+        $doc = Dokumen::where('permohonansID', $id)->get();
+
+        foreach ($doc as $file) {
+            $url = $doc->pathFile;
+
+            Storage::delete($url); //Padam Setiap Fail Dokumen Rasmi
+        }
+
+        Dokumen::where('permohonansID', $id)->delete(); //Padam data Dokumen Rasmi
 
         flash('Rekod berjaya dipadamkan.')->success();
         return redirect()->back();
-        // foreach ($permohonan as $p)
-        // {
-        //     $pathCuti=$p->pathFileCuti;
-        //     echo $pathCuti;
-        //     unlink($pathCuti);
-        //     $per=Permohonan::where('rombongans_id',$id)->delete();
-
-        // }
-
-        // $dokumen = DB::table('dokumens')
-        //             ->where('rombongans_id','=', $id)
-        //             ->first();
-
-        // if ($dokumen != null)
-        // {
-        // $path=$dokumen->pathFile;
-        // unlink($path);
-        // $doku=Dokumen::where('rombongans_id',$id)->delete();
-        // $rombong=Rombongan::where('rombongans_id',$id)->delete();
-
-        // flash('Permohonan Rombongan berjaya dipadamkan.')->success();
-        // return redirect()->back();
-        // }
-        // else
-        // {
-        //     $rombong=Rombongan::where('rombongans_id',$id)->delete();
-        //     flash('Dokumen berjaya dipadamkan.')->success();
-        //     return redirect()->back();
-        // }
     }
 
     public function deleteFileCuti($id)
@@ -935,6 +936,7 @@ class permohonanController extends Controller
 
     public function kemaskiniPermohonan($id)
     {
+      
         $permohonan = Permohonan::with('pasanganPermohonan')
             // ->with('user')
             ->where('permohonansID', '=', $id)
@@ -942,8 +944,9 @@ class permohonanController extends Controller
         // dd($permohonan);
         $negara = Negara::all();
         $dokumen = Dokumen::where('permohonansID', $id)->get();
-        //dd($permohonan);
         $jenis = $permohonan->JenisPermohonan;
+        
+        // dd($jenis);
         // $a=$permohonan->pasanganPermohonan->pasangansID;
         // echo $a;
         if ($jenis == 'Rasmi') {

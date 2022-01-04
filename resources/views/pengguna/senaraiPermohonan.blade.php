@@ -41,71 +41,72 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">
-                            <table class="table table-bordered table-hover display">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Negara</th>
-                                        <th>Tarikh Mula Perjalanan</th>
-                                        <th>Tarikh Akhir Perjalanan</th>
-                                        <th>Jenis/Tujuan</th>
-                                        <th>Status Permohonan</th>
-                                        <th>Tindakan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($permohonan as $index => $mohonan)
+                                <table class="table table-bordered table-hover display">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                {{ $index + 1 }}
-                                            </td>
-                                            <td><a
-                                                    href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}</a>
-                                            </td>
-                                            <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                            </td>
-                                            <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
-                                            </td>
-                                            <td>{{ $mohonan->JenisPermohonan }}({{ $mohonan->lainTujuan }})</td>
-                                            <td>
-                                                @if ($mohonan->statusPermohonan == 'simpanan')
-                                                    <span class="label label-info">Draf</span>
-                                                @elseif( $mohonan->statusPermohonan == "Lulus Semakkan ketua Jabatan")
-                                                    <span class="label label-info">Tindakan BPSM</span>
-                                                @else
-                                                    <span
-                                                        class="label label-info">{{ $mohonan->statusPermohonan }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($mohonan->statusPermohonan == 'Pending')
-                                                    <span class="label label-warning">Pending</span>
-                                                @elseif($mohonan->statusPermohonan == "simpanan")
-                                                    <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/hantarIndividu") }}'
-                                                        class="btn btn-success btn-xs"
-                                                        onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
-                                                        data-toggle="tooltip" title="Hantar Permohonan"
-                                                        data-placement="left"><i class="fas fa-paper-plane"></i></a>
-                                                    <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/kemaskini") }}'
-                                                        class="btn btn-info btn-xs" data-toggle="tooltip"
-                                                        title="Kemaskini Permohonan" data-placement="left"><i
-                                                            class="fas fa-edit"></i></a>
-                                                    <a href='{{ url("senaraiPermohonan/{$mohonan->permohonansID}/hapus") }}'
-                                                        class="btn btn-danger btn-xs"
-                                                        onclick="javascript: return confirm('Padam maklumat ini?');"
-                                                        data-toggle="tooltip" title="Padam Permohonan"
-                                                        data-placement="left"><i class="fa fa-user-times"></i></a>
-                                                @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-                                                    <span class="label label-success">Berjaya</span>
-                                                @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                    <span class="label label-danger">Gagal</span>
-                                                @else
-                                                    <span class="label label-primary">Tiada</span>
-                                                @endif
-                                            </td>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                            <th>No</th>
+                                            <th>Negara</th>
+                                            <th>Tarikh Mula Perjalanan</th>
+                                            <th>Tarikh Akhir Perjalanan</th>
+                                            <th>Jenis/Tujuan</th>
+                                            <th>Status Permohonan</th>
+                                            <th>Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($permohonan as $index => $mohonan)
+                                            <tr>
+                                                <td>
+                                                    {{ $index + 1 }}
+                                                </td>
+                                                <td><a
+                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}</a>
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ $mohonan->JenisPermohonan }}({{ $mohonan->lainTujuan }})</td>
+                                                <td>
+                                                    @if ($mohonan->statusPermohonan == 'simpanan')
+                                                        <span class="label label-info">Draf</span>
+                                                    @elseif( $mohonan->statusPermohonan == "Lulus Semakkan ketua
+                                                        Jabatan")
+                                                        <span class="label label-info">Tindakan BPSM</span>
+                                                    @else
+                                                        <span
+                                                            class="label label-info">{{ $mohonan->statusPermohonan }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($mohonan->statusPermohonan == 'Pending')
+                                                        <span class="label label-warning">Pending</span>
+                                                    @elseif($mohonan->statusPermohonan == "simpanan")
+                                                        <a href="{{ url('hantar-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-success btn-xs"
+                                                            onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
+                                                            data-toggle="tooltip" title="Hantar Permohonan"
+                                                            data-placement="left"><i class="fas fa-paper-plane"></i></a>
+                                                        <a href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-info btn-xs" data-toggle="tooltip"
+                                                            title="Kemaskini Permohonan" data-placement="left"><i
+                                                                class="fas fa-edit"></i></a>
+                                                        <a href="{{ url('padam-permohonan', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Padam maklumat ini?');"
+                                                            data-toggle="tooltip" title="Padam Permohonan"
+                                                            data-placement="left"><i class="fa fa-user-times"></i></a>
+                                                    @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
+                                                        <span class="label label-success">Berjaya</span>
+                                                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                                                        <span class="label label-danger">Gagal</span>
+                                                    @else
+                                                        <span class="label label-primary">Tiada</span>
+                                                    @endif
+                                                </td>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -124,85 +125,87 @@
                                 <table class="table table-bordered display">
                                     <thead>
                                         <tr>
-                                          <th>No</th>
-                                          <th>Negara</th>
-                                          <th>Code</th>
-                                          <th>Tarikh Mula Perjalanan</th>
-                                          <th>Tarikh Akhir Perjalanan</th>
-                                          <th>Tujuan Rombongan</th>
-                                          <th>Peserta</th>
-                                          <th>Status Permohonan</th>
-                                          <th>Tindakan</th>
+                                            <th>No</th>
+                                            <th>Negara</th>
+                                            <th>Code</th>
+                                            <th>Tarikh Mula Perjalanan</th>
+                                            <th>Tarikh Akhir Perjalanan</th>
+                                            <th>Tujuan Rombongan</th>
+                                            <th>Peserta</th>
+                                            <th>Status Permohonan</th>
+                                            <th>Tindakan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      @foreach ($rombongan as $index => $rombo)
-                                      <tr>
-                                          <td>
-                                            {{ $index+1 }}  
-                                          </td>
-                                          <td><a
-                                                  href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>
-                                          </td>
-                                          <td>{{ $rombo->codeRom }}</td>
-                                          <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}</td>
-                                          <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}</td>
-                                          <td>{{ $rombo->tujuanRom }}</td>
-                                          <td>
-                                              @foreach ($allPermohonan as $element)
-                                                  @if ($element->rombongans_id == $rombo->rombongans_id)
-                                                      @if ($element->statusPermohonan == 'Permohonan Berjaya')
-                                                          <span
-                                                              class="label label-success">{{ $element->user->nama }}</span><br>
-                                                      @elseif($element->statusPermohonan == "Permohonan Gagal")
-                                                          <span
-                                                              class="label label-danger">{{ $element->user->nama }}</span><br>
-                                                      @elseif($element->statusPermohonan == "Pending")
-                                                          {{ $element->user->nama }}<br>
-                                                      @elseif($element->statusPermohonan == "Tindakan BPSM" &&
-                                                          $rombo->statusPermohonanRom == "simpanan")
-                                                          {{ $element->user->nama }}<a
-                                                              href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
-                                                              class="btn-danger btn-xs"
-                                                              onclick="javascript: return confirm('Padam maklumat ini?');"><i
-                                                                  class="fa  fa-remove"></i></a><br>
-                                                      @elseif($element->statusPermohonan == "Tindakan BPSM" &&
-                                                          $rombo->statusPermohonanRom == "Pending")
-                                                          {{ $element->user->nama }}<br>
-                                                      @elseif($element->statusPermohonan == "Tindakan BPSM" &&
-                                                          $rombo->statusPermohonanRom == "Lulus Semakan")
-                                                          {{ $element->user->nama }}<br>
-                                                      @else
-                                                      @endif
-                                                  @endif
-                                              @endforeach
-                                          </td>
-                                          <td>{{ $rombo->statusPermohonanRom }}</td>
-                                          <td>
-                                              @if ($rombo->statusPermohonanRom == 'Pending')
-                                                  <span class="label label-warning">Pending</span>
-                                              @elseif($rombo->statusPermohonanRom == "simpanan")
-                                                  <a href="{{ url('hantarRombongan', [$rombo->rombongans_id]) }}"
-                                                      class="btn btn-success btn-xs"
-                                                      onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
-                                                      data-toggle="tooltip" title="Hantar Permohonan"
-                                                      data-placement="left"><i class="fas fa-paper-plane"></i></a>
-                                                  <a href="{{ url('padam-rombongan', [$rombo->rombongans_id]) }}"
-                                                      class="btn btn-danger btn-xs"
-                                                      onclick="javascript: return confirm('Padam maklumat ini?');"><i
-                                                          class="fa fa-user-times" data-toggle="tooltip"
-                                                          title="Padam Permohonan" data-placement="right"></i></a>
-                                              @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
-                                                  <span class="label label-success">Berjaya</span>
-                                              @elseif($rombo->statusPermohonanRom == "Permohonan Gagal")
-                                                  <span class="label label-danger">Gagal</span>
-                                              @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya" or
-                                                  $rombo->statusPermohonanRom == "Permohonan Gagal" or
-                                                  $rombo->statusPermohonanRom == "Lulus Semakan")
-                                                  <span class="label label-primary">Tiada</span>
-                                              @endif
-                                          </td>
-                                  @endforeach
+                                        @foreach ($rombongan as $index => $rombo)
+                                            <tr>
+                                                <td>
+                                                    {{ $index + 1 }}
+                                                </td>
+                                                <td><a
+                                                        href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>
+                                                </td>
+                                                <td>{{ $rombo->codeRom }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ $rombo->tujuanRom }}</td>
+                                                <td>
+                                                    @foreach ($allPermohonan as $element)
+                                                        @if ($element->rombongans_id == $rombo->rombongans_id)
+                                                            @if ($element->statusPermohonan == 'Permohonan Berjaya')
+                                                                <span
+                                                                    class="label label-success">{{ $element->user->nama }}</span><br>
+                                                            @elseif($element->statusPermohonan == "Permohonan Gagal")
+                                                                <span
+                                                                    class="label label-danger">{{ $element->user->nama }}</span><br>
+                                                            @elseif($element->statusPermohonan == "Pending")
+                                                                {{ $element->user->nama }}<br>
+                                                            @elseif($element->statusPermohonan == "Tindakan BPSM" &&
+                                                                $rombo->statusPermohonanRom == "simpanan")
+                                                                {{ $element->user->nama }}<a
+                                                                    href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
+                                                                    class="btn-danger btn-xs"
+                                                                    onclick="javascript: return confirm('Padam maklumat ini?');"><i
+                                                                        class="fa  fa-remove"></i></a><br>
+                                                            @elseif($element->statusPermohonan == "Tindakan BPSM" &&
+                                                                $rombo->statusPermohonanRom == "Pending")
+                                                                {{ $element->user->nama }}<br>
+                                                            @elseif($element->statusPermohonan == "Tindakan BPSM" &&
+                                                                $rombo->statusPermohonanRom == "Lulus Semakan")
+                                                                {{ $element->user->nama }}<br>
+                                                            @else
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>{{ $rombo->statusPermohonanRom }}</td>
+                                                <td>
+                                                    @if ($rombo->statusPermohonanRom == 'Pending')
+                                                        <span class="label label-warning">Pending</span>
+                                                    @elseif($rombo->statusPermohonanRom == "simpanan")
+                                                        <a href="{{ url('hantarRombongan', [$rombo->rombongans_id]) }}"
+                                                            class="btn btn-success btn-xs"
+                                                            onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
+                                                            data-toggle="tooltip" title="Hantar Permohonan"
+                                                            data-placement="left"><i class="fas fa-paper-plane"></i></a>
+                                                        <a href="{{ url('padam-rombongan', [$rombo->rombongans_id]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Padam maklumat ini?');"><i
+                                                                class="fa fa-user-times" data-toggle="tooltip"
+                                                                title="Padam Permohonan" data-placement="right"></i></a>
+                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
+                                                        <span class="label label-success">Berjaya</span>
+                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Gagal")
+                                                        <span class="label label-danger">Gagal</span>
+                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya" or
+                                                        $rombo->statusPermohonanRom == "Permohonan Gagal" or
+                                                        $rombo->statusPermohonanRom == "Lulus Semakan")
+                                                        <span class="label label-primary">Tiada</span>
+                                                    @endif
+                                                </td>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -230,7 +233,7 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
-      $(document).ready(function() {
+        $(document).ready(function() {
             $('table.display').DataTable({
                 "pageLength": 5,
                 "lengthMenu": [5, 10, 15, 20],
