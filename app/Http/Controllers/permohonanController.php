@@ -308,10 +308,10 @@ class permohonanController extends Controller
                             ];
                             Dokumen::create($data);
 
-                            flash('Permohonan berjaya didaftar !')->success();
+                            flash('Permohonan berjaya didaftar.')->success();
                             return redirect('');
                         } else {
-                            Flash::error('Error uploading ' . $doc_type);
+                            flash::error('Error uploading ' . $doc_type);
                             return redirect('');
                         }
                     } else {
@@ -320,7 +320,6 @@ class permohonanController extends Controller
                     }
                 }
             } else {
-
                 flash('Berjaya didaftar tanpa dokumen rasmi!')->warning();
                 return redirect('');
             }
@@ -598,7 +597,7 @@ class permohonanController extends Controller
 
         if ($rombo == null) {
             // user doesn't exist
-            flash('Kod Rombongan tidak wujud atau permohonan telah dihantar kepada pihak BPSM!')->error();
+            flash('Kod Rombongan tidak wujud atau permohonan telah dihantar kepada pihak BPSM')->error();
             return redirect()
                 ->back()
                 ->withInput();
@@ -747,27 +746,28 @@ class permohonanController extends Controller
             ->where('rombongans_id', '=', $id)
             ->count();
 
-        $peserta = DB::table('rombongans')
+        $peserta = DB::table('permohonans')
             ->where('rombongans_id', '=', $id)
             ->count();
+
         //echo $peserta;
         if ($d >= 1 && $peserta >= 1) {
             Rombongan::where('rombongans_id', $id)->update([
                 'statusPermohonanRom' => 'Pending',
             ]);
 
-            flash('Berjaya.')->success();
+            flash('Permohonan Berjaya Dihantar.')->success();
 
             // return dd($d);
             return redirect()->back();
         } elseif ($d == 0 && $peserta == 0) {
-            flash('Permohonan Rombongan memerlukan dokumen rasmi dan peserta.')->error();
+            flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
             return redirect()->back();
         } elseif ($d == 0) {
-            flash('Permohonan Rombongan memerlukan dokumen rasmi.')->error();
+            flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
             return redirect()->back();
         } elseif ($peserta == 0) {
-            flash('Permohonan Rombongan memerlukan peserta.')->error();
+            flash('Permohonan rombongan memerlukan peserta.')->error();
             return redirect()->back();
         }
     }
@@ -824,22 +824,6 @@ class permohonanController extends Controller
 
     public function padamrombongan($id)
     {
-
-        Permohonan::where('permohonansID',$id)->delete(); // Padam data permohonan
-
-        Pasangan::where('permohonansID', $id)->delete(); // Padam data pasangan
-
-        $doc = Dokumen::where('permohonansID', $id)->get();
-
-        foreach ($doc as $file) {
-            $url = $doc->pathFile;
-
-            Storage::delete($url); //Padam Fail Dokumen Rasmi
-        }
-
-        Dokumen::where('permohonansID', $id)->delete(); //Padam data Dokumen Rasmi
-        // ---------------------------------------------------------------?
-
         $permohonan = DB::table('permohonans')
             ->where('rombongans_id', '=', $id)
             ->get();
@@ -861,8 +845,8 @@ class permohonanController extends Controller
         } else {
             $path = $dokumen->pathFile;
             Storage::delete($path);
-            $doku = Dokumen::where('rombongans_id', $id)->delete();
-            $rombong = Rombongan::where('rombongans_id', $id)->delete();
+            Dokumen::where('rombongans_id', $id)->delete();
+            Rombongan::where('rombongans_id', $id)->delete();
 
             flash('Permohonan Rombongan berjaya dipadamkan.')->success();
             return redirect()->back();
@@ -876,7 +860,7 @@ class permohonanController extends Controller
 
         Storage::delete($delfilecuti->pathFileCuti); // Padam file cuti
 
-        Permohonan::where('permohonansID',$id)->delete(); // Padam data permohonan
+        Permohonan::where('permohonansID', $id)->delete(); // Padam data permohonan
 
         Pasangan::where('permohonansID', $id)->delete(); // Padam data pasangan
 
@@ -936,7 +920,6 @@ class permohonanController extends Controller
 
     public function kemaskiniPermohonan($id)
     {
-      
         $permohonan = Permohonan::with('pasanganPermohonan')
             // ->with('user')
             ->where('permohonansID', '=', $id)
@@ -945,7 +928,7 @@ class permohonanController extends Controller
         $negara = Negara::all();
         $dokumen = Dokumen::where('permohonansID', $id)->get();
         $jenis = $permohonan->JenisPermohonan;
-        
+
         // dd($jenis);
         // $a=$permohonan->pasanganPermohonan->pasangansID;
         // echo $a;
@@ -1148,7 +1131,7 @@ class permohonanController extends Controller
         $peserta = Permohonan::with('user')
             ->where('rombongans_id', $id)
             ->get();
-            
+
         // return dd()
         return view('pengguna.senaraiPermohonanRombongan', compact('rombongan', 'allPermohonan'));
     }
