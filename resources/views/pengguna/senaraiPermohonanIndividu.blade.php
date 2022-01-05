@@ -8,6 +8,18 @@
     <link rel="stylesheet"
         href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <style>
+        table th {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        table td {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+    </style>
 @endsection
 
 @section('content')
@@ -57,41 +69,42 @@
                                     @foreach ($permohonan as $index => $mohonan)
                                         <tr>
                                             <td>
-                                              {{ $index+1 }}
+                                                {{ $index + 1 }}
                                             </td>
                                             <td>
-                                              <a href='{{ url('detailPermohonan', [$mohonan->permohonansID]) }}'>{{ $mohonan->negara }}</a>
+                                                <a
+                                                    href='{{ url('detailPermohonan', [$mohonan->permohonansID]) }}'>{{ $mohonan->negara }}</a>
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
                                             </td>
-                                            <td>{{ $mohonan->JenisPermohonan }}({{ $mohonan->lainTujuan }})</td>
+                                            <td>{{ $mohonan->lainTujuan }} <br>({{ $mohonan->JenisPermohonan }})</td>
                                             <td>
                                                 @if ($mohonan->statusPermohonan == 'simpanan')
-                                                    <span class="label label-info">Draf</span>
+                                                    <span class="badge badge-info">Draf</span>
                                                 @elseif( $mohonan->statusPermohonan == "Lulus Semakkan ketua Jabatan")
-                                                    <span class="label label-info">Tindakan BPSM</span>
+                                                    <span class="badge badge-info">Tindakan BPSM</span>
                                                 @else
                                                     <span
-                                                        class="label label-info">{{ $mohonan->statusPermohonan }}</span>
+                                                        class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 @if (is_null($mohonan->tarikhLulusan))
 
-                                                    <span class="label label-info">Tiada tarikh</span>
+                                                    <span class="badge badge-info">Tiada tarikh</span>
 
                                                 @else
                                                     <span
-                                                        class="label label-primary">{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}</span>
+                                                        class="badge badge-primary">{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}</span>
 
                                                 @endif
                                             </td>
                                             <td>
                                                 @if ($mohonan->statusPermohonan == 'Pending')
 
-                                                    <span class="label label-warning">Pending</span>
+                                                    <span class="badge badge-warning">Pending</span>
 
                                                 @elseif($mohonan->statusPermohonan == "simpanan")
 
@@ -112,15 +125,15 @@
 
                                                 @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
 
-                                                    <span class="label label-success">Berjaya</span>
+                                                    <span class="badge badge-success">Berjaya</span>
 
                                                 @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
 
-                                                    <span class="label label-danger">Gagal</span>
+                                                    <span class="badge badge-danger">Gagal</span>
 
                                                 @else
 
-                                                    <span class="label label-primary">Tiada</span>
+                                                    <span class="badge badge-primary">Tiada</span>
 
                                                 @endif
                                             </td>

@@ -281,10 +281,10 @@ class permohonanController extends Controller
                 $files = $request->file('fileRasmi');
 
                 foreach ($files as $file) {
-                    $filename = $file->getClientOriginalName();
+                    $filename = $file->hashName();
                     $extension = $file->extension();
 
-                    // dd($filename,$extension);
+                    // dd($filename, $filename2,$extension);
                     if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
                         // check folder for 'current year', if not exist, create one
                         $currYear = Carbon::now()->format('Y');
@@ -292,6 +292,7 @@ class permohonanController extends Controller
                         $storagePath = 'upload/dokumen/' . $currYear;
                         $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
 
+                        // dd ($filePath);
                         // if (!file_exists($storagePath)) {
                         //     mkdir($storagePath, 0777, true);
                         // }
@@ -1005,7 +1006,7 @@ class permohonanController extends Controller
                             ];
                             Dokumen::create($data);
 
-                            flash('Berjaya dikemaskini.')->success();
+                            flash('Permohonan berjaya dikemaskini.')->success();
                             return back();
                         } else {
                             Flash::error('Error uploading ' . $doc_type);

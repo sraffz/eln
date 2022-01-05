@@ -78,8 +78,8 @@
                                                                 @elseif($rombo->statusPermohonanRom == "Lulus Semakan")
                                                                     <a href="senaraiRombonganKetua/{{ $element->permohonansID }}/tolakPermohonan-individu"
                                                                         class="btn-danger btn-xs"
-                                                                        onclick="javascript: return confirm('Permohonan Gagal?');"><i
-                                                                            class="fa  fa-remove"></i></a><br>
+                                                                        onclick="javascript: return confirm('Tolak Permohonan?');"><i
+                                                                            class="fa  fa-times"></i></a><br>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -97,12 +97,12 @@
                                                             <a href="senaraiRombonganKetua/{{ $rombo->rombongans_id }}/sent-Rombongan"
                                                                 class="btn btn-success btn-xs"
                                                                 onclick="javascript: return confirm('Adakah anda pasti untuk menluluskan permohonan ini?');"><i
-                                                                    class="fa fa-thumbs-o-up"></i></a>
+                                                                    class="fa fa-thumbs-up"></i></a>
 
                                                             <a href="senaraiRombonganKetua/{{ $rombo->rombongans_id }}/reject-Rombongan"
                                                                 class="btn btn-danger btn-xs"
                                                                 onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                                    class="fa fa-thumbs-o-down"></i></a>
+                                                                    class="fa fa-thumbs-down"></i></a>
 
                                                             <a href="{{ route('editPermohonan.edit', ['id' => $rombo->rombongans_id]) }}"
                                                                 class="btn btn-warning btn-xs"

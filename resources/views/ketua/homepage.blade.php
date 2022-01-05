@@ -3,7 +3,11 @@
 @section('title', 'Halaman Utama ')
 
 @section('link')
-
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
 @endsection
 
@@ -74,62 +78,45 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
+                        <section class="content-header">
+                            <div class="container-fluid">
+                                <div class="row mb-2">
+                                    <div class="col-sm-12">
+                                        <h1>PERMOHONAN KE LUAR NEGARA</h1>
+                                    </div>
+
+                                </div>
+                            </div><!-- /.container-fluid -->
+                        </section>
+                    </div>
+                    {{-- RASMI --}}
+                    <div class="row">
                         <div class="col col-md-12">
-                            <div class="box box-primary">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">PERMOHONAN KE LUAR NEGARA</h3>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                class="fa fa-minus"></i>
-                                        </button>
+                            <div class="card card-primary">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">RASMI</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="barChart" style="height:230px"></canvas>
                                     </div>
                                 </div>
-                                <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="box-body">
-                                                <div class="box box-success">
-                                                    <div class="box-header with-border">
-                                                        <h3 class="box-title"><strong>Rasmi</strong></h3>
-                                                        <div class="box-tools pull-right">
-                                                            <button type="button" class="btn btn-box-tool"
-                                                                data-widget="collapse"><i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-box-tool"
-                                                                data-widget="remove"><i class="fa fa-times"></i></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-body">
-                                                        <div class="chart">
-                                                            <canvas id="barChart" style="height:230px"></canvas>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.box-body -->
-                                                </div>
-                                                <div class="box box-success">
-                                                    <div class="box-header with-border">
-                                                        <h3 class="box-title"><strong>Persendirian</strong></h3>
-                                                        <div class="box-tools pull-right">
-                                                            <button type="button" class="btn btn-box-tool"
-                                                                data-widget="collapse"><i class="fa fa-minus"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-box-tool"
-                                                                data-widget="remove"><i class="fa fa-times"></i></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="box-body">
-                                                        <div class="chart">
-                                                            <canvas id="barChart1" style="height:230px"></canvas>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.box-body -->
-                                                </div>
-                                                <!-- Custom Tabs -->
-                                                <!-- nav-tabs-custom -->
-                                            </div>
-                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- PERSENDIRAN --}}
+                    <div class="row">
+                        <div class="col col-md-12">
+                            <div class="card card-primary">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">PERSENDIRIAN</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart">
+                                        <canvas id="barChart1" style="height:230px"></canvas>
                                     </div>
                                 </div>
+                                <!-- /.box-body -->
                             </div>
                         </div>
                     </div>
@@ -140,6 +127,62 @@
 @endsection
 
 @section('script')
+
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('adminlte-3/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable({
+                "pageLength": 10,
+                "lengthMenu": [10, 30, 50, 100],
+                "language": {
+                    "emptyTable": "Tiada data",
+                    "lengthMenu": "_MENU_ Rekod setiap halaman",
+                    "zeroRecords": "Tiada padanan rekod yang dijumpai.",
+                    "info": "Paparan dari _START_ hingga _END_ dari _TOTAL_ rekod",
+                    "infoEmpty": "Paparan 0 hingga 0 dari 0 rekod",
+                    "infoFiltered": "(Ditapis dari jumlah _MAX_ rekod)",
+                    "search": "Carian:",
+                    "oPaginate": {
+                        "sFirst": "Pertama",
+                        "sPrevious": "Sebelum",
+                        "sNext": "Seterusnya",
+                        "sLast": "Akhir"
+                    }
+                },
+            });
+        });
+
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
 

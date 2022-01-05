@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    @include('flash::message')
+    
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -37,6 +37,7 @@
     {!! Form::hidden('id', $permohonan->permohonansID) !!}
     <section class="content">
         <div class="container-fluid">
+            @include('flash::message')
             <!-- general form elements disabled -->
             <div class="card card-primary">
                 <div class="card-header">
@@ -157,6 +158,7 @@
                                     @foreach ($dokumen as $doku)
                                         <a class="btn btn-sm btn-info"
                                             href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">
+
                                             <i class="fa fa-download"></i> {{ $doku->namaFile }}
                                         </a>
                                         <a

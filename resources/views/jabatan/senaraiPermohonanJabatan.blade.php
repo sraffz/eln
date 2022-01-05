@@ -45,8 +45,13 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>
-                                                    <a
-                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                    @if ($mohonan->JenisPermohonan == "rombongan")
+                                                    <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
+                                                        
+                                                    @else
+                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                        
+                                                    @endif
                                                 </td>
                                                 {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->user->tpermohonan)->format('d/m/Y') }}

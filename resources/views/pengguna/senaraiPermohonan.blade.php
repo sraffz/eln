@@ -8,12 +8,23 @@
     <link rel="stylesheet"
         href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <style>
+        table th {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        table td {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
 @endsection
 
 @section('content')
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -28,7 +39,7 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-    
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -66,21 +77,22 @@
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
                                                 </td>
-                                                <td>{{ $mohonan->JenisPermohonan }}({{ $mohonan->lainTujuan }})</td>
+                                                <td>{{ $mohonan->lainTujuan }} <br> ({{ $mohonan->JenisPermohonan }})
+                                                </td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'simpanan')
-                                                        <span class="label label-info">Draf</span>
+                                                        <span class="badge badge-info">Draf</span>
                                                     @elseif( $mohonan->statusPermohonan == "Lulus Semakkan ketua
                                                         Jabatan")
-                                                        <span class="label label-info">Tindakan BPSM</span>
+                                                        <span class="badge badge-info">Tindakan BPSM</span>
                                                     @else
                                                         <span
-                                                            class="label label-info">{{ $mohonan->statusPermohonan }}</span>
+                                                            class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Pending')
-                                                        <span class="label label-warning">Pending</span>
+                                                        <span class="badge badge-warning">Pending</span>
                                                     @elseif($mohonan->statusPermohonan == "simpanan")
                                                         <a href="{{ url('hantar-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-success btn-xs"
@@ -97,11 +109,11 @@
                                                             data-toggle="tooltip" title="Padam Permohonan"
                                                             data-placement="left"><i class="fa fa-user-times"></i></a>
                                                     @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-                                                        <span class="label label-success">Berjaya</span>
+                                                        <span class="badge badge-success">Berjaya</span>
                                                     @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                        <span class="label label-danger">Gagal</span>
+                                                        <span class="badge badge-danger">Gagal</span>
                                                     @else
-                                                        <span class="label label-primary">Tiada</span>
+                                                        <span class="badge badge-primary">Tiada</span>
                                                     @endif
                                                 </td>
                                         @endforeach
@@ -125,15 +137,15 @@
                                 <table class="table table-bordered display">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Negara</th>
-                                            <th>Code</th>
-                                            <th>Tarikh Mula Perjalanan</th>
-                                            <th>Tarikh Akhir Perjalanan</th>
-                                            <th>Tujuan Rombongan</th>
-                                            <th>Peserta</th>
-                                            <th>Status Permohonan</th>
-                                            <th>Tindakan</th>
+                                            <th style="vertical-align: middle">No</th>
+                                            <th style="vertical-align: middle">Negara & Kod Rombongan</th>
+                                            {{-- <th style="vertical-align: middle">Code</th> --}}
+                                            <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
+                                            <th style="vertical-align: middle">Tarikh Akhir Perjalanan</th>
+                                            <th style="vertical-align: middle">Tujuan Rombongan</th>
+                                            <th style="vertical-align: middle">Peserta</th>
+                                            <th style="vertical-align: middle">Status Permohonan</th>
+                                            <th style="vertical-align: middle">Tindakan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -142,10 +154,12 @@
                                                 <td>
                                                     {{ $index + 1 }}
                                                 </td>
-                                                <td><a
+                                                <td>
+                                                    <a
                                                         href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>
+                                                    <br> ({{ $rombo->codeRom }})
                                                 </td>
-                                                <td>{{ $rombo->codeRom }}</td>
+                                                {{-- <td></td> --}}
                                                 <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
                                                 </td>
                                                 <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}
@@ -156,10 +170,10 @@
                                                         @if ($element->rombongans_id == $rombo->rombongans_id)
                                                             @if ($element->statusPermohonan == 'Permohonan Berjaya')
                                                                 <span
-                                                                    class="label label-success">{{ $element->user->nama }}</span><br>
+                                                                    class="badge badge-success">{{ $element->user->nama }}</span><br>
                                                             @elseif($element->statusPermohonan == "Permohonan Gagal")
                                                                 <span
-                                                                    class="label label-danger">{{ $element->user->nama }}</span><br>
+                                                                    class="badge badge-danger">{{ $element->user->nama }}</span><br>
                                                             @elseif($element->statusPermohonan == "Pending")
                                                                 {{ $element->user->nama }}<br>
                                                             @elseif($element->statusPermohonan == "Tindakan BPSM" &&
@@ -183,7 +197,7 @@
                                                 <td>{{ $rombo->statusPermohonanRom }}</td>
                                                 <td>
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
-                                                        <span class="label label-warning">Pending</span>
+                                                        <span class="badge badge-warning">Pending</span>
                                                     @elseif($rombo->statusPermohonanRom == "simpanan")
                                                         <a href="{{ url('hantarRombongan', [$rombo->rombongans_id]) }}"
                                                             class="btn btn-success btn-xs"
@@ -196,13 +210,13 @@
                                                                 class="fa fa-user-times" data-toggle="tooltip"
                                                                 title="Padam Permohonan" data-placement="right"></i></a>
                                                     @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
-                                                        <span class="label label-success">Berjaya</span>
+                                                        <span class="badge badge-success">Berjaya</span>
                                                     @elseif($rombo->statusPermohonanRom == "Permohonan Gagal")
-                                                        <span class="label label-danger">Gagal</span>
+                                                        <span class="badge badge-danger">Gagal</span>
                                                     @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya" or
                                                         $rombo->statusPermohonanRom == "Permohonan Gagal" or
                                                         $rombo->statusPermohonanRom == "Lulus Semakan")
-                                                        <span class="label label-primary">Tiada</span>
+                                                        <span class="badge badge-primary">Tiada</span>
                                                     @endif
                                                 </td>
                                         @endforeach

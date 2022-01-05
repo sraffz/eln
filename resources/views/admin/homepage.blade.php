@@ -26,92 +26,85 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <h3>{{ $TotalPerm1 }}</h3>
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3>{{ $TotalPerm1 }}</h3>
 
-                                <p>Jumlah Permohonan</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
+                            <p>Jumlah Permohonan</p>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <h3>{{ $TotalProces1 }}</h3>
-
-                                <p>Permohonan dalam proses</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-spinner"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
                         </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-green">
-                            <div class="inner">
-                                <h3>{{ $TotalBerjaya1 }}</h3>
-
-                                <p>Permohonan Berjaya</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa  fa-check-square"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-red">
-                            <div class="inner">
-                                <h3>{{ $TotalGagal1 }}</h3>
-
-                                <p>Permohonan Gagal</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-minus-circle"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
+                        <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- row -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col col-md-12">
-                                <div class="box box-primary">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">Google Map</h3>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{ $TotalProces1 }}</h3>
 
-                                        <div class="box-tools pull-right">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                    class="fa fa-minus"></i>
-                                            </button>
+                            <p>Permohonan dalam proses</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-spinner"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{ $TotalBerjaya1 }}</h3>
 
-                                        </div>
-                                    </div>
+                            <p>Permohonan Berjaya</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa  fa-check-square"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{ $TotalGagal1 }}</h3>
 
+                            <p>Permohonan Gagal</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-minus-circle"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col col-md-12">
+                            <div class="card card-dark">
+                                <div class="card-header with-border">
+                                    <h3 class="card-title">Google Map</h3>
+                                </div>
+                                <div class="card-body">
 
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                    <!-- /.col -->
                 </div>
-                <!-- /.row -->
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
         </div>
     </section>
-            @endsection
+@endsection

@@ -23,7 +23,8 @@ class KetuaController extends Controller
     {
         $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
                     ->get();
-        return view('ketua/senaraiPermohonan',compact('permohonan'));
+                    
+        return view('ketua.senaraiPermohonan',compact('permohonan'));
     }
 
     public function senaraiLulus()

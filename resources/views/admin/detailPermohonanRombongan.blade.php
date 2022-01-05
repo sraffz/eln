@@ -122,10 +122,13 @@
                             <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
                             <p class="text-muted">
                                 @foreach ($peserta as $peser)
+                                @if ($peser->statusPermohonan == "Permohonan Berjaya")
+                                    
+                                @endif
                                     <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
                                         data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
                                         data-jawatan="{{ $peser->user->jawatan }}"
-                                        data-jabatan="{{ $peser->user->jabatan }}">{{ $peser->user->nama }}</a>
+                                        data-jabatan="{{ $peser->user->jabatan }}">{{ $peser->user->nama }}</a> ( {{ $peser->statusPermohonan }})
                                     <br>
                                 @endforeach
                             </p>

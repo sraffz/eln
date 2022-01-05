@@ -87,14 +87,14 @@
                                                             @endforeach
                                                         </td>
                                                         <td><span
-                                                                class="label label-info">{{ $rombo->statusPermohonanRom }}</span>
+                                                                class="badge badge-info">{{ $rombo->statusPermohonanRom }}</span>
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y')}}</td> --}}
 
                                                         <td>
                                                             @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
 
-                                                                <span class="label label-warning">Lulus Semakan</span>
+                                                                <span class="badge badge-warning">Lulus Semakan</span>
 
                                                             @elseif($rombo->statusPermohonanRom == "Pending")
 
@@ -114,14 +114,14 @@
 
                                                             @elseif($rombo->statusPermohonanRom == "Diluluskan")
 
-                                                                <span class="label label-success">Diluluskan</span>
+                                                                <span class="badge badge-success">Diluluskan</span>
 
                                                             @elseif($rombo->statusPermohonanRom == "Permohonan
                                                                 Diluluskan"
                                                                 or $rombo->statusPermohonanRom == "Permohonan Ditolak" or
                                                                 $rombo->statusPermohonanRom == "Lulus Semakan")
 
-                                                                <span class="label label-primary">Tiada</span>
+                                                                <span class="badge badge-primary">Tiada</span>
 
                                                             @endif
                                                         </td>

@@ -41,7 +41,7 @@ class AdminController extends Controller
             ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
             ->get();
         //dd($permohonan);
-        return view('admin/senaraiPending', compact('permohonan'));
+        return view('admin.senaraiPending', compact('permohonan'));
     }
 
     public function profil()
@@ -107,7 +107,7 @@ class AdminController extends Controller
             ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->get();
         //dd($permohonan);
-        return view('admin/senaraiPending', compact('permohonan'));
+        return view('admin.senaraiPending', compact('permohonan'));
     }
 
     public function indexRombongan()
