@@ -281,7 +281,7 @@ class permohonanController extends Controller
                 $files = $request->file('fileRasmi');
 
                 foreach ($files as $file) {
-                    $filename = $file->hashName();
+                    $filename = $file->getClientOriginalName();
                     $extension = $file->extension();
 
                     // dd($filename, $filename2,$extension);

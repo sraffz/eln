@@ -21,10 +21,13 @@ class KetuaController extends Controller
      */
     public function index()
     {
+        $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+        ->get();
+
         $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
                     ->get();
                     
-        return view('ketua.senaraiPermohonan',compact('permohonan'));
+        return view('ketua.senaraiPermohonan',compact('permohonan', 'sejarah'));
     }
 
     public function senaraiLulus()
@@ -265,7 +268,7 @@ class KetuaController extends Controller
                             ->get(['usersID']);
 
         // dd($senaraiPengguna);
-        return view('ketua/jumlahKeLuarnegara',compact('senaraiPermohonan','senaraiPengguna'));
+        return view('ketua.jumlahKeLuarnegara',compact('senaraiPermohonan','senaraiPengguna'));
         
     }
 
