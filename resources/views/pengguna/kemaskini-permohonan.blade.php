@@ -130,6 +130,29 @@
                                     <div class="form-row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label><i class="fa fa-user-friends"></i> Senarai Peserta</label>
+                                                <div class="input-group">
+                                                    @foreach ($peserta as $peser)
+                                                        @if ($peser->statusPermohonan == 'Permohonan Berjaya')
+
+                                                        @endif
+                                                        <a data-toggle="modal" href='#mdl-kemaskini'
+                                                            data-nama="{{ $peser->user->nama }}"
+                                                            data-nokp="{{ $peser->user->nokp }}"
+                                                            data-email="{{ $peser->user->email }}"
+                                                            data-jawatan="{{ $peser->user->jawatan }}"
+                                                            data-jabatan="{{ $peser->user->jabatan }}"> -
+                                                            {{ $peser->user->nama }}</a> (
+                                                        {{ $peser->statusPermohonan }})
+                                                        <br>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                                 <label><i class="fas fa-file"></i> Dokumen Rasmi</label>
                                                 <div class="input-group">
                                                     <div class="custom-file ">
@@ -155,7 +178,7 @@
                                         </div>
                                         <div class="col-md-12 text-center">
                                             <a class="btn btn-danger"
-                                                href="{{ url('senaraiPermohonanRombongan', [Auth::user()->usersID]) }}"
+                                                href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}"
                                                 role="button">Kembali</a>
                                             {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                                         </div>
@@ -179,9 +202,7 @@
     <script src="{{ asset('adminlte/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <!-- bootstrap datepicker -->
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    {{-- <script src="{{ asset('adminlte/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"> --}}
-    </script>
-
+    
     <script>
         $(function() {
             //Initialize Select2 Elements

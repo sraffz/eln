@@ -8,7 +8,7 @@ $url = url()->current();
         class="nav-link {{ $url == route('registerFormIndividu', 'tidakRasmi') || $url == route('registerFormIndividu', 'rasmi') ? 'active' : '' }}">
         <i class="nav-icon fas fa-user"></i>
         <p>
-            individu
+            Individu
             <i class="fas fa-angle-left right"></i>
         </p>
     </a>
@@ -70,7 +70,7 @@ $url = url()->current();
         class="nav-link {{ $url == route('senaraiPermohonanIndividu', Auth::user()->usersID) || $url == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'active' : '' }}">
         <i class="nav-icon fas fa-users"></i>
         <p>
-            Senarai Permohonan
+            Keputusan
             <i class="fas fa-angle-left right"></i>
         </p>
     </a>

@@ -23,9 +23,8 @@
 @endsection
 
 @section('content')
-    @include('flash::message')
 
-    <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -41,11 +40,12 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                    @include('flash::message')
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Senarai Rombongan</h3>
@@ -132,7 +132,7 @@
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
                                                         <span class="badge badge-warning">Pending</span>
                                                     @elseif($rombo->statusPermohonanRom == "simpanan")
-                                                        <a href='{{ url("senaraiPermohonan/{$rombo->rombongans_id}/hantarRombongan") }}'
+                                                        <a href="{{ url('hantarRombongan', [$rombo->rombongans_id]) }}"
                                                             class="btn btn-success btn-xs"
                                                             onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"><i
                                                                 class="fas fa-paper-plane"></i></a>

@@ -18,6 +18,7 @@
             font-size: 15px;
             font-weight: bold;
         }
+
     </style>
 @endsection
 
@@ -204,6 +205,8 @@
                                                             onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
                                                             data-toggle="tooltip" title="Hantar Permohonan"
                                                             data-placement="left"><i class="fas fa-paper-plane"></i></a>
+                                                        <a href="{{ url('kemaskini-rombongan', [$rombo->rombongans_id]) }}"
+                                                            class="btn btn-info btn-xs"><i class="fas fa-edit"></i></a>
                                                         <a href="{{ url('padam-rombongan', [$rombo->rombongans_id]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"><i

@@ -234,7 +234,11 @@ class AdminController extends Controller
             ->where('rombongans_id', $id)
             ->get();
 
-        return view('pengguna.kemaskini-permohonan', compact('negara', 'rombongan', 'dokumen'));
+        $peserta = Permohonan::with('user')
+            ->where('rombongans_id', $id)
+            ->get();
+
+        return view('pengguna.kemaskini-permohonan', compact('negara', 'rombongan', 'dokumen', 'peserta'));
     }
 
     public function kemaskinirombongan(Request $req)

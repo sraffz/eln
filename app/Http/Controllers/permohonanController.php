@@ -1113,20 +1113,24 @@ class permohonanController extends Controller
     {
         $userDetail = User::find($id);
         $permohonan = Permohonan::where('usersID', $id)
-            ->where('statusPermohonan', '=', 'Permohonan Berjaya')
+            ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->orderBy('created_at', 'desc')
             ->get();
+
         $rombongan = Rombongan::where('usersID', $id)->get();
         //$allPermohonan= Permohonan::all();
         $allPermohonan = Permohonan::with('user')->get();
 
         //dd($ss);
-        return view('pengguna/senaraiPermohonanIndividu', compact('permohonan', 'rombongan', 'userDetail', 'allPermohonan'));
+        return view('pengguna.senaraiPermohonanIndividu', compact('permohonan', 'rombongan', 'userDetail', 'allPermohonan'));
     }
 
     public function senaraiPermohonanRombongan($id)
     {
-        $rombongan = Rombongan::where('usersID', $id)->get();
+        $rombongan = Rombongan::where('usersID', $id)
+        ->whereIn('statusPermohonanRom', ['Berjaya', 'Gagal'])
+        ->get();
+
         $allPermohonan = Permohonan::with('user')->get();
 
         $peserta = Permohonan::with('user')
