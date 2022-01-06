@@ -55,6 +55,7 @@
                                                 {{-- <th>Tarikh Akhir Perjalanan</th> --}}
                                                 <th>Jenis Permohonan</th>
                                                 <th>Tindakan</th>
+                                                <th>Sejarah Keluar Negara</th>
                                             </tr>
                                         </thead>
 
@@ -77,7 +78,7 @@
                                                     <td>{{ $mohonan->JenisPermohonan }}</td>
                                                     <td>
                                                         @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                        
+
                                                             <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-success btn-xs"
                                                                 onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
@@ -106,6 +107,25 @@
                                                                     class="fa fa-print"></i>
                                                             </a>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        @php
+                                                            $jumlah = 0;
+                                                        @endphp
+                                                        @foreach ($sejarah as $sej)
+                                                            @if ($mohonan->usersID == $sej->usersID)
+                                                                {{ $sej->negara }} <br>
+                                                                ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                                                -
+                                                                {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }})<br>
+                                                                @php
+                                                                    $jumlah++;
+                                                                @endphp
+                                                                <br>
+                                                            @endif
+
+                                                        @endforeach
+                                                        <strong>Jumlah:{{ $jumlah }}</strong>
                                                     </td>
                                             @endforeach
                                         </tbody>

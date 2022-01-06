@@ -127,7 +127,7 @@
                                                         <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span></td>
                                                 @endif
             
-                                                @if ($url != 'http://aplikasi1.kelantan.gov.my/eln/senaraiRekodIndividu')
+                                                @if ($url != url('senaraiRekodIndividu'))
                                                     <td>
                                                         @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
             
