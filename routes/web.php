@@ -167,9 +167,10 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('kelulusan/proses', 'KetuaController@editPermohonan');
 	
-	Route::get('senaraiRombonganKetua/{id}/sent-Rombongan', 'KetuaController@ketuaSentRombongan');
+	Route::get('luluskan-rombongan/{id}', 'KetuaController@ketuaSentRombongan');
+	Route::get('tolak-rombongan/{id}', 'KetuaController@ketuaRejectRombongan');
+	Route::get('cetak-butiran-rombongan/{id}', 'KetuaController@cetakRombongan')->name('cetak-butiran-rombongan');
 	
-	Route::get('senaraiRombonganKetua/{id}/reject-Rombongan', 'KetuaController@ketuaRejectRombongan');
 	
 	Route::get('senaraiRombonganKetua/{id}/tolakPermohonan-individu', 'KetuaController@permohonanGagalKetua');
 	

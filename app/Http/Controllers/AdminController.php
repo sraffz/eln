@@ -56,10 +56,9 @@ class AdminController extends Controller
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
 
-        $ic = $user->usersID;
-        $nega = Permohonan::where('usersID', $ic)->get();
+        $nega = Permohonan::where('usersID', Auth::user()->usersID)->get();
 
-        $senaraiNegara = $nega->pluck('negara');
+        $senaraiNegara = $nega->where('statusPermohonan', 'Permohonan Berjaya')->pluck('negara');
         // dd($senaraiNegara);
         return view('profil', compact('user', 'senaraiNegara', 'jabatan', 'gredAngka', 'gredKod', 'jawatan'));
     }
@@ -125,15 +124,12 @@ class AdminController extends Controller
 
     public function senaraiRekodRombongan()
     {
-        // $rombongan = Rombongan::all();
-        $rombongan = Rombongan::whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
+        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+        ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
 
         $allPermohonan = Permohonan::with('user')->get();
-        //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
-        // $permohonan = Rombongan::where('statusPermohonan', 'Pending')
-        //             ->orwhere('statusPermohonan', 'Lulus Semakan')
-        //             ->get();
-        return view('admin/senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+
+        return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
     }
 
     /**
@@ -298,7 +294,7 @@ class AdminController extends Controller
             ->first();
         // dd($dokumen);
 
-        return view('admin.detailPermohonanRombongan', compact('rombongan', 'jumlahDate', 'peserta', 'dokumen'));
+        return view('admin.detailPermohonanRombongan', compact('rombongan', 'id', 'jumlahDate', 'peserta', 'dokumen'));
     }
 
     public function download($id)
@@ -701,7 +697,7 @@ class AdminController extends Controller
     {
         $jabatan = Jabatan::all();
         // dd($jabatan);
-        return view('admin.insertEdit', compact('jabatan'));
+        return view('admin.tambah-pic', compact('jabatan'));
     }
 
     public function daftarJabatan(Request $request)

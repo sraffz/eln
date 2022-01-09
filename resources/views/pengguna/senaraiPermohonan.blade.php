@@ -170,26 +170,24 @@
                                                     @foreach ($allPermohonan as $element)
                                                         @if ($element->rombongans_id == $rombo->rombongans_id)
                                                             @if ($element->statusPermohonan == 'Permohonan Berjaya')
-                                                                <span
-                                                                    class="badge badge-success">{{ $element->user->nama }}</span><br>
+                                                                <span class="badge badge-success">{{ $element->user->nama }}</span><br>
                                                             @elseif($element->statusPermohonan == "Permohonan Gagal")
-                                                                <span
-                                                                    class="badge badge-danger">{{ $element->user->nama }}</span><br>
-                                                            @elseif($element->statusPermohonan == "Pending")
-                                                                {{ $element->user->nama }}<br>
-                                                            @elseif($element->statusPermohonan == "Tindakan BPSM" &&
-                                                                $rombo->statusPermohonanRom == "simpanan")
-                                                                {{ $element->user->nama }}<a
-                                                                    href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
-                                                                    class="btn-danger btn-xs"
-                                                                    onclick="javascript: return confirm('Padam maklumat ini?');"><i
-                                                                        class="fa  fa-remove"></i></a><br>
-                                                            @elseif($element->statusPermohonan == "Tindakan BPSM" &&
-                                                                $rombo->statusPermohonanRom == "Pending")
-                                                                {{ $element->user->nama }}<br>
-                                                            @elseif($element->statusPermohonan == "Tindakan BPSM" &&
-                                                                $rombo->statusPermohonanRom == "Lulus Semakan")
-                                                                {{ $element->user->nama }}<br>
+                                                                <span  class="badge badge-danger">{{ $element->user->nama }}</span><br>
+
+                                                            @elseif($element->statusPermohonan == "Ketua Jabatan")
+                                                                - {{ $element->user->nama }}<br>
+                                                            @elseif($element->statusPermohonan == "Lulus Semakan BPSM" && $rombo->statusPermohonanRom == "simpanan")
+                                                                - {{ $element->user->nama }}
+                                                                <a href="{{ url('padam-permohonan', [$element->permohonansID]) }}" class="btn-danger btn-xs"
+                                                                    onclick="javascript: return confirm('Padam maklumat ini?');">
+                                                                    <i class="fa  fa-times"></i>
+                                                                </a>
+                                                                    <br>
+                                                            @elseif($element->statusPermohonan == "Lulus Semakan BPSM" && $rombo->statusPermohonanRom == "Pending")
+                                                                - {{ $element->user->nama }}
+                                                                <br>
+                                                            @elseif($element->statusPermohonan == "Lulus Semakan BPSM" && $rombo->statusPermohonanRom == "Lulus Semakan")
+                                                                - {{ $element->user->nama }}<br>
                                                             @else
                                                             @endif
                                                         @endif

@@ -79,14 +79,16 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="tujuanRom"><i class="fas fa-money-bill"></i> Jenis Kewangan Rombongan</label>
+                                        <label for="tujuanRom"><i class="fas fa-money-bill"></i> Jenis Kewangan
+                                            Rombongan</label>
                                         <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
                                             value="{{ $rombongan->jenisKewanganRom }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="tujuanRom"><i class="fas fa-money-bill"></i> Anggaran Perbelanjaan</label>
+                                        <label for="tujuanRom"><i class="fas fa-money-bill"></i> Anggaran
+                                            Perbelanjaan</label>
                                         <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
                                             value="{{ $rombongan->anggaranBelanja }}">
                                     </div>
@@ -121,16 +123,19 @@
                             <hr>
                             <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
                             <p class="text-muted">
+                            <p style="text-transform: uppercase">
                                 @foreach ($peserta as $peser)
-                                @if ($peser->statusPermohonan == "Permohonan Berjaya")
-                                    
-                                @endif
+                                    @if ($peser->statusPermohonan == 'Permohonan Berjaya')
+
+                                    @endif
                                     <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
                                         data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
                                         data-jawatan="{{ $peser->user->jawatan }}"
-                                        data-jabatan="{{ $peser->user->jabatan }}">{{ $peser->user->nama }}</a> ( {{ $peser->statusPermohonan }})
+                                        data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a> (
+                                    {{ $peser->statusPermohonan }})
                                     <br>
                                 @endforeach
+                            </p>
                             </p>
                             <hr>
                             <strong><i class="fa fa-file"></i> Dokumen Rasmi</strong>
@@ -144,9 +149,7 @@
                             </p>
                             <hr>
                             <p class="text-center">
-                                <a class="btn btn-primary"
-                                    href="{{ URL::previous() }}"
-                                    role="button">Kembali</a>
+                                <a class="btn btn-danger" href="{{ URL::previous() }}" role="button">Kembali</a>
                             </p>
                         </div>
                     </div>
@@ -162,16 +165,16 @@
                     <h4 class="modal-title">Maklumat Pemohon</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                 {!! Form::open(['method' => 'POST', 'url' => '#']) !!}
+                {!! Form::open(['method' => 'POST', 'url' => '#']) !!}
                 <div class="modal-body">
                     <div class="form-group{{ $errors->has('nama_edit') ? ' has-error' : '' }}">
                         {!! Form::label('nama_edit', 'Nama') !!}
-                        {!! Form::text('nama_edit', null, ['class' => 'form-control', 'disabled' => 'disabled','id'=>'nama_edit']) !!}
+                        {!! Form::text('nama_edit', null, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nama_edit']) !!}
                         <small class="text-danger">{{ $errors->first('nama_edit') }}</small>
                     </div>
                     <div class="form-group{{ $errors->has('nokp_edit') ? ' has-error' : '' }}">
                         {!! Form::label('nokp_edit', 'Kad Pengenalan') !!}
-                        {!! Form::text('nokp_edit', null, ['class' => 'form-control', 'disabled' => 'disabled','id'=>'nokp_edit']) !!}
+                        {!! Form::text('nokp_edit', null, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nokp_edit']) !!}
                         <small class="text-danger">{{ $errors->first('nokp_edit') }}</small>
                     </div>
                     <div class="form-group{{ $errors->has('email_edit') ? ' has-error' : '' }}">
@@ -179,7 +182,7 @@
                         {!! Form::email('email_edit', null, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
                         <small class="text-danger">{{ $errors->first('email_edit') }}</small>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -192,22 +195,22 @@
 @endsection
 @section('script')
 
-      <script>
-          $('#mdl-kemaskini').on('show.bs.modal',function (event){
+    <script>
+        $('#mdl-kemaskini').on('show.bs.modal', function(event) {
 
-              var button = $(event.relatedTarget);
-              var nama = button.data('nama');
-              var nokp = button.data('nokp');
-              var email = button.data('email');
-              var jawatan = button.data('jawatan');
-              var jabatan = button.data('jabatan');
+            var button = $(event.relatedTarget);
+            var nama = button.data('nama');
+            var nokp = button.data('nokp');
+            var email = button.data('email');
+            var jawatan = button.data('jawatan');
+            var jabatan = button.data('jabatan');
 
-              $('#nama_edit').val(nama);
-              $('#nokp_edit').val(nokp);
-              $('#email_edit').val(email);
-              $('#jawatan_edit').val(jawatan);
-              $('#jabatan_edit').val(jabatan);
-          });
-      </script>
+            $('#nama_edit').val(nama);
+            $('#nokp_edit').val(nokp);
+            $('#email_edit').val(email);
+            $('#jawatan_edit').val(jawatan);
+            $('#jabatan_edit').val(jabatan);
+        });
+    </script>
 
 @endsection

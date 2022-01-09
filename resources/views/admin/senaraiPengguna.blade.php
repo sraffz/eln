@@ -40,8 +40,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                  <div class="table-responsive">
-                                    <table class="table table-bordered table-striped display">
+                                  <div class="">
+                                    <table class="table table-responsive table-bordered table-striped display">
                                         <thead style="background-color:powderblue;">
                                             <tr>
                                                 <th style="vertical-align: middle">No</th>

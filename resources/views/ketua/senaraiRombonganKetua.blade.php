@@ -26,11 +26,11 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-    @include('flash::message')
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                @include('flash::message')
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header with-border">
@@ -94,20 +94,19 @@
 
                                                         @elseif($rombo->statusPermohonanRom == "Lulus Semakan")
 
-                                                            <a href="senaraiRombonganKetua/{{ $rombo->rombongans_id }}/sent-Rombongan"
+                                                            <a href="{{ url('luluskan-rombongan', [$rombo->rombongans_id]) }}"
                                                                 class="btn btn-success btn-xs"
                                                                 onclick="javascript: return confirm('Adakah anda pasti untuk menluluskan permohonan ini?');"><i
                                                                     class="fa fa-thumbs-up"></i></a>
 
-                                                            <a href="senaraiRombonganKetua/{{ $rombo->rombongans_id }}/reject-Rombongan"
+                                                            <a href="{{ url('tolak-rombongan', [$rombo->rombongans_id]) }}"
                                                                 class="btn btn-danger btn-xs"
                                                                 onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
                                                                     class="fa fa-thumbs-down"></i></a>
 
-                                                            <a href="{{ route('editPermohonan.edit', ['id' => $rombo->rombongans_id]) }}"
-                                                                class="btn btn-warning btn-xs"
-                                                                onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i
-                                                                    class="fa fa-print"></i>
+                                                            <a href="{{ route('cetak-butiran-rombongan', [$rombo->rombongans_id]) }}"
+                                                                class="btn btn-warning btn-xs">
+                                                                <i class="fa fa-print"></i>
                                                             </a>
 
                                                         @elseif($rombo->statusPermohonanRom == "Permohonan Diluluskan")

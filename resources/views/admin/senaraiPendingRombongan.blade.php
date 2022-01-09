@@ -40,8 +40,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped display">
+                                    <div class="">
+                                        <table class="table table-responsive table-bordered table-striped display">
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: middle">No</th>
@@ -60,8 +60,8 @@
                                                 @foreach ($rombongan as $index => $rombo)
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td><a
-                                                                href="detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a>
+                                                        <td>
+                                                            <a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id] )}}">{{ $rombo->negaraRom }}</a>
                                                         </td>
                                                         <td>{{ $rombo->codeRom }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
@@ -70,15 +70,16 @@
                                                         </td>
                                                         <td>{{ $rombo->tujuanRom }}</td>
                                                         <td>
+                                                            - {{ $rombo->nama }} <br>
                                                             @foreach ($allPermohonan as $element)
                                                                 @if ($element->rombongans_id == $rombo->rombongans_id)
-                                                                    {{ $element->user->nama }} &nbsp;&nbsp;
+                                                                    - {{ $element->user->nama }} <br>
 
                                                                     @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
                                                                         {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
                                                                         <br>
                                                                     @elseif($rombo->statusPermohonanRom == "Pending")
-                                                                        <a href="senaraiPermohonan/{{ $element->permohonansID }}/tamat-individu"
+                                                                        <a href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
                                                                             class="btn-danger btn-xs">
                                                                             <i class="fa  fa-times"></i>
                                                                         </a><br>
@@ -110,7 +111,6 @@
                                                                     <i class="fa fa-times"></i>
                                                                 </a>
 
-                                                                {{-- <a href="/senaraiPendingRombongan/{{$rombo->rombongans_id}}/Tolak" class="btn btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa fa-user-times"></i></a> --}}
 
                                                             @elseif($rombo->statusPermohonanRom == "Diluluskan")
 

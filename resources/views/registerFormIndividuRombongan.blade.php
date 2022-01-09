@@ -15,10 +15,10 @@
 @endsection
 
 @section('content')
-    @include('flash::message')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
+<section class="content-header">
+    <div class="container-fluid">
+        @include('flash::message')
+        <div class="row mb-2">
                 <div class="col-sm-6">
                     <h3 class="box-title">Borang Pemohonan Sertai Rombongan</h3>
                 </div>

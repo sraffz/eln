@@ -49,8 +49,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped display">
+                                    <div class="">
+                                        <table class="table table-responsive table-striped display">
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: middle">No</th>
@@ -59,7 +59,6 @@
                                                     <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     <th style="vertical-align: middle">Negara</th>
                                                     <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
-                                                    {{-- <th style="vertical-align: middle">Tarikh Akhir Perjalanan</th> --}}
                                                     <th style="vertical-align: middle">Jenis Permohonan</th>
                                                     <th style="vertical-align: middle">No Rujukan</th>
                                                     <th style="vertical-align: middle">Status Permohonan</th>
@@ -78,8 +77,7 @@
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
                                                             {{-- <a class="btn btn-primary btn-xs" href="#" role="button" id="luluspermohonan">SweetAlert</a> --}}
-                                                            <a
-                                                                href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                         </td>
                                                         <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
@@ -122,9 +120,9 @@
                                                             </td>
                                                         @endif
                                                     @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                        <span class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span></td>
+                                                        <span class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span></td><td></td>
                                                     @else
-                                                        <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span></td>
+                                                        <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span></td> 
                                                 @endif
             
                                                 @if ($url != url('senaraiRekodIndividu'))

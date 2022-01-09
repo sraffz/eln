@@ -1098,11 +1098,16 @@ class permohonanController extends Controller
     public function senaraiPermohonanProses($id)
     {
         $userDetail = User::find($id);
+
         $permohonan = Permohonan::where('usersID', $id)
-            ->where('statusPermohonan', '!=', 'Permohonan Berjaya')
+            ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal' ])
             ->orderBy('created_at', 'desc')
             ->get();
-        $rombongan = Rombongan::where('usersID', $id)->get();
+
+        $rombongan = Rombongan::where('usersID', $id)
+        ->whereNotIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal' ])
+        ->get();
+
         $allPermohonan = Permohonan::with('user')->get();
 
         //dd($ss);
@@ -1112,6 +1117,7 @@ class permohonanController extends Controller
     public function senaraiPermohonanIndividu($id)
     {
         $userDetail = User::find($id);
+
         $permohonan = Permohonan::where('usersID', $id)
             ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->orderBy('created_at', 'desc')
@@ -1128,7 +1134,7 @@ class permohonanController extends Controller
     public function senaraiPermohonanRombongan($id)
     {
         $rombongan = Rombongan::where('usersID', $id)
-        ->whereIn('statusPermohonanRom', ['Berjaya', 'Gagal'])
+        ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
         ->get();
 
         $allPermohonan = Permohonan::with('user')->get();
