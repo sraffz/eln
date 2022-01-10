@@ -36,20 +36,21 @@
                             <h3 class="card-title">Maklumat Rombongan</h3>
                         </div>
                         <!-- /.card-header -->
+                        @foreach ($rombongan as $rombooo)
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for=""><i class="fab fa-codepen"></i> Kod Rombongan</label>
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $rombongan->codeRom }}">
+                                            value="{{ $rombooo->codeRom }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for=""><i class="fas fa-question-circle"></i> Status</label>
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $rombongan->statusPermohonanRom }}">
+                                            value="{{ $rombooo->statusPermohonanRom }}">
                                     </div>
                                 </div>
                             </div>
@@ -58,14 +59,14 @@
                                     <div class="form-group">
                                         <label for=""><i class="fas fa-globe"></i> Negara</label>
                                         <input type="text" class="form-control" disabled
-                                            value="{{ $rombongan->negaraRom }}">
+                                            value="{{ $rombooo->negaraRom }}">
                                     </div>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for=""><i class="fas fa-map-marker-alt"></i> Alamat</label>
                                         <textarea class="form-control" disabled
-                                            rows="3">{{ $rombongan->alamatRom }}</textarea>
+                                            rows="3">{{ $rombooo->alamatRom }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +75,7 @@
                                     <div class="form-group">
                                         <label for="tujuanRom"><i class="fas fa-keyboard"></i> Tujuan Rombongan</label>
                                         <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
-                                            value="{{ $rombongan->tujuanRom }}">
+                                            value="{{ $rombooo->tujuanRom }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -82,7 +83,7 @@
                                         <label for="tujuanRom"><i class="fas fa-money-bill"></i> Jenis Kewangan
                                             Rombongan</label>
                                         <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
-                                            value="{{ $rombongan->jenisKewanganRom }}">
+                                            value="{{ $rombooo->jenisKewanganRom }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -90,7 +91,7 @@
                                         <label for="tujuanRom"><i class="fas fa-money-bill"></i> Anggaran
                                             Perbelanjaan</label>
                                         <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
-                                            value="{{ $rombongan->anggaranBelanja }}">
+                                            value="{{ $rombooo->anggaranBelanja }}">
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +101,7 @@
                                     <div class="form-group">
                                         <label for="mula"><i class="fa fa-calendar"></i> Mula Rombongan</label>
                                         <input id="mula" type="text" class="form-control"
-                                            value="{{ \Carbon\Carbon::parse($rombongan->tarikhMulaRom)->format('d/m/Y') }}"
+                                            value="{{ \Carbon\Carbon::parse($rombooo->tarikhMulaRom)->format('d/m/Y') }}"
                                             disabled>
                                     </div>
                                 </div>
@@ -108,7 +109,7 @@
                                     <div class="form-group">
                                         <label for="akhir"><i class="fa fa-calendar"></i> Tamat Rombongan</label>
                                         <input id="akhir" type="text" class="form-control"
-                                            value="{{ \Carbon\Carbon::parse($rombongan->tarikhAkhirRom)->format('d/m/Y') }}"
+                                            value="{{ \Carbon\Carbon::parse($rombooo->tarikhAkhirRom)->format('d/m/Y') }}"
                                             disabled>
                                     </div>
                                 </div>
@@ -122,20 +123,39 @@
                             </div>
                             <hr>
                             <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
-                            <p class="text-muted">
-                            <p style="text-transform: uppercase">
+                            <p class="text-muted" style="text-transform: uppercase">
+                                {{ $rombooo->nama }} (ketua rombongan)<br>
                                 @foreach ($peserta as $peser)
-                                    @if ($peser->statusPermohonan == 'Permohonan Berjaya')
-
-                                    @endif
+                                @if (Auth::user()->role == 'jabatan' || Auth::user()->role == 'DatoSUK')
+                                    @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' )
                                     <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
                                         data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
                                         data-jawatan="{{ $peser->user->jawatan }}"
-                                        data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a> (
-                                    {{ $peser->statusPermohonan }})
+                                        data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a>
+                                    <i> 
+                                        @if ($peser->statusPermohonan == 'Lulus Semakan BPSM')
+                                            (Disokong oleh ketua Jabatan)
+                                        @endif
+                                    </i>
                                     <br>
+                                    @endif
+                                @else
+                                    <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
+                                        data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
+                                        data-jawatan="{{ $peser->user->jawatan }}"
+                                        data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a>
+                                    <i> 
+                                        @if ($peser->statusPermohonan == 'Ketua Jabatan')
+                                            (Perlu Sokongan Ketua Jabatan)
+                                        @elseif ($peser->statusPermohonan == 'Lulus Semakan BPSM')
+                                            (Disokong oleh ketua Jabatan)
+                                        @elseif ($peser->statusPermohonan == 'Permohonan Gagal')
+                                            (Permohonan ditolak)
+                                        @endif
+                                    </i>
+                                    <br>
+                                @endif
                                 @endforeach
-                            </p>
                             </p>
                             <hr>
                             <strong><i class="fa fa-file"></i> Dokumen Rasmi</strong>
@@ -152,6 +172,7 @@
                                 <a class="btn btn-danger" href="{{ URL::previous() }}" role="button">Kembali</a>
                             </p>
                         </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

@@ -50,7 +50,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="">
-                                        <table class="table table-responsive table-striped display">
+                                        <table class="table table-responsive table-bordered table-sm display">
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: middle">No</th>
@@ -77,7 +77,8 @@
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
                                                             {{-- <a class="btn btn-primary btn-xs" href="#" role="button" id="luluspermohonan">SweetAlert</a> --}}
-                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                            <a
+                                                                href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                         </td>
                                                         <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
@@ -92,9 +93,10 @@
                                                         </td>
                                                         <td>
                                                             @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                                <span class="badge badge-success">{{ $mohonan->statusPermohonan }}</span>
+                                                                <span
+                                                                    class="badge badge-success">{{ $mohonan->statusPermohonan }}</span>
                                                         </td>
-            
+
                                                         @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                             <td>
                                                                 <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -106,8 +108,8 @@
                                                                     onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
                                                                     Kelulusan</a>
                                                             </td>
-            
-                                                        @elseif($mohonan->JenisPermohonan == "Tidak Rasmi")
+
+                                                        @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                             <td>
                                                                 <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                     class="btn btn-primary btn-xs"
@@ -119,42 +121,47 @@
                                                                     Kelulusan</a>
                                                             </td>
                                                         @endif
-                                                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                        <span class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span></td><td></td>
-                                                    @else
-                                                        <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span></td> 
+                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
+                                                        <span
+                                                            class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
+                                                        </td>
+                                                        <td>
+
+                                                        </td>
+                                                    @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                        <span class="badge badge-info">Disokong</span></td>
                                                 @endif
-            
+
                                                 @if ($url != url('senaraiRekodIndividu'))
                                                     <td>
                                                         @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
-            
+
                                                             <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-success btn-xs"
                                                                 onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
                                                                     class="fa fa-check-square-o"> Terima</i></a>
-            
-                                                            <a class="btn btn-danger btn-xs" data-toggle="modal" href='#mdl-tolak'
-                                                                data-id="{{ $mohonan->permohonansID }}"
+
+                                                            <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                                                href='#mdl-tolak' data-id="{{ $mohonan->permohonansID }}"
                                                                 onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
                                                                     class="fa fa-times">Tolak</i></a>
-            
+
                                                             {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                         class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
-            
-                                                        @elseif($mohonan->statusPermohonan == "Lulus Semakan BPSM")
-            
+
+                                                        @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+
                                                             {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                         class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mencetak maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
-            
+
                                                         @endif
                                                     </td>
                                                 @else
-            
+
                                                 @endif
-            
+
                                                 @endforeach
-            
+
                                             </tbody>
                                         </table>
                                     </div>

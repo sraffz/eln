@@ -35,6 +35,9 @@
                     <div class="card">
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Rombongan</h3>
+                            <div class="float-right">
+                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-rombongan') }}" role="button">Cetak</a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -43,23 +46,25 @@
                                     <table class="table table-bordered table-striped display">
                                         <thead>
                                             <tr>
+                                                <th>Bil</th>
                                                 <th>Negara</th>
                                                 <th>Code</th>
                                                 <th>Tarikh Mula Perjalanan</th>
                                                 <th>Tarikh Akhir Perjalanan</th>
                                                 <th>Tujuan Rombongan</th>
                                                 <th>Peserta</th>
-                                                <th>Status Permohonan</th>
+                                                {{-- <th>Status Permohonan</th> --}}
                                                 {{-- <th>Tarikh Lulusan Permohonan</th> --}}
                                                 <th>Tindakan</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            @foreach ($rombongan as $rombo)
+                                            @foreach ($rombongan as $index => $rombo)
                                                 <tr>
-                                                    <td><a
-                                                            href="detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a>
+                                                    <td>{{ $index+1 }}</td>
+                                                    <td>
+                                                        <a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>
                                                     </td>
                                                     <td>{{ $rombo->codeRom }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
@@ -68,6 +73,7 @@
                                                     </td>
                                                     <td>{{ $rombo->tujuanRom }}</td>
                                                     <td>
+                                                        {{ $rombo->nama }} <br>
                                                         @foreach ($allPermohonan as $element)
                                                             @if ($element->rombongans_id == $rombo->rombongans_id)
                                                                 {{ $element->user->nama }} &nbsp;&nbsp;
@@ -84,9 +90,8 @@
                                                             @endif
                                                         @endforeach
                                                     </td>
-                                                    <td>{{ $rombo->statusPermohonanRom }}</td>
+                                                    {{-- <td>{{ $rombo->statusPermohonanRom }}</td> --}}
                                                     {{-- <td>{{\Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y')}}</td> --}}
-
                                                     <td>
                                                         @if ($rombo->statusPermohonanRom == 'Permohonan Berjaya')
 

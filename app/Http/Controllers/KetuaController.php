@@ -9,6 +9,7 @@ use App\Rombongan;
 use App\User;
 use App\Notifications\PermohonanBerjaya;
 use DB;
+use PDF;
 use Notification;
 use Carbon\Carbon;
 
@@ -42,9 +43,13 @@ class KetuaController extends Controller
         $allPermohonan = Permohonan::with('user')
             ->where('statusPermohonan', '!=', 'Permohonan Gagal')
             ->get();
+
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
-        $rombongan = Rombongan::where('statusPermohonanRom', 'Lulus Semakan')->get();
-        return view('ketua/senaraiRombonganKetua', compact('rombongan', 'allPermohonan'));
+        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            ->where('statusPermohonanRom', 'Lulus Semakan')
+            ->get();
+
+        return view('ketua.senaraiRombonganKetua', compact('rombongan', 'allPermohonan'));
     }
 
     public function editPermohonan(Request $request)
@@ -56,7 +61,7 @@ class KetuaController extends Controller
         Permohonan::where('permohonansID', '=', $permohonansID)->update([
             'sebabDitolak' => $sebab,
             'statusPermohonan' => $status,
-            'tarikhLulusan' => \Carbon\Carbon::now()
+            'tarikhLulusan' => \Carbon\Carbon::now(),
         ]);
 
         return redirect()->back();
@@ -80,7 +85,7 @@ class KetuaController extends Controller
         // dd($tarikhMulaPerjalanan);
         Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah, 'tarikhLulusan' => \Carbon\Carbon::now()]);
 
-        flash('Permohonan Berjaya.')->success();
+        flash('Permohonan Diluluskan.')->success();
         return redirect()->back();
     }
 
@@ -90,7 +95,7 @@ class KetuaController extends Controller
 
         Rombongan::where('rombongans_id', '=', $id)->update([
             'statusPermohonanRom' => $ubah,
-            'tarikhStatusPermohonan' => \Carbon\Carbon::now()
+            'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
         ]);
 
         $senarai = DB::table('permohonans')
@@ -105,11 +110,11 @@ class KetuaController extends Controller
 
             Permohonan::where('permohonansID', '=', $idPermohonan)->update([
                 'statusPermohonan' => $ubah,
-                'tarikhLulusan' => \Carbon\Carbon::now()
+                'tarikhLulusan' => \Carbon\Carbon::now(),
             ]);
         }
 
-        flash('Permohonan Berjaya Diluluskan.')->success();
+        flash('Permohonan Diluluskan.')->success();
         return redirect()->back();
     }
 
@@ -119,7 +124,7 @@ class KetuaController extends Controller
 
         Rombongan::where('rombongans_id', '=', $id)->update([
             'statusPermohonanRom' => $ubah,
-            'tarikhStatusPermohonan' => \Carbon\Carbon::now()
+            'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
         ]);
 
         $senarai = DB::table('permohonans')
@@ -132,7 +137,7 @@ class KetuaController extends Controller
             // echo $idPermohonan;
             Permohonan::where('permohonansID', '=', $idPermohonan)->update([
                 'statusPermohonan' => $ubah,
-                'tarikhLulusan' => \Carbon\Carbon::now()
+                'tarikhLulusan' => \Carbon\Carbon::now(),
             ]);
         }
 
@@ -146,7 +151,7 @@ class KetuaController extends Controller
 
         Permohonan::where('permohonansID', '=', $id)->update([
             'statusPermohonan' => $ubah,
-            'tarikhLulusan' => \Carbon\Carbon::now()
+            'tarikhLulusan' => \Carbon\Carbon::now(),
         ]);
 
         flash('Permohonan Ditolak.')->success();
@@ -159,7 +164,7 @@ class KetuaController extends Controller
 
         Permohonan::where('permohonansID', '=', $id)->update([
             'statusPermohonan' => $ubah,
-            'tarikhLulusan' => \Carbon\Carbon::now()
+            'tarikhLulusan' => \Carbon\Carbon::now(),
         ]);
 
         flash('Permohonan Gagal.')->success();
@@ -177,5 +182,47 @@ class KetuaController extends Controller
 
         // dd($senaraiPengguna);
         return view('ketua.jumlahKeLuarnegara', compact('senaraiPermohonan', 'senaraiPengguna'));
+    }
+
+    public function cetakRombongan($id)
+    {
+        $d = 'borang cetak';
+        return $d;
+    }
+
+    public function cetakPermohonan($id)
+    {
+        $d = 'borang cetak';
+        return $d;
+    }
+
+    public function cetakSenarairombongan()
+    {
+        $allPermohonan = Permohonan::with('user')
+            ->where('statusPermohonan', '!=', 'Permohonan Gagal')
+            ->get();
+
+        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            ->where('statusPermohonanRom', 'Lulus Semakan')
+            ->get();
+
+        // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
+
+        $pdf = PDF::loadView('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'))->setpaper('a4', 'landscape');
+        return $pdf->download('Senarai Permohonan Rombongan Ke Luar Negara');
+    }
+
+    public function cetakSenaraiPermohonan()
+    {
+        $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
+
+        $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
+            ->whereNotIn('JenisPermohonan', ['rombongan'])
+            ->get();
+
+        // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
+
+        $pdf = PDF::loadview('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'))->setpaper('a4', 'landscape');
+        return $pdf->download('Senarai Permohonan Individu Ke Luar Negara');
     }
 }

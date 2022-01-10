@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="">
-                                        <table class="table table-responsive table-bordered table-striped display">
+                                        <table class="table table-responsive table-bordered table-sm display">
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: middle">No</th>

@@ -54,29 +54,29 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a class="nav-link  {{ url()->current() == url('registerFormIndividu', 'rasmi') ? 'active' : '' }}" href="{{ route('registerFormIndividu', 'rasmi') }}"><i
-                                    class="nav-icon fa fa-edit"></i>Rasmi</a>
+                                    class="nav-icon far fa-circle nav-icon"></i>Rasmi</a>
                         </li>
                         <li class="nav-item"><a class="nav-link  {{ url()->current() == url('registerFormIndividu', 'tidakRasmi') ? 'active' : '' }}"
                                 href="{{ route('registerFormIndividu', 'tidakRasmi') }}"><i
-                                    class="nav-icon fa fa-edit"></i>Tidak Rasmi</a></li>
-                        <li class="nav-item"><a class="nav-link  {{ url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}"
-                                href="{{ route('registerFormIndividuRombongan', Auth::user()->usersID) }}"><i
-                                    class="nav-icon fa fa-edit"></i>Rombongan</a></li>
-                        {{-- <li class="nav-item"><a href="#" data-toggle="tooltip" title="Permohonan secara blanket aproval untuk individu" data-placement="right"><i class="nav-icon fa fa-child"></i>Blanket Aproval</a></li> --}}
-                    </ul>
-                </li>
-
-                <li class="nav-item {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'menu-open' : '' }}">
-                    <a class="nav-link  {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-users"></i>
-                        <p>Rombongan
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item"><a class="nav-link  {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}"
-                                href="{{ route('registerFormRombangan', Auth::user()->usersID) }}"><i
-                                    class="nav-icon fa fa-edit"></i>Permohonanan</a></li>
+                                    class="nav-icon far fa-circle nav-icon"></i>Tidak Rasmi</a></li>
+                                    {{-- <li class="nav-item"><a href="#" data-toggle="tooltip" title="Permohonan secara blanket aproval untuk individu" data-placement="right"><i class="nav-icon fa fa-child"></i>Blanket Aproval</a></li> --}}
+                                </ul>
+                            </li>
+                            
+                            <li class="nav-item {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'menu-open' : '' }}">
+                                <a class="nav-link  {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}">
+                                    <i class="nav-icon fa fa-users"></i>
+                                    <p>Rombongan
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item"><a class="nav-link  {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}"
+                                        href="{{ route('registerFormRombangan', Auth::user()->usersID) }}"><i
+                                        class="nav-icon far fa-circle nav-icon"></i>Permohonanan</a></li>
+                                        <li class="nav-item"><a class="nav-link  {{ url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}"
+                                                href="{{ route('registerFormIndividuRombongan', Auth::user()->usersID) }}"><i
+                                                    class="nav-icon far fa-circle nav-icon"></i>Sertai Rombongan</a></li>
 
                     </ul>
                 </li>

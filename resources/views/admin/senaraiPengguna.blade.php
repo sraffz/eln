@@ -5,8 +5,21 @@
 @section('link')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <style>
+        .table tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tr th {
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+
 @endsection
 
 @section('content')
@@ -40,45 +53,45 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                  <div class="">
-                                    <table class="table table-responsive table-bordered table-striped display">
-                                        <thead style="background-color:powderblue;">
-                                            <tr>
-                                                <th style="vertical-align: middle">No</th>
-                                                <th style="vertical-align: middle">NO KP</th>
-                                                <th style="vertical-align: middle">Nama</th>
-                                                <th style="vertical-align: middle">Jawatan</th>
-                                                <th style="vertical-align: middle">Jabatan</th>
-                                                <th style="vertical-align: middle">Email</th>
-                                                <th style="vertical-align: middle">Peranan</th>
-                                                <th style="vertical-align: middle">Jumlah Permohonan<br>2019</th>
-                                                <th style="vertical-align: middle">Keseluruhan<br> Permohonan</th>
-                                                <th style="vertical-align: middle">Tindakan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($user as $index => $ss)
+                                    <div class="">
+                                        <table class="table table-responsive table-bordered table-sm display">
+                                            <thead class="thead-dark">
                                                 <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $ss->nokp }}</td>
-                                                    <td>{{ $ss->nama }}</td>
-                                                    <td>{{ $ss->namaJawatan }}</td>
-                                                    <td>{{ $ss->userJabatan->nama_jabatan }}
-                                                        ({{ $ss->userJabatan->kod_jabatan }})</td>
-                                                    <td>{{ $ss->email }}</td>
-                                                    <td>{{ $ss->role }}</td>
-                                                    <td>{{ $ss->jumlah_permohonan_semasa }}</td>
-                                                    <td>{{ $ss->jumlah_permohonan }}</td>
-                                                    <td>
-                                                        <a href="{{ url('kemaskini-pengguna', [$ss->usersID]) }}">
-                                                            <button type="button" class="btn btn-primary btn-xs" >Kemaskini</button>
-                                                        </a>
-                                                    </td>
+                                                    <th>No</th>
+                                                    <th>Nama <br> (NO KP)</th>
+                                                    <th>Jawatan</th>
+                                                    <th>Jabatan</th>
+                                                    <th>Email</th>
+                                                    <th>Peranan</th>
+                                                    <th>Jumlah
+                                                        Permohonan<br>{{ now()->year }}</th>
+                                                    <th>Keseluruhan<br> Permohonan</th>
+                                                    <th>Tindakan</th>
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                  </div>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($user as $index => $ss)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $ss->nama }} <br>({{ $ss->nokp }})</td>
+                                                        <td>{{ $ss->namaJawatan }}</td>
+                                                        <td>{{ $ss->userJabatan->nama_jabatan }}
+                                                            ({{ $ss->userJabatan->kod_jabatan }})</td>
+                                                        <td>{{ $ss->email }}</td>
+                                                        <td>{{ $ss->role }}</td>
+                                                        <td>{{ $ss->jumlah_permohonan_semasa }}</td>
+                                                        <td>{{ $ss->jumlah_permohonan }}</td>
+                                                        <td>
+                                                            <a href="{{ url('kemaskini-pengguna', [$ss->usersID]) }}">
+                                                                <button type="button"
+                                                                    class="btn btn-primary btn-xs">Kemaskini</button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <!-- /.chart-responsive -->
                                 </div>
                             </div>

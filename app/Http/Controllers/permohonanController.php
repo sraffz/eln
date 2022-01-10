@@ -312,7 +312,7 @@ class permohonanController extends Controller
                             flash('Permohonan berjaya didaftar.')->success();
                             return redirect('');
                         } else {
-                            flash::error('Error uploading ' . $doc_type);
+                            flash::error('Muat naik tidak berjaya' . $doc_type);
                             return redirect('');
                         }
                     } else {
@@ -412,7 +412,7 @@ class permohonanController extends Controller
                             DB::table('pasangans')->insert($dataPasangan);
                             return redirect('');
                         } else {
-                            Flash::error('Error uploading ' . $doc_type);
+                            Flash::error('Muat naik tidak berjaya.' . $doc_type);
                             return redirect('');
                         }
                     } else {
@@ -557,7 +557,7 @@ class permohonanController extends Controller
                         Dokumen::create($data);
                         return redirect('');
                     } else {
-                        Flash::error('Error uploading ' . $doc_type);
+                        Flash::error('Muat naik tidak berjaya' . $doc_type);
                         return redirect('');
                     }
                 } else {
@@ -742,35 +742,56 @@ class permohonanController extends Controller
 
     public function hantarRombongan($id)
     {
-        //echo $id;
-        $d = DB::table('dokumens')
-            ->where('rombongans_id', '=', $id)
+
+        $errorcheck = Permohonan::where('rombongans_id', $id)
+            ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'Lulus Semakan BPSM'])
             ->count();
 
-        $peserta = DB::table('permohonans')
-            ->where('rombongans_id', '=', $id)
-            ->count();
+        // return dd($errorcheck);
 
-        //echo $peserta;
-        if ($d >= 1 && $peserta >= 1) {
-            Rombongan::where('rombongans_id', $id)->update([
-                'statusPermohonanRom' => 'Pending',
-            ]);
+        // if ($errorcheck > 0) {
 
-            flash('Permohonan Berjaya Dihantar.')->success();
+        //     flash('Terdapat ahli rombongan yang belum mendapat kelulusan ketua jabatan.')->error();
+        //     return back();
 
-            // return dd($d);
-            return redirect()->back();
-        } elseif ($d == 0 && $peserta == 0) {
-            flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
-            return redirect()->back();
-        } elseif ($d == 0) {
-            flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
-            return redirect()->back();
-        } elseif ($peserta == 0) {
-            flash('Permohonan rombongan memerlukan peserta.')->error();
-            return redirect()->back();
-        }
+        // } else{
+
+            $d = DB::table('dokumens')
+                ->where('rombongans_id', '=', $id)
+                ->count();
+    
+            $peserta = DB::table('permohonans')
+                ->where('rombongans_id', '=', $id)
+                ->count();
+    
+            //echo $peserta;
+            if ($d >= 1 && $peserta >= 1) {
+                Rombongan::where('rombongans_id', $id)->update([
+                    'statusPermohonanRom' => 'Pending',
+                ]);
+    
+                Permohonan::where('rombongans_id', $id)
+                ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Lulus Semakan BPSM'])
+                ->update([
+                    'statusPermohonan' => 'Permohonan Gagal'
+                ]);
+    
+                flash('Permohonan Berjaya Dihantar.')->success();
+    
+                // return dd($d);
+                return redirect()->back();
+            } elseif ($d == 0 && $peserta == 0) {
+                flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
+                return redirect()->back();
+            } elseif ($d == 0) {
+                flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+                return redirect()->back();
+            } elseif ($peserta == 0) {
+                flash('Permohonan rombongan memerlukan peserta.')->error();
+                return redirect()->back();
+            }
+        // }
+  
     }
 
     public function editIndividu($id)

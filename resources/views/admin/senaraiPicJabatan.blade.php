@@ -36,7 +36,7 @@
                         </div>
                         <div class="card-body">
                             <div class="col-md-12">
-                                <table class="table table-bordered table-striped display">
+                                <table class="table table-bordered table-sm display">
                                     <thead>
                                         <tr>
                                             <th style="vertical-align: middle">No</th>

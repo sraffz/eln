@@ -112,14 +112,16 @@ class AdminController extends Controller
     public function indexRombongan()
     {
         // $rombongan = Rombongan::all();
-        $rombongan = Rombongan::whereIn('statusPermohonanRom', ['Pending'])->get();
+        $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+        ->whereIn('statusPermohonanRom', ['Pending'])->get();
 
-        $allPermohonan = Permohonan::with('user')->get();
-        //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
-        // $permohonan = Rombongan::where('statusPermohonan', 'Pending')
-        //             ->orwhere('statusPermohonan', 'Lulus Semakan')
-        //             ->get();
-        return view('admin/senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+        // dd($rombongan);
+
+        $allPermohonan = Permohonan::with('user')
+        ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
+        ->get();
+
+        return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
     }
 
     public function senaraiRekodRombongan()
@@ -278,15 +280,23 @@ class AdminController extends Controller
 
     public function showRombongan($id)
     {
-        $rombongan = Rombongan::find($id);
-        $mula = Carbon::parse($rombongan->tarikhMulaRom);
-        $akhir = Carbon::parse($rombongan->tarikhAkhirRom);
-        $jumlahDate = $mula->diffInDays($akhir);
+        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+        ->where('rombongans_id', $id)
+        ->get();
 
+        foreach ($rombongan as $rombo) {
+            $mula = Carbon::parse($rombo->tarikhMulaRom);
+            $akhir = Carbon::parse($rombo->tarikhAkhirRom);
+            $jumlahDate = $mula->diffInDays($akhir);
+        }
+
+        // $rombongan = Permohonan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+        // ->whereIn('statusPermohonanRom', ['Pending'])->get();
         // $code=$rombongan->codeRom;
 
         $peserta = Permohonan::with('user')
             ->where('rombongans_id', $id)
+            // ->whereIn('statusPermohonan',['Lulus Semakan BPSM'])
             ->get();
 
         $dokumen = DB::table('dokumens')
@@ -479,7 +489,7 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         Jabatan::create($data);
-        flash('Berjaya mendaftar. ')->success();
+        flash('Jabatan berjaya ditambah')->success();
         return redirect('senaraiJabatan');
     }
 
@@ -505,7 +515,7 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         Jawatan::create($data);
-        flash('Berjaya mendaftar. ')->success();
+        flash('Jawatan berjaya ditambah.')->success();
         return redirect('senaraiJawatan');
     }
 
@@ -531,7 +541,7 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         GredAngka::create($data);
-        flash('Berjaya mendaftar. ')->success();
+        flash('Maklumat telah ditambah')->success();
         return redirect('senaraiGredAngka');
     }
 
@@ -653,7 +663,7 @@ class AdminController extends Controller
 
         Jawatan::where('idJawatan', $angka)->update(['statusDato' => $ulasan]);
 
-        flash('Berjaya mendaftar. ')->success();
+        flash('Maklumat telah ditambah')->success();
         return redirect('terusDato');
     }
     public function padamTerusDato($id)
@@ -689,7 +699,7 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         GredKod::create($data);
-        flash('Berjaya mendaftar. ')->success();
+        flash('Maklumat telah ditambah')->success();
         return redirect('senaraiGredKod');
     }
 
@@ -722,7 +732,7 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         User::create($data);
-        flash('Berjaya mendaftar. ')->success();
+        flash('Maklumat telah ditambah')->success();
         return redirect()->back();
     }
 
@@ -761,7 +771,7 @@ class AdminController extends Controller
         //dd($request);
         $users = User::find($id);
         $users->update($request->all());
-        flash('kemaskini dah berjaya!!', 'success');
+        flash('Maklumat telah dikemaskini.')->success();
         return redirect('senaraiPic');
     }
 
@@ -789,7 +799,7 @@ class AdminController extends Controller
             ->where('statusPermohonan', '<>', 'simpanan')
             ->get();
 
-        return view('jabatan/senaraiPermohonanLepas', compact('permohonan'));
+        return view('jabatan.senaraiPermohonanLepas', compact('permohonan'));
     }
 
     public function daftarPenggunaJabatan()
@@ -815,7 +825,7 @@ class AdminController extends Controller
         $length = $end->diffInDays($nowsaa);
 
         Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
-        flash('Berjaya!!', 'success');
+        flash('Permohonan telah disokong.', 'success');
         return redirect()->back();
     }
 
@@ -842,11 +852,11 @@ class AdminController extends Controller
                 ->with('userJawatan')
                 ->where('nokp', $nokp)
                 ->update(['nama' => $nama, 'email' => $email]);
-            flash('kemaskini dah berjaya!!', 'success');
+            flash('Maklumat telah dikemaskini', 'success');
             return redirect()->back();
         } else {
             User::where('nokp', $nokp)->update(['nama' => $nama, 'email' => $email, 'password' => $password]);
-            flash('kemaskini dah berjaya!!', 'success');
+            flash('Maklumat telah dikemaskini', 'success');
             return redirect()->back();
         }
     }
@@ -873,7 +883,7 @@ class AdminController extends Controller
             'maklumat2' => $request->input('kata2'),
             'maklumat3' => $request->input('kata3'),
         ]);
-        flash('kemaskini dah berjaya!!', 'success');
+        flash('Maklumat telah dikemaskini', 'success');
 
         return redirect()->back();
 
@@ -930,7 +940,7 @@ class AdminController extends Controller
             return redirect()->back();
         } else {
             infoSurat::where('perkara', $pp)->update(['maklumat1' => $maklumat1, 'maklumat2' => $maklumat2, 'maklumat3' => $maklumat3, 'maklumat4' => $maklumat4]);
-            flash('kemaskini dah berjaya!!', 'success');
+            flash('Maklumat telah dikemaskini', 'success');
             return redirect()->back();
         }
     }

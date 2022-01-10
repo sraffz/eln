@@ -170,6 +170,10 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('luluskan-rombongan/{id}', 'KetuaController@ketuaSentRombongan');
 	Route::get('tolak-rombongan/{id}', 'KetuaController@ketuaRejectRombongan');
 	Route::get('cetak-butiran-rombongan/{id}', 'KetuaController@cetakRombongan')->name('cetak-butiran-rombongan');
+	Route::get('cetak-butiran-permohonan/{id}', 'KetuaController@cetakPermohonan')->name('cetak-butiran-permohonan');
+	
+	Route::get('cetak-senarai-permohonan', 'KetuaController@cetakSenaraiPermohonan')->name('cetak-senarai-permohonan');
+	Route::get('cetak-senarai-rombongan', 'KetuaController@cetakSenarairombongan')->name('cetak-senarai-rombongan');
 	
 	
 	Route::get('senaraiRombonganKetua/{id}/tolakPermohonan-individu', 'KetuaController@permohonanGagalKetua');

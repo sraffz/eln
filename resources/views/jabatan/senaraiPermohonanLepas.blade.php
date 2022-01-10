@@ -27,7 +27,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered table-striped display2">
+                                        <table class="table table-bordered table-sm display2">
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: middle;">No</th>

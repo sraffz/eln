@@ -35,9 +35,11 @@
                     <div class="card">
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Permohonan Individu<br>
-                                <small>Tidak termasuk individu yg mengikut
-                                    rombongan</small>
+                                {{-- <small>Tidak termasuk individu yg mengikut rombongan</small> --}}
                             </h3>
+                            <div class="float-right">
+                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-permohonan') }}" role="button">Cetak</a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -66,7 +68,7 @@
                                                     <td><?php echo $i;
                                                     $i = $i + 1; ?></td>
                                                     <td><a
-                                                            href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                                            href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                     </td>
                                                     <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
@@ -89,22 +91,19 @@
                                                                 onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
                                                                     class="far fa-thumbs-down"></i>
                                                             </a>
-                                                            <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}"
-                                                                class="btn btn-warning btn-xs"
-                                                                onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i
-                                                                    class="fa fa-print"></i>
+                                                            <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                                class="btn btn-warning btn-xs">
+                                                                <i class="fa fa-print"></i>
                                                             </a>
                                                         @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-                                                            <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}"
-                                                                class="btn btn-warning btn-xs"
-                                                                onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i
-                                                                    class="fa fa-print"></i>
+                                                            <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                                class="btn btn-warning btn-xs">
+                                                                <i class="fa fa-print"></i>
                                                             </a>
                                                         @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                            <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}"
-                                                                class="btn btn-warning btn-xs"
-                                                                onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i
-                                                                    class="fa fa-print"></i>
+                                                            <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                                class="btn btn-warning btn-xs">
+                                                                <i class="fa fa-print"></i>
                                                             </a>
                                                         @endif
                                                     </td>
