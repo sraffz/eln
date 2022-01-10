@@ -578,6 +578,16 @@ class permohonanController extends Controller
         $kembaliTugas = $request->input('tarikhKembaliBertugas');
         $tick = $request->input('tick');
 
+
+        $check = Rombongan::where('codeRom', $kodRombo)->first();
+
+        $per = Permohonan::where('rombongans_id', $check->rombongans_id)->first();
+
+        
+
+        
+        dd($per->rombongans_id);
+
         $date = explode('-', $tarikhmulaAkhirCuti); // dateRange is you string
         $dateFrom = $date[0];
         $dateTo = $date[1];
@@ -654,7 +664,7 @@ class permohonanController extends Controller
                                 'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                             ];
                             Permohonan::create($data);
-                            flash('Berjaya')->warning();
+                            flash('Berjaya')->success();
                             return redirect()->back();
                         } else {
                             Flash::error('Error uploading ' . $doc_type);

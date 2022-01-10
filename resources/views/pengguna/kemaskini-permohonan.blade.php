@@ -18,6 +18,7 @@
             <div class="row">
                 <!-- left column -->
                 <div class="col-md-12"><br>
+                    @include('flash::message')
                     <div class="card card-primary card-solid">
                         <div class="card-header with-border">
                             <h3 class="card-title">Maklumat permohonan perjalanan Keluar Negara</h3>
@@ -33,7 +34,7 @@
                                             <div class="form-group">
                                                 <label><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
                                                 <div class="input-group date">
-                                                    <input type="text" class="form-control pull-right" id="datepicker"
+                                                    <input type="date" class="form-control pull-right" 
                                                         name="tarikhInsuranRom" required="required"
                                                         value="{{ $rmbgn->tarikhInsuranRom->format('Y-m-d') }}">
                                                 </div>
@@ -44,8 +45,7 @@
                                                 <label><i class="fa fa-calendar"></i> Tarikh Mula Rombongan</label>
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="tarikhmula"
-                                                            id="datepicker1"
+                                                        <input type="date" class="form-control" name="tarikhmula"
                                                             value="{{ $rmbgn->tarikhMulaRom->format('Y-m-d') }}">
                                                     </div>
                                                 </div>
@@ -56,8 +56,7 @@
                                                 <label><i class="fa fa-calendar"></i> Tarikh Akhir Rombongan</label>
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="tarikhakhir"
-                                                            id="datepicker2"
+                                                        <input type="date" class="form-control" name="tarikhakhir"
                                                             value="{{ $rmbgn->tarikhAkhirRom->format('Y-m-d') }}">
                                                     </div>
                                                 </div>

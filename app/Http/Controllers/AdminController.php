@@ -246,10 +246,16 @@ class AdminController extends Controller
         Rombongan::where('rombongans_id', $id)->update([
             'tarikhInsuranRom' => $req->input('tarikhInsuranRom'),
             'tarikhMulaRom' => $req->input('tarikhmula'),
-            'tarikhMulaRom' => $req->input('tarikhakhir'),
-            'tarikhMulaRom' => $req->input('tarikhakhir'),
+            'tarikhAkhirRom' => $req->input('tarikhakhir'),
+            'negaraRom' => $req->input('negaraRom'),
+            'tujuanRom' => $req->input('tujuanRom'),
+            'jenisKewanganRom' => $req->input('jenisKewanganRom'),
+            'anggaranBelanja' => $req->input('anggaranBelanja'),
+            'alamatRom' => $req->input('alamatRom'),
+            'alamatRom' => $req->input('alamatRom'),
         ]);
 
+        flash('Maklumat dikemaskini.')->success();
         return back();
     }
 
