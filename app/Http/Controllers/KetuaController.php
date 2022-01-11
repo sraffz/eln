@@ -192,8 +192,23 @@ class KetuaController extends Controller
 
     public function cetakPermohonan($id)
     {
-        $d = 'borang cetak';
-        return $d;
+        $permohonan = Permohonan::find($id);
+        $pasangan = Pasangan::where('permohonansID', $id)->get();
+        $dokumen = DB::table('dokumens')
+            ->where('permohonansID', '=', $id)
+            ->get();
+
+        $mula = Carbon::parse($permohonan->tarikhMulaPerjalanan);
+        $akhir = Carbon::parse($permohonan->tarikhAkhirPerjalanan);
+        $jumlahDate = $mula->diffInDays($akhir);
+
+        $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti);
+        $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
+        $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
+
+        // return view('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
+        return $pdf->download('Borang Permohonan Ke Luar Negara');
     }
 
     public function cetakSenarairombongan()

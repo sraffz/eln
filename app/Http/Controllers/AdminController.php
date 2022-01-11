@@ -36,10 +36,19 @@ class AdminController extends Controller
     {
         // $permohonan = Permohonan::all();
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
-        $permohonan = Permohonan::with('user')
-            ->whereNull('rombongans_id')
-            ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
-            ->get();
+        if (Auth::user()->role == 'adminBPSM') {
+            $permohonan = Permohonan::with('user')
+                ->whereNull('rombongans_id')
+                ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
+                ->get();
+        } elseif (Auth::user()->role == 'jabatan') {
+            $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+                ->whereNull('rombongans_id')
+                ->where('users.jabatan', Auth::user()->jabatan)
+                ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
+                ->get();
+        }
+
         //dd($permohonan);
         return view('admin.senaraiPending', compact('permohonan'));
     }
@@ -111,15 +120,21 @@ class AdminController extends Controller
 
     public function indexRombongan()
     {
-        // $rombongan = Rombongan::all();
-        $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-        ->whereIn('statusPermohonanRom', ['Pending'])->get();
+        if (Auth::user()->role == 'adminBPSM') {
+            $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                ->whereIn('statusPermohonanRom', ['Pending'])
+                ->get();
+        } elseif (Auth::user()->role == 'jabatan') {
+            $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                ->whereIn('statusPermohonanRom', ['Pending'])
+                ->where('users.jabatan', Auth::user()->jabatan)
+                ->get();
+        }
 
         // dd($rombongan);
-
         $allPermohonan = Permohonan::with('user')
-        ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
-        ->get();
+            ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
+            ->get();
 
         return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
     }
@@ -127,7 +142,8 @@ class AdminController extends Controller
     public function senaraiRekodRombongan()
     {
         $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-        ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
+            ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->get();
 
         $allPermohonan = Permohonan::with('user')->get();
 
@@ -268,7 +284,7 @@ class AdminController extends Controller
     public function show($id)
     {
         $permohonan = Permohonan::find($id);
-        $pasangan = Pasangan::find($id);
+        $pasangan = Pasangan::where('permohonansID', $id)->get();
         $dokumen = DB::table('dokumens')
             ->where('permohonansID', '=', $id)
             ->get();
@@ -287,8 +303,8 @@ class AdminController extends Controller
     public function showRombongan($id)
     {
         $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-        ->where('rombongans_id', $id)
-        ->get();
+            ->where('rombongans_id', $id)
+            ->get();
 
         foreach ($rombongan as $rombo) {
             $mula = Carbon::parse($rombo->tarikhMulaRom);
@@ -317,7 +333,7 @@ class AdminController extends Controller
     {
         $permohonan = Permohonan::find($id);
         $path = $permohonan->pathFileCuti;
-        
+
         return Storage::download($path);
     }
     public function downloadDokumen($id)

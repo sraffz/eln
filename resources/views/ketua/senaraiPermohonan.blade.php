@@ -92,17 +92,17 @@
                                                                     class="far fa-thumbs-down"></i>
                                                             </a>
                                                             <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                                class="btn btn-warning btn-xs">
+                                                                class="btn btn-dark btn-xs">
                                                                 <i class="fa fa-print"></i>
                                                             </a>
                                                         @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
                                                             <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                                class="btn btn-warning btn-xs">
+                                                                class="btn btn-dark btn-xs">
                                                                 <i class="fa fa-print"></i>
                                                             </a>
                                                         @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
                                                             <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                                class="btn btn-warning btn-xs">
+                                                                class="btn btn-dark btn-xs">
                                                                 <i class="fa fa-print"></i>
                                                             </a>
                                                         @endif

@@ -309,7 +309,7 @@
                 <div class="">
                     {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
                     <a href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}" class="btn btn-danger">Kembali</a>
-                    {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
+                    {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>

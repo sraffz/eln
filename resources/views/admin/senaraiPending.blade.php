@@ -73,10 +73,10 @@
                                             <tbody>
 
                                                 @foreach ($permohonan as $index => $mohonan)
+                                                
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
-                                                            {{-- <a class="btn btn-primary btn-xs" href="#" role="button" id="luluspermohonan">SweetAlert</a> --}}
                                                             <a
                                                                 href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                         </td>
@@ -86,79 +86,77 @@
                                                         <td>{{ $mohonan->negara }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
-                                                        {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
                                                         <td>{{ $mohonan->JenisPermohonan }}</td>
                                                         <td>SUK.D.200 (06) 455/16
                                                             ELN.JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
                                                         </td>
-                                                        <td>
-                                                            @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                        @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                            <td>
                                                                 <span
                                                                     class="badge badge-success">{{ $mohonan->statusPermohonan }}</span>
-                                                        </td>
-
-                                                        @if ($mohonan->JenisPermohonan == 'Rasmi')
-                                                            <td>
-                                                                <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                    Kelulusan</a>
-                                                                <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                    Kelulusan</a>
                                                             </td>
 
-                                                        @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
+                                                            @if ($mohonan->JenisPermohonan == 'Rasmi')
+                                                                <td>
+                                                                    <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
+                                                                        Kelulusan</a>
+                                                                    <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
+                                                                        Kelulusan</a>
+                                                                </td>
+
+                                                            @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
+                                                                <td>
+                                                                    <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
+                                                                        Kelulusan</a>
+                                                                    <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs"
+                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
+                                                                        Kelulusan</a>
+                                                                </td>
+                                                            @endif
+                                                        @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                             <td>
-                                                                <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                    Kelulusan</a>
-                                                                <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"
-                                                                    onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                    Kelulusan</a>
+                                                                <span
+                                                                    class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
                                                             </td>
+                                                            <td>
+
+                                                            </td>
+                                                        @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                            <td><span class="badge badge-info">Disokong</span></td>
                                                         @endif
-                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
-                                                        <span
-                                                            class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
-                                                        </td>
-                                                        <td>
 
-                                                        </td>
-                                                    @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                        <span class="badge badge-info">Disokong</span></td>
-                                                @endif
+                                                        @if ($url != url('senaraiRekodIndividu'))
+                                                            <td>
+                                                                @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
 
-                                                @if ($url != url('senaraiRekodIndividu'))
-                                                    <td>
-                                                        @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
+                                                                    <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-success btn-xs"
+                                                                        onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
+                                                                            class="fa fa-check-square-o"> Terima</i></a>
 
-                                                            <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
-                                                                class="btn btn-success btn-xs"
-                                                                onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
-                                                                    class="fa fa-check-square-o"> Terima</i></a>
+                                                                    <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                                                        href='#mdl-tolak'
+                                                                        data-id="{{ $mohonan->permohonansID }}"
+                                                                        onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
+                                                                            class="fa fa-times">Tolak</i></a>
 
-                                                            <a class="btn btn-danger btn-xs" data-toggle="modal"
-                                                                href='#mdl-tolak' data-id="{{ $mohonan->permohonansID }}"
-                                                                onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
-                                                                    class="fa fa-times">Tolak</i></a>
 
-                                                            {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                                        class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mengemaskini maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
+                                                                @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
 
-                                                        @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
 
-                                                            {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                                        class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk mencetak maklumat ini?');"><i class="fa fa-print">Cetak</i></a> --}}
+                                                                @endif
+                                                            </td>
+                                                        @else
 
                                                         @endif
-                                                    </td>
-                                                @else
-
-                                                @endif
+                                                    </tr>
 
                                                 @endforeach
 

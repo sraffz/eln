@@ -65,8 +65,8 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('/padam-permohonan/{id}', 'permohonanController@tamatIndividu');
 	
-	Route::get('detailPermohonan/{id}/deleteFileCuti','permohonanController@deleteFileCuti')->name('detailPermohonan.deleteFileCuti');
-	Route::get('detailPermohonan/{id}/deleteFileRasmi', 'permohonanController@deleteFileRasmi')->name('detailPermohonan.deleteFileRasmi');
+	Route::get('padam-dokumen-cuti/{id}','permohonanController@deleteFileCuti')->name('detailPermohonan.deleteFileCuti');
+	Route::get('padam-dokumen-rasmi/{id}', 'permohonanController@deleteFileRasmi')->name('detailPermohonan.deleteFileRasmi');
 
 	// ------------------------admin----------------------
 	Route::get('senaraiPending', 'AdminController@index')->name('senaraiPending');

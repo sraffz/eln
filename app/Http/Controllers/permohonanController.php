@@ -912,8 +912,6 @@ class permohonanController extends Controller
 
     public function deleteFileCuti($id)
     {
-        echo $id;
-
         $perm = Permohonan::findOrFail($id);
         if (is_null($perm->pathFileCuti)) {
             $nul = '';
@@ -923,7 +921,8 @@ class permohonanController extends Controller
                 'pathFileCuti' => $nul,
             ]);
         } else {
-            unlink($perm->pathFileCuti);
+            // unlink($perm->pathFileCuti);
+            Storage::Delete($perm->pathFileCuti);
 
             Permohonan::where('permohonansID', '=', $id)->update([
                 'namaFileCuti' => null,
@@ -932,7 +931,7 @@ class permohonanController extends Controller
             ]);
         }
 
-        flash('Rekod file berjaya dipadamkan.')->success();
+        flash('Dokumen cuti telah dipadamkan.')->success();
         return redirect()->back();
     }
 
@@ -943,10 +942,12 @@ class permohonanController extends Controller
         // dd($dokumen);
         $pathFile = $dokumen->pathFile;
         // echo $pathFile;
-        unlink($pathFile);
+        // dd($pathFile);
+        Storage::Delete($pathFile);
+
         $per = Dokumen::where('dokumens_id', $id)->delete();
 
-        flash('Rekod file berjaya dipadamkan.')->success();
+        flash('Dokumen telah dipadamkan.')->success();
         return redirect()->back();
     }
 
