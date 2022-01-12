@@ -21,6 +21,7 @@ class KetuaController extends Controller
 
         $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
             ->whereNotIn('JenisPermohonan', ['rombongan'])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah'));
@@ -186,7 +187,11 @@ class KetuaController extends Controller
 
     public function cetakRombongan($id)
     {
-        $permohonan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+        $permohonan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhmohon', 'gred_angka.*', 'gred_kod.*', 'jawatan.*')
+            ->join('users', 'users.usersID', '=', 'rombongans.usersID')
+            ->leftjoin('gred_angka', 'users.gredAngka', '=', 'gred_angka.gred_angka_ID')
+            ->leftjoin('gred_kod', 'users.gredKod', '=', 'gred_kod.gred_kod_ID')
+            ->leftjoin('jawatan', 'users.jawatan', '=', 'jawatan.idJawatan')
             ->where('rombongans.rombongans_id', $id)
             ->first();
 
@@ -194,17 +199,20 @@ class KetuaController extends Controller
             ->where('permohonansID', '=', $id)
             ->get();
 
+        $tarikhmohon = $permohonan->tarikhmohon;
         $mula = Carbon::parse($permohonan->tarikhMulaRom);
         $akhir = Carbon::parse($permohonan->tarikhAkhirRom);
         $jumlahDate = $mula->diffInDays($akhir);
 
-        $allPermohonan = DB::table('senarai_data_permohonan')
-        ->where('rombongans_id', $id)
-        ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
-        ->get();
+        \Carbon\Carbon::setLocale('ms-MY');
 
-        // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'pasangan', 'jumlahDate', 'allPermohonan', 'dokumen'));
-        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'pasangan', 'jumlahDate', 'allPermohonan', 'dokumen'))->setpaper('a4', 'potrait');
+        $allPermohonan = DB::table('senarai_data_permohonan')
+            ->where('rombongans_id', $id)
+            ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
+            ->get();
+
+        // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen'));
+        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Rombongan Ke Luar Negara.pdf');
     }
 
@@ -224,7 +232,7 @@ class KetuaController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        // return view('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        return view('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Ke Luar Negara.pdf');
     }

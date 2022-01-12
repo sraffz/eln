@@ -135,7 +135,7 @@
                     <td><strong>1</strong></td>
                     <td class="text-left"><strong>{{ $permohonan->nama }} (Ketua Rombongan)</strong></td>
                     <td><strong>{{ $permohonan->nokp }}</strong></td>
-                    <td><strong></strong></td>
+                    <td><strong>{{ $permohonan->namaJawatan }} ({{ $permohonan->gred_kod_abjad }}{{ $permohonan->gred_angka_nombor }})</strong></td>
                 </tr>
                 @php
                     $i = 2;
@@ -151,8 +151,9 @@
                     @endif
                 @endforeach
             </tbody>
-        </table>
-        <table class="table table-bordered table-sm">
+        </table> <br>
+        <strong>Tarikh Permohonan : {{ \Carbon\Carbon::parse($tarikhmohon)->format('d F Y') }}</strong>
+        {{-- <table class="table table-bordered table-sm">
             <thead class="thead-dark">
                 <tr>
                     <th class="text-left">PERAKUAN PEMOHON</th>
@@ -170,16 +171,14 @@
                                 peraturan sedia ada.</strong>
                         @endif
                         <br><br>
-                        <strong>Tarikh Permohonan :
-                            {{ \Carbon\Carbon::parse($permohonan->created_at)->format('d/m/Y') }}</strong>
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table> --}}
         <br>
         <div class="text-center">
             <p>
-                <i> *Borang ini janaan komputer dan tidak memerlukan tandatangan.*</i>
+                <i> *Borang ini janaan komputer dan tidak memerlukan tandatangan*</i>
             </p>
         </div>
 
