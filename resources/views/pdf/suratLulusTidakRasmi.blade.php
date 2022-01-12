@@ -61,9 +61,9 @@
                                   JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->namaJawatan) }} ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})<br> <br>
                                   </strong>
 
-                                  Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br><br>
+                                  Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br> 
                                   <div style="line-height: 1.6;">
-                                  2.    Dimaklumkan bahawa permohonan  bagi  {{ strtoupper($permohon->user->nama) }} untuk ke luar negara iaitu ke {{ strtoupper($permohon->negara) }} bagi menghadiri urusan rasmi tersebut pada {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y')}} hingga {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y')}} adalah <strong>telah diluluskan.</strong></div><br><br><br>
+                                  2.    Sukacita dimaklumkan bahawa permohonan  bagi  <strong>{{ strtoupper($permohon->user->nama) }}</strong> untuk ke luar negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi menghadiri urusan rasmi tersebut pada <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d F Y')}} hingga {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d F Y')}}</strong> adalah telah <strong>diluluskan.</strong></div><br><br><br>
 
                                   Sekian, terima kasih.<br><br>
                                      

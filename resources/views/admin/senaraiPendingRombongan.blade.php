@@ -27,11 +27,11 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    @include('flash::message')
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    @include('flash::message')
                     <div class="card">
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Rombongan</h3>
@@ -61,7 +61,8 @@
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
-                                                            <a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id] )}}">{{ $rombo->negaraRom }}</a>
+                                                            <a
+                                                                href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>
                                                         </td>
                                                         <td>{{ $rombo->codeRom }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
@@ -78,7 +79,7 @@
                                                                     @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
                                                                         {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
                                                                         <br>
-                                                                    @elseif($rombo->statusPermohonanRom == "Pending")
+                                                                    @elseif($rombo->statusPermohonanRom == 'Pending')
                                                                         <a href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
                                                                             class="btn-danger btn-xs">
                                                                             <i class="fa  fa-times"></i>
@@ -97,7 +98,7 @@
 
                                                                 <span class="badge badge-warning">Lulus Semakan</span>
 
-                                                            @elseif($rombo->statusPermohonanRom == "Pending")
+                                                            @elseif($rombo->statusPermohonanRom == 'Pending')
 
                                                                 <a href="senaraiPendingRombongan/{{ $rombo->rombongans_id }}/sent-Permohonan"
                                                                     class="btn btn-success btn-xs"
@@ -112,14 +113,15 @@
                                                                 </a>
 
 
-                                                            @elseif($rombo->statusPermohonanRom == "Diluluskan")
+                                                            @elseif($rombo->statusPermohonanRom == 'Diluluskan')
 
                                                                 <span class="badge badge-success">Diluluskan</span>
 
-                                                            @elseif($rombo->statusPermohonanRom == "Permohonan
-                                                                Diluluskan"
-                                                                or $rombo->statusPermohonanRom == "Permohonan Ditolak" or
-                                                                $rombo->statusPermohonanRom == "Lulus Semakan")
+                                                            @elseif($rombo->statusPermohonanRom ==
+    "Permohonan
+                                                                Diluluskan" or
+    $rombo->statusPermohonanRom == 'Permohonan Ditolak' or
+    $rombo->statusPermohonanRom == 'Lulus Semakan')
 
                                                                 <span class="badge badge-primary">Tiada</span>
 
@@ -141,7 +143,7 @@
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-hidden="true">&times;</button>
                                                 </div>
-                                                {!! Form::open(['method' => 'POST', 'url' => '/sebabRombongan']) !!}
+                                                {!! Form::open(['method' => 'POST', 'url' => url('sebabRombongan')]) !!}
                                                 <div class="modal-body">
                                                     <div
                                                         class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
@@ -158,9 +160,10 @@
                                                             class="text-danger">{{ $errors->first('sebb') }}</small>
                                                     </div>
 
-                                                    {!! Form::hidden('id_edit', 'value', ['id' => 'id_edit']) !!}
+                                                    {!! Form::hidden('id_edit', 'value', ['id' => 'id']) !!}
                                                 </div>
                                                 <div class="modal-footer">
+                                                    {{-- {{ Form::submit('Click Me!', ['class' => 'btn btn-danger']) }} --}}
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
                                                     <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
@@ -198,6 +201,16 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
+        $('#mdl-tolak').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            // Use above variables to manipulate the DOM
+            var id = button.data('id');
+
+            $(".modal-body #id").val(id);
+
+        });
+
         $(document).ready(function() {
             $('table.display').DataTable({
                 "pageLength": 5,
@@ -217,24 +230,6 @@
                         "sLast": "Akhir"
                     }
                 },
-            });
-        });
-
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
             });
         });
     </script>

@@ -97,7 +97,7 @@
                                                             </td>
 
                                                             @if ($mohonan->JenisPermohonan == 'Rasmi')
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs"
                                                                         onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
@@ -109,7 +109,7 @@
                                                                 </td>
 
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs"
                                                                         onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat

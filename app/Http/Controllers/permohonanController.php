@@ -164,9 +164,7 @@ class permohonanController extends Controller
     {
         $userDetail = User::find($id);
         $negara = Negara::all();
-        // $options = Negara::pluck('namaNegara');
-        // $userDetail = User::where('nokp', '=', $id)->firstOrFail();
-        // echo $userDetail;
+    
         return view('registerFormRombonganRasmi', compact('userDetail', 'negara'));
     }
 

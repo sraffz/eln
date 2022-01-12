@@ -200,7 +200,7 @@
             @php
                 $type = $permohonan->JenisPermohonan;
             @endphp
-            @if ($type == 'Tidak Rasmi')
+            @if ($type == 'Tidak Rasmi' || $type == 'rombongan')
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card card-primary">
@@ -270,7 +270,7 @@
                                         @endforeach
                                     @endif
                                 </p>
-                            @elseif ($type == 'Tidak Rasmi')
+                            @elseif ($type == 'Tidak Rasmi' || $type == 'rombongan')
                                 <strong><i class="fa fa-book margin-r-5"></i>Dokumen Cuti</strong>
                                 <p class="text-muted">
                                     @if ($permohonan->namaFileCuti == '')

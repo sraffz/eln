@@ -52,7 +52,7 @@ class PdfController extends Controller
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
-        // return view('pdf.suratLulusRasmi',compact('permohon','pp','cogan'));
+        return view('pdf.suratLulusRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.suratLulusRasmi', compact('permohon', 'pp', 'cogan'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }

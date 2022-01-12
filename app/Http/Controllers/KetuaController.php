@@ -186,8 +186,26 @@ class KetuaController extends Controller
 
     public function cetakRombongan($id)
     {
-        $d = 'borang cetak';
-        return $d;
+        $permohonan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            ->where('rombongans.rombongans_id', $id)
+            ->first();
+
+        $dokumen = DB::table('dokumens')
+            ->where('permohonansID', '=', $id)
+            ->get();
+
+        $mula = Carbon::parse($permohonan->tarikhMulaRom);
+        $akhir = Carbon::parse($permohonan->tarikhAkhirRom);
+        $jumlahDate = $mula->diffInDays($akhir);
+
+        $allPermohonan = DB::table('senarai_data_permohonan')
+        ->where('rombongans_id', $id)
+        ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
+        ->get();
+
+        // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'pasangan', 'jumlahDate', 'allPermohonan', 'dokumen'));
+        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'pasangan', 'jumlahDate', 'allPermohonan', 'dokumen'))->setpaper('a4', 'potrait');
+        return $pdf->download('Borang Permohonan Rombongan Ke Luar Negara.pdf');
     }
 
     public function cetakPermohonan($id)
@@ -208,7 +226,7 @@ class KetuaController extends Controller
 
         // return view('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
-        return $pdf->download('Borang Permohonan Ke Luar Negara');
+        return $pdf->download('Borang Permohonan Ke Luar Negara.pdf');
     }
 
     public function cetakSenarairombongan()
@@ -224,7 +242,7 @@ class KetuaController extends Controller
         // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
 
         $pdf = PDF::loadView('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'))->setpaper('a4', 'landscape');
-        return $pdf->download('Senarai Permohonan Rombongan Ke Luar Negara');
+        return $pdf->download('Senarai Permohonan Rombongan Ke Luar Negara.pdf');
     }
 
     public function cetakSenaraiPermohonan()

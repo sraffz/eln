@@ -37,9 +37,9 @@
 
 <body>
     
-        <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="200" height="150"
+        <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="160" height="120"
                 alt="User Image" align="center"><br></p>
-        <p style="text-transform: uppercase; font-size:18px" align="center">
+        <p style="text-transform: uppercase; font-size:17px" align="center">
             <strong>
                 PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA <br>
                 atas URUSAN {{ $permohonan->JenisPermohonan }}
@@ -207,6 +207,12 @@
                     </tr>
                 </tbody>
             </table>
+            <br>
+            <div class="text-center">
+                <p>
+                   <i> *Borang ini janaan komputer dan tidak memerlukan tandatangan.*</i>
+                </p>
+            </div>
 
         
     </div>
