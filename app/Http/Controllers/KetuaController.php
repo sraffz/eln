@@ -21,7 +21,7 @@ class KetuaController extends Controller
 
         $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
             ->whereNotIn('JenisPermohonan', ['rombongan'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
         return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah'));
@@ -35,7 +35,7 @@ class KetuaController extends Controller
             ->where('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->get();
 
-        return view('ketua/senaraiDiLuluskan', compact('allPermohonan', 'rombongan'));
+        return view('ketua.senaraiDiLuluskan', compact('allPermohonan', 'rombongan'));
     }
 
     public function senaraiRombonganKetua()
@@ -43,11 +43,13 @@ class KetuaController extends Controller
         // $rombongan = Rombongan::all();
         $allPermohonan = Permohonan::with('user')
             ->where('statusPermohonan', '!=', 'Permohonan Gagal')
+            
             ->get();
 
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
         $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
             ->where('statusPermohonanRom', 'Lulus Semakan')
+            ->orderBy('rombongans.created_at', 'asc')
             ->get();
 
         return view('ketua.senaraiRombonganKetua', compact('rombongan', 'allPermohonan'));

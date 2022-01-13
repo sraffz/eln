@@ -123,11 +123,13 @@ class AdminController extends Controller
         if (Auth::user()->role == 'adminBPSM') {
             $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
                 ->whereIn('statusPermohonanRom', ['Pending'])
+                ->orderBy('rombongans.created_at','asc')
                 ->get();
         } elseif (Auth::user()->role == 'jabatan') {
             $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
                 ->whereIn('statusPermohonanRom', ['Pending'])
                 ->where('users.jabatan', Auth::user()->jabatan)
+                ->orderBy('rombongans.created_at','asc')
                 ->get();
         }
 
@@ -145,7 +147,18 @@ class AdminController extends Controller
             ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->get();
 
-        $allPermohonan = Permohonan::with('user')->get();
+            if (Auth::user()->role == "DatoSUK") {
+                $allPermohonan = Permohonan::with('user')
+                ->where('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+                ->get();
+            }
+            elseif(Auth::user()->role == "adminBPSM"){
+                $allPermohonan = Permohonan::with('user')
+                ->get();
+            } else {
+                return view('');
+            }
+            
 
         return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
     }
@@ -807,21 +820,31 @@ class AdminController extends Controller
         $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
             ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            ->orderBy('permohonans.created_at','asc')
             ->get();
 
-        return view('jabatan/senaraiPermohonanJabatan', compact('permohonan'));
+        return view('jabatan.senaraiPermohonanJabatan', compact('permohonan'));
     }
 
     public function senaraiPermohonanLepas()
     {
         $jab = Auth::user()->jabatan;
         // echo $jab;
-        $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
+        $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
+            ->join('users', 'permohonans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
-            ->where('statusPermohonan', '<>', 'simpanan')
+            ->whereNotIn('statusPermohonan', ['simpanan'])
+            ->orderBy('permohonans.created_at', 'asc')
             ->get();
 
-        return view('jabatan.senaraiPermohonanLepas', compact('permohonan'));
+        $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+            ->join('users', 'rombongans.usersID', '=', 'users.usersID')
+            ->where('users.jabatan', $jab)
+            ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
+            ->orderBy('rombongans.created_at', 'asc')
+            ->get();
+
+        return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'rombo'));
     }
 
     public function daftarPenggunaJabatan()

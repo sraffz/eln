@@ -30,8 +30,8 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @include('flash::message')
                 <div class="col-md-12">
+                    @include('flash::message')
                     <div class="card">
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Rombongan</h3>

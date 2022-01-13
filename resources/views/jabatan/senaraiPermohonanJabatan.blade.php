@@ -20,7 +20,7 @@
                     <br>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Senarai Permohonan Baru {{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
+                            <h3 class="card-title">Senarai Permohonan Baru (Individu){{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -42,9 +42,9 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($permohonan as $index => $mohonan)
-                                            <tr>
+                                            <tr class="text-center">
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>
+                                                <td style="text-transform: capitalize">
                                                     @if ($mohonan->JenisPermohonan == "rombongan")
                                                     <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
                                                         
@@ -60,7 +60,7 @@
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}</td>
                                                 <td>{{ $mohonan->statusPermohonan }}</td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
@@ -123,6 +123,8 @@
                 </div>
                 <!-- /.box -->
             </div>
+
+            
             <!-- /.col -->
         </div>
     </section>
@@ -170,8 +172,8 @@
     <script>
         $(document).ready(function() {
             $('table.display2').DataTable({
-                "pageLength": 10,
-                "lengthMenu": [10, 20, 50, 100],
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 30, 50],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

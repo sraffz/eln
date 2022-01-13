@@ -143,7 +143,8 @@
                                     <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
                                         data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
                                         data-jawatan="{{ $peser->user->jawatan }}"
-                                        data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a>
+                                        data-jabatan="{{ $peser->user->jabatan }}"> 
+                                        {{ $peser->user->nama }}</a>
                                     <i> 
                                         @if ($peser->statusPermohonan == 'Ketua Jabatan')
                                             (Perlu Sokongan Ketua Jabatan)
@@ -151,6 +152,8 @@
                                             (Disokong oleh ketua Jabatan)
                                         @elseif ($peser->statusPermohonan == 'Permohonan Gagal')
                                             (Permohonan ditolak)
+                                        @elseif ($peser->statusPermohonan == 'Permohonan Berjaya')
+                                            (Permohonan Diluluskan)
                                         @endif
                                     </i>
                                     <br>

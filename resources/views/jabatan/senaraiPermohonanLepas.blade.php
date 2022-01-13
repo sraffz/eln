@@ -20,7 +20,7 @@
                     <br>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Senarai Permohonan </h3>
+                            <h3 class="card-title">Senarai Permohonan Individu</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -43,29 +43,37 @@
                                                 @foreach ($permohonan as $index => $mohonan)
                                                     <tr class="text-center">
                                                         <td> {{ $index + 1 }} </td>
-                                                        <td>
-                                                            <a href="detailPermohonan/{{ $mohonan->permohonansID }}">{{ $mohonan->user->nama }}</a>
+                                                        <td style="text-transform: capitalize">
+                                                            @if ($mohonan->JenisPermohonan =='rombongan')
+                                                            <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
+                                                                
+                                                            @else
+                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                                
+                                                            @endif
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ $mohonan->negara }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                        <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                        <td style="text-transform: capitalize">
+                                                            {{ $mohonan->JenisPermohonan }}</td>
                                                         <td>
                                                             @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
-                                                                <span class="label label-warning">Dalam Tindakkan
+                                                                <span class="badge badge-warning">Dalam Tindakkan
                                                                     BPSM</span>
                                                             @elseif($mohonan->statusPermohonan == 'Ketua Jabatan')
-                                                                <span class="label label-warning">Dalam Tindakkan Ketua
+                                                                <span class="badge badge-warning">Dalam Tindakkan Ketua
                                                                     Jabatan</span>
                                                             @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                                <span class="label label-primary">Lulus Semakan BPSM</span>
+                                                                <span class="badge badge-primary">Disokong Ketua Jabatan</span>
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                                <span class="label label-success">Permohonan Berjaya</span>
+                                                                <span class="badge badge-success">Permohonan Berjaya</span>
                                                             @else
-                                                                {{ $mohonan->statusPermohonan }}
+                                                                <span
+                                                                    class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
                                                             @endif
                                                         </td>
                                                 @endforeach
@@ -85,37 +93,110 @@
                 </div>
                 <!-- /.col -->
             </div>
-        </div>
-    </section>
-
-
-    <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="favoritesModalLabel">Ulasan</h4>
-                </div>
-
-                <div class="modal-body">
-                    <form action="senaraiPermohonanJabatan/hantar">
-                        <div class="modal-body">Sila masukkan ulasan.<br>
-                            <textarea name="ulasan" required="required" class="form-control"></textarea>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="_method" value="get">
-                            <input name="kopeID" id="kopeID" type="hidden" value="">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Senarai Permohonan Rombongan</h3>
                         </div>
-
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" value="Hantar" />
-                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
-                    </form>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm display2">
+                                            <thead>
+                                                <tr>
+                                                    <th style="vertical-align: middle;">No</th>
+                                                    <th style="vertical-align: middle;">Nama</th>
+                                                    <th style="vertical-align: middle;">Tarikh Permohonan</th>
+                                                    <th style="vertical-align: middle;">Negara</th>
+                                                    <th style="vertical-align: middle;">Tarikh Mula Perjalanan</th>
+                                                    {{-- <th style="vertical-align: middle;">Jenis Permohonan</th> --}}
+                                                    <th style="vertical-align: middle;">Status Permohonan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($rombo as $index => $mohonan)
+                                                    <tr class="text-center">
+                                                        <td> {{ $index + 1 }} </td>
+                                                        <td style="text-transform: capitalize">
+                                                            @if ($mohonan->JenisPermohonan =='rombongan')
+                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                            
+                                                            @else
+                                                            <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a>
+                                                                
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikmohon)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ $mohonan->negaraRom }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaRom)->format('d/m/Y') }}
+                                                        </td>
+                                                        {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                                        {{-- <td style="text-transform: capitalize">
+                                                            {{ $mohonan->JenisPermohonan }}</td> --}}
+                                                        <td>
+                                                            @if ($mohonan->statusPermohonanRom == 'Lulus Semakkan ketua Jabatan')
+                                                                <span class="badge badge-warning">Dalam Tindakkan
+                                                                    BPSM</span>
+                                                            @elseif($mohonan->statusPermohonanRom == 'Pending')
+                                                                <span class="badge badge-warning">Dalam Tindakkan Ketua
+                                                                    Jabatan</span>
+                                                            @elseif($mohonan->statusPermohonanRom == 'Lulus Semakan BPSM')
+                                                                <span class="badge badge-primary">Disokong Ketua Jabatan</span>
+                                                            @elseif($mohonan->statusPermohonanRom == 'Permohonan Berjaya')
+                                                                <span class="badge badge-success">Permohonan Berjaya</span>
+                                                            @else
+                                                                <span
+                                                                    class="badge badge-danger">{{ $mohonan->statusPermohonanRom }}</span>
+                                                            @endif
+                                                        </td>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.chart-responsive -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- ./box-body -->
+                        <!-- /.box-footer -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+        <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="favoritesModalLabel">Ulasan</h4>
+                    </div>
+    
+                    <div class="modal-body">
+                        <form action="senaraiPermohonanJabatan/hantar">
+                            <div class="modal-body">Sila masukkan ulasan.<br>
+                                <textarea name="ulasan" required="required" class="form-control"></textarea>
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="_method" value="get">
+                                <input name="kopeID" id="kopeID" type="hidden" value="">
+                            </div>
+    
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Hantar" />
+                                {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 
 @section('script')

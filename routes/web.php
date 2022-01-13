@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('/padam/{id}', 'permohonanController@hapus');
 	
+	Route::get('/tolak-permohonan/{id}', 'permohonanController@tolakrombongan');
+	
 	Route::get('/senaraiPermohonan/{id}/edit', 'permohonanController@editIndividu')->name('editPermohonan.edit');
 	
 	Route::get('/padam-rombongan/{id}', 'permohonanController@padamrombongan');

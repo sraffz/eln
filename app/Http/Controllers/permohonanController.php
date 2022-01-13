@@ -56,63 +56,102 @@ class permohonanController extends Controller
             // --------------------Pengguna---------------------------------------------------------------------------------
             $DateNew3 = strtotime($create);
             $mula = date('d-m-Y', $DateNew3);
+
             $TotalPerm = DB::table('permohonans')
                 ->where('usersID', '=', $id)
                 // ->where('statusPermohonan','!=', 'simpanan')
-                ->whereYear('tarikhLulusan', $year)
+                // ->whereYear('tarikhLulusan', $year)
                 ->count();
+
             $TotalBerjaya = DB::table('permohonans')
                 ->where('usersID', '=', $id)
                 ->where('statusPermohonan', '=', 'Permohonan Berjaya')
-                ->whereYear('tarikhLulusan', $year)
+                // ->whereYear('tarikhLulusan', $year)
                 ->count();
             $TotalGagal = DB::table('permohonans')
                 ->where('usersID', '=', $id)
                 ->where('statusPermohonan', '=', 'Permohonan Gagal')
-                ->whereYear('tarikhLulusan', $year)
+                // ->whereYear('tarikhLulusan', $year)
                 ->count();
             $TotalProces = DB::table('permohonans')
                 ->where('usersID', '=', $id)
-                ->where('statusPermohonan', ['Pending', 'Lulus Semakan'])
-                ->whereYear('tarikhLulusan', $year)
+                ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
+                // ->whereYear('tarikhLulusan', $year)
                 ->count();
 
             $senarai = DB::table('permohonans')
                 ->where('usersID', Auth::user()->usersID)
                 ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
-                ->whereYear('tarikhLulusan', $year)
+                // ->whereYear('tarikhLulusan', $year)
                 ->orderBy('tarikhLulusan', 'DESC')
                 ->get();
             // --------------------Pengguna---------------------------------------------------------------------------------
             // --------------------ADMIN PSM---------------------------------------------------------------------------------
 
-            $TotalPerm1 = DB::table('permohonans')
-                ->where('statusPermohonan', '!=', 'simpanan')
-                ->whereYear('tarikhMulaPerjalanan', $year)
-                ->count();
+            if (Auth::user()->role == 'adminBPSM' || Auth::user()->role == 'DatoSUK') {
+                $TotalPerm1 = DB::table('permohonans')
+                    ->where('statusPermohonan', '!=', 'simpanan')
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
+                    ->count();
 
-            $TotalBerjaya1 = DB::table('permohonans')
-                ->where('statusPermohonan', '=', 'Permohonan Berjaya')
-                ->whereYear('tarikhLulusan', $year)
-                ->count();
-            $TotalGagal1 = DB::table('permohonans')
-                ->where('statusPermohonan', '=', 'Permohonan Gagal')
-                ->whereYear('tarikhLulusan', $year)
-                ->count();
-            $TotalProces1 = DB::table('permohonans')
-                ->wherein('statusPermohonan', ['Lulus Semakkan ketua Jabatan', 'Lulus Semakan BPSM'])
-                ->whereYear('tarikhMulaPerjalanan', $year)
-                ->count();
+                $TotalBerjaya1 = DB::table('permohonans')
+                    ->where('statusPermohonan', '=', 'Permohonan Berjaya')
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+                $TotalGagal1 = DB::table('permohonans')
+                    ->where('statusPermohonan', '=', 'Permohonan Gagal')
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+                $TotalProces1 = DB::table('permohonans')
+                ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
+                    ->count();
 
-            $senarai1 = DB::table('permohonans')
-                ->wherein('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
-                ->whereYear('tarikhLulusan', $year)
-                ->orderBy('tarikhLulusan', 'DESC')
-                ->get();
+                $senarai1 = DB::table('permohonans')
+                    ->wherein('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->orderBy('tarikhLulusan', 'DESC')
+                    ->get();
+            } elseif (Auth::user()->role == 'jabatan') {
+
+                $TotalPerm1 = DB::table('permohonans')
+                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
+                    ->where('statusPermohonan', '!=', 'simpanan')
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
+                    ->where('users.jabatan', Auth::user()->jabatan)
+                    ->count();
+
+                $TotalBerjaya1 = DB::table('permohonans')
+                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
+                    ->where('statusPermohonan', '=', 'Permohonan Berjaya')
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->where('users.jabatan', Auth::user()->jabatan)
+                    ->count();
+                $TotalGagal1 = DB::table('permohonans')
+                    ->where('statusPermohonan', '=', 'Permohonan Gagal')
+                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->where('users.jabatan', Auth::user()->jabatan)
+                    ->count();
+                $TotalProces1 = DB::table('permohonans')
+                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
+                    ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
+                    ->where('users.jabatan', Auth::user()->jabatan)
+                    ->count();
+
+                $senarai1 = DB::table('permohonans')
+                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
+                    ->wherein('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->where('users.jabatan', Auth::user()->jabatan)
+                    ->orderBy('tarikhLulusan', 'DESC')
+                    ->get();
+            }
 
             $jumlahPermohonan = DB::table('permohonans')
                 ->where('statusPermohonan', '=', 'Lulus Semakkan ketua Jabatan')
-                ->whereYear('tarikhLulusan', $year)
+                // ->whereYear('tarikhLulusan', $year)
                 ->count();
 
             $jumlahPendingKelulusanDato = DB::table('permohonans')
@@ -164,7 +203,7 @@ class permohonanController extends Controller
     {
         $userDetail = User::find($id);
         $negara = Negara::all();
-    
+
         return view('registerFormRombonganRasmi', compact('userDetail', 'negara'));
     }
 
@@ -576,15 +615,11 @@ class permohonanController extends Controller
         $kembaliTugas = $request->input('tarikhKembaliBertugas');
         $tick = $request->input('tick');
 
-
         $check = Rombongan::where('codeRom', $kodRombo)->first();
 
         $per = Permohonan::where('rombongans_id', $check->rombongans_id)->first();
 
-        
-
-        
-        dd($per->rombongans_id);
+        // dd($per->rombongans_id);
 
         $date = explode('-', $tarikhmulaAkhirCuti); // dateRange is you string
         $dateFrom = $date[0];
@@ -750,7 +785,6 @@ class permohonanController extends Controller
 
     public function hantarRombongan($id)
     {
-
         $errorcheck = Permohonan::where('rombongans_id', $id)
             ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'Lulus Semakan BPSM'])
             ->count();
@@ -764,42 +798,41 @@ class permohonanController extends Controller
 
         // } else{
 
-            $d = DB::table('dokumens')
-                ->where('rombongans_id', '=', $id)
-                ->count();
-    
-            $peserta = DB::table('permohonans')
-                ->where('rombongans_id', '=', $id)
-                ->count();
-    
-            //echo $peserta;
-            if ($d >= 1 && $peserta >= 1) {
-                Rombongan::where('rombongans_id', $id)->update([
-                    'statusPermohonanRom' => 'Pending',
-                ]);
-    
-                Permohonan::where('rombongans_id', $id)
+        $d = DB::table('dokumens')
+            ->where('rombongans_id', '=', $id)
+            ->count();
+
+        $peserta = DB::table('permohonans')
+            ->where('rombongans_id', '=', $id)
+            ->count();
+
+        //echo $peserta;
+        if ($d >= 1 && $peserta >= 1) {
+            Rombongan::where('rombongans_id', $id)->update([
+                'statusPermohonanRom' => 'Pending',
+            ]);
+
+            Permohonan::where('rombongans_id', $id)
                 ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Lulus Semakan BPSM'])
                 ->update([
-                    'statusPermohonan' => 'Permohonan Gagal'
+                    'statusPermohonan' => 'Permohonan Gagal',
                 ]);
-    
-                flash('Permohonan Berjaya Dihantar.')->success();
-    
-                // return dd($d);
-                return redirect()->back();
-            } elseif ($d == 0 && $peserta == 0) {
-                flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
-                return redirect()->back();
-            } elseif ($d == 0) {
-                flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
-                return redirect()->back();
-            } elseif ($peserta == 0) {
-                flash('Permohonan rombongan memerlukan peserta.')->error();
-                return redirect()->back();
-            }
+
+            flash('Permohonan Berjaya Dihantar.')->success();
+
+            // return dd($d);
+            return redirect()->back();
+        } elseif ($d == 0 && $peserta == 0) {
+            flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
+            return redirect()->back();
+        } elseif ($d == 0) {
+            flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+            return redirect()->back();
+        } elseif ($peserta == 0) {
+            flash('Permohonan rombongan memerlukan peserta.')->error();
+            return redirect()->back();
+        }
         // }
-  
     }
 
     public function editIndividu($id)
@@ -1130,13 +1163,13 @@ class permohonanController extends Controller
         $userDetail = User::find($id);
 
         $permohonan = Permohonan::where('usersID', $id)
-            ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal' ])
+            ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->orderBy('created_at', 'desc')
             ->get();
 
         $rombongan = Rombongan::where('usersID', $id)
-        ->whereNotIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal' ])
-        ->get();
+            ->whereNotIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->get();
 
         $allPermohonan = Permohonan::with('user')->get();
 
@@ -1164,8 +1197,8 @@ class permohonanController extends Controller
     public function senaraiPermohonanRombongan($id)
     {
         $rombongan = Rombongan::where('usersID', $id)
-        ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
-        ->get();
+            ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->get();
 
         $allPermohonan = Permohonan::with('user')->get();
 
@@ -1175,5 +1208,18 @@ class permohonanController extends Controller
 
         // return dd()
         return view('pengguna.senaraiPermohonanRombongan', compact('rombongan', 'allPermohonan'));
+    }
+
+    public function tolakrombongan($id)
+    {
+        $ubah = 'Permohonan Gagal';
+
+        Permohonan::where('permohonansID', '=', $id)
+        ->update([
+            'statusPermohonan' => $ubah
+        ]);
+
+        flash('Permohonan Ditolak.')->success();
+        return redirect()->back();
     }
 }

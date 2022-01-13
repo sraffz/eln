@@ -34,8 +34,7 @@
                                             <div class="form-group">
                                                 <label><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
                                                 <div class="input-group date">
-                                                    <input type="date" class="form-control pull-right" 
-                                                        name="tarikhInsuranRom" required="required"
+                                                    <input type="date" class="form-control pull-right"name="tarikhInsuranRom" 
                                                         value="{{ $rmbgn->tarikhInsuranRom->format('Y-m-d') }}">
                                                 </div>
                                             </div>
