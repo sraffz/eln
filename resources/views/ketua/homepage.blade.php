@@ -36,7 +36,7 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{{ $jumlahPendingKelulusanDato }}</h3>
+                            <h3>{{ $jumlahPendingKelulusanDato + $jumlahPendingrombo }}</h3>
                             <p>Permohonan dalam proses</p>
                         </div>
                         <div class="icon">
@@ -97,9 +97,27 @@
                                     <h3 class="card-title">RASMI</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart">
-                                        <canvas id="barChart" style="height:230px"></canvas>
-                                    </div>
+                                    <table class="table table-sm table-bordered display">
+                                        <thead>
+                                            <tr>
+                                                <th>Bil</th>
+                                                <th>Negara</th>
+                                                <th>Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $i = 1;
+                                            @endphp
+                                            @foreach ($bilrasmi as $bbb)
+                                            <tr class="text-center">
+                                                <td scope="row">{{ $i++ }}</td>
+                                                <td class="text-center">{{ $bbb->negara }}</td>
+                                                <td class="text-center">{{ $bbb->bil }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -112,9 +130,27 @@
                                     <h3 class="card-title">PERSENDIRIAN</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart">
-                                        <canvas id="barChart1" style="height:230px"></canvas>
-                                    </div>
+                                    <table class="table table-sm table-bordered display">
+                                        <thead>
+                                            <tr>
+                                                <th>Bil</th>
+                                                <th>Negara</th>
+                                                <th>Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $i = 1;
+                                            @endphp
+                                            @foreach ($bilxrasmi as $bbb)
+                                            <tr class="text-center">
+                                                <td scope="row">{{ $i++ }}</td>
+                                                <td class="text-center">{{ $bbb->negara }}</td>
+                                                <td class="text-center">{{ $bbb->bil }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.box-body -->
                             </div>
@@ -145,8 +181,8 @@
     <script>
         $(document).ready(function() {
             $('table.display').DataTable({
-                "pageLength": 10,
-                "lengthMenu": [10, 30, 50, 100],
+                "pageLength": 5,
+             "lengthMenu": [5, 10, 30, 50],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

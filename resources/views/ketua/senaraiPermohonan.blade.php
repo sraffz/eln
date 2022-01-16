@@ -8,7 +8,14 @@
     <link rel="stylesheet"
         href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-@endsection
+
+<style>
+    .table tr th{
+        vertical-align: middle;
+        
+    }
+</style>
+    @endsection
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -38,7 +45,8 @@
                                 {{-- <small>Tidak termasuk individu yg mengikut rombongan</small> --}}
                             </h3>
                             <div class="float-right">
-                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-permohonan') }}" role="button">Cetak</a>
+                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-permohonan') }}"
+                                    role="button">Cetak</a>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -62,70 +70,86 @@
                                         </thead>
 
                                         <tbody>
-                                            <?php $i = 1; ?>
+                                            @php
+                                                $i = 1;
+                                            @endphp
                                             @foreach ($permohonan as $mohonan)
-                                                <tr>
-                                                    <td><?php echo $i;
-                                                    $i = $i + 1; ?></td>
-                                                    <td><a
-                                                            href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
-                                                    </td>
-                                                    <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
-                                                    </td>
-                                                    <td>{{ $mohonan->negara }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                                    </td>
-                                                    {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                    <td>{{ $mohonan->JenisPermohonan }}</td>
-                                                    <td>
-                                                        @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                @php
+                                                    $first_datetime = new DateTime($mohonan->tarikhMulaPerjalanan);
+                                                    $last_datetime = new DateTime(now());
+                                                    $interval = $first_datetime->diff($last_datetime);
+                                                    $final_days = $interval->format('%a'); //and then print do whatever you like with $final_days
+                                                @endphp
+                                                @if ($final_days < 7)
+                                                    <tr class="bg-gradient-danger">
+                                                    {{-- <tr style="background-color:#e46868"> --}}
+                                                    @elseif ($final_days < 10)
+                                                    <tr class="bg-gradient-warning">
+                                                    @else
+                                                    <tr>
+                                                @endif
+                                                <td class="text-center">
+                                                    {{ $i++ }}
+                                                </td>
+                                                <td style="text-transform: capitalize; font-weight: bold">
+                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                </td>
+                                                <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ $mohonan->negara }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                </td>
+                                                {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
+                                                <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                <td>
+                                                    @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
 
-                                                            <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}"
-                                                                class="btn btn-success btn-xs"
-                                                                onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
-                                                                <i class="far fa-thumbs-up"></i>
-                                                            </a>
-                                                            <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
-                                                                class="btn btn-danger btn-xs"
-                                                                onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                                    class="far fa-thumbs-down"></i>
-                                                            </a>
-                                                            <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                                class="btn btn-dark btn-xs">
-                                                                <i class="fa fa-print"></i>
-                                                            </a>
-                                                        @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
-                                                            <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                                class="btn btn-dark btn-xs">
-                                                                <i class="fa fa-print"></i>
-                                                            </a>
-                                                        @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
-                                                            <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                                class="btn btn-dark btn-xs">
-                                                                <i class="fa fa-print"></i>
-                                                            </a>
+                                                        <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}"
+                                                            class="btn btn-success btn-xs"
+                                                            onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
+                                                            <i class="far fa-thumbs-up"></i>
+                                                        </a>
+                                                        <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
+                                                                class="far fa-thumbs-down"></i>
+                                                        </a>
+                                                        <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-dark btn-xs">
+                                                            <i class="fa fa-print"></i>
+                                                        </a>
+                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                        <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-dark btn-xs">
+                                                            <i class="fa fa-print"></i>
+                                                        </a>
+                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
+                                                        <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-dark btn-xs">
+                                                            <i class="fa fa-print"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $jumlah = 0;
+                                                    @endphp
+                                                    @foreach ($sejarah as $sej)
+                                                        @if ($mohonan->usersID == $sej->usersID)
+                                                            {{ $sej->negara }} <br>
+                                                            ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                                            -
+                                                            {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }})<br>
+                                                            @php
+                                                                $jumlah++;
+                                                            @endphp
+                                                            <br>
                                                         @endif
-                                                    </td>
-                                                    <td>
-                                                        @php
-                                                            $jumlah = 0;
-                                                        @endphp
-                                                        @foreach ($sejarah as $sej)
-                                                            @if ($mohonan->usersID == $sej->usersID)
-                                                                {{ $sej->negara }} <br>
-                                                                ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
-                                                                -
-                                                                {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }})<br>
-                                                                @php
-                                                                    $jumlah++;
-                                                                @endphp
-                                                                <br>
-                                                            @endif
 
-                                                        @endforeach
-                                                        <strong>Jumlah:{{ $jumlah }}</strong>
-                                                    </td>
+                                                    @endforeach
+                                                    <strong>Jumlah:{{ $jumlah }}</strong>
+                                                </td>
                                             @endforeach
                                         </tbody>
                                     </table>

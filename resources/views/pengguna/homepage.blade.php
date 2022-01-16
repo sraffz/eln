@@ -32,7 +32,7 @@
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>{{ $TotalPerm }}</h3>
+                            <h3>{{ $TotalPerm+$TotalPermRomb }}</h3>
                             <p>Jumlah Permohonan</p>
                         </div>
                         <div class="icon">
@@ -46,7 +46,7 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ $TotalBerjaya }}</h3>
+                            <h3>{{ $TotalBerjaya+$TotalBerjayaRomb }}</h3>
                             <p>Permohonan Berjaya</p>
                         </div>
                         <div class="icon">
@@ -60,7 +60,7 @@
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>{{ $TotalGagal }}</h3>
+                            <h3>{{ $TotalGagal + $TotalGagalRomb}}</h3>
                             <p>Permohonan Gagal</p>
                         </div>
                         <div class="icon">
@@ -74,7 +74,7 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{{ $TotalProces }}</h3>
+                            <h3>{{ $TotalProces + $TotalProcesRomb }}</h3>
                             <p>Permohonan dalam proses</p>
                         </div>
                         <div class="icon">

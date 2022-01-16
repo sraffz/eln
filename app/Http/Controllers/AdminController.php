@@ -113,6 +113,7 @@ class AdminController extends Controller
         $permohonan = Permohonan::with('user')
             ->whereNull('rombongans_id')
             ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->orderBy('created_at', 'desc')
             ->get();
         //dd($permohonan);
         return view('admin.senaraiPending', compact('permohonan'));
@@ -834,14 +835,14 @@ class AdminController extends Controller
             ->join('users', 'permohonans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
             ->whereNotIn('statusPermohonan', ['simpanan'])
-            ->orderBy('permohonans.created_at', 'asc')
+            ->orderBy('permohonans.created_at', 'desc')
             ->get();
 
         $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
             ->join('users', 'rombongans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
             ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
-            ->orderBy('rombongans.created_at', 'asc')
+            ->orderBy('rombongans.created_at', 'desc')
             ->get();
 
         return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'rombo'));

@@ -81,7 +81,7 @@
                                                                 href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                         </td>
                                                         <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ $mohonan->negara }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}

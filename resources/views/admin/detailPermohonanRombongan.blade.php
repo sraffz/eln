@@ -134,7 +134,7 @@
                                         data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a>
                                     <i> 
                                         @if ($peser->statusPermohonan == 'Lulus Semakan BPSM')
-                                            (Disokong oleh ketua Jabatan)
+                                            {{-- (Disokong oleh ketua Jabatan) --}}
                                         @endif
                                     </i>
                                     <br>
