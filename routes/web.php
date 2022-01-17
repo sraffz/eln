@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('/padam-permohonan/{id}', 'permohonanController@tamatIndividu');
 	
+	// Route::get('/tolak-permohonan/{id}', 'permohonanController@tolakIndividu');
+
 	Route::get('padam-dokumen-cuti/{id}','permohonanController@deleteFileCuti')->name('detailPermohonan.deleteFileCuti');
 	Route::get('padam-dokumen-rasmi/{id}', 'permohonanController@deleteFileRasmi')->name('detailPermohonan.deleteFileRasmi');
 
@@ -178,7 +180,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('cetak-senarai-rombongan', 'KetuaController@cetakSenarairombongan')->name('cetak-senarai-rombongan');
 	
 	
-	Route::get('senaraiRombonganKetua/{id}/tolakPermohonan-individu', 'KetuaController@permohonanGagalKetua');
+	Route::get('ketua-tolak-permohonan/{id}', 'KetuaController@permohonanGagalKetua');
 	
 	Route::get('jumlahKeluarnegara', 'KetuaController@jumlahKeluarnegara')->name('jumlahKeluarnegara');
 	

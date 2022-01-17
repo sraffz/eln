@@ -80,7 +80,7 @@
                                                                         {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
                                                                         <br>
                                                                     @elseif($rombo->statusPermohonanRom == 'Pending')
-                                                                        <a href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
+                                                                        <a href="{{ url('tolak-permohonan', [$element->permohonansID]) }}"
                                                                             class="btn-danger btn-xs">
                                                                             <i class="fa  fa-times"></i>
                                                                         </a><br>

@@ -11,7 +11,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>kemaskini Pengguna</h1>
+                    <h1>Kemaskini Pengguna</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -21,21 +21,20 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-    @include('flash::message')
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <!-- left column -->
                 {{-- <div class="col-md-2">
-            </div> --}}
+                </div> --}}
                 <div class="col-md-12">
+                    @include('flash::message')
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3>Kemaskini</h3>
+                            <h3>Kemaskini Butiran Pengguna</h3>
                         </div>
                         <div class="card-body">
-                            <br>
                             {!! Form::open(['method' => 'POST', 'url' => 'kemaskiniDataPengguna']) !!}
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="_method" value="POST">

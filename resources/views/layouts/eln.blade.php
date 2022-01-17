@@ -52,6 +52,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             text-align: center;
         }
 
+        .ow-break-word {
+            overflow-wrap: break-word;
+        }
+
+        .hyphens {
+            hyphens: auto;
+        }
+
     </style>
 </head>
 

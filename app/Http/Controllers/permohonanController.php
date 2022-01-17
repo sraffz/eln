@@ -59,11 +59,13 @@ class permohonanController extends Controller
 
             $TotalPerm = DB::table('permohonans')
                 ->where('usersID', '=', $id)
+                ->whereNotIn('statusPermohonan', ['simpanan'])
                 // ->where('statusPermohonan','!=', 'simpanan')
                 // ->whereYear('tarikhLulusan', $year)
                 ->count();
                 $TotalPermRomb = DB::table('rombongans')
                 ->where('usersID', '=', $id)
+                ->whereNotIn('statusPermohonanRom', ['simpanan'])
                 // ->where('statusPermohonan','!=', 'simpanan')
                 // ->whereYear('tarikhLulusan', $year)
                 ->count();
@@ -1260,7 +1262,7 @@ class permohonanController extends Controller
     {
         $ubah = 'Permohonan Gagal';
 
-        Permohonan::where('permohonansID', '=', $id)
+        Permohonan::where('permohonansID',  $id)
         ->update([
             'statusPermohonan' => $ubah
         ]);

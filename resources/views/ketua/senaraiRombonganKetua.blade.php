@@ -60,6 +60,9 @@
                                         </thead>
 
                                         <tbody>
+                                            @php
+                                                $i = 1;
+                                            @endphp
                                             @foreach ($rombongan as $index => $rombo)
                                                 <tr>
                                                     <td>{{ $index+1 }}</td>
@@ -82,7 +85,7 @@
                                                                     {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
                                                                     <br>
                                                                 @elseif($rombo->statusPermohonanRom == "Lulus Semakan")
-                                                                    <a href="senaraiRombonganKetua/{{ $element->permohonansID }}/tolakPermohonan-individu"
+                                                                    <a href="{{ url('ketua-tolak-permohonan', [$element->permohonansID]) }}"
                                                                         class="btn-danger btn-xs"
                                                                         onclick="javascript: return confirm('Tolak Permohonan?');"><i
                                                                             class="fa  fa-times"></i></a><br>
