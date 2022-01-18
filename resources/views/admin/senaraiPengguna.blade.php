@@ -53,8 +53,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="">
-                                        <table class="table table-responsive table-bordered table-sm display">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm display">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>No</th>
@@ -73,7 +73,7 @@
                                                 @foreach ($user as $index => $ss)
                                                     <tr>
                                                         <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $ss->nama }} <br>({{ $ss->nokp }})</td>
+                                                        <td>{{ $ss->nama }} <br> ({{ $ss->nokp }})</td>
                                                         <td>{{ $ss->namaJawatan }}</td>
                                                         <td>{{ $ss->userJabatan->nama_jabatan }}
                                                             ({{ $ss->userJabatan->kod_jabatan }})</td>
@@ -124,8 +124,8 @@
     <script>
         $(document).ready(function() {
             $('table.display').DataTable({
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 15, 20],
+                "pageLength": 10,
+                "lengthMenu": [10, 30, 50, 100],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

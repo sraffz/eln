@@ -746,7 +746,7 @@ class AdminController extends Controller
         $angka = GredAngka::all();
         $kod = GredKod::all();
         // dd($jabatan);
-        return view('admin.tambah-pic', compact('jabatan', 'users', 'jawatan', 'angka', 'kod'));
+        return view('admin.tambah-pic', compact('jabatan', 'jawatan', 'angka', 'kod'));
     }
 
     public function daftarJabatan(Request $request)

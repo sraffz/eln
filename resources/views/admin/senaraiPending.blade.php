@@ -49,8 +49,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="">
-                                        <table class="table table-responsive table-bordered table-sm display">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm display">
                                             <thead>
                                                 <tr>
                                                     <th style="vertical-align: middle">No</th>
