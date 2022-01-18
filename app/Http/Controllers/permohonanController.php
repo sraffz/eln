@@ -11,10 +11,13 @@ use App\Rombongan;
 use App\Pasangan;
 use App\Jawatan;
 use App\Jabatan;
+use Illuminate\Support\Facades\Hash;
 use App\GredKod;
 use App\GredAngka;
 use DB;
 use Auth;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -211,6 +214,16 @@ class permohonanController extends Controller
             }
 
             // --------------------Pengguna---------------------------------------------------------------------------------
+            // $kp = Auth::user()->nokp;
+            // $pass = Auth::user()->password;
+            // // $ddd = Crypt::decryptString(Auth::user()->password);
+
+            // if (Hash::check($kp, $pass)) {
+            //     return 'Keno Tukar Password Bos';
+            // } else {
+            //     return 'wadawdawdwd';
+            // }
+
             if ($role == 'pengguna') {
                 return view('pengguna.homepage', compact('user', 'mula', 'TotalPerm', 'TotalPermRomb', 'TotalBerjaya', 'TotalBerjayaRomb', 'TotalGagal', 'TotalGagalRomb', 'TotalProces', 'TotalProcesRomb', 'senarai'));
             } elseif ($role == 'adminBPSM') {
@@ -236,6 +249,22 @@ class permohonanController extends Controller
         } else {
             return view('halamanUtama');
         }
+    }
+
+    public function tukarkatalaluan(Request $request)
+    {
+        $request->validate([
+            'password' => ['required'],
+            'confirmpassword' => ['same:password'],
+        ]);
+
+        User::where('usersID', Auth::user()->usersID)->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        flash('Kata laluan telah ditukar.')->success();
+
+        return back();
     }
 
     public function individu($typeForm)

@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('profil', 'AdminController@profil')->name('profil');
 	Route::POST('kemaskini-profil', 'AdminController@kemaskiniprofil')->name('kemaskiniprofil');
 	Route::POST('kemaskini-katalaluan', 'AdminController@kemaskinikatalaluan')->name('kemaskinikatalaluan');
+	Route::POST('tukar-password', 'PermohonanController@tukarkatalaluan')->name('kemaskinikatalaluan');
 	//untuk individu
 	Route::get('registerFormIndividu/{typeForm}', 'permohonanController@individu')->name('registerFormIndividu');
 	Route::get('registerFormIndividuRombongan/{id}', 'permohonanController@individuRombongan')->name('registerFormIndividuRombongan');
@@ -104,6 +105,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('senaraiPengguna', 'AdminController@senaraiPengguna')->name('senaraiPengguna');
 	Route::get('senaraiPIC/{id}/edit', 'AdminController@editPIC');
 	Route::get('kemaskini-pengguna/{id}', 'AdminController@kemaskiniPengguna');
+	Route::get('reset-kata-laluan/{id}', 'AdminController@resetKatalaluan');
+	
+	
 	Route::PUT('senaraiPIC/{id}', 'AdminController@updateDataPIC');
 	
 	//Konfigurasi------------------------------------------------------------------------------

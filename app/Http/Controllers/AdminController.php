@@ -742,8 +742,11 @@ class AdminController extends Controller
     public function daftarPic()
     {
         $jabatan = Jabatan::all();
+        $jawatan = Jawatan::all();
+        $angka = GredAngka::all();
+        $kod = GredKod::all();
         // dd($jabatan);
-        return view('admin.tambah-pic', compact('jabatan'));
+        return view('admin.tambah-pic', compact('jabatan', 'users', 'jawatan', 'angka', 'kod'));
     }
 
     public function daftarJabatan(Request $request)
@@ -752,23 +755,28 @@ class AdminController extends Controller
         $nama = $request->input('nama');
         $nokp = $request->input('nokp');
         $jabatan = $request->input('jabatan');
+        $jawatan = $request->input('jawatan');
+        $kod = $request->input('kod');
+        $gred = $request->input('gred');
         $email = $request->input('email');
-        $pass = $request->input('katalaluan');
         $role = $request->input('role');
-        $katalaluan = bcrypt($pass);
+        $katalaluan = bcrypt($nokp);
 
         $data = [
             'nama' => $nama,
             'nokp' => $nokp,
             'email' => $email,
             'jabatan' => $jabatan,
+            'jawatan' => $jawatan,
+            'gredKod' => $kod,
+            'gredAngka' => $gred,
             'password' => $katalaluan,
             'role' => $role,
             'created_at' => \Carbon\Carbon::now(), # \Datetime()
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         User::create($data);
-        flash('Maklumat telah ditambah')->success();
+        flash('Pentadbir telah berjaya ditambah')->success();
         return redirect()->back();
     }
 
@@ -878,11 +886,30 @@ class AdminController extends Controller
     public function kemaskiniPengguna($id)
     {
         $jabatan = Jabatan::all();
+        $jawatan = Jawatan::all();
+        $angka = GredAngka::all();
+        $kod = GredKod::all();
+
         $users = User::with('userJabatan')
             ->where('usersID', '=', $id)
             ->first();
         //dd($user);
-        return view('admin.kemaskiniPengguna', compact('jabatan', 'users'));
+        return view('admin.kemaskiniPengguna', compact('jabatan', 'users', 'jawatan', 'angka', 'kod'));
+    }
+
+    public function resetKatalaluan($id)
+    {
+        
+        $user = User::where('usersID', $id)
+        ->first();
+
+        User::where('usersID', $id)
+        ->update([
+            'password' => Hash::make($user->nokp)
+        ]);
+
+        flash('Kata Laluan Pengguna Telah Diset Semula', 'success');
+        return back();
     }
 
     public function kemaskiniDataPengguna(Request $request)
@@ -890,21 +917,27 @@ class AdminController extends Controller
         $nama = $request->nama;
         $nokp = $request->nokp;
         $email = $request->email;
-        $katalaluan = $request->katalaluan;
-        $password = bcrypt($katalaluan);
 
-        if ($katalaluan == null) {
-            User::with('userJabatan')
-                ->with('userJawatan')
-                ->where('nokp', $nokp)
-                ->update(['nama' => $nama, 'email' => $email]);
-            flash('Maklumat telah dikemaskini', 'success');
-            return redirect()->back();
-        } else {
-            User::where('nokp', $nokp)->update(['nama' => $nama, 'email' => $email, 'password' => $password]);
-            flash('Maklumat telah dikemaskini', 'success');
-            return redirect()->back();
-        }
+        $jawatan = $request->jawatan;
+        $jabatan = $request->jabatan;
+        $gred = $request->gred;
+        $kod = $request->kod;
+
+        
+        User::with('userJabatan')
+            ->with('userJawatan')
+            ->where('nokp', $nokp)
+            ->update([
+                'nama' => $nama, 
+                'email' => $email,
+                'jawatan' => $jawatan,
+                'jabatan' => $jabatan,
+                'gredAngka' => $gred,
+                'gredKod' => $kod
+            ]);
+
+        flash('Maklumat telah dikemaskini', 'success');
+        return redirect()->back();
     }
 
     public function infoSurat()

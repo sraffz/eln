@@ -38,39 +38,85 @@
                             {!! Form::open(['method' => 'POST', 'url' => 'kemaskiniDataPengguna']) !!}
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="_method" value="POST">
-
-                            <label>Nama</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="nama" name="nama" value="{{ $users->nama }}"
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="nama" name="nama"
+                                        value="{{ $users->nama }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>No KP (Username)</label>
+                                <div class="input-group">
+                                    <input class="form-control" value="{{ $users->nokp }}" disabled>
+                                    <input type="hidden" id="nokp" name="nokp" value="{{ $users->nokp }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <div class="input-group">
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="{{ $users->email }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Jabatan</label>
+                                <select class="form-control select2bs4" name="jabatan" style="width: 100%;"
                                     required>
+                                    <option value="">Sila Pilih</option>
+                                    @foreach ($jabatan as $jaw)
+                                        <option value="{{ $jaw->jabatan_id }}" {{ $jaw->jabatan_id == $users->jabatan ? 'selected' : '' }}>{{ $jaw->nama_jabatan }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <br>
-
-                            <label>No KP (Username)</label>
-                            <div class="input-group">
-                                <input class="form-control" value="{{ $users->nokp }}" disabled>
-                                <input type="hidden" id="nokp" name="nokp" value="{{ $users->nokp }}" required>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Jawatan</label>
+                                        <select class="form-control select2bs4" name="jawatan" style="width: 100%;"
+                                            required>
+                                            <option value="">Sila Pilih</option>
+                                            @foreach ($jawatan as $jaw)
+                                                <option value="{{ $jaw->idJawatan }}" {{ $jaw->idJawatan == $users->jawatan ? 'selected' : '' }}>{{ $jaw->namaJawatan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Kod Gred</label>
+                                        <select class="form-control select2bs4" name="kod" style="width: 100%;"
+                                            required>
+                                            <option value="">Sila Pilih</option>
+                                            @foreach ($kod as $jaw)
+                                            <option value="{{ $jaw->gred_kod_ID }}" {{ $jaw->gred_kod_ID == $users->gredKod ? 'selected' : '' }}>{{ $jaw->gred_kod_abjad }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Gred</label>
+                                        <select class="form-control select2bs4" name="gred" style="width: 100%;"
+                                        required>
+                                        <option value="">Sila Pilih</option>
+                                            @foreach ($angka as $jaw)
+                                                <option value="{{ $jaw->gred_angka_ID }}" {{ $jaw->gred_angka_ID == $users->gredAngka ? 'selected' : '' }}>{{ $jaw->gred_angka_nombor }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <br>
-                            <label>Email</label>
-                            <div class="input-group">
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $users->email }}" required>
-                            </div>
-                            <br>
-                            <label>Katalaluan</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="katalaluan" name="katalaluan" required><br><br>
-                                {{-- <input type="checkbox" onclick="myFunction()">Show Password --}}
-                            </div>
-                          </div>
-                          <div class="card-footer text-center">
-                            <div class="btn-group pull-right">
-                                <a href="{{ url('senaraiPengguna') }}" class="btn btn-warning">Kembali</a>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="">
+                                <a href="{{ url('senaraiPengguna') }}" class="btn btn-danger">Kembali</a>
+                                <a href="{{ url('reset-kata-laluan', [$users->usersID]) }}" class="btn btn-info">Set
+                                    Semula Kata Luluan</a>
                                 {!! Form::submit('Kemaskini', ['class' => 'btn btn-success']) !!}
                             </div>
                             {!! Form::close() !!}
-                            
+
                         </div>
                     </div>
                 </div>

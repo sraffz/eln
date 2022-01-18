@@ -94,6 +94,49 @@ desired effect
 
         <div class="content-wrapper">
             @yield('content')
+            @php
+                $kp = Auth::user()->nokp;
+                $pass = Auth::user()->password;
+            @endphp
+            @if (Hash::check($kp, $pass))
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Tukar Kata Laluan</h5>
+
+                            </div>
+                            <form action="{{ url('tukar-password') }}" method="post">
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <label for="password">Kata Laluan Baru</label>
+                                            <input type="password" class="form-control" name="password" id="password"
+                                                aria-describedby="helpId" placeholder="" required>
+                                            <small id="helpId" class="form-text text-muted">Sekurang-kurang 8
+                                                aksara.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirmpassword">Taip Semula Kata Laluan Baru</label>
+                                            <input type="password" class="form-control" name="confirmpassword"
+                                                id="confirmpassword" aria-describedby="helpId" placeholder="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ url('logout') }}" class="btn btn-secondary"> <i
+                                            class="fas fa-sign-out-alt"></i> Log Keluar</a>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>
+                                        Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
         <!-- Main Footer -->
         @include('layouts.eln.footer')
@@ -260,6 +303,12 @@ desired effect
             $("input[data-bootstrap-switch]").each(function() {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            $('#myModal').modal('show');
         });
     </script>
 </body>
