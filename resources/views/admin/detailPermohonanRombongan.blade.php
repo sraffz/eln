@@ -121,6 +121,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="catatan">Catatan</label>
+                                        <textarea style="resize: none" class="form-control" disabled
+                                            disabled>{{ $rombooo->catatan_permohonan }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
                             <hr>
                             <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
                             <p class="text-muted" style="text-transform: uppercase">

@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-    @include('flash::message')
+    
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -39,12 +39,12 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-    @include('flash::message')
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    @include('flash::message')
                     <div class="card">
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Permohonan</h3>

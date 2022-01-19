@@ -127,6 +127,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="catatan">Catatan</label>
+                                        <textarea style="resize: none" class="form-control" disabled
+                                            disabled>{{ $permohonan->catatan_permohonan }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -142,58 +151,64 @@
                     $jumlah++;
                 @endphp
                 {{-- {{ $jumlah }} --}}
-                @if ($jumlah>0)
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Maklumat Pasangan/Keluarga/Saudara Pegawai Di Luar Negara</h3>
+                @if ($jumlah > 0)
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Maklumat Pasangan/Keluarga/Saudara Pegawai Di Luar Negara</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label><i class="fa fa-user"></i> Nama Pasangan</label>
+                                        <input type="text" name="namaPasangan" class="form-control"
+                                            value="{{ $ppp->namaPasangan }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label><i class="fa fa-user-friends"></i> Hubungan</label>
+                                        <input type="text" name="hubungan" class="form-control"
+                                            value="{{ $ppp->hubungan }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
+                                        <input type="text" name="phonePasangan" class="form-control"
+                                            data-inputmask='"mask": "(99) 99-99999999"' data-mask
+                                            value="{{ $ppp->phonePasangan }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label><i class="fa fa-envelope"></i> Email Pasangan (Jika Ada)</label>
+                                        <input type="email" name="emailPasangan" class="form-control"
+                                            value="{{ $ppp->emailPasangan }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <!-- textarea -->
+                                    <div class="form-group">
+                                        <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
+                                        <textarea class="form-control" name="alamatPasangan" rows="3" value=""
+                                            disabled>{{ $ppp->alamatPasangan }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label><i class="fa fa-user"></i> Nama Pasangan</label>
-                                    <input type="text" name="namaPasangan" class="form-control" value="{{ $ppp->namaPasangan }}" disabled>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label><i class="fa fa-user-friends"></i> Hubungan</label>
-                                    <input type="text" name="hubungan" class="form-control" value="{{ $ppp->hubungan }}" disabled>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
-                                    <input type="text" name="phonePasangan" class="form-control" data-inputmask='"mask": "(99) 99-99999999"' data-mask value="{{ $ppp->phonePasangan }}" disabled>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- text input -->
-                                <div class="form-group">
-                                    <label><i class="fa fa-envelope"></i> Email Pasangan (Jika Ada)</label>
-                                    <input type="email" name="emailPasangan" class="form-control" value="{{ $ppp->emailPasangan }}" disabled>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- textarea -->
-                                <div class="form-group">
-                                    <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
-                                    <textarea class="form-control" name="alamatPasangan" rows="3" value="" disabled>{{ $ppp->alamatPasangan }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- /.card-body -->
-                </div>
                 @endif
             @endforeach
 

@@ -279,6 +279,7 @@ class AdminController extends Controller
             'tarikhAkhirRom' => $req->input('tarikhakhir'),
             'negaraRom' => $req->input('negaraRom'),
             'tujuanRom' => $req->input('tujuanRom'),
+            'catatan_permohonan' => $req->input('catatan_permohonan'),
             'jenisKewanganRom' => $req->input('jenisKewanganRom'),
             'anggaranBelanja' => $req->input('anggaranBelanja'),
             'alamatRom' => $req->input('alamatRom'),
@@ -842,14 +843,14 @@ class AdminController extends Controller
         $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
             ->join('users', 'permohonans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
-            ->whereNotIn('statusPermohonan', ['simpanan'])
+            ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->orderBy('permohonans.created_at', 'desc')
             ->get();
 
         $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
             ->join('users', 'rombongans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
-            ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
+            ->whereIn('rombongans.statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->orderBy('rombongans.created_at', 'desc')
             ->get();
 

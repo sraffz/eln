@@ -4,8 +4,8 @@
             class="nav-item {{ request()->is('semakkanDato') || request()->is('senaraiRombonganKetua') ? 'menu-open' : '' }}">
             <a href="#"
                 class="nav-link {{ request()->is('semakkanDato') || request()->is('senaraiRombonganKetua') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-user"></i>
-                <p> Permohonan Baru
+                <i class="nav-icon fas fa-list"></i>
+                <p> Senarai Permohonan
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
@@ -28,7 +28,7 @@
         </li>
         <li class="nav-item {{ request()->is('senaraiRekod*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ request()->is('senaraiRekod*') ? 'active' : '' }}">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon fas fa-chalkboard"></i>
                 <p>
                     Rekod Permohonan
                     <i class="fas fa-angle-left right"></i>

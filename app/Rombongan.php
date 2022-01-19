@@ -8,7 +8,7 @@ class Rombongan extends Model
 {
     protected $primaryKey='rombongans_id';
 
-    protected $fillable=['tarikhMulaRom','tarikhAkhirRom','tarikhInsuranRom','tarikhStatusPermohonan','codeRom','negaraRom','alamatRom','statusPermohonanRom','tujuanRom','jenisKewanganRom','anggaranBelanja'];
+    protected $fillable=['tarikhMulaRom','tarikhAkhirRom', 'catatan_permohonan', 'tarikhInsuranRom','tarikhStatusPermohonan','codeRom','negaraRom','alamatRom','statusPermohonanRom','tujuanRom','jenisKewanganRom','anggaranBelanja'];
 
     protected $table = 'rombongans';
 

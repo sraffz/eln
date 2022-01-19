@@ -68,7 +68,7 @@ $url = url()->current();
     class="nav-item {{ $url == route('senaraiPermohonanIndividu', Auth::user()->usersID) || $url == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}">
     <a href="#"
         class="nav-link {{ $url == route('senaraiPermohonanIndividu', Auth::user()->usersID) || $url == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'active' : '' }}">
-        <i class="nav-icon fas fa-users"></i>
+        <i class="nav-icon fas fa-chalkboard"></i>
         <p>
             Keputusan
             <i class="fas fa-angle-left right"></i>

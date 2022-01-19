@@ -8,7 +8,7 @@ class Permohonan extends Model
 {
     protected $primaryKey='permohonansID';
 
-    protected $fillable=['tarikhMulaPerjalanan','tarikhAkhirPerjalanan','tarikhInsuran','negara','alamat','statusPermohonan','tarikhMulaCuti','tarikhAkhirCuti','tarikhKembaliBertugas','namaFileCuti','jenisFileCuti','pathFileCuti','JenisPermohonan','jenisKewangan','lainTujuan','telefonPemohon','tarikhLulusan','tick','ulasan','no_ruj_file','no_ruj_bil','no_ruj_latest','jumlahHariPermohonanBerlepas','usersID','rombongans_id'];
+    protected $fillable=['tarikhMulaPerjalanan','tarikhAkhirPerjalanan','tarikhInsuran','negara','alamat','statusPermohonan','tarikhMulaCuti','tarikhAkhirCuti','tarikhKembaliBertugas','namaFileCuti','jenisFileCuti','pathFileCuti','JenisPermohonan','jenisKewangan','lainTujuan','telefonPemohon','tarikhLulusan','tick','ulasan','no_ruj_file','no_ruj_bil','no_ruj_latest','jumlahHariPermohonanBerlepas','usersID','rombongans_id', 'catatan_permohonan'];
 
     protected $table = 'permohonans';
 

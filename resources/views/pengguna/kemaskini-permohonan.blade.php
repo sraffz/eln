@@ -125,6 +125,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                              <label for="catatan_permohonan">Catatan</label>
+                                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ $rmbgn->catatan_permohonan }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-row">
                                         <div class="col-md-12">
                                             <div class="form-group">

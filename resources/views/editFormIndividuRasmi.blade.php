@@ -172,6 +172,14 @@
                             <input type="hidden" name="jenisKewangan" value="Persendirian">
                         @endif
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                              <label for="catatan_permohonan">Catatan</label>
+                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ $permohonan->catatan_permohonan }}</textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

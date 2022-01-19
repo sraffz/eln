@@ -112,17 +112,27 @@ desired effect
                                 <div class="modal-body">
                                     <div class="container-fluid">
                                         {{ csrf_field() }}
+
                                         <div class="form-group">
                                             <label for="password">Kata Laluan Baru</label>
-                                            <input type="password" class="form-control" name="password" id="password"
-                                                aria-describedby="helpId" placeholder="" required>
-                                            <small id="helpId" class="form-text text-muted">Sekurang-kurang 8
-                                                aksara.</small>
+                                            <input type="password"
+                                                class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                                name="password" id="password" aria-describedby="helpId"
+                                                aria-invalid="true" required autofocus>
+                                            <small id="helpId" class="error invalid-feedback">
+                                                {{ $errors->first('password') }}
+                                            </small>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="confirmpassword">Taip Semula Kata Laluan Baru</label>
-                                            <input type="password" class="form-control" name="confirmpassword"
-                                                id="confirmpassword" aria-describedby="helpId" placeholder="" required>
+                                            <input type="password"
+                                                class="form-control {{ $errors->has('confirmpassword') ? ' is-invalid' : '' }}"
+                                                name="confirmpassword" id="confirmpassword" aria-invalid="true" aria-describedby="helpId"
+                                                required>
+                                            <small id="helpId" class="error invalid-feedback">
+                                                {{ $errors->first('confirmpassword') }}
+                                            </small>
                                         </div>
                                     </div>
                                 </div>

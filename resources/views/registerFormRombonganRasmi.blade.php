@@ -123,6 +123,14 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
+                              <label for="catatan_permohonan">Catatan</label>
+                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
                                 <label><i class="fa fa-file"> </i> Dokumen Rasmi<span
                                         style="color:red;">**</span></label>
                                 <div class="custom-file">
