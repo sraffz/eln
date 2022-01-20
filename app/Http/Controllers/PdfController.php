@@ -194,7 +194,7 @@ class PdfController extends Controller
         return $pdf->download('Laporan Bulanan ELN '.$tahun.'.pdf');
     }
 
-    public function laporanIndividu($tahun)
+    public function laporanIndividu()
     {
 
         return view('pdf.laporanIndividu', compact('tahun'));

@@ -776,7 +776,7 @@ class permohonanController extends Controller
                             ];
                             Permohonan::create($data);
                             flash('Permohonan berjaya didaftar.')->success();
-                            return redirect('senaraiPermohonanProses/'.Auth::user()->usersID.'');
+                            return redirect('/senaraiPermohonanProses');
                         } else {
                             Flash::error('Error uploading ' . $doc_type);
                             return back();
@@ -1247,8 +1247,10 @@ class permohonanController extends Controller
         }
     }
 
-    public function senaraiPermohonanProses($id)
+    public function senaraiPermohonanProses()
     {
+        $id = Auth::user()->usersID;
+
         $userDetail = User::find($id);
 
         $permohonan = Permohonan::where('usersID', $id)
@@ -1266,8 +1268,10 @@ class permohonanController extends Controller
         return view('pengguna.senaraiPermohonan', compact('permohonan', 'rombongan', 'userDetail', 'allPermohonan'));
     }
 
-    public function senaraiPermohonanIndividu($id)
+    public function senaraiPermohonanIndividu()
     {
+        $id = Auth::user()->usersID;
+
         $userDetail = User::find($id);
 
         $permohonan = Permohonan::where('usersID', $id)
@@ -1283,8 +1287,10 @@ class permohonanController extends Controller
         return view('pengguna.senaraiPermohonanIndividu', compact('permohonan', 'rombongan', 'userDetail', 'allPermohonan'));
     }
 
-    public function senaraiPermohonanRombongan($id)
+    public function senaraiPermohonanRombongan()
     {
+        $id = Auth::user()->usersID;
+        
         $rombongan = Rombongan::where('usersID', $id)
             ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->get();

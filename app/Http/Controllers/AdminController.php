@@ -66,10 +66,13 @@ class AdminController extends Controller
             ->first();
 
         $nega = Permohonan::where('usersID', Auth::user()->usersID)->get();
+        $negaRom = Rombongan::where('usersID', Auth::user()->usersID)->get();
 
         $senaraiNegara = $nega->where('statusPermohonan', 'Permohonan Berjaya')->pluck('negara');
+
+        $senaraiNegaraRom = $negaRom->where('statusPermohonanRom', 'Permohonan Berjaya')->pluck('negaraRom');
         // dd($senaraiNegara);
-        return view('profil', compact('user', 'senaraiNegara', 'jabatan', 'gredAngka', 'gredKod', 'jawatan'));
+        return view('profil', compact('user', 'senaraiNegara', 'senaraiNegaraRom', 'jabatan', 'gredAngka', 'gredKod', 'jawatan'));
     }
 
     public function kemaskiniprofil(Request $req)
@@ -122,12 +125,15 @@ class AdminController extends Controller
     public function indexRombongan()
     {
         if (Auth::user()->role == 'adminBPSM') {
-            $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+            $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+            ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
                 ->whereIn('statusPermohonanRom', ['Pending'])
                 ->orderBy('rombongans.created_at','asc')
                 ->get();
+
         } elseif (Auth::user()->role == 'jabatan') {
-            $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+            $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+            ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
                 ->whereIn('statusPermohonanRom', ['Pending'])
                 ->where('users.jabatan', Auth::user()->jabatan)
                 ->orderBy('rombongans.created_at','asc')
@@ -669,11 +675,25 @@ class AdminController extends Controller
         return view('laporan.tahun', compact('data'));
     }
 
-    public function laporanindividu(Request $req)
+    public function laporanindividu()
     {
-        $tahun = $req->tahun;
+        $data = DB::table('bilangan_keluar_negara_individu')->get();
 
-        return view('laporan.individu', compact('tahun'));
+        return view('laporan.individu', compact('data'));
+    }
+    
+    public function butiranindividu($id)
+    {
+        $user = DB::table('butiran_keluar_negara_individu')
+        ->where('usersID', $id)
+        ->first();
+
+        $negara = DB::table('butiran_keluar_negara_individu')
+        ->where('usersID', $id)
+        ->orderBy('tarikhMulaPerjalanan', 'desc')
+        ->get();
+
+        return view('laporan.butiran-individu', compact('user','negara'));
     }
 
     public function terusDato()
@@ -843,14 +863,14 @@ class AdminController extends Controller
         $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
             ->join('users', 'permohonans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
-            ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->whereNotIn('statusPermohonan', ['simpanan'])
             ->orderBy('permohonans.created_at', 'desc')
             ->get();
 
         $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
             ->join('users', 'rombongans.usersID', '=', 'users.usersID')
             ->where('users.jabatan', $jab)
-            ->whereIn('rombongans.statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
             ->orderBy('rombongans.created_at', 'desc')
             ->get();
 

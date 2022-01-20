@@ -14,9 +14,10 @@
             font-weight: bold;
         }
 
-        table td {
+        .table tr td {
             font-size: 15px;
             font-weight: bold;
+            vertical-align: middle;
         }
 
     </style>
@@ -67,7 +68,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($permohonan as $index => $mohonan)
-                                        <tr>
+                                        <tr class="text-center">
                                             <td>
                                                 {{ $index + 1 }}
                                             </td>
@@ -79,15 +80,18 @@
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
                                             </td>
-                                            <td>{{ $mohonan->lainTujuan }} <br>({{ $mohonan->JenisPermohonan }})</td>
+                                            <td>{{ $mohonan->lainTujuan }}<br>({{ $mohonan->JenisPermohonan }})</td>
                                             <td>
                                                 @if ($mohonan->statusPermohonan == 'simpanan')
                                                     <span class="badge badge-info">Draf</span>
-                                                @elseif( $mohonan->statusPermohonan == "Lulus Semakkan ketua Jabatan")
+                                                @elseif($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
                                                     <span class="badge badge-info">Tindakan BPSM</span>
+                                                @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                    <span class="badge badge-success">Berjaya</span>
+                                                @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
+                                                    <span class="badge badge-danger">Gagal</span>
                                                 @else
-                                                    <span
-                                                        class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
+                                                    <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -106,7 +110,7 @@
 
                                                     <span class="badge badge-warning">Pending</span>
 
-                                                @elseif($mohonan->statusPermohonan == "simpanan")
+                                                @elseif($mohonan->statusPermohonan == 'simpanan')
 
                                                     <a href='{{ url("/senaraiPermohonan/{$mohonan->permohonansID}/hantarIndividu") }}'
                                                         class="btn btn-success btn-xs"
@@ -123,11 +127,11 @@
                                                         onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                             class="fa fa-user-times"></i></a>
 
-                                                @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
+                                                @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
 
-                                                    <span class="badge badge-success">Berjaya</span>
+                                                    <a class="btn btn-dark btn-sm" href="#" role="button">Batal</a>
 
-                                                @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                                                @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
 
                                                     <span class="badge badge-danger">Gagal</span>
 

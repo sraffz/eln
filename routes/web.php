@@ -46,9 +46,9 @@ Route::middleware(['auth'])->group(function () {
 	Route::POST('updatePermohonan/{id}', 'permohonanController@updatePermohonan');
 	
 	
-	Route::get('senaraiPermohonanRombongan/{id}', 'permohonanController@senaraiPermohonanRombongan')->name('senaraiPermohonanRombongan');
-	Route::get('senaraiPermohonanIndividu/{id}', 'permohonanController@senaraiPermohonanIndividu')->name('senaraiPermohonanIndividu');
-	Route::get('senaraiPermohonanProses/{id}', 'permohonanController@senaraiPermohonanProses')->name('senaraiPermohonanProses');
+	Route::get('keputusan-rombongan', 'permohonanController@senaraiPermohonanRombongan')->name('keputusan-rombongan');
+	Route::get('keputusan-permohonan', 'permohonanController@senaraiPermohonanIndividu')->name('keputusan-permohonan');
+	Route::get('senaraiPermohonanProses', 'permohonanController@senaraiPermohonanProses')->name('senaraiPermohonanProses');
 	
 	// Route::get('/senaraiPermohonan/{id}',[
 	// 	// 'middleware' =>'admin',
@@ -147,7 +147,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('laporan-tahunan', 'AdminController@laporantahunan')->name('laporan-tahunan');
 	Route::get('laporanTahunan', 'PdfController@laporanTahunan')->name('laporanTahunan');
 	Route::get('laporan-individu', 'AdminController@laporanindividu')->name('laporan-individu');
-	Route::get('laporanIndividu/{tahun}', 'PdfController@laporanIndividu')->name('laporanIndividu');
+	Route::get('butiran-individu/{id}', 'AdminController@butiranindividu')->name('butiran-individu');
+	Route::get('laporanIndividu', 'PdfController@laporanIndividu')->name('laporanIndividu');
 	
 	Route::get('laporanViewBG', 'PdfController@laporanViewBG')->name('laporanViewBG');
 	Route::POST('proViewBG', 'PdfController@proViewBG')->name('proViewBG');
@@ -164,7 +165,7 @@ Route::middleware(['auth'])->group(function () {
 	
 	// ------------------------dato----------------------
 	
-	Route::get('semakkanDato', 'KetuaController@index')->name('semakkanDato');
+	Route::get('senarai-semak', 'KetuaController@index')->name('senarai-semak');
 	Route::get('senaraiRombonganKetua', 'KetuaController@senaraiRombonganKetua')->name('senaraiRombonganKetua');
 	
 	Route::get('/senaraiPermohonan/{id}/hantar', 'KetuaController@hantar')->name('senaraiPermohonan.hantar');

@@ -48,8 +48,8 @@
 
 <li class="nav-header">PERMOHONAN</li>
 <li class="nav-item">
-    <a href="{{ route('senaraiPermohonanProses', Auth::user()->usersID) }}"
-        class="nav-link {{ url()->current() == route('senaraiPermohonanProses', Auth::user()->usersID) ? 'active' : '' }}">
+    <a href="{{ route('senaraiPermohonanProses') }}"
+        class="nav-link {{ url()->current() == route('senaraiPermohonanProses') ? 'active' : '' }}">
         <i class="nav-icon fas fa-book"></i>
         <p>Permohonan Baru</p>
     </a>
@@ -109,9 +109,9 @@
     </ul>
 </li>
 <li
-    class="nav-item {{ url()->current() == route('senaraiPermohonanIndividu', Auth::user()->usersID) || url()->current() == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}">
+    class="nav-item {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ url()->current() == route('senaraiPermohonanIndividu', Auth::user()->usersID) || url()->current() == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+        class="nav-link {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'active' : '' }}">
         <i class="nav-icon fas fa-chalkboard"></i> 
         <p>
             Keputusan
@@ -120,15 +120,15 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('senaraiPermohonanIndividu', Auth::user()->usersID) }}"
-                class="nav-link {{ url()->current() == route('senaraiPermohonanIndividu', Auth::user()->usersID) ? 'active' : '' }}">
+            <a href="{{ route('keputusan-permohonan') }}"
+                class="nav-link {{ url()->current() == route('keputusan-permohonan') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Individu</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('senaraiPermohonanRombongan', Auth::user()->usersID) }}"
-                class="nav-link {{ url()->current() == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+            <a href="{{ route('keputusan-rombongan') }}"
+                class="nav-link {{ url()->current() == route('keputusan-rombongan') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Rombongan</p>
             </a>
@@ -153,6 +153,10 @@
                 <span>Lelaki & Perempuan</span>
             </a>
         </li>
+        <li class="nav-item"><a
+            class="nav-link {{ request()->is('laporan-individu') ? 'active' : '' }}"
+            href="{{ url('laporan-individu') }}"><i class="far fa-circle nav-icon"></i>
+            <span>Individu</span></a></li>
         <li class="nav-item"><a class="nav-link {{  request()->is('laporan-jabatan') ? 'active' : '' }}" href="{{ url('laporan-jabatan?tahun='.now()->year) }}"><i
                     class="far fa-circle nav-icon"></i> <span>Jabatan</span></a></li>
         {{-- <li class="nav-item"><a class="nav-link" href="{{ url('laporan-individu?tahun='.now()->year) }}"><i

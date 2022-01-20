@@ -104,8 +104,15 @@
                                         </div>
                                         <!-- /.user-block -->
                                         <p>
+                                            <h5>Individu</h5>
                                         <ul>
                                             @foreach ($senaraiNegara as $senaraiNegaras)
+                                                <li>{{ $senaraiNegaras }}</li>
+                                            @endforeach
+                                        </ul>
+                                        <h5>Rombongan</h5>
+                                        <ul>
+                                            @foreach ($senaraiNegaraRom as $senaraiNegaras)
                                                 <li>{{ $senaraiNegaras }}</li>
                                             @endforeach
                                         </ul>

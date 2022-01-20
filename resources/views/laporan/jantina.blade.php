@@ -45,11 +45,18 @@
                                     </select> 
                                 </div>
                                 <div class="col">
-                                     <button type="submit" class="btn btn-dark mb-2">Papar Laporan</button> <a class="btn btn-info mb-2" href="{{ route('laporanLP', [$tahun]) }}">Cetak Laporan</a>
+                                     <button type="submit" class="btn btn-primary mb-2">Papar Laporan</button> 
                                 </div>
                               </div>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <a class="btn btn-dark mb-2" href="{{ route('laporanLP', [$tahun]) }}">Cetak Laporan</a>
                     </div>
                 </div>
             </div>

@@ -47,24 +47,27 @@
                                                     <th style="vertical-align: middle">No</th>
                                                     <th style="vertical-align: middle">Negara</th>
                                                     <th style="vertical-align: middle">Code</th>
+                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
                                                     <th style="vertical-align: middle">Tarikh Akhir Perjalanan</th>
                                                     <th style="vertical-align: middle">Tujuan Rombongan</th>
                                                     <th style="vertical-align: middle">Peserta</th>
-                                                    <th style="vertical-align: middle">Status Permohonan</th>
+                                                    {{-- <th style="vertical-align: middle">Status Permohonan</th> --}}
                                                     {{-- <th style="vertical-align: middle">Tarikh Lulusan Permohonan</th> --}}
                                                     <th style="vertical-align: middle">Dokumen</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($rombongan as $index => $rombo)
-                                                    <tr>
+                                                    <tr class="text-center">
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
                                                             <a
                                                                 href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>
                                                         </td>
                                                         <td>{{ $rombo->codeRom }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikmohon)->format('d/m/Y') }}
+                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}
@@ -88,12 +91,12 @@
                                                                 @endif
                                                             @endforeach
                                                         </td>
-                                                        <td><span
+                                                        {{-- <td><span
                                                                 class="badge badge-info">{{ $rombo->statusPermohonanRom }}</span>
-                                                        </td>
+                                                        </td> --}}
                                                         {{-- <td>{{\Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y')}}</td> --}}
 
-                                                        <td>
+                                                        <td class="text-center">
                                                             @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
 
                                                                 <span class="badge badge-warning">Lulus Semakan</span>

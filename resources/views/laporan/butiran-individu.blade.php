@@ -41,14 +41,59 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header with-border">
+                        <div class="card-header ">
                             <div class="float-left">
-                                {{-- <h5><strong>JUMLAH KESELURUHAN : {{ $jumlah }}</strong></h5> --}}
+                                <a type="button" href="{{ url('laporan-individu') }}" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-chevron-left"></i> KEMBALI
+                                </a>
                             </div>
                             <div class="float-right">
-                                <a type="button" href="{{ url('laporanIndividu') }}" class="btn btn-dark">Cetak
-                                    Laporan
+                                <a type="button" href="{{ url('cetak-butiran-individu', [$user->usersID]) }}" class="btn btn-dark btn-sm">
+                                    <i class="fa fa-print"></i> CETAK
                                 </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Nama</label>
+                                        <input type="text" class="form-control" disabled value="{{ $user->nama }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Kad Pengenalan</label>
+                                        <input type="text" class="form-control" disabled value="{{ $user->nokp }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Jawatan & Gred</label>
+                                        <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                            disabled>{{ $user->namaJawatan }} ({{ $user->kod }}{{ $user->gred }})</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Jabatan</label>
+                                        <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                            disabled>{{ $user->nama_jabatan }} ({{ $user->kod_jabatan }})</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header ">
+                            <div class="float-left">
+                                Sejarah Keluar Negara
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -59,31 +104,35 @@
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th style="vertical-align: middle">BIL</th>
-                                                <th style="vertical-align: middle">NAMA</th>
-                                                <th style="vertical-align: middle">JABATAN</th>
-                                                <th style="vertical-align: middle">JAWATAN</th>
-                                                <th style="vertical-align: middle">JUMLAH</th>
-                                                <th style="vertical-align: middle"></th>
+                                                <th style="vertical-align: middle">NEGARA</th>
+                                                <th style="vertical-align: middle">JENIS PERMOHONAN</th>
+                                                <th style="vertical-align: middle">TEMPOH PERJALANAN</th>
+                                                <th style="vertical-align: middle">TARIKH LULUS</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @php
                                                 $i = 1;
                                             @endphp
-                                            @foreach ($data as $dd)
+                                            @foreach ($negara as $dd)
                                                 <tr class="text-center">
                                                     <td style="vertical-align: middle">{{ $i++ }}</td>
                                                     <td class="text-left" style="vertical-align: middle">
-                                                        {{ $dd->nama }}</td>
-                                                    <td style="vertical-align: middle">{{ $dd->nama_jabatan }}
-                                                        ({{ $dd->kod_jabatan }})</td>
-                                                    <td style="vertical-align: middle">{{ $dd->namaJawatan }}
-                                                        ({{ $dd->kod }}{{ $dd->gred }})</td>
-                                                    <td style="vertical-align: middle">{{ $dd->bilangan }}</td>
-                                                    <td style="vertical-align: middle; width:8%;" >
-                                                        <a class="btn btn-info btn-sm" href="{{ url('butiran-individu', [$dd->usersID]) }}"><i class="fa fa-info-circle"></i></a>
-                                                        <a class="btn btn-dark btn-sm" href="{{ url('cetak-butiran-individu', [$dd->usersID]) }}"><i class="fa fa-print"></i></a>
-                                                    </td>
+                                                        {{ $dd->negara }}</td>
+                                                    <td style="vertical-align: middle">{{ $dd->JenisPermohonan }}</td>
+                                                    @php
+                                                        $formatted_dt1 = \Carbon\Carbon::parse($dd->tarikhMulaPerjalanan);
+                                                        
+                                                        $formatted_dt2 = \Carbon\Carbon::parse($dd->tarikhAkhirPerjalanan);
+                                                        
+                                                        $beza = $formatted_dt1->diffInDays($formatted_dt2);
+                                                    @endphp
+                                                    <td style="vertical-align: middle">
+                                                        {{ \Carbon\Carbon::parse($dd->tarikhMulaPerjalanan)->format('d/m/y') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($dd->tarikhAkhirPerjalanan)->format('d/m/y') }}
+                                                        ({{ $beza }} Hari)</td>
+                                                    <td style="vertical-align: middle">{{ $dd->tarikhLulusan }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

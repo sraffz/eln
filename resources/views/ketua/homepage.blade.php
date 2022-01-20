@@ -42,7 +42,7 @@
                         <div class="icon">
                             <i class="fa fa-spinner"></i>
                         </div>
-                        <a href="{{ route('semakkanDato') }}" class="small-box-footer">Selanjut <i
+                        <a href="{{ route('senarai-semak') }}" class="small-box-footer">Selanjut <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>

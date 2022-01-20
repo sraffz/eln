@@ -1,9 +1,9 @@
         <li class="nav-header">SENARAI PERMOHONAN</li>
         {{-- <li class="nav-header">KELULUSAN PERMOHONAN YB DATO'</li> --}}
         <li
-            class="nav-item {{ request()->is('semakkanDato') || request()->is('senaraiRombonganKetua') ? 'menu-open' : '' }}">
+            class="nav-item {{ request()->is('senarai-semak') || request()->is('senaraiRombonganKetua') ? 'menu-open' : '' }}">
             <a href="#"
-                class="nav-link {{ request()->is('semakkanDato') || request()->is('senaraiRombonganKetua') ? 'active' : '' }}">
+                class="nav-link {{ request()->is('senarai-semak') || request()->is('senaraiRombonganKetua') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-list"></i>
                 <p> Senarai Permohonan
                     <i class="fas fa-angle-left right"></i>
@@ -11,8 +11,8 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('semakkanDato') }}"
-                        class="nav-link {{ request()->is('semakkanDato') ? 'active' : '' }}">
+                    <a href="{{ route('senarai-semak') }}"
+                        class="nav-link {{ request()->is('senarai-semak') ? 'active' : '' }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Individu</p>
                     </a>
@@ -69,6 +69,10 @@
                         <span>Lelaki & Perempuan</span>
                     </a>
                 </li>
+                <li class="nav-item"><a
+                    class="nav-link {{ request()->is('laporan-individu') ? 'active' : '' }}"
+                    href="{{ url('laporan-individu') }}"><i class="far fa-circle nav-icon"></i>
+                    <span>Individu</span></a></li>
                 <li class="nav-item"><a
                         class="nav-link {{ request()->is('laporan-jabatan') ? 'active' : '' }}"
                         href="{{ url('laporan-jabatan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>

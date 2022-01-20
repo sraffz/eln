@@ -32,12 +32,11 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3>Kemaskini Butiran Pengguna</h3>
+                             Kemaskini Butiran Pengguna 
                         </div>
                         <div class="card-body">
                             {!! Form::open(['method' => 'POST', 'url' => 'kemaskiniDataPengguna']) !!}
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="_method" value="POST">
+                            {{ csrf_field() }}
                             <div class="form-group">
                                 <label>Nama</label>
                                 <div class="input-group">
@@ -45,29 +44,61 @@
                                         value="{{ $users->nama }}" required>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>No KP (Username)</label>
-                                <div class="input-group">
-                                    <input class="form-control" value="{{ $users->nokp }}" disabled>
-                                    <input type="hidden" id="nokp" name="nokp" value="{{ $users->nokp }}" required>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>No KP (Username)</label>
+                                        <div class="input-group">
+                                            <input class="form-control" value="{{ $users->nokp }}" disabled>
+                                            <input type="hidden" id="nokp" name="nokp" value="{{ $users->nokp }}"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Peranan</label>
+                                        <div class="input-group">
+                                            <select style="width: 100%;" id="role" class="form-control select2bs4"
+                                                name="role" required>
+                                                <option value="">Sila Pilih</option>
+                                                <option value="jabatan" {{ $users->role == 'jabatan' ? 'selected' : '' }}>
+                                                    Ketua Jabatan</option>
+                                                <option value="adminBPSM"
+                                                    {{ $users->role == 'adminBPSM' ? 'selected' : '' }}>Admin PSM</option>
+                                                <option value="DatoSUK" {{ $users->role == 'DatoSUK' ? 'selected' : '' }}>
+                                                    Admin Pejabat Dato</option>
+                                                <option value="pengguna"
+                                                    {{ $users->role == 'pengguna' ? 'selected' : '' }}>Pengguna</option>
+                                            </select>{{-- {{$k->anugerah}} --}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <div class="input-group">
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        value="{{ $users->email }}" required>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                value="{{ $users->email }}" required>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Jabatan</label>
-                                <select class="form-control select2bs4" name="jabatan" style="width: 100%;"
-                                    required>
-                                    <option value="">Sila Pilih</option>
-                                    @foreach ($jabatan as $jaw)
-                                        <option value="{{ $jaw->jabatan_id }}" {{ $jaw->jabatan_id == $users->jabatan ? 'selected' : '' }}>{{ $jaw->nama_jabatan }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Jabatan</label>
+                                        <select class="form-control select2bs4" name="jabatan" style="width: 100%;"
+                                            required>
+                                            <option value="">Sila Pilih</option>
+                                            @foreach ($jabatan as $jaw)
+                                                <option value="{{ $jaw->jabatan_id }}"
+                                                    {{ $jaw->jabatan_id == $users->jabatan ? 'selected' : '' }}>
+                                                    {{ $jaw->nama_jabatan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
@@ -77,7 +108,9 @@
                                             required>
                                             <option value="">Sila Pilih</option>
                                             @foreach ($jawatan as $jaw)
-                                                <option value="{{ $jaw->idJawatan }}" {{ $jaw->idJawatan == $users->jawatan ? 'selected' : '' }}>{{ $jaw->namaJawatan }}</option>
+                                                <option value="{{ $jaw->idJawatan }}"
+                                                    {{ $jaw->idJawatan == $users->jawatan ? 'selected' : '' }}>
+                                                    {{ $jaw->namaJawatan }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -85,11 +118,12 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Kod Gred</label>
-                                        <select class="form-control select2bs4" name="kod" style="width: 100%;"
-                                            required>
+                                        <select class="form-control select2bs4" name="kod" style="width: 100%;" required>
                                             <option value="">Sila Pilih</option>
                                             @foreach ($kod as $jaw)
-                                            <option value="{{ $jaw->gred_kod_ID }}" {{ $jaw->gred_kod_ID == $users->gredKod ? 'selected' : '' }}>{{ $jaw->gred_kod_abjad }}</option>
+                                                <option value="{{ $jaw->gred_kod_ID }}"
+                                                    {{ $jaw->gred_kod_ID == $users->gredKod ? 'selected' : '' }}>
+                                                    {{ $jaw->gred_kod_abjad }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -97,11 +131,12 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Gred</label>
-                                        <select class="form-control select2bs4" name="gred" style="width: 100%;"
-                                        required>
-                                        <option value="">Sila Pilih</option>
+                                        <select class="form-control select2bs4" name="gred" style="width: 100%;" required>
+                                            <option value="">Sila Pilih</option>
                                             @foreach ($angka as $jaw)
-                                                <option value="{{ $jaw->gred_angka_ID }}" {{ $jaw->gred_angka_ID == $users->gredAngka ? 'selected' : '' }}>{{ $jaw->gred_angka_nombor }}</option>
+                                                <option value="{{ $jaw->gred_angka_ID }}"
+                                                    {{ $jaw->gred_angka_ID == $users->gredAngka ? 'selected' : '' }}>
+                                                    {{ $jaw->gred_angka_nombor }}</option>
                                             @endforeach
                                         </select>
                                     </div>

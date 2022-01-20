@@ -58,16 +58,16 @@ $url = url()->current();
 </li>
 <li class="nav-header">SENARAI & KEPUTUSAN</li>
 <li class="nav-item">
-    <a href="{{ route('senaraiPermohonanProses', Auth::user()->usersID) }}"
-        class="nav-link {{ $url == route('senaraiPermohonanProses', Auth::user()->usersID) ? 'active' : '' }}">
+    <a href="{{ route('senaraiPermohonanProses') }}"
+        class="nav-link {{ $url == route('senaraiPermohonanProses') ? 'active' : '' }}">
         <i class="nav-icon fas fa-book"></i>
         <p>Permohonan Baru</p>
     </a>
 </li>
 <li
-    class="nav-item {{ $url == route('senaraiPermohonanIndividu', Auth::user()->usersID) || $url == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}">
+    class="nav-item {{ $url == route('keputusan-permohonan') || $url == route('keputusan-rombongan') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ $url == route('senaraiPermohonanIndividu', Auth::user()->usersID) || $url == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+        class="nav-link {{ $url == route('keputusan-permohonan') || $url == route('keputusan-rombongan') ? 'active' : '' }}">
         <i class="nav-icon fas fa-chalkboard"></i>
         <p>
             Keputusan
@@ -76,15 +76,15 @@ $url = url()->current();
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('senaraiPermohonanIndividu', Auth::user()->usersID) }}"
-                class="nav-link {{ $url == route('senaraiPermohonanIndividu', Auth::user()->usersID) ? 'active' : '' }}">
+            <a href="{{ route('keputusan-permohonan') }}"
+                class="nav-link {{ $url == route('keputusan-permohonan') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Individu</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('senaraiPermohonanRombongan', Auth::user()->usersID) }}"
-                class="nav-link {{ $url == route('senaraiPermohonanRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+            <a href="{{ route('keputusan-rombongan') }}"
+                class="nav-link {{ $url == route('keputusan-rombongan') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Rombongan</p>
             </a>
