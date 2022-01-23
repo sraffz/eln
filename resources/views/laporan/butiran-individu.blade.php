@@ -108,6 +108,7 @@
                                                 <th style="vertical-align: middle">JENIS PERMOHONAN</th>
                                                 <th style="vertical-align: middle">TEMPOH PERJALANAN</th>
                                                 <th style="vertical-align: middle">TARIKH LULUS</th>
+                                                <th style="vertical-align: middle">STATUS PERMOHONAN</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -132,7 +133,8 @@
                                                         -
                                                         {{ \Carbon\Carbon::parse($dd->tarikhAkhirPerjalanan)->format('d/m/y') }}
                                                         ({{ $beza }} Hari)</td>
-                                                    <td style="vertical-align: middle">{{ $dd->tarikhLulusan }}</td>
+                                                    <td style="vertical-align: middle">{{ \Carbon\Carbon::parse($dd->tarikhLulusan)->format('d/m/y') }}</td>
+                                                    <td style="vertical-align: middle">{{ $dd->statusPermohonan }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

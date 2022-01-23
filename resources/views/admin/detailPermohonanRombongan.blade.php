@@ -136,7 +136,7 @@
                                 {{ $rombooo->nama }} (ketua rombongan)<br>
                                 @foreach ($peserta as $peser)
                                 @if (Auth::user()->role == 'jabatan' || Auth::user()->role == 'DatoSUK')
-                                    @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' )
+                                    @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya')
                                     <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
                                         data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
                                         data-jawatan="{{ $peser->user->jawatan }}"

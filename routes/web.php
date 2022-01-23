@@ -135,21 +135,22 @@ Route::middleware(['auth'])->group(function () {
 	
 	//laporan
 	Route::get('laporanDato', 'AdminController@laporanDato')->name('laporanDato');
-	Route::get('laporanLP/{tahun}', 'PdfController@laporanLP')->name('laporanLP');
 	Route::get('laporan-jantina', 'AdminController@laporanjantina')->name('laporan-jantina');
-	Route::get('laporanJabatan/{tahun}', 'PdfController@laporanJabatan')->name('laporanJabatan');
 	Route::get('laporan-jabatan', 'AdminController@laporanjabatan')->name('laporan-jabatan');
 	Route::get('laporan-negara', 'AdminController@laporannegara')->name('laporan-negara');
+	Route::get('laporan-bulanan', 'AdminController@laporanbulanan')->name('laporan-bulanan');
+	Route::get('laporan-tahunan', 'AdminController@laporantahunan')->name('laporan-tahunan');
+	Route::get('laporan-individu', 'AdminController@laporanindividu')->name('laporan-individu');
+	Route::get('butiran-individu/{id}', 'AdminController@butiranindividu')->name('butiran-individu');
+	
+	Route::get('laporanLP/{tahun}', 'PdfController@laporanLP')->name('laporanLP');
+	Route::get('cetak-butiran-individu/{id}', 'PdfController@laporanindi')->name('cetak-butiran-individu');
+	Route::get('laporanJabatan/{tahun}', 'PdfController@laporanJabatan')->name('laporanJabatan');
+	Route::get('laporanIndividu', 'PdfController@laporanIndividu')->name('laporanIndividu');
+	Route::get('laporanTahunan', 'PdfController@laporanTahunan')->name('laporanTahunan');
 	Route::get('laporanNegara/{tahun}', 'PdfController@laporanNegara')->name('laporanNegara');
 	Route::get('laporanViewIndividu', 'PdfController@laporanViewIndividu')->name('laporanViewIndividu');
 	Route::get('laporanBulanan/{tahun}', 'PdfController@laporanBulanan')->name('laporanBulanan');
-	Route::get('laporan-bulanan', 'AdminController@laporanbulanan')->name('laporan-bulanan');
-	Route::get('laporan-tahunan', 'AdminController@laporantahunan')->name('laporan-tahunan');
-	Route::get('laporanTahunan', 'PdfController@laporanTahunan')->name('laporanTahunan');
-	Route::get('laporan-individu', 'AdminController@laporanindividu')->name('laporan-individu');
-	Route::get('butiran-individu/{id}', 'AdminController@butiranindividu')->name('butiran-individu');
-	Route::get('laporanIndividu', 'PdfController@laporanIndividu')->name('laporanIndividu');
-	
 	Route::get('laporanViewBG', 'PdfController@laporanViewBG')->name('laporanViewBG');
 	Route::POST('proViewBG', 'PdfController@proViewBG')->name('proViewBG');
 	

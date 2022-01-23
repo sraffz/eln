@@ -150,6 +150,25 @@ class PdfController extends Controller
         return $pdf->download('Laporan ELN Mengikut Jantina '.$tahun.'.pdf');
     }
 
+    public function laporanindi($id)
+    {
+        $user = DB::table('butiran_keluar_negara_individu')
+        ->where('usersID', $id)
+        ->first();
+
+        $negara = DB::table('butiran_keluar_negara_individu')
+        ->where('usersID', $id)
+        ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+        ->orderBy('tarikhMulaPerjalanan', 'desc')
+        ->get();
+
+        // return view('pdf.cetak-butiran-individu', compact('user','negara'));
+
+        $pdf = PDF::loadView('pdf.cetak-butiran-individu', compact('user','negara'))->setPaper('a4', 'landscape');
+        return $pdf->download('Laporan Individu '.$user->nama.'.pdf');
+
+    }
+
     public function laporanJabatan($tahun)
     {
         $list = DB::table('jumlah_jabatan_tahunan')

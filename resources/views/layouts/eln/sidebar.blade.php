@@ -14,7 +14,7 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block hyphens">{{ Auth::user()->nama }}</a>
+                <a href="#"class="d-block hyphens">{{ Auth::user()->nama }}</a>
             </div>
         </div>
 

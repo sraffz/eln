@@ -39,10 +39,9 @@
                                 <div class="form-group">
                                     <label for="tahun">Tahun</label>
                                     <select class="form-control" name="tahun" id="tahun">
-                                        <option value="{{ now()->year }}" @if ($tahun == now()->year) selected @endif>{{ now()->year }}</option>
-                                        <option value="2021" {{ $tahun == '2021' ? 'selected' : '' }}>2021</option>
-                                        <option value="2020" {{ $tahun == '2020' ? 'selected' : '' }}>2020</option>
-                                        <option value="2019" {{ $tahun == '2019' ? 'selected' : '' }}>2019</option>
+                                        @foreach ($listyear as $ly)
+                                        <option value="{{  $ly->tahun }}" {{ $tahun == $ly->tahun ? 'selected' : '' }}>{{  $ly->tahun }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group text-center">

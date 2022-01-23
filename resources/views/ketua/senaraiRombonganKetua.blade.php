@@ -64,7 +64,27 @@
                                                 $i = 1;
                                             @endphp
                                             @foreach ($rombongan as $index => $rombo)
-                                                <tr>
+                                            @php
+                                                    $first_datetime = new DateTime($rombo->tarikhMulaRom);
+                                                    $last_datetime = new DateTime(now());
+                                                    $interval = $first_datetime->diff($last_datetime);
+                                                    $final_days = $interval->format('%a'); //and then print do whatever you like with $final_days
+                                                @endphp
+
+                                                @if ($first_datetime >= $last_datetime)
+                                                    @if ($final_days < 7)
+                                                        <tr class="bg-gradient-danger">
+                                                            {{-- <tr style="background-color:#e46868"> --}}
+                                                        @elseif ($final_days < 10)
+                                                        <tr class="bg-gradient-warning">
+                                                        @else
+                                                        <tr>
+                                                    @endif
+                                                @else
+                                                    {{-- <tr style="background-color:#e46868"> --}}
+                                                    <tr class="bg-gradient-danger">
+                                                @endif
+                                                 
                                                     <td>{{ $index+1 }}</td>
                                                     <td>
                                                         <a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a>

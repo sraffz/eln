@@ -37,12 +37,11 @@
                             <form method="get" action="{{ url('laporan-jantina') }}">
                               <div class="form-row">
                                 <div class="col">
-                                  <select class="form-control mb-2 mr-sm-2" name="tahun" id="inlineFormInputTahun">
-                                        <option value="{{ now()->year }}" @if ($tahun == now()->year) selected @endif>{{ now()->year }}</option>
-                                        <option value="2021" {{ $tahun == '2021' ? 'selected' : '' }}>2021</option>
-                                        <option value="2020" {{ $tahun == '2020' ? 'selected' : '' }}>2020</option>
-                                        <option value="2019" {{ $tahun == '2019' ? 'selected' : '' }}>2019</option>
-                                    </select> 
+                                    <select class="form-control" name="tahun" id="tahun">
+                                        @foreach ($listyear as $ly)
+                                        <option value="{{  $ly->tahun }}" {{ $tahun == $ly->tahun ? 'selected' : '' }}>{{  $ly->tahun }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col">
                                      <button type="submit" class="btn btn-primary mb-2">Papar Laporan</button> 

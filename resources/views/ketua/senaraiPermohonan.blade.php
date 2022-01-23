@@ -9,13 +9,14 @@
         href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-<style>
-    .table tr th{
-        vertical-align: middle;
-        
-    }
-</style>
-    @endsection
+    <style>
+        .table tr th {
+            vertical-align: middle;
+
+        }
+
+    </style>
+@endsection
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -80,19 +81,26 @@
                                                     $interval = $first_datetime->diff($last_datetime);
                                                     $final_days = $interval->format('%a'); //and then print do whatever you like with $final_days
                                                 @endphp
-                                                @if ($final_days < 7)
-                                                    <tr class="bg-gradient-danger">
+
+                                                @if ($first_datetime >= $last_datetime)
+                                                    @if ($final_days < 7)
+                                                        <tr class="bg-gradient-danger">
+                                                            {{-- <tr style="background-color:#e46868"> --}}
+                                                        @elseif ($final_days < 10)
+                                                        <tr class="bg-gradient-warning">
+                                                        @else
+                                                        <tr>
+                                                    @endif
+                                                @else
                                                     {{-- <tr style="background-color:#e46868"> --}}
-                                                    @elseif ($final_days < 10)
-                                                    <tr class="bg-gradient-warning">
-                                                    @else
-                                                    <tr>
+                                                    <tr class="bg-gradient-danger">
                                                 @endif
                                                 <td class="text-center">
                                                     {{ $i++ }}
                                                 </td>
                                                 <td style="text-transform: capitalize; font-weight: bold">
-                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                    <a
+                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                 </td>
                                                 <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
