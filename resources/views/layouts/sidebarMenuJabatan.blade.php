@@ -50,22 +50,24 @@
         <p>Permohonan Baru</p>
     </a>
 </li>
-<li class="nav-item {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}">
+<li
+    class="nav-item {{ url()->current() == url('permohonan-rombongan') || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('sertai-rombongan') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+        class="nav-link {{ url()->current() == url('permohonan-rombongan') || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('sertai-rombongan') ? 'active' : '' }}">
         <i class="nav-icon fa fa-users"></i>
         <p>Borang
             <i class="fas fa-angle-left right"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item {{ url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}"">
-                    <a href=" #"
-            class="nav-link  {{ url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}"">
-                        <i class=" nav-icon fa fa-user"></i>
-            <p>Individu
-                <i class="fas fa-angle-left right"></i>
-            </p>
+        <li
+            class="nav-item {{ url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') ? 'menu-open' : '' }}">
+            <a href=" #"
+                class="nav-link  {{ url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') ? 'active' : '' }}">
+                <i class=" nav-icon fa fa-user"></i>
+                <p>Individu
+                    <i class="fas fa-angle-left right"></i>
+                </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
@@ -82,24 +84,30 @@
         </li>
 
         <li
-            class="nav-item {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'menu-open' : '' }}">
-            <a
-                class="nav-link  {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}">
-                <i class="nav-icon fa fa-users"></i>
-                <p>Rombongan
+            class="nav-item {{ url()->current() == route('permohonan-rombongan') || url()->current() == route('sertai-rombongan') ? 'menu-open' : '' }}">
+            <a href="#"
+                class="nav-link {{ url()->current() == route('permohonan-rombongan') || url()->current() == route('sertai-rombongan') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Rombongan
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                <li class="nav-item"><a
-                        class="nav-link  {{ url()->current() == url('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}"
-                        href="{{ route('registerFormRombangan', Auth::user()->usersID) }}"><i
-                            class="nav-icon far fa-circle nav-icon"></i>Permohonanan</a></li>
-                <li class="nav-item"><a
-                        class="nav-link  {{ url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}"
-                        href="{{ route('registerFormIndividuRombongan', Auth::user()->usersID) }}"><i
-                            class="nav-icon far fa-circle nav-icon"></i>Sertai Rombongan</a></li>
-
+                <li class="nav-item">
+                    <a href="{{ route('permohonan-rombongan') }}"
+                        class="nav-link {{ url()->current() == route('permohonan-rombongan') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Permohonan</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('sertai-rombongan') }}"
+                        class="nav-link {{ url()->current() == route('sertai-rombongan') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Sertai Rombongan</p>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>
@@ -108,7 +116,7 @@
     class="nav-item {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'menu-open' : '' }}">
     <a href="#"
         class="nav-link {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-chalkboard"></i> 
+        <i class="nav-icon fas fa-chalkboard"></i>
         <p>
             Keputusan
             <i class="fas fa-angle-left right"></i>

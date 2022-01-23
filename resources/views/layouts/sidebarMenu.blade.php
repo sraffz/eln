@@ -30,9 +30,9 @@ $url = url()->current();
     </ul>
 </li>
 <li
-    class="nav-item {{ $url == route('registerFormRombangan', Auth::user()->usersID) || $url == route('registerFormIndividuRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}">
+    class="nav-item {{ $url == route('permohonan-rombongan') || $url == route('sertai-rombongan') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ $url == route('registerFormRombangan', Auth::user()->usersID) || $url == route('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+        class="nav-link {{ $url == route('permohonan-rombongan') || $url == route('sertai-rombongan') ? 'active' : '' }}">
         <i class="nav-icon fas fa-users"></i>
         <p>
             Rombongan
@@ -41,15 +41,15 @@ $url = url()->current();
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('registerFormRombangan', Auth::user()->usersID) }}"
-                class="nav-link {{ $url == route('registerFormRombangan', Auth::user()->usersID) ? 'active' : '' }}">
+            <a href="{{ route('permohonan-rombongan') }}"
+                class="nav-link {{ $url == route('permohonan-rombongan') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Permohonan</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('registerFormIndividuRombongan', Auth::user()->usersID) }}"
-                class="nav-link {{ $url == route('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}">
+            <a href="{{ route('sertai-rombongan') }}"
+                class="nav-link {{ $url == route('sertai-rombongan') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Sertai Rombongan</p>
             </a>

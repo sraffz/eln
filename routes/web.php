@@ -34,10 +34,10 @@ Route::middleware(['auth'])->group(function () {
 	Route::POST('tukar-password', 'PermohonanController@tukarkatalaluan')->name('kemaskinikatalaluan');
 	//untuk individu
 	Route::get('registerFormIndividu/{typeForm}', 'permohonanController@individu')->name('registerFormIndividu');
-	Route::get('registerFormIndividuRombongan/{id}', 'permohonanController@individuRombongan')->name('registerFormIndividuRombongan');
+	Route::get('sertai-rombongan', 'permohonanController@individuRombongan')->name('sertai-rombongan');
 	
 	//untuk rombongan
-	Route::get('registerFormRombangan/{id}', 'permohonanController@rombongan')->name('registerFormRombangan');
+	Route::get('permohonan-rombongan', 'permohonanController@rombongan')->name('permohonan-rombongan');
 	//Route::get('senaraiPermohonan/{id}','permohonanController@senarai')->name('senaraiPermohonan');
 	Route::POST('daftarPermohonan/{id}', 'permohonanController@store');
 	

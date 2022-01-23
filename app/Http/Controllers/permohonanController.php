@@ -264,16 +264,19 @@ class permohonanController extends Controller
         return view('registerFormIndividuRasmi', compact('userDetail', 'negara', 'typeForm'));
     }
 
-    public function rombongan($id)
+    public function rombongan()
     {
+        $id = Auth::user()->usersID;
+        
         $userDetail = User::find($id);
         $negara = Negara::all();
-
+        
         return view('registerFormRombonganRasmi', compact('userDetail', 'negara'));
     }
-
-    public function individuRombongan($id)
+    
+    public function individuRombongan()
     {
+        $id = Auth::user()->usersID;
         $userDetail = User::find($id);
         $negara = Negara::all();
         $options = Negara::pluck('namaNegara');
