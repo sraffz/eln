@@ -52,7 +52,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-sm display">
                                             <thead>
-                                                <tr>
+                                                <tr class="text-center">
                                                     <th style="vertical-align: middle">No</th>
                                                     <th style="vertical-align: middle">Nama</th>
                                                     <th style="vertical-align: middle">Jabatan</th>
@@ -74,7 +74,7 @@
 
                                                 @foreach ($permohonan as $index => $mohonan)
                                                 
-                                                    <tr>
+                                                    <tr class="text-center">
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
                                                             <a
@@ -99,25 +99,25 @@
                                                             @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                 <td class="text-center">
                                                                     <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs"> 
+                                                                        Surat Kelulusan
+                                                                    </a>
                                                                     <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Memo Kelulusan
+                                                                    </a>
                                                                 </td>
 
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                                 <td class="text-center">
                                                                     <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak surat ini?');">Surat
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs"> 
+                                                                        Surat Kelulusan
+                                                                    </a>
                                                                     <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"
-                                                                        onclick="javascript: return confirm('Adakah anda pasti untuk mencetak memo ini?');">Memo
-                                                                        Kelulusan</a>
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Memo Kelulusan
+                                                                    </a>
                                                                 </td>
                                                             @endif
                                                         @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
@@ -225,8 +225,8 @@
     <script>
         $(document).ready(function() {
             $('table.display').DataTable({
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 15, 20],
+                "pageLength": 10,
+                "lengthMenu": [10, 20, 50, 100],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

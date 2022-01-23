@@ -33,14 +33,16 @@
         .table th {
             font-size: 14px
         }
-
+        .body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
     </style>
 </head>
 
 
     {{-- format surat --}}
     <div class="page">
-        <div class="container" >
+        <div class="" >
             <div class="row" >
             	<div class="col-xl-12">
                     <div class="row">
