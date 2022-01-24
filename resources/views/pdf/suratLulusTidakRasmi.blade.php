@@ -7,39 +7,86 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Surat Kelulusan</title>
     <style>
-        .page {
-            font-size: 12pt;
-            font-family: Arial;
-            padding-left: 40px;
-            padding-right: 40px;
+        /** 
+            * Set the margins of the PDF to 0
+            * so the background image will cover the entire page.
+            **/
+        @page {
+            margin: 0cm 0cm;
         }
 
-        .body {
+        /**
+            * Define the real margins of the content of your PDF
+            * Here you will fix the margins of the header and footer
+            * Of your background image.
+            **/
+        body {
+            margin-top: 4cm;
+            margin-bottom: 1cm;
+            margin-left: 2cm;
+            margin-right: 2cm;
             font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /** 
+            * Define the width, height, margins and position of the watermark.
+            **/
+        #watermark {
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            /** The width and height may change 
+                    according to the dimensions of your letterhead
+                **/
+            width: 21.8cm;
+            height: 29cm;
+
+            /** Your watermark should be behind every content**/
+            z-index: -1000;
         }
 
     </style>
 </head>
 
 <body>
+    <div id="watermark">
+        <img src="{{ asset('adminlte/dist/img/letterhead.jpeg') }}" height="100%" width="100%" />
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <br>
-                <br>
-                <br>
-                <br><br>
-                <table class="table">
+        <div class="col-md-12">
+            <div class="row"><br>
+                <table class="table table-borderless table-sm">
                     <tr>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </td>
-                        <td>RUJUKAN: </strong>SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }}
-                            ( {{ $permohon->no_ruj_bil }} )<br>TARIKH :
-                            </strong>{{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->format('d  M  Y') }}
-                            <strong>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="text-right" style="width: 53%">Ruj Kami</td>
+                        <td style="width: 1%">:</td>
+                        <td>
+                            <strong>SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }}
+                                ( {{ $permohon->no_ruj_bil }} )</strong>
                         </td>
                     </tr>
-                </table>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">Tarikh</td>
+                        <td>:</td>
+                        <td>
+                            @php
+                                use Carbon\Carbon;
+                                $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
+                            @endphp
+                            <strong>{{ $tarikh }}
+                            </strong>
+                        </td>
+                    </tr>
+                </table><br><br>
                 <div>Kemajlis,</div> <br>
                 Ketua Jabatan <br>
                 {{-- {{ ucwords(strtolower($surat->nama_penuh)) }} --}}<br>
@@ -105,7 +152,7 @@
                     @endif
                     <br>
 
-                    Saya yang menjalankan amanah,<br><br><br>
+                    Saya yang menjalankan amanah,<br><br><br><br>
 
                     <strong>( {{ $pp->maklumat1 }} )</strong><br>
                     {{ $pp->maklumat2 }}<br>
