@@ -167,8 +167,8 @@ desired effect
     <!-- Sparkline -->
     <script src="{{ asset('adminlte-3/plugins/sparklines/sparkline.js') }}"></script>
     <!-- JQVMap -->
-    <script src="{{ asset('adminlte-3/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('adminlte-3/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+    {{-- <script src="{{ asset('adminlte-3/plugins/jqvmap/jquery.vmap.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('adminlte-3/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script> --}}
     <!-- jQuery Knob Chart -->
     <script src="{{ asset('adminlte-3/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
     <!-- daterangepicker -->
@@ -185,7 +185,7 @@ desired effect
     <script src="{{ asset('adminlte-3/dist/js/adminlte.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('adminlte-3/dist/js/pages/dashboard.js') }}"></script>
+    {{-- <script src="{{ asset('adminlte-3/dist/js/pages/dashboard.js') }}"></script> --}}
     <!-- Select2 -->
     <script src="{{ asset('adminlte-3/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -272,7 +272,7 @@ desired effect
                 locale: {
                     format: 'MM/DD/YYYY hh:mm A'
                 }
-            })
+            });
             //Date range as a button
             $('#daterange-btn').daterangepicker({
                     ranges: {
@@ -291,28 +291,28 @@ desired effect
                     $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format(
                         'MMMM D, YYYY'))
                 }
-            )
+            );
 
             //Timepicker
             $('#timepicker').datetimepicker({
                 format: 'LT'
-            })
+            });
 
             //Bootstrap Duallistbox
-            $('.duallistbox').bootstrapDualListbox()
+            // $('.duallistbox').bootstrapDualListbox();
 
             //Colorpicker
-            $('.my-colorpicker1').colorpicker()
+            // $('.my-colorpicker1').colorpicker();
             //color picker with addon
-            $('.my-colorpicker2').colorpicker()
+            // $('.my-colorpicker2').colorpicker();
 
-            $('.my-colorpicker2').on('colorpickerChange', function(event) {
-                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-            })
+            // $('.my-colorpicker2').on('colorpickerChange', function(event) {
+            //     $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+            // })
 
-            $("input[data-bootstrap-switch]").each(function() {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            })
+            // $("input[data-bootstrap-switch]").each(function() {
+            //     $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            // });
         });
     </script>
 

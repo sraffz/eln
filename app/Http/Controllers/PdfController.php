@@ -23,22 +23,6 @@ use Auth;
 
 class PdfController extends Controller
 {
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function suratLulusRasmi($id)
     {
         $permohon = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
@@ -52,7 +36,9 @@ class PdfController extends Controller
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
-        return view('pdf.suratLulusRasmi',compact('permohon','pp','cogan'));
+        setlocale(LC_TIME, 'MS-my');
+       
+        // return view('pdf.suratLulusRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.suratLulusRasmi', compact('permohon', 'pp', 'cogan'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
@@ -68,6 +54,8 @@ class PdfController extends Controller
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
+
+        setlocale(LC_TIME, 'MS-my');
 
         // return view('pdf.suratLulusTidakRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.suratLulusTidakRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
@@ -86,7 +74,7 @@ class PdfController extends Controller
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
-        // echo $nama;
+        setlocale(LC_TIME, 'MS-my');
         // return view('pdf.memoLulusRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.memoLulusRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
         return $pdf->download('memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
@@ -103,6 +91,8 @@ class PdfController extends Controller
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
+
+        setlocale(LC_TIME, 'MS-my');
 
         // return view('pdf.memoLulusTidakRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.memoLulusTidakRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');

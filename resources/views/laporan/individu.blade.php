@@ -55,7 +55,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped table-sm">
+                                    <table class="table table-bordered table-striped table-sm data">
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th style="vertical-align: middle">BIL</th>
@@ -129,12 +129,11 @@
                 "pageLength": 10,
                 "lengthMenu": [10, 20, 50, 100],
                 "language": {
-                    Table ": "
-                    Tiada data ",
+                    "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",
                     "zeroRecords": "Tiada padanan rekod yang dijumpai.",
                     "info": "Paparan dari _START_ hingga _END_ dari _TOTAL_ rekod",
-                    "inf": "Paparan 0 hingga 0 dari 0 rekod",
+                    "infoEmpty": "Paparan 0 hingga 0 dari 0 rekod",
                     "infoFiltered": "(Ditapis dari jumlah _MAX_ rekod)",
                     "search": "Carian:",
                     "oPaginate": {

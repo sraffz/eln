@@ -234,7 +234,7 @@ class KetuaController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        return view('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        // return view('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Ke Luar Negara.pdf');
     }
@@ -266,6 +266,6 @@ class KetuaController extends Controller
         // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
 
         $pdf = PDF::loadview('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'))->setpaper('a4', 'landscape');
-        return $pdf->download('Senarai Permohonan Individu Ke Luar Negara');
+        return $pdf->download('Senarai Permohonan Individu Ke Luar Negara.pdf');
     }
 }
