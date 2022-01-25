@@ -100,11 +100,11 @@
                                                                 <td class="text-center">
                                                                     <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs"> 
-                                                                        Surat Kelulusan
+                                                                        Surat
                                                                     </a>
                                                                     <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs">
-                                                                        Memo Kelulusan
+                                                                        Memo
                                                                     </a>
                                                                 </td>
 
@@ -112,11 +112,11 @@
                                                                 <td class="text-center">
                                                                     <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs"> 
-                                                                        Surat Kelulusan
+                                                                        Surat
                                                                     </a>
                                                                     <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs">
-                                                                        Memo Kelulusan
+                                                                        Memo
                                                                     </a>
                                                                 </td>
                                                             @endif
@@ -126,7 +126,14 @@
                                                                     class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
                                                             </td>
                                                             <td>
-
+                                                                <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                    class="btn btn-primary btn-xs"> 
+                                                                    Surat
+                                                                </a>
+                                                                <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                    class="btn btn-primary btn-xs">
+                                                                    Memo
+                                                                </a>
                                                             </td>
                                                         @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
                                                             <td><span class="badge badge-info">Disokong</span></td>

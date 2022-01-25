@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Surat Rasmi</title>
+    <title>Surat Kelulusan Rasmi</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -30,6 +30,7 @@
             margin-left: 2cm;
             margin-right: 2cm;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
         }
 
         /** 
@@ -61,40 +62,39 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="row"><br>
-                    <table class="table table-borderless table-sm">
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                            <td class="text-right" style="width: 53%">Ruj Kami</td>
-                            <td style="width: 1%">:</td>
-                            <td>
-                                <strong>SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }}
-                                    ( {{ $permohon->no_ruj_bil }} )</strong>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="text-right">Tarikh</td>
-                            <td>:</td>
-                            <td>
-                                @php
-                                    use Carbon\Carbon;
-                                    $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
-                                @endphp
-                                <strong>{{ $tarikh }}
-                                </strong>
-                            </td>
-                        </tr>
-                    </table>
-                </div><br><br>
-                Kemajlis, <br><br>
+                        <table class="table table-borderless table-sm">
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td style="width: 1%">:</td>
+                                <td>
+                                   SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
+                                        ({{ $permohon->no_ruj_bil }})
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">Tarikh</td>
+                                <td>:</td>
+                                <td>
+                                    @php
+                                        use Carbon\Carbon;
+                                        $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
+                                    @endphp
+                                   {{ $tarikh }}
+                                </td>
+                            </tr>
+                        </table>
+                </div><br>
+                Ke majlis, <br><br>
                 Ketua Jabatan <br> 
                 <div class="row">
                     <div class="col-md-12">

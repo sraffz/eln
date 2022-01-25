@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Kelulusan</title>
+    <title>Surat Kelulusan Tidak Rasmi</title>
     <style>
         /** 
             * Set the margins of the PDF to 0
@@ -26,6 +26,7 @@
             margin-left: 2cm;
             margin-right: 2cm;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
         }
 
         /** 
@@ -58,15 +59,15 @@
                 <table class="table table-borderless table-sm">
                     <tr>
                         <td>&nbsp;</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td class="text-right" style="width: 53%">Ruj Kami</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td style="width: 1%">:</td>
                         <td>
-                            <strong>SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }}
-                                ( {{ $permohon->no_ruj_bil }} )</strong>
+                            SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
+                            ( {{ $permohon->no_ruj_bil }} )
                         </td>
                     </tr>
                     <tr>
@@ -82,21 +83,21 @@
                                 use Carbon\Carbon;
                                 $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
                             @endphp
-                            <strong>{{ $tarikh }}
-                            </strong>
+                            {{ $tarikh }}
                         </td>
                     </tr>
-                </table><br><br>
-                <div>Kemajlis,</div> <br>
+                </table><br> 
+                <div>Ke majlis,</div> <br>
                 Ketua Jabatan <br>
-                {{-- {{ ucwords(strtolower($surat->nama_penuh)) }} --}}<br>
-                K/P : {{-- {!! formatKP($surat->no_kad_pengenalan) !!} --}}<br>
-                alamat
+                {{-- {{ ucwords(strtolower($surat->nama_penuh)) }} --}}
+                {{-- K/P : --}}
+                {{-- {!! formatKP($surat->no_kad_pengenalan) !!} --}}
+                {{-- alamat --}}
                 {{-- {!! ($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatan1 != "") ? alamat($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatan1).",<br>" : "" !!}
                             {!! ($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatan2 != "") ? alamat($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatan2).",<br>" : "" !!}
                             {!! ($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatan3 != "") ? alamat($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatan3).",<br>" : "" !!}
                             {!! $surat->calon_perkhidmatans->perkhidmatan_AlamatJabatanPoskod !!} {!! alamat($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatanBandar) !!},<br>
-                            {!! negeri($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatanNegeri) !!} --}}.<br>
+                            {!! negeri($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatanNegeri) !!} --}}
             </div>
         </div>
         <div class="row">
@@ -108,26 +109,49 @@
         <div class="row">
             <div class="col-xl-12">
                 <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN PERSENDIRIAN PADA
-                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y') }} HINGGA
-                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y') }} DI
-                    {{ strtoupper($permohon->negara) }}.</strong>
+                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }} HINGGA
+                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }} DI
+                    {{ strtoupper($permohon->negara) }}</strong>
             </div>
         </div>
+        <br>
+        <table class="table table-borderless table-sm">
+            <tbody style="font-weight: bold">
+                <tr>
+                    <td scope="row">NAMA</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($permohon->user->nama) }}</td>
+                </tr>
+                <tr>
+                    <td scope="row">NO. K/P</td>
+                    <td>:</td>
+                    <td>{{ $permohon->user->nokp }}</td>
+                </tr>
+                <tr>
+                    <td scope="row">JAWATAN / GRED</td>
+                    <td>:</td>
+                    <td>{{ strtoupper($permohon->namaJawatan) }}
+                        ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
         <br>
         <div class="row">
             <div class="col-xl-12">
                 <div align="justify">
-                    <strong>
-                        NAMA
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                    {{-- <strong>
+                        NAMA 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         {{ strtoupper($permohon->user->nama) }}<br>
                         NO. K/P
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                         {{ $permohon->user->nokp }}<br>
-                        JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->namaJawatan) }}
+                        JAWATAN / GRED &nbsp;&nbsp;: {{ strtoupper($permohon->namaJawatan) }}
                         ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})<br>
                         <br>
-                    </strong>
+                    </strong> --}}
 
                     Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br>
                     <div style="line-height: 1.6;">
@@ -135,9 +159,9 @@
                         <strong>{{ strtoupper($permohon->user->nama) }}</strong> untuk ke luar negara iaitu
                         ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi menghadiri urusan rasmi
                         tersebut pada
-                        <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d F Y') }}
+                        <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
                             hingga
-                            {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d F Y') }}</strong>
+                            {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
                         adalah telah <strong>diluluskan.</strong>
                     </div><br>
 

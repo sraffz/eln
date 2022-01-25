@@ -1,140 +1,211 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>saca</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css')}}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="{{ asset('adminlte/bower_components/Ionicons/css/ionicons.min.css')}}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.min.css')}}">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MEMO</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    {{-- <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/Ionicons/css/ionicons.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/AdminLTE.min.css') }}">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/_all-skins.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/_all-skins.min.css') }}"> --}}
 </head>
 <style>
-    .page{
-        font-size: 12pt;
-        font-family: Arial;
-        padding-left:40px; 
-        padding-right:40px;
-        background-image: url({{ asset('adminlte/dist/img/kelantan.png')}});  
+    /** 
+        * Set the margins of the PDF to 0
+        * so the background image will cover the entire page.
+        **/
+    @page {
+        margin: 0cm 0cm;
     }
-</style>
 
-    {{-- format surat --}}
+    hr.solid {
+        border-top: 1px solid rgb(0, 0, 0);
+    }
+
+    /**
+        * Define the real margins of the content of your PDF
+        * Here you will fix the margins of the header and footer
+        * Of your background image.
+        **/
+    body {
+        margin-top: 1cm;
+        margin-bottom: 1cm;
+        margin-left: 2cm;
+        margin-right: 2cm;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+    }
+
+    /** 
+        * Define the width, height, margins and position of the watermark.
+        **/
+    #watermark {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        /** The width and height may change 
+                according to the dimensions of your letterhead
+            **/
+        width: 21.8cm;
+        height: 29cm;
+
+        /** Your watermark should be behind every content**/
+        z-index: -1000;
+    }
+
+</style>
+{{-- <style>
+    /* .page {
+    } */
+    .body {
+        font-size: 12pt;
+        /* font-family: Arial; */
+        padding-left: 40px;
+        padding-right: 40px;
+        font-family: Arial, Helvetica, sans-serif;
+        background-image: url( asset('adminlte/dist/img/kelantan.png'));
+
+    }
+</style> --}}
+
+<body>
     <div class="page">
-        <div class="container" >
-            <div class="row" >
-            	<div class="col-xl-12">
-                    <div class="row">
-                        <div class="col-xl-12">
-                        	<br>
-                        	<br>
-                        	<br>
-                        	 &nbsp; &nbsp; &nbsp; &nbsp;<img src="{{ asset('adminlte/dist/img/kelantan.png')}}" width="200" height="150" alt="User Image"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        	<img src="{{ asset('img/logoeksa1.png')}}" width="130" height="130" alt="User Image"><br>
-                        	
-                        </div>                       
-                    </div>
+        <div class="container">
+            <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
-                        <div class="col-xl-12" align="center" style="font-family: Arial;font-size: 12pt;">
-                        	<strong>PEJABAT SETIAUSAHA KERAJAAN NEGERI KELANTAN<br>
-                                  (BAHAGIAN PENGURUSAN SUMBER MANUSIA)<br> 
-                                  KOTA BHARU<br><br>
-
-                                  MEMO<br>
-                                  </strong>
-                          
-                        </div>                       
+                        <div class="col-xl-12" align="center">
+                            <img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="27%" height="27%">
+                        </div>
                     </div>
-					
+                    <br>
+                    <br>
                     <div class="row">
-                        <div class="col-xl-12" >
-                                <div align="justify">
-									
-								  _________________________________________________________________________________ 
-								  <br><strong>
-                                  KEPADA    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:  </strong>Ketua Jabatan<br>
-                                  
-                                  _________________________________________________________________________________
-                                  <br><strong>
-                                  DARIPADA  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </strong>Penolong Pengarah (Perkhidmatan)<br>
-                                  
-                                  _________________________________________________________________________________
-                                  <br><strong>
-                                  TARIKH    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </strong>{{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->format('d/m/Y')}}<br>
-                                  
-                                  _________________________________________________________________________________
-								  <br><strong>
-                                  RUJUKAN  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </strong>SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }} ({{ $permohon->no_ruj_bil }})<br>
-                                  <strong>
-                                  _________________________________________________________________________________</strong>
-                                  <br>
-                                  <br>
+                        <div class="col-xl-12" align="center">
+                            <strong>PEJABAT SETIAUSAHA KERAJAAN KELANTAN<br>
+                                (BAHAGIAN PENGURUSAN SUMBER MANUSIA)<br>
+                                <br>
+                                <font style="font-size: 16pt">
+                                    MEMO
+                                </font> 
+                                <br>  <br>
+                            </strong>
+                        </div>
+                    </div>
 
-                                 <strong>
-								  PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN RASMI UNTUK MENGHADIRI {{ strtoupper($permohon->lainTujuan) }} PADA {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y')}} HINGGA {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y')}} DI {{ strtoupper($permohon->negara) }}.</strong>
-								  <br>	
-								  <br>	
-                                  <strong>
-                                  NAMA    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ strtoupper($permohon->user->nama) }}<br>
-                                  NO. K/P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $permohon->user->nokp }}<br>
-                                  JAWATAN / GRED &nbsp;: {{ strtoupper($permohon->namaJawatan) }} ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})<br> <br>
-                                  </strong>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div align="justify">
 
-                                  Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br>
-                                  <div style="line-height: 1.0;">
-                                  2.    Dimaklumkan bahawa permohonan  bagi  {{ strtoupper($permohon->user->nama) }} untuk ke luar negara iaitu ke {{ strtoupper($permohon->negara) }} bagi menghadiri urusan rasmi tersebut pada {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y')}} hingga {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y')}} adalah <strong>telah diluluskan.</strong></div><br>
-
-                                  Sekian dimaklumkan, terima kasih.<br><br>
-                                     
-                                  {{-- <strong> " {{ $cogan->maklumat1 }} "</strong><br><br> --}}
-
-                                  {{-- Saya yang menjalankan amanah,<br><br><br><br> --}}
+                                <strong>
+                                    <hr class="solid">
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Ketua Jabatan <br>
+                                    <hr class="solid">
+                                    DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>
+                                    <hr class="solid">
+                                    BERTARIKH &nbsp;&nbsp;&nbsp;:
+                                    {{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y') }}<br>
+                                    <hr class="solid">
+                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }} ({{ $permohon->no_ruj_bil }})<br>
+                                    <hr class="solid">
+                                </strong>
 
 
+                                <strong>
+                                    <font style="text-transform: uppercase">
+                                        PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN RASMI UNTUK MENGHADIRI
+                                        {{ strtoupper($permohon->lainTujuan) }} PADA
+                                        {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                                        HINGGA
+                                        {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}
+                                        DI
+                                        {{ strtoupper($permohon->negara) }}</strong>
+                                    </font>
+                                <br>
+                                <br>
+                                <strong>
+                                    <table class="table table-borderless table-sm">
+                                        <tbody style="font-weight: bold">
+                                            <tr>
+                                                <td scope="row">NAMA</td>
+                                                <td>:</td>
+                                                <td>{{ strtoupper($permohon->user->nama) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">NO. K/P</td>
+                                                <td>:</td>
+                                                <td>{{ $permohon->user->nokp }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">JAWATAN / GRED</td>
+                                                <td>:</td>
+                                                <td>{{ strtoupper($permohon->namaJawatan) }}
+                                                    ({{ $permohon->user->userGredKod->gred_kod_abjad }}{{ $permohon->user->userGredAngka->gred_angka_nombor }})
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </strong>
+                                <br>
+                                Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br>
+                                <div style="line-height: 1.0;">
+                                    2. Dimaklumkan bahawa permohonan bagi <strong>{{ strtoupper($permohon->user->nama) }}</strong>
+                                    untuk ke luar negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
+                                    menghadiri
+                                    urusan rasmi tersebut 
+                                    <strong>pada
+                                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                                    hingga
+                                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
+                                    adalah <strong>telah diluluskan.</strong></div><br>
 
-                                  <strong>( {{ $pp->maklumat1 }} )</strong>
-
-                                </div>
+                                Sekian dimaklumkan, terima kasih.<br><br>
+                                <br>
+                                <br>
+                                <strong>( {{ $pp->maklumat1 }} )</strong>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-12" align="center" style="font-family: Arial;font-size: 11pt;"><br><br>
-                        	<strong>"SURAT INI JANAAN KOMPUTER DAN TIDAK MEMERLUKAN TANDATANGAN"</strong><br>
-                          
-                        </div>                       
+                        <div class="col-xl-12" align="center">
+                            <br><br>
+                            <br><br>
+                            <strong>"SURAT INI JANAAN KOMPUTER DAN TIDAK MEMERLUKAN TANDATANGAN"</strong><br>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-    {{-- end format surat --}}
+</body>
+{{-- format surat --}}
+{{-- end format surat --}}
 
 
 <!-- jQuery 3 -->
-<script src="{{ asset('adminlte/bower_components/jquery/dist/jquery.min.js')}}"></script>
+{{-- <script src="{{ asset('adminlte/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{{ asset('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- SlimScroll -->
-<script src="{{ asset('adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <!-- FastClick -->
-<script src="{{ asset('adminlte/bower_components/fastclick/lib/fastclick.js')}}"></script>
+<script src="{{ asset('adminlte/bower_components/fastclick/lib/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+<script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('adminlte/dist/js/demo.js')}}"></script>
+<script src="{{ asset('adminlte/dist/js/demo.js') }}"></script> --}}
 
 </body>
-</html>
 
-                               
+</html>
