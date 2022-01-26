@@ -31,7 +31,7 @@
             @php
                 $url = url()->current();
                 // echo $url;
-                @endphp
+            @endphp
             <div class="row">
                 <div class="col-md-12">
                     @include('flash::message')
@@ -73,7 +73,7 @@
                                             <tbody>
 
                                                 @foreach ($permohonan as $index => $mohonan)
-                                                
+
                                                     <tr class="text-center">
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
@@ -98,11 +98,11 @@
 
                                                             @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                 <td class="text-center">
-                                                                    <a href="{{ route('suratLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"> 
+                                                                    <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs">
                                                                         Surat
                                                                     </a>
-                                                                    <a href="{{ route('memoLulusRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                    <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs">
                                                                         Memo
                                                                     </a>
@@ -110,8 +110,8 @@
 
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                                 <td class="text-center">
-                                                                    <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                        class="btn btn-primary btn-xs"> 
+                                                                    <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs">
                                                                         Surat
                                                                     </a>
                                                                     <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -126,14 +126,25 @@
                                                                     class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
                                                             </td>
                                                             <td>
-                                                                <a href="{{ route('suratLulusTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs"> 
-                                                                    Surat
-                                                                </a>
-                                                                <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
-                                                                    class="btn btn-primary btn-xs">
-                                                                    Memo
-                                                                </a>
+                                                                @if ($mohonan->JenisPermohonan == 'Rasmi')
+                                                                    <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Surat
+                                                                    </a>
+                                                                    <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Memo
+                                                                    </a>
+                                                                @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
+                                                                    <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Surat
+                                                                    </a>
+                                                                    <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Memo
+                                                                    </a>
+                                                                @endif
                                                             </td>
                                                         @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
                                                             <td><span class="badge badge-info">Disokong</span></td>

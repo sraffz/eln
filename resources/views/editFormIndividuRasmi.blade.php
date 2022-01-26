@@ -316,7 +316,7 @@
                 <input type="hidden" name="pasanganID" value="{{ $permohonan->pasanganPermohonan->pasangansID }}">
                 <div class="">
                     {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
-                    <a href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}" class="btn btn-danger">Kembali</a>
+                    <a href="{{ url('senaraiPermohonanProses') }}" class="btn btn-danger">Kembali</a>
                     {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}

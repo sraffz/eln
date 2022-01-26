@@ -36,6 +36,7 @@
             position: fixed;
             bottom: 0px;
             left: 0px;
+          
             /** The width and height may change 
                     according to the dimensions of your letterhead
                 **/
@@ -51,7 +52,7 @@
 
 <body>
     <div id="watermark">
-        <img src="{{ asset('adminlte/dist/img/letterhead.jpeg') }}" height="100%" width="100%" />
+        <img style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))" src="{{ asset('adminlte/dist/img/letterhead.jpg') }}" height="100%" width="96%" />
     </div>
     <div class="container">
         <div class="col-md-12">
@@ -59,11 +60,13 @@
                 <table class="table table-borderless table-sm">
                     <tr>
                         <td>&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
                         <td style="width: 1%">:</td>
                         <td>
                             SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
@@ -86,7 +89,7 @@
                             {{ $tarikh }}
                         </td>
                     </tr>
-                </table><br> 
+                </table><br>
                 <div>Ke majlis,</div> <br>
                 Ketua Jabatan <br>
                 {{-- {{ ucwords(strtolower($surat->nama_penuh)) }} --}}
@@ -107,7 +110,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-12">
+            <div class="col-xl-12" style="text-transform: uppercase; text-align: justify;">
                 <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN PERSENDIRIAN PADA
                     {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }} HINGGA
                     {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }} DI
@@ -162,7 +165,11 @@
                         <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
                             hingga
                             {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
-                        adalah telah <strong>diluluskan.</strong>
+                        adalah @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
+                            <strong>telah diluluskan.</strong>
+                        @else
+                            <strong>ditolak.</strong>
+                        @endif
                     </div><br>
 
                     Sekian, terima kasih.<br><br>
@@ -178,7 +185,7 @@
 
                     Saya yang menjalankan amanah,<br><br><br><br>
 
-                    <strong>( {{ $pp->maklumat1 }} )</strong><br>
+                    <strong>({{ $pp->maklumat1 }})</strong><br>
                     {{ $pp->maklumat2 }}<br>
                     <strong>{{ $pp->maklumat3 }}</strong><br>
                     <strong>{{ $pp->maklumat4 }}</strong><br>

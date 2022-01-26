@@ -13,13 +13,6 @@
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
 
@@ -105,8 +98,15 @@
                                 -
                                 {{ \Carbon\Carbon::parse($dd->tarikhAkhirPerjalanan)->format('d/m/y') }}
                                 ({{ $beza }} Hari)</td>
-                            <td style="vertical-align: middle">{{ \Carbon\Carbon::parse($dd->tarikhLulusan)->format('d/m/y') }}</td>
-                            <td style="vertical-align: middle">{{ $dd->statusPermohonan }}</td>
+                            <td style="vertical-align: middle">
+                                {{ \Carbon\Carbon::parse($dd->tarikhLulusan)->format('d/m/y') }}
+                            </td>
+                            <td style="vertical-align: middle">
+                                {{ substr($dd->statusPermohonan, 11) }}
+                                @if ($dd->pengesahan_pembatalan == 1)
+                                    (DIBATALKAN)
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -117,12 +117,12 @@
     </div>
 
 
-    <script src="{{ asset('adminlte-3/plugins/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('adminlte-3/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('adminlte-3/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
 </body>
 
 </html>

@@ -77,7 +77,7 @@ class PdfController extends Controller
         setlocale(LC_TIME, 'MS-my');
         // return view('pdf.memoLulusRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.memoLulusRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
-        return $pdf->download('memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        return $pdf->download('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
     public function memoTidakRasmi($id)
@@ -96,7 +96,75 @@ class PdfController extends Controller
 
         // return view('pdf.memoLulusTidakRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.memoLulusTidakRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
-        return $pdf->download('memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        return $pdf->download('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+    }
+
+    public function suratrombongan($id)
+    {
+        $permohon = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('gred_angka', 'users.gredAngka', '=', 'gred_angka.gred_angka_ID')
+            ->leftjoin('gred_kod', 'users.gredKod', '=', 'gred_kod.gred_kod_ID')
+            ->where('rombongans.rombongans_id', '=', $id)
+            ->first();
+        $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
+
+        $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
+
+        $bilpeserta = Permohonan::where('rombongans_id', $id)
+        ->where('statusPermohonan', 'Permohonan Berjaya')
+        ->count();
+
+        $allPermohonan = DB::table('senarai_data_permohonan')
+            ->where('rombongans_id', $id)
+            ->whereIn('statusPermohonan', ['Permohonan Berjaya'])
+            ->get();
+
+        // return dd($bil);
+
+        $nama = $permohon->nama;
+        $negara = $permohon->negara;
+
+        setlocale(LC_TIME, 'MS-my');
+
+        // return view('pdf.surat-rombongan',compact('permohon','pp','cogan','bilpeserta', 'allPermohonan'));
+        $pdf = PDF::loadView('pdf.surat-rombongan', compact('permohon','pp','cogan','bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
+        return $pdf->download('Surat Kelulusan untuk Rombongan ke' . $negara . '.pdf');
+    
+    }
+
+    public function memorombongan($id)
+    {
+        $permohon = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('gred_angka', 'users.gredAngka', '=', 'gred_angka.gred_angka_ID')
+            ->leftjoin('gred_kod', 'users.gredKod', '=', 'gred_kod.gred_kod_ID')
+            ->where('rombongans.rombongans_id', '=', $id)
+            ->first();
+        $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
+
+        $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
+
+        $bilpeserta = Permohonan::where('rombongans_id', $id)
+        ->where('statusPermohonan', 'Permohonan Berjaya')
+        ->count();
+
+        $allPermohonan = DB::table('senarai_data_permohonan')
+            ->where('rombongans_id', $id)
+            ->whereIn('statusPermohonan', ['Permohonan Berjaya'])
+            ->get();
+
+        // return dd($bil);
+
+        $nama = $permohon->nama;
+        $negara = $permohon->negara;
+
+        setlocale(LC_TIME, 'MS-my');
+
+        // return view('pdf.memo-rombongan',compact('permohon','pp','cogan', 'bilpeserta','allPermohonan'));
+        $pdf = PDF::loadView('pdf.memo-rombongan', compact('permohon','pp','cogan', 'bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
+        return $pdf->download('MEMO Kelulusan untuk Rombongan ke ' . $negara . '.pdf');
+    
     }
 
     public function laporanLP($tahun)

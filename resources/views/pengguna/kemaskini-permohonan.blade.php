@@ -193,7 +193,7 @@
                                         </div>
                                         <div class="col-md-12 text-center">
                                             <a class="btn btn-danger"
-                                                href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}"
+                                                href="{{ url('senaraiPermohonanProses') }}"
                                                 role="button">Kembali</a>
                                             {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                                         </div>

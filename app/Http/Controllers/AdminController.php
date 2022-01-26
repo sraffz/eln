@@ -158,16 +158,22 @@ class AdminController extends Controller
                 $allPermohonan = Permohonan::with('user')
                 ->where('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
                 ->get();
+                $billPermohonan = Permohonan::with('user')
+                ->where('statusPermohonan', ['Permohonan Berjaya'])
+                ->count();
             }
             elseif(Auth::user()->role == "adminBPSM"){
                 $allPermohonan = Permohonan::with('user')
                 ->get();
+                $billPermohonan = Permohonan::with('user')
+                ->where('statusPermohonan', ['Permohonan Berjaya'])
+                ->count();
             } else {
                 return view('');
             }
             
 
-        return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+        return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan', 'billPermohonan'));
     }
 
     /**

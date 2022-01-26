@@ -24,14 +24,13 @@
 @endsection
 
 @section('content')
-    @include('flash::message')
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h3 class="box-title">Senarai Permohonan</h3>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h3 class="box-title">Senarai Permohonan</h3>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -42,11 +41,12 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+                    @include('flash::message')
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Senarai Permohonan individu</h3>
@@ -63,7 +63,7 @@
                                         <th>Jenis/Tujuan</th>
                                         <th>Status Permohonan</th>
                                         <th>Tarikh Lulusan</th>
-                                        <th>Tindakan</th>
+                                        <th style="width: 13%">Tindakan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,7 +91,8 @@
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                     <span class="badge badge-danger">Gagal</span>
                                                 @else
-                                                    <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
+                                                    <span
+                                                        class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -102,7 +103,6 @@
                                                 @else
                                                     <span
                                                         class="badge badge-primary">{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}</span>
-
                                                 @endif
                                             </td>
                                             <td>
@@ -128,22 +128,25 @@
                                                             class="fa fa-user-times"></i></a>
 
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
-
-                                                    <a class="btn btn-dark btn-sm" href="#" role="button">Batal</a>
-
+                                                 
+                                                    @if ($mohonan->pengesahan_pembatalan == 1)
+                                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-sebab="{{ $mohonan->sebab_pembatalan }}" data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}" data-target="#detailbatal">
+                                                            <i class="fa fa-info-circle"></i> Dibatalkan
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-dark btn-xs"
+                                                            data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
+                                                            data-target="#batalpermohonan">
+                                                            Batal Permohonan
+                                                        </button>
+                                                    @endif
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
-
                                                     <span class="badge badge-danger">Gagal</span>
-
                                                 @else
-
                                                     <span class="badge badge-primary">Tiada</span>
-
                                                 @endif
                                             </td>
-
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -151,6 +154,66 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Batal Permohonan -->
+        <div class="modal fade" id="batalpermohonan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Pembatalan Permohonan Keluar Negara</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ url('batal-permohonan') }}" method="post">
+                        <div class="modal-body">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id" id="id" value="">
+                            <div class="form-group">
+                                <label for="sebab_batal">Nyatakan Sebab Pembatalan</label>
+                                <textarea class="form-control" name="sebab_batal" id="sebab_batal" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Batal Permohonan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Detail Pembatalan Permohonan-->
+        <div class="modal fade" id="detailbatal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 class="modal-title">Butiran Pembatalan Permohonan</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                              <label for="tarikh">Tarikh Pembatalan</label>
+                              <input type="text" disabled
+                                class="form-control" name="tarikh" id="tarikh">
+                            </div>
+                            <div class="form-group">
+                              <label for="sebab">Sebab Pembatalan</label>
+                              <textarea style="resize: none" class="form-control" name="sebab" disabled id="sebab" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
     </section>
 @endsection
 
@@ -169,6 +232,26 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
+    <script>
+        $('#detailbatal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var sebab = button.data('sebab');
+            var tarikh = button.data('tarikh');
+            // Use above variables to manipulate the DOM
+            
+            $(".modal-body #sebab").val(sebab);
+            $(".modal-body #tarikh").val(tarikh);
+        });
+ 
+        $('#batalpermohonan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('table.display').DataTable({

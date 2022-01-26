@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/padam/{id}', 'permohonanController@hapus');
 	
 	Route::get('/tolak-permohonan/{id}', 'permohonanController@tolakrombongan');
+
+	Route::post('/batal-permohonan', 'permohonanController@batalpermohonan');
 	
 	Route::get('/senaraiPermohonan/{id}/edit', 'permohonanController@editIndividu')->name('editPermohonan.edit');
 	
@@ -84,7 +86,7 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('/senaraiPending/{id}/hantar', 'AdminController@hantar')->name('senaraiPending.hantar');
 	
-	Route::get('/senaraiPendingRombongan/{id}/sent-Permohonan', 'AdminController@hantarRombo');
+	Route::get('/sokong-Permohonan-rombongan/{id}', 'AdminController@hantarRombo')->name('sokong-permohonan-rombongan');
 	
 	Route::get('detailPermohonan/{id}/download', 'AdminController@download')->name('detailPermohonan.download');
 	Route::get('detailPermohonanDokumen/{id}/download', 'AdminController@downloadDokumen')->name('detailPermohonanDokumen.download');
@@ -158,20 +160,22 @@ Route::middleware(['auth'])->group(function () {
 	Route::POST('proViewTahun', 'PdfController@proViewTahun')->name('proViewTahun');
 	
 	//surat kelulusan
-	Route::get('suratLulusRasmi/{id}', 'PdfController@suratLulusRasmi')->name('suratLulusRasmi');
-	Route::get('suratLulusTidakRasmi/{id}', 'PdfController@suratLulusTidakRasmi')->name('suratLulusTidakRasmi');
+	Route::get('suratRasmi/{id}', 'PdfController@suratLulusRasmi')->name('suratRasmi');
+	Route::get('suratTidakRasmi/{id}', 'PdfController@suratLulusTidakRasmi')->name('suratTidakRasmi');
 	//memo
-	Route::get('memoLulusRasmi/{id}', 'PdfController@memoLulusRasmi')->name('memoLulusRasmi');
+	Route::get('memoRasmi/{id}', 'PdfController@memoLulusRasmi')->name('memoRasmi');
 	Route::get('memoTidakRasmi/{id}', 'PdfController@memoTidakRasmi')->name('memoTidakRasmi');
 	
+	Route::get('surat-rombongan/{id}', 'PdfController@suratrombongan')->name('surat-rombongan');
+	Route::get('memo-rombongan/{id}', 'PdfController@memorombongan')->name('memo-rombongan');
 	// ------------------------dato----------------------
 	
 	Route::get('senarai-semak', 'KetuaController@index')->name('senarai-semak');
 	Route::get('senaraiRombonganKetua', 'KetuaController@senaraiRombonganKetua')->name('senaraiRombonganKetua');
 	
-	Route::get('/senaraiPermohonan/{id}/hantar', 'KetuaController@hantar')->name('senaraiPermohonan.hantar');
+	Route::get('/luluskan-permohonan/{id}', 'KetuaController@hantar')->name('senaraiPermohonan.hantar');
 	
-	Route::get('/senaraiPermohonan/{id}/tolak-Permohonan', 'KetuaController@tolakPermohonan')->name('senaraiPermohonan.tolakPermohonan');
+	Route::get('/tolak-permohonan/{id}', 'KetuaController@tolakPermohonan')->name('senaraiPermohonan.tolakPermohonan');
 	
 	Route::get('senaraiPermohonanDiluluskan', 'KetuaController@senaraiLulus')->name('senaraiPermohonanDiluluskan');
 	

@@ -56,46 +56,48 @@
 <body>
     {{-- format surat --}}
     <div id="watermark">
-        <img src="{{ asset('adminlte/dist/img/letterhead.jpeg') }}" height="100%" width="100%" />
+        <img src="{{ asset('adminlte/dist/img/letterhead.jpg') }}" height="100%" width="96%" />
     </div>
     <div class="page">
         <div class="container">
             <div class="col-md-12">
                 <div class="row"><br>
-                        <table class="table table-borderless table-sm">
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td style="width: 1%">:</td>
-                                <td>
-                                   SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
-                                        ({{ $permohon->no_ruj_bil }})
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-right">Tarikh</td>
-                                <td>:</td>
-                                <td>
-                                    @php
-                                        use Carbon\Carbon;
-                                        $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
-                                    @endphp
-                                   {{ $tarikh }}
-                                </td>
-                            </tr>
-                        </table>
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td class="text-right" style="width: 53%">Ruj
+                                Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td style="width: 1%">:</td>
+                            <td>
+                                SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
+                                ({{ $permohon->no_ruj_bil }})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">Tarikh</td>
+                            <td>:</td>
+                            <td>
+                                @php
+                                    use Carbon\Carbon;
+                                    $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
+                                @endphp
+                                {{ $tarikh }}
+                            </td>
+                        </tr>
+                    </table>
                 </div><br>
                 Ke majlis, <br><br>
-                Ketua Jabatan <br> 
+                Ketua Jabatan <br>
                 <div class="row">
                     <div class="col-md-12">
                         {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}
@@ -159,7 +161,12 @@
                             <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
                                 hingga
                                 {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
-                            telah <strong>diluluskan.</strong>
+                            adalah
+                            @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
+                                <strong>telah diluluskan.</strong>
+                            @else
+                                <strong>ditolak.</strong>
+                            @endif
                         </div> <br>
 
                         Sekian, terima kasih.<br> <br>

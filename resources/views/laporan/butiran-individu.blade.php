@@ -134,7 +134,12 @@
                                                         {{ \Carbon\Carbon::parse($dd->tarikhAkhirPerjalanan)->format('d/m/y') }}
                                                         ({{ $beza }} Hari)</td>
                                                     <td style="vertical-align: middle">{{ \Carbon\Carbon::parse($dd->tarikhLulusan)->format('d/m/y') }}</td>
-                                                    <td style="vertical-align: middle">{{ $dd->statusPermohonan }}</td>
+                                                    <td style="vertical-align: middle">
+                                                        {{ substr($dd->statusPermohonan, 11) }}
+                                                        @if ($dd->pengesahan_pembatalan == 1)
+                                                            (DIBATALKAN)
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

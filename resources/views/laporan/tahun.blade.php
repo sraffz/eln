@@ -108,7 +108,7 @@
         $(document).ready(function() {
             $('table.data').DataTable({
                 "order": [
-                    [1, "desc"]
+                    [0, "desc"]
                 ],
                 "pageLength": 10,
                 "lengthMenu": [10, 20, 50, 100],

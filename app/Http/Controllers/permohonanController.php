@@ -216,8 +216,7 @@ class permohonanController extends Controller
             if ($role == 'pengguna') {
                 return view('pengguna.homepage', compact('user', 'mula', 'TotalPerm', 'TotalPermRomb', 'TotalBerjaya', 'TotalBerjayaRomb', 'TotalGagal', 'TotalGagalRomb', 'TotalProces', 'TotalProcesRomb', 'senarai'));
             } elseif ($role == 'adminBPSM') {
-                return view('admin.homepage', compact('user', 'mula', 'TotalPerm1', 'TotalBerjaya1', 'TotalGagal1', 'TotalProces1', 'senarai1'));
-            } elseif ($role == 'DatoSUK') {
+                
                 $bilrasmi = DB::table('jumlah_permohonan_negara_tahun')
                     ->where('statusPermohonan', 'Permohonan Berjaya')
                     ->orderBy('bil', 'desc')
@@ -230,7 +229,32 @@ class permohonanController extends Controller
                     ->where('JenisPermohonan', 'Tidak Rasmi')
                     ->get();
 
-                return view('ketua.homepage', compact('bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalBerjaya1', 'TotalGagal1', 'senarai1', 'jumlahPendingKelulusanDato', 'jumlahPendingrombo', 'listnegara', 'listcount'));
+                $bilRombo = DB::table('jumlah_rombongan_negara_tahun')
+                    ->where('status', 'Permohonan Berjaya')
+                    ->orderBy('bil', 'desc')
+                    ->get();
+
+                return view('admin.homepage', compact('bilRombo','bilrasmi', 'bilxrasmi','user', 'mula', 'TotalPerm1', 'TotalBerjaya1', 'TotalGagal1', 'TotalProces1', 'senarai1'));
+            } elseif ($role == 'DatoSUK') {
+
+                $bilrasmi = DB::table('jumlah_permohonan_negara_tahun')
+                    ->where('statusPermohonan', 'Permohonan Berjaya')
+                    ->orderBy('bil', 'desc')
+                    ->where('JenisPermohonan', 'Rasmi')
+                    ->get();
+
+                $bilxrasmi = DB::table('jumlah_permohonan_negara_tahun')
+                    ->where('statusPermohonan', 'Permohonan Berjaya')
+                    ->orderBy('bil', 'desc')
+                    ->where('JenisPermohonan', 'Tidak Rasmi')
+                    ->get();
+
+                    $bilRombo = DB::table('jumlah_rombongan_negara_tahun')
+                    ->where('status', 'Permohonan Berjaya')
+                    ->orderBy('bil', 'desc')
+                    ->get();
+
+                return view('ketua.homepage', compact('bilRombo','bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalBerjaya1', 'TotalGagal1', 'senarai1', 'jumlahPendingKelulusanDato', 'jumlahPendingrombo', 'listnegara', 'listcount'));
             } elseif ($role == 'jabatan') {
                 return view('jabatan.homepage', compact('user', 'mula', 'TotalPerm1', 'TotalBerjaya1', 'TotalGagal1', 'TotalProces1', 'senarai1'));
             }
@@ -965,6 +989,21 @@ class permohonanController extends Controller
             flash('Dokumen tidak berjaya dipadamkan.')->success();
             return redirect()->back();
         }
+    }
+
+    public function batalpermohonan(Request $request)
+    {
+        $id = $request->input('id');
+
+        Permohonan::where('permohonansID', $id)
+        ->update([
+            'pengesahan_pembatalan' => 1,
+            'sebab_pembatalan' => $request->input('sebab_batal'),
+            'tarikh_batal' => Carbon::now()
+        ]);
+
+        flash('Permohonan telah dibatalkan.')->success();
+        return back();
     }
 
     public function padamrombongan($id)

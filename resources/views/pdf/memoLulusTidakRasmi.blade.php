@@ -98,11 +98,14 @@
                                     <hr class="solid">
                                 </strong>
                                 <strong>
-                                    PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN PERSENDIRIAN PADA
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                    HINGGA
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y') }}
-                                    DI {{ strtoupper($permohon->negara) }}</strong>
+                                    <font style="text-transform: uppercase">
+                                        PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN PERSENDIRIAN PADA
+                                        {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                                        HINGGA
+                                        {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}
+                                        DI {{ strtoupper($permohon->negara) }}
+                                    </font>
+                                </strong>
                                 <br>
                                 <br>
                                 <strong>
@@ -131,18 +134,26 @@
                                 <br>
                                 Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br>
                                 <div style="line-height: 1.0;">
-                                    2. Dimaklumkan bahawa permohonan bagi {{ strtoupper($permohon->user->nama) }}
-                                    untuk ke luar negara iaitu ke {{ strtoupper($permohon->negara) }} bagi
-                                    menghadiri urusan persendirian pada
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                    hingga
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->format('d/m/Y') }}
-                                    adalah <strong>telah diluluskan.</strong></div><br>
+                                    2. Dimaklumkan bahawa permohonan bagi
+                                    <strong>{{ strtoupper($permohon->user->nama) }}</strong>
+                                    untuk ke luar negara iaitu ke
+                                    <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
+                                    menghadiri urusan persendirian <strong>pada
+                                        {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                                        hingga
+                                        {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
+                                    adalah
+                                    @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
+                                        <strong>telah diluluskan.</strong>
+                                    @else
+                                        <strong>ditolak.</strong>
+                                    @endif
+                                </div><br>
 
                                 Sekian dimaklumkan, terima kasih.<br><br><br><br>
                                 {{-- <strong> " {{ $cogan->maklumat1 }} "</strong><br><br> --}}
                                 {{-- Saya yang menjalankan amanah,<br><br><br><br> --}}
-                                <strong>( {{ $pp->maklumat1 }} )</strong>
+                                <strong>({{ $pp->maklumat1 }})</strong>
                             </div>
                         </div>
                     </div>
