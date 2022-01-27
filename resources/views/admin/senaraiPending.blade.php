@@ -94,6 +94,12 @@
                                                             <td>
                                                                 <span
                                                                     class="badge badge-success">{{ $mohonan->statusPermohonan }}</span>
+                                                                @if ($mohonan->pengesahan_pembatalan == 1)
+                                                                    {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
+                                                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-sebab="{{ $mohonan->sebab_pembatalan }}" data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}" data-target="#detailbatal">
+                                                                            <i class="fa fa-info-circle"></i> Dibatalkan
+                                                                        </button>
+                                                                @endif
                                                             </td>
 
                                                             @if ($mohonan->JenisPermohonan == 'Rasmi')
@@ -223,6 +229,37 @@
         </div>
     </section>
 
+    <!-- Modal Detail Pembatalan Permohonan-->
+    <div class="modal fade" id="detailbatal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Butiran Pembatalan Permohonan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="tarikh">Tarikh Pembatalan</label>
+                            <input type="text" disabled class="form-control" name="tarikh" id="tarikh">
+                        </div>
+                        <div class="form-group">
+                            <label for="sebab">Sebab Pembatalan</label>
+                            <textarea style="resize: none" class="form-control" name="sebab" disabled id="sebab"
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
@@ -241,6 +278,17 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
+        $('#detailbatal').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var sebab = button.data('sebab');
+            var tarikh = button.data('tarikh');
+            // Use above variables to manipulate the DOM
+            
+            $(".modal-body #sebab").val(sebab);
+            $(".modal-body #tarikh").val(tarikh);
+        });
+
         $(document).ready(function() {
             $('table.display').DataTable({
                 "pageLength": 10,

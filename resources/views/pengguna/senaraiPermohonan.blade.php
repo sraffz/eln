@@ -83,10 +83,8 @@
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'simpanan')
                                                         <span class="badge badge-info">Draf</span>
-                                                    @elseif($mohonan->statusPermohonan ==
-    "Lulus Semakkan ketua
-                                                        Jabatan")
-                                                        <span class="badge badge-info">Tindakan BPSM</span>
+                                                    @elseif($mohonan->statusPermohonan =="Lulus Semakan BPSM")
+                                                        <span class="badge badge-info">Disokong Ketua Jabatan</span>
                                                     @else
                                                         <span
                                                             class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>

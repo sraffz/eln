@@ -57,7 +57,7 @@
                 <tbody>
                @foreach($rombongan as $rombo)
                 <tr>
-                  <td><a href="/detailPermohonanRombongan/{{ $rombo->rombongans_id }}">{{ $rombo->negaraRom }}</a></td>
+                  <td><a href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">{{ $rombo->negaraRom }}</a></td>
                   <td>{{ $rombo->codeRom }}</td>
                   <td>{{\Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y')}}</td>
                   <td>{{\Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y')}}</td>
@@ -70,7 +70,7 @@
                       {{-- <a class="btn-warning btn-xs disabled"><i class="fa fa-times-circle"></i></a><br> --}}
                       <br>
                       @elseif($rombo->statusPermohonanRom == "Pending")
-                      <a href="/senaraiPermohonan/{{$element->permohonansID}}/tamat-individu" class="btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa  fa-remove"></i></a><br>
+                      <a href="{{ url(senaraiPermohonan/$element->permohonansID/tamat-individu)}}" class="btn-danger btn-xs" onclick="javascript: return confirm('Padam maklumat ini?');"><i class="fa  fa-remove"></i></a><br>
                       @endif
                     @endif
                   @endforeach</td>

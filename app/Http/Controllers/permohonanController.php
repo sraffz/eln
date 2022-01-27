@@ -885,7 +885,7 @@ class permohonanController extends Controller
 
             flash('Berjaya dihantar.')->success();
             return redirect()->back();
-            // }
+           
         }
     }
 
@@ -993,6 +993,10 @@ class permohonanController extends Controller
 
     public function batalpermohonan(Request $request)
     {
+        $validated = $request->validate([
+            'sebab_batal' => 'required',
+        ]);
+
         $id = $request->input('id');
 
         Permohonan::where('permohonansID', $id)

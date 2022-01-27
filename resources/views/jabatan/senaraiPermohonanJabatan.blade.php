@@ -74,6 +74,10 @@
                                                             onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
                                                                 class="fa fa-thumbs-down"></i>
                                                         </a>
+                                                        <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-dark btn-xs">
+                                                            <i class="fa fa-print"></i>
+                                                        </a>
                                                     @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
                                                         {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                                                         class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>

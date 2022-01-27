@@ -183,7 +183,7 @@
                         <div class="col col-md-12">
                             <div class="card card-primary">
                                 <div class="card-header with-border">
-                                    <h3 class="card-title">RMBONGAN</h3>
+                                    <h3 class="card-title">ROMBONGAN</h3>
                                 </div>
                                 <div class="card-body">
                                     <table class="table table-sm table-bordered display">

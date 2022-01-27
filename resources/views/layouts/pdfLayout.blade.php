@@ -37,7 +37,7 @@
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="/" class="navbar-brand"><b>E</b> KeluarNegara</a>
+          <a href="{{ url('/') }}" class="navbar-brand"><b>E</b> KeluarNegara</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -47,7 +47,7 @@
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
           <ul class="nav navbar-nav">
             {{-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> --}}
-            <li><a href="/loginUser">Admin</a></li>
+            <li><a href="{{ url('loginUser') }}">Admin</a></li>
             {{-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">

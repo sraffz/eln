@@ -172,7 +172,7 @@
                             <input type="hidden" name="id" id="id" value="">
                             <div class="form-group">
                                 <label for="sebab_batal">Nyatakan Sebab Pembatalan</label>
-                                <textarea class="form-control" name="sebab_batal" id="sebab_batal" rows="3"></textarea>
+                                <textarea class="form-control {{ $errors->has('sebab_batal') ? ' is-invalid' : '' }}" name="sebab_batal" id="sebab_batal" rows="3" required></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -10,6 +10,7 @@ use App\User;
 use App\Notifications\PermohonanBerjaya;
 use DB;
 use PDF;
+use Auth;
 use Notification;
 use Carbon\Carbon;
 
@@ -245,9 +246,15 @@ class KetuaController extends Controller
             ->where('statusPermohonan', '!=', 'Permohonan Gagal')
             ->get();
 
-        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-            ->where('statusPermohonanRom', 'Lulus Semakan')
-            ->get();
+            if (Auth::user()->role == 'DatoSUK') {
+                $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->where('statusPermohonanRom', 'Lulus Semakan')
+                    ->get();
+                }elseif (Auth::user()->role == 'jabatan') {
+                $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->where('statusPermohonanRom', 'Pending')
+                    ->get();
+            }
 
         // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
 
@@ -259,9 +266,16 @@ class KetuaController extends Controller
     {
         $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
 
-        $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
+        if (Auth::user()->role == 'DatoSUK') {
+            $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
             ->whereNotIn('JenisPermohonan', ['rombongan'])
             ->get();
+            }elseif (Auth::user()->role == 'jabatan') {
+                $permohonan = Permohonan::where('statusPermohonan', 'Pending')
+                ->whereNotIn('JenisPermohonan', ['rombongan'])
+                ->get();
+        }
+        
 
         // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
 

@@ -35,6 +35,9 @@
                     <div class="card">
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Rombongan</h3>
+                            <div class="float-right">
+                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-rombongan') }}" role="button">Cetak</a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -150,6 +153,11 @@
                                                                     href='#mdl-tolak'
                                                                     data-id="{{ $rombo->rombongans_id }}">
                                                                     <i class="fa fa-times"></i>
+                                                                </a>
+
+                                                                <a href="{{ route('cetak-butiran-rombongan', [$rombo->rombongans_id]) }}"
+                                                                    class="btn btn-dark btn-xs">
+                                                                    <i class="fa fa-print"></i>
                                                                 </a>
 
 

@@ -106,7 +106,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('senaraiPic', 'AdminController@senaraiPic')->name('senaraiPic');
 	Route::get('senaraiPengguna', 'AdminController@senaraiPengguna')->name('senaraiPengguna');
 	Route::get('senaraiPIC/{id}/edit', 'AdminController@editPIC');
-	Route::get('kemaskini-pengguna/{id}', 'AdminController@kemaskiniPengguna');
+	Route::get('kemaskini-pengguna/{id}', 'AdminController@kemaskiniPengguna')->name('kemaskini-pengguna');
+	Route::get('kemaskini-pentadbir/{id}', 'AdminController@kemaskiniPengguna')->name('kemaskini-pentadbir');
 	Route::get('reset-kata-laluan/{id}', 'AdminController@resetKatalaluan');
 	
 	

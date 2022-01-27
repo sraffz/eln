@@ -145,7 +145,12 @@
                         </div>
                         <div class="card-footer text-center">
                             <div class="">
+                                @if (url()->current() == route('kemaskini-pengguna', [$users->usersID]))
                                 <a href="{{ url('senaraiPengguna') }}" class="btn btn-danger">Kembali</a>
+                                @elseif (url()->current() == route('kemaskini-pentadbir', [$users->usersID]))
+                                <a href="{{ url('senaraiPic') }}" class="btn btn-danger">Kembali</a>
+                                @endif
+
                                 <a href="{{ url('reset-kata-laluan', [$users->usersID]) }}" class="btn btn-info">Set
                                     Semula Kata Luluan</a>
                                 {!! Form::submit('Kemaskini', ['class' => 'btn btn-success']) !!}

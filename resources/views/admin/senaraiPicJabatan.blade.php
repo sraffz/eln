@@ -55,7 +55,13 @@
                                                 <td>{{ $users->nokp }}</td>
                                                 <td>{{ $users->userJabatan->kod_jabatan }}</td>
                                                 <td>{{ $users->email }}</td>
-                                                <td>{{-- <a href="/senaraiPIC/{{ $users->usersID }}/edit"><button type="button" class="btn btn-warning" onclick="return confirm('Adakah anda pasti untuk mengemaskini?')">Edit</button></a> --}}</td>
+                                                <td class="text-center">
+                                                    <a href="{{ url('kemaskini-pentadbir', [$users->usersID]) }}">
+                                                        <button type="button" class="btn btn-primary btn-xs">
+                                                            Kemaskini
+                                                        </button>
+                                                    </a>
+                                                </td>
                                         @endforeach
 
                                     </tbody>

@@ -126,8 +126,7 @@ desired effect
 
                                         <div class="form-group">
                                             <label for="confirmpassword">Taip Semula Kata Laluan Baru</label>
-                                            <input type="password"
-                                                class="form-control {{ $errors->has('confirmpassword') ? ' is-invalid' : '' }}"
+                                            <input type="password" class="form-control {{ $errors->has('confirmpassword') ? ' is-invalid' : '' }}"
                                                 name="confirmpassword" id="confirmpassword" aria-invalid="true" aria-describedby="helpId"
                                                 required>
                                             <small id="helpId" class="error invalid-feedback">
