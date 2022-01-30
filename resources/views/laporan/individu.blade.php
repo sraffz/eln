@@ -46,9 +46,9 @@
                                 {{-- <h5><strong>JUMLAH KESELURUHAN : {{ $jumlah }}</strong></h5> --}}
                             </div>
                             <div class="float-right">
-                                <a type="button" href="{{ url('laporanIndividu') }}" class="btn btn-dark">Cetak
+                                {{-- <a type="button" href="{{ url('laporanIndividu') }}" class="btn btn-dark">Cetak
                                     Laporan
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                         <!-- /.card-header -->

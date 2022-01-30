@@ -57,7 +57,7 @@
                             <strong><i class="fas fa-map-marker-alt mr-1"></i> Jawatan & Gred</strong>
                             <p class="text-muted">
                                 {{ $user->userJawatan->namaJawatan }}
-                                ({{ $user->userGredKod->gred_kod_abjad }}{{ $user->userGredAngka->gred_angka_nombor }})
+                                {{-- ({{ $user->userGredKod->gred_kod_abjad }}{{ $user->userGredAngka->gred_angka_nombor }}) --}}
                             </p>
                             <hr>
                             <strong><i class="fas fa-pencil-alt mr-1"></i> Peranan</strong>
