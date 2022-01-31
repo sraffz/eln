@@ -56,11 +56,12 @@
                                                     <th style="vertical-align: middle">No</th>
                                                     <th style="vertical-align: middle">Nama</th>
                                                     <th style="vertical-align: middle">Jabatan</th>
-                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     <th style="vertical-align: middle">Negara</th>
+                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
+                                                    <th style="vertical-align: middle">Tarikh Kelulusan</th>
                                                     <th style="vertical-align: middle">Jenis Permohonan</th>
-                                                    <th style="vertical-align: middle">No Rujukan</th>
+                                                    {{-- <th style="vertical-align: middle">No Rujukan</th> --}}
                                                     <th style="vertical-align: middle">Status Permohonan</th>
                                                     @if ($url != url('senaraiRekodIndividu'))
                                                         <th style="vertical-align: middle">Tindakan</th>
@@ -81,15 +82,16 @@
                                                                 href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                         </td>
                                                         <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
+                                                        <td>{{ $mohonan->negara }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
                                                         </td>
-                                                        <td>{{ $mohonan->negara }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}</td>
                                                         <td>{{ $mohonan->JenisPermohonan }}</td>
-                                                        <td>SUK.D.200 (06) 455/16
+                                                        {{-- <td>SUK.D.200 (06) 455/16
                                                             ELN.JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
-                                                        </td>
+                                                        </td> --}}
                                                         @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
                                                             <td>
                                                                 <span

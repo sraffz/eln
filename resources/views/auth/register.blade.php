@@ -24,16 +24,17 @@
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/daterangepicker/daterangepicker.css') }}">
 </head>
 
-<body class="hold-transition register-page" style="background-color: rgb(194, 194, 194)">
-    <br><br>
+<body class="hold-transition login-page" style="background-image: url('{{ asset('/img/mabna222.png') }}'); background-size: cover; background-position: top center;align-items: center;">    <br><br>
     <div class="register-box">
         <div class="register-logo">
             <a href="{{ url('/') }}">
                 <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
-                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
             </a>
         </div>
         <div class="card card-outline card-danger">
+            <div class="card-header register-card-header text-center">
+                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+            </div>
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Daftar untuk mencipta akaun</p>
 

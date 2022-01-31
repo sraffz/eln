@@ -141,6 +141,7 @@ class PdfController extends Controller
             ->leftjoin('gred_kod', 'users.gredKod', '=', 'gred_kod.gred_kod_ID')
             ->where('rombongans.rombongans_id', '=', $id)
             ->first();
+
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
 
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();

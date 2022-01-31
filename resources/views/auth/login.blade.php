@@ -16,16 +16,19 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
 </head>
-<body class="hold-transition login-page" style="background-color: rgb(194, 194, 194)">
+<body class="hold-transition login-page" filter-color="black" style="background-image: url('{{ asset('/img/mabna222.png') }}'); background-size: cover; background-position: top center;align-items: center;">
     <div class="login-box">
         <div class="login-logo">
             <a href="{{ url('/') }}">
                 <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
-                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+                {{-- <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3> --}}
             </a>
         </div>
         <!-- /.login-logo -->
         <div class="card card-outline card-danger">
+            <div class="card-header register-card-header text-center">
+                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+            </div>
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Log masuk untuk membuat permohonan</p>
                 <form action="{{ route('login') }}" method="post">

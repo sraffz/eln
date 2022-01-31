@@ -109,7 +109,7 @@
                                 <td>
                                     @php
                                         use Carbon\Carbon;
-                                        $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
+                                        $tarikh = Carbon::parse($permohon->tarikhStatusPermohonan)->formatLocalized('%d %B %Y');
                                     @endphp
                                     {{ $tarikh }}
                                 </td>

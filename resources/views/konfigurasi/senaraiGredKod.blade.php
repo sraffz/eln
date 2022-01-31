@@ -39,6 +39,7 @@
                                                 <th>No</th>
                                                 <th>Gred Kod</th>
                                                 <th>Gred Kod Klasifikasi</th>
+                                                <th>Tindakan</th>
                                                 {{-- <th>Tindakkan</th> --}}
                                             </tr>
                                         </thead>
@@ -50,6 +51,21 @@
                                                     $i = $i + 1; ?></td>
                                                     <td>{{ $kods->gred_kod_abjad }}</td>
                                                     <td>{{ $kods->gred_kod_klasifikasi }}</td>
+                                                    <td class="text-center">
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                            data-toggle="modal" data-id="{{ $kods->gred_kod_ID }}"
+                                                            data-gred_kod_abjad="{{ $kods->gred_kod_abjad }}"
+                                                            data-gred_kod_klasifikasi="{{ $kods->gred_kod_klasifikasi }}"
+                                                            data-target="#kemaskinikodgred">
+                                                            <i class="far fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                            data-toggle="modal" data-id="{{ $kods->gred_kod_ID }}"
+                                                            data-target="#padamkodgred">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    </td>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -103,6 +119,71 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Kemaskini-->
+    <div class="modal fade" id="kemaskinikodgred" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kemaskini Kod Gred</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('kemaskini-kodgred') }}" method="post">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="id" name="id" value="">
+                            <div class="form-group">
+                                <label for="gred_kod_abjad">Kod</label>
+                                <input type="text" class="form-control" name="gred_kod_abjad" id="gred_kod_abjad" required
+                                    placeholder="N" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="gred_kod_klasifikasi">Klasifikasi</label>
+                                <input type="text" class="form-control" name="gred_kod_klasifikasi"
+                                    id="gred_kod_klasifikasi" placeholder="Pegawai Tadbir" required value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Kemaskini</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal padam-->
+    <div class="modal fade" id="padamkodgred" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Padam Kod Gred</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('padam-kodgred') }}" method="get">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="id" name="id" value="">
+                            Adakah anda pasti untuk padam kod gred ini?
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Padam</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -121,6 +202,28 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
+        $('#kemaskinikodgred').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            var gred_kod_abjad = button.data('gred_kod_abjad');
+            var gred_kod_klasifikasi = button.data('gred_kod_klasifikasi');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #id").val(id);
+            $(".modal-body #gred_kod_klasifikasi").val(gred_kod_klasifikasi);
+            $(".modal-body #gred_kod_abjad").val(gred_kod_abjad);
+        });
+
+        $('#padamkodgred').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #id").val(id);
+        });
+
         $(document).ready(function() {
             $('table.display2').DataTable({
                 "pageLength": 10,

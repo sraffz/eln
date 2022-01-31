@@ -69,13 +69,13 @@
                                                                 {{ $rombo->negaraRom }} </a> <br>
                                                             {{ $rombo->codeRom }}
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikmohon)->format('d/m/Y') }}
+                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikhMohon)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}
                                                         </td>
                                                         {{-- <td>{{ \Carbon\Carbon::parse($rombo->tarikhAkhirRom)->format('d/m/Y') }}
                                                         </td> --}}
-                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikhLulusan)->format('d/m/Y') }}
+                                                        <td>{{ \Carbon\Carbon::parse($rombo->tarikhStatusPermohonan)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ $rombo->tujuanRom }}</td>
 

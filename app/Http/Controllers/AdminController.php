@@ -150,7 +150,8 @@ class AdminController extends Controller
 
     public function senaraiRekodRombongan()
     {
-        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+        $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhMohon')
+            ->join('users', 'users.usersID', '=', 'rombongans.usersID')
             ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->get();
 
@@ -520,16 +521,12 @@ class AdminController extends Controller
         return view('konfigurasi.senaraiJabatan', compact('jabatan'));
     }
 
-    public function tambahJabatan()
-    {
-        return view('konfigurasi.tambahJabatan');
-    }
 
     public function prosesTambahJab(Request $request)
     {
         // dd($request);
-        $namajabatan = $request->input('namajabatan');
-        $kodjabatan = $request->input('kodjabatan');
+        $namajabatan = $request->input('nama_jabatan');
+        $kodjabatan = $request->input('kod_jabatan');
 
         $data = [
             'nama_jabatan' => $namajabatan,
@@ -538,8 +535,30 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         Jabatan::create($data);
+
         flash('Jabatan berjaya ditambah')->success();
-        return redirect('senaraiJabatan');
+        return back();
+    }
+
+    public function kemaskinijabatan(Request $req)
+    {
+        Jabatan::where('jabatan_id', $req->input('id'))
+        ->update([
+            'nama_jabatan' => $req->input('nama_jabatan'),
+            'kod_jabatan' => $req->input('kod_jabatan')
+        ]);
+
+        flash('Jabatan berjaya dikemaskini')->success();
+        return back();
+    }
+
+    public function padamjabatan(Request $req)
+    {
+        Jabatan::where('jabatan_id', $req->input('id'))
+        ->delete();
+
+        flash('Jabatan berjaya dipadam')->success();
+        return back();
     }
 
     public function senaraiJawatan()
@@ -548,10 +567,6 @@ class AdminController extends Controller
         return view('konfigurasi.senaraiJawatan', compact('jawatan'));
     }
 
-    public function tambahJawatan()
-    {
-        return view('konfigurasi.tambahJawatan');
-    }
 
     public function prosesTambahJaw(Request $request)
     {
@@ -566,6 +581,26 @@ class AdminController extends Controller
         Jawatan::create($data);
         flash('Jawatan berjaya ditambah.')->success();
         return redirect('senaraiJawatan');
+    }
+
+    public function kemaskinijawatan(Request $req)
+    {
+        Jawatan::where('idJawatan', $req->input('id'))
+        ->update([
+            'namaJawatan' => $req->input('namaJawatan')
+        ]);
+
+        flash('Jawatan berjaya dikemaskini')->success();
+        return back();
+    }
+
+    public function padamjawatan(Request $req)
+    {
+        Jawatan::where('idJawatan', $req->input('id'))
+        ->delete();
+
+        flash('Jawatan berjaya dipadam')->success();
+        return back();
     }
 
     public function senaraiGredAngka()
@@ -592,6 +627,26 @@ class AdminController extends Controller
         GredAngka::create($data);
         flash('Maklumat telah ditambah')->success();
         return redirect('senaraiGredAngka');
+    }
+
+    public function kemaskiniangkagred(Request $req)
+    {
+        GredAngka::where('gred_angka_ID', $req->input('id'))
+        ->update([
+            'gred_angka_nombor' => $req->input('gred_angka_nombor')
+        ]);
+
+        flash('GredAngka berjaya dikemaskini')->success();
+        return back();
+    }
+
+    public function padamangkagred(Request $req)
+    {
+        GredAngka::where('gred_angka_ID', $req->input('id'))
+        ->delete();
+
+        flash('GredAngka berjaya dipadam')->success();
+        return back();
     }
 
     public function laporanjantina(Request $req)
@@ -775,6 +830,27 @@ class AdminController extends Controller
         GredKod::create($data);
         flash('Maklumat telah ditambah')->success();
         return redirect('senaraiGredKod');
+    }
+
+    public function kemaskinigredkod(Request $req)
+    {
+        GredKod::where('gred_kod_ID', $req->input('id'))
+        ->update([
+            'gred_kod_abjad' => $req->input('gred_kod_abjad'),
+            'gred_kod_klasifikasi' => $req->input('gred_kod_klasifikasi')
+        ]);
+
+        flash('GredKod berjaya dikemaskini')->success();
+        return back();
+    }
+
+    public function padamgredkod(Request $req)
+    {
+        GredKod::where('gred_kod_ID', $req->input('id'))
+        ->delete();
+
+        flash('GredKod berjaya dipadam')->success();
+        return back();
     }
 
     public function daftarPic()

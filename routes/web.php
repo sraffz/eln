@@ -117,15 +117,27 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('senaraiJabatan', 'AdminController@senaraiJabatan')->name('senaraiJabatan');
 	Route::get('tambahJabatan', 'AdminController@tambahJabatan')->name('tambahJabatan');
 	Route::POST('prosesTambahJab', 'AdminController@prosesTambahJab')->name('prosesTambahJab');
+	Route::POST('kemaskini-jabatan', 'AdminController@kemaskinijabatan')->name('kemaskini-jabatan');
+	Route::get('padam-jabatan', 'AdminController@padamjabatan')->name('padam-jabatan');
+	
 	Route::get('senaraiJawatan', 'AdminController@senaraiJawatan')->name('senaraiJawatan');
 	Route::get('tambahJawatan', 'AdminController@tambahJawatan')->name('tambahJawatan');
 	Route::POST('prosesTambahJaw', 'AdminController@prosesTambahJaw')->name('prosesTambahJaw');
+	Route::POST('kemaskini-jawatan', 'AdminController@kemaskinijawatan')->name('kemaskini-jawatan');
+	Route::get('padam-jawatan', 'AdminController@padamjawatan')->name('padam-jawatan');
+	
+	
 	Route::get('senaraiGredAngka', 'AdminController@senaraiGredAngka')->name('senaraiGredAngka');
 	Route::get('tambahGredAngka', 'AdminController@tambahGredAngka')->name('tambahGredAngka');
 	Route::POST('prosesTambahGredAngka', 'AdminController@prosesTambahGredAngka')->name('prosesTambahGredAngka');
+	Route::POST('kemaskini-angkagred', 'AdminController@kemaskiniangkagred')->name('kemaskini-angkagred');
+	Route::get('padam-angkagred', 'AdminController@padamangkagred')->name('padam-angkagred');
+	
 	Route::get('senaraiGredKod', 'AdminController@senaraiGredKod')->name('senaraiGredKod');
 	Route::get('tambahGredKod', 'AdminController@tambahGredKod')->name('tambahGredKod');
 	Route::POST('prosesTambahGredKod', 'AdminController@prosesTambahGredKod')->name('prosesTambahGredKod');
+	Route::POST('kemaskini-kodgred', 'AdminController@kemaskinigredkod')->name('kemaskini-kodgred');
+	Route::get('padam-kodgred', 'AdminController@padamgredkod')->name('padam-kodgred');
 	
 	Route::get('terusDato', 'AdminController@terusDato')->name('terusDato');
 	Route::get('tambahterusDato', 'AdminController@tambahterusDato')->name('tambahterusDato');

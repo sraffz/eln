@@ -680,9 +680,9 @@ class permohonanController extends Controller
                     $storagePath = 'upload/dokumen/' . $currYear;
                     $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
 
-                    if (!file_exists($storagePath)) {
-                        mkdir($storagePath, 0777, true);
-                    }
+                    // if (!file_exists($storagePath)) {
+                    //     mkdir($storagePath, 0777, true);
+                    // }
                     $upload_success = $file->storeAs($storagePath, $filename);
 
                     if ($upload_success) {
@@ -694,7 +694,7 @@ class permohonanController extends Controller
                         ];
                         Dokumen::create($data);
                         flash('Permohonan berjaya didaftar.')->success();
-                        return redirect('senaraiPermohonanProses/'.Auth::user()->usersID.'');
+                        return redirect('/senaraiPermohonanProses');
                     } else {
                         Flash::error('Muat naik tidak berjaya' . $doc_type);
                         return back();
@@ -702,7 +702,7 @@ class permohonanController extends Controller
                 } else {
                     echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
                     // flash('Sorry Only Upload png , jpg , doc.')->warning();
-                    return redirect('');
+                    return redirect('/senaraiPermohonanProses');
                 }
             }
         }

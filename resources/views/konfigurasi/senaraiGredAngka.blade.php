@@ -38,6 +38,7 @@
                                             <tr>
                                                 <th>Bil</th>
                                                 <th>Gred Angka</th>
+                                                <th>Tindakan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -45,6 +46,20 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $angkas->gred_angka_nombor }}</td>
+                                                    <td class="text-center">
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                            data-toggle="modal" data-id="{{ $angkas->gred_angka_ID }}"
+                                                            data-gred_angka_nombor="{{ $angkas->gred_angka_nombor }}"
+                                                            data-target="#kemaskiniangkagred">
+                                                            <i class="far fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                            data-toggle="modal" data-id="{{ $angkas->gred_angka_ID }}"
+                                                            data-target="#padamangkagred">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    </td>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -87,6 +102,66 @@
         </div>
     </div>
 
+    <!-- Modal Kemaskini-->
+    <div class="modal fade" id="kemaskiniangkagred" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kemaskini Kod Gred</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('kemaskini-angkagred') }}" method="post">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="id" name="id" value="">
+                            <div class="form-group">
+                                <label for="gred_angka_nombor">Klasifikasi</label>
+                                <input type="text" class="form-control" name="gred_angka_nombor"
+                                    id="gred_angka_nombor" placeholder="41" required value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Kemaskini</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal padam-->
+    <div class="modal fade" id="padamangkagred" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Padam Kod Gred</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('padam-angkagred') }}" method="get">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="id" name="id" value="">
+                            Adakah anda pasti untuk padam angka gred ini?
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Padam</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('script')
@@ -105,6 +180,26 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
+        $('#kemaskiniangkagred').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            var gred_angka_nombor = button.data('gred_angka_nombor');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #id").val(id);
+            $(".modal-body #gred_angka_nombor").val(gred_angka_nombor);
+        });
+
+        $('#padamangkagred').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #id").val(id);
+        });
+
         $(document).ready(function() {
             $('table.display2').DataTable({
                 "pageLength": 10,

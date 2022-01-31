@@ -11,45 +11,169 @@
 @endsection
 
 @section('content')
-    @include('flash::message')
+
     <section class="content">
         <div class="container-fluid">
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="card">
-                      <div class="card-header with-border">
-                          <h3 class="card-title">Senarai Jabatan </h3>
-                      </div>
-                      <div class="card-body">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <br>
-                                  <table class="table table-bordered table-striped display2">
-                                      <thead>
-                                          <tr>
-                                              <th>No</th>
-                                              <th>Nama Jabatan</th>
-                                              <th>Kod Jabatan</th>
-                                          </tr>
-                                      </thead>
-                                      <tbody>
-                                          <?php $i = 1; ?>
-                                          @foreach ($jabatan as $jabatans)
-                                              <tr>
-                                                  <td><?php echo $i;
-                                                  $i = $i + 1; ?></td>
-                                                  <td>{{ $jabatans->nama_jabatan }}</td>
-                                                  <td>{{ $jabatans->kod_jabatan }}</td>
-                                          @endforeach
-                                      </tbody>
-                                  </table>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+            <div class="row">
+                <div class="col-md-12"> <br>
+                    @include('flash::message')
+                    <div class="card">
+                        <div class="card-header with-border">
+                            <h3 class="card-title">Senarai Jabatan </h3>
+                            <div class="float-right">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#tambahjabatan">
+                                    <i class="fa fa-plus"></i> Tambah Jabatan
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <table class="table table-bordered table-striped display2">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Jabatan</th>
+                                                <th>Kod Jabatan</th>
+                                                <th>Tindakan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i = 1; ?>
+                                            @foreach ($jabatan as $jabatans)
+                                                <tr>
+                                                    <td><?php echo $i;
+                                                    $i = $i + 1; ?></td>
+                                                    <td>{{ $jabatans->nama_jabatan }}</td>
+                                                    <td>{{ $jabatans->kod_jabatan }}</td>
+                                                    <td class="text-center">
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                            data-toggle="modal" data-id="{{ $jabatans->jabatan_id }}"
+                                                            data-kod_jabatan="{{ $jabatans->kod_jabatan }}"
+                                                            data-nama_jabatan="{{ $jabatans->nama_jabatan }}"
+                                                            data-target="#kemaskinijabatan">
+                                                            <i class="far fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                            data-toggle="modal" data-id="{{ $jabatans->jabatan_id }}"
+                                                            data-target="#padamjabatan">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    </td>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Modal Tambah Jawatan-->
+        <div class="modal fade" id="tambahjabatan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambah Jabatan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ url('prosesTambahJab') }}" method="post">
+                        <div class="modal-body">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="nama_jabatan">Nama Jabatan</label>
+                                <input type="text" class="form-control form-control-sm" name="nama_jabatan"
+                                    id="nama_jabatan" required placeholder="Pejabat Setiausaha Kerjaana">
+                            </div>
+                            <div class="form-group">
+                                <label for="kod_jabatan">Kod Jabatan</label>
+                                <input type="text" class="form-control form-control-sm" name="kod_jabatan" id="kod_jabatan"
+                                    placeholder="SUK" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Kemaskini-->
+        <div class="modal fade" id="kemaskinijabatan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kemaskini Jabatan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ url('kemaskini-jabatan') }}" method="post">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="hidden" id="id" name="id" value="">
+                                <div class="form-group">
+                                    <label for="nama_jabatan">Nama Jabatan</label>
+                                    <input type="text" class="form-control" name="nama_jabatan" id="nama_jabatan" required
+                                        placeholder="Pejabat Setiausaha Kerjaana" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="kod_jabatan">Kod Jabatan</label>
+                                    <input type="text" class="form-control" name="kod_jabatan" id="kod_jabatan"
+                                        placeholder="SUK" required value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Kemaskini</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal padam-->
+        <div class="modal fade" id="padamjabatan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Padam Jabatan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ url('padam-jabatan') }}" method="get">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="hidden" id="id" name="id" value="">
+                                Adakah anda pasti untuk padam Jabatan ini?
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Padam</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </section>
 @endsection
 
@@ -69,6 +193,28 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
+        $('#kemaskinijabatan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            var nama_jabatan = button.data('nama_jabatan');
+            var kod_jabatan = button.data('kod_jabatan');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #id").val(id);
+            $(".modal-body #kod_jabatan").val(kod_jabatan);
+            $(".modal-body #nama_jabatan").val(nama_jabatan);
+        });
+
+        $('#padamjabatan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #id").val(id);
+        });
+
         $(document).ready(function() {
             $('table.display2').DataTable({
                 "pageLength": 10,
