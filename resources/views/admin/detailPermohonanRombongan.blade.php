@@ -37,153 +37,189 @@
                         </div>
                         <!-- /.card-header -->
                         @foreach ($rombongan as $rombooo)
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for=""><i class="fab fa-codepen"></i> Kod Rombongan</label>
-                                        <input type="text" class="form-control" disabled
-                                            value="{{ $rombooo->codeRom }}">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for=""><i class="fab fa-codepen"></i> Kod Rombongan</label>
+                                            <input type="text" class="form-control" disabled
+                                                value="{{ $rombooo->codeRom }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for=""><i class="fas fa-question-circle"></i> Status</label>
+                                            <input type="text" class="form-control" disabled
+                                                value="{{ $rombooo->statusPermohonanRom }}">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for=""><i class="fas fa-question-circle"></i> Status</label>
-                                        <input type="text" class="form-control" disabled
-                                            value="{{ $rombooo->statusPermohonanRom }}">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for=""><i class="fas fa-globe"></i> Negara</label>
+                                            <input type="text" class="form-control" disabled
+                                                value="{{ $rombooo->negaraRom }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for=""><i class="fas fa-map-marker-alt"></i> Alamat</label>
+                                            <textarea class="form-control" disabled
+                                                rows="3">{{ $rombooo->alamatRom }}</textarea>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for=""><i class="fas fa-globe"></i> Negara</label>
-                                        <input type="text" class="form-control" disabled
-                                            value="{{ $rombooo->negaraRom }}">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="tujuanRom"><i class="fas fa-keyboard"></i> Tujuan Rombongan</label>
+                                            <input type="text" class="form-control" name="tujuanRom" id="tujuanRom"
+                                                disabled value="{{ $rombooo->tujuanRom }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="tujuanRom"><i class="fas fa-money-bill"></i> Jenis Kewangan
+                                                Rombongan</label>
+                                            <input type="text" class="form-control" name="tujuanRom" id="tujuanRom"
+                                                disabled value="{{ $rombooo->jenisKewanganRom }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="tujuanRom"><i class="fas fa-money-bill"></i> Anggaran
+                                                Perbelanjaan</label>
+                                            <input type="text" class="form-control" name="tujuanRom" id="tujuanRom"
+                                                disabled value="{{ $rombooo->anggaranBelanja }}">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for=""><i class="fas fa-map-marker-alt"></i> Alamat</label>
-                                        <textarea class="form-control" disabled
-                                            rows="3">{{ $rombooo->alamatRom }}</textarea>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="mula"><i class="fa fa-calendar"></i> Mula Rombongan</label>
+                                            <input id="mula" type="text" class="form-control"
+                                                value="{{ \Carbon\Carbon::parse($rombooo->tarikhMulaRom)->format('d/m/Y') }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="akhir"><i class="fa fa-calendar"></i> Tamat Rombongan</label>
+                                            <input id="akhir" type="text" class="form-control"
+                                                value="{{ \Carbon\Carbon::parse($rombooo->tarikhAkhirRom)->format('d/m/Y') }}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="jumlah"><i class="fa fa-calendar"></i> Tempoh Rombongan</label>
+                                            <input id="jumlah" type="text" class="form-control"
+                                                value="{{ $jumlahDate }} Hari" disabled>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="tujuanRom"><i class="fas fa-keyboard"></i> Tujuan Rombongan</label>
-                                        <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
-                                            value="{{ $rombooo->tujuanRom }}">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="catatan">Catatan</label>
+                                            <textarea style="resize: none" class="form-control" disabled
+                                                disabled>{{ $rombooo->catatan_permohonan }}</textarea>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="tujuanRom"><i class="fas fa-money-bill"></i> Jenis Kewangan
-                                            Rombongan</label>
-                                        <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
-                                            value="{{ $rombooo->jenisKewanganRom }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="tujuanRom"><i class="fas fa-money-bill"></i> Anggaran
-                                            Perbelanjaan</label>
-                                        <input type="text" class="form-control" name="tujuanRom" id="tujuanRom" disabled
-                                            value="{{ $rombooo->anggaranBelanja }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="mula"><i class="fa fa-calendar"></i> Mula Rombongan</label>
-                                        <input id="mula" type="text" class="form-control"
-                                            value="{{ \Carbon\Carbon::parse($rombooo->tarikhMulaRom)->format('d/m/Y') }}"
-                                            disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="akhir"><i class="fa fa-calendar"></i> Tamat Rombongan</label>
-                                        <input id="akhir" type="text" class="form-control"
-                                            value="{{ \Carbon\Carbon::parse($rombooo->tarikhAkhirRom)->format('d/m/Y') }}"
-                                            disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="jumlah"><i class="fa fa-calendar"></i> Tempoh Rombongan</label>
-                                        <input id="jumlah" type="text" class="form-control"
-                                            value="{{ $jumlahDate }} Hari" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="catatan">Catatan</label>
-                                        <textarea style="resize: none" class="form-control" disabled
-                                            disabled>{{ $rombooo->catatan_permohonan }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
-                            <p class="text-muted" style="text-transform: uppercase">
-                                {{ $rombooo->nama }} (ketua rombongan)<br>
-                                @foreach ($peserta as $peser)
-                                @if (Auth::user()->role == 'jabatan' || Auth::user()->role == 'DatoSUK')
-                                    @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya')
-                                    <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
-                                        data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
-                                        data-jawatan="{{ $peser->user->jawatan }}"
-                                        data-jabatan="{{ $peser->user->jabatan }}"> {{ $peser->user->nama }}</a>
-                                    <i> 
-                                        @if ($peser->statusPermohonan == 'Lulus Semakan BPSM')
-                                            {{-- (Disokong oleh ketua Jabatan) --}}
-                                        @endif
-                                    </i>
-                                    <br>
+                                <hr>
+                                <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
+                                <p class="text-muted" style="text-transform: uppercase">
+                                <table class="table table-bordered table-sm">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>BIL</th>
+                                            <th>NAMA</th>
+                                            <th>TINDAKAN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="row" class="text-center">
+                                                1
+                                            </td>
+                                            <td style="text-transform: uppercase">
+                                                {{ $rombooo->nama }} (ketua rombongan)</td>
+                                            <td></td>
+                                        </tr>
+                                        @php
+                                            $i = 2;
+                                        @endphp
+                                        @foreach ($peserta as $peser)
+                                            @if (Auth::user()->role == 'jabatan' || Auth::user()->role == 'DatoSUK')
+                                                @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya')
+                                                    <tr>
+                                                        <td scope="row" class="text-center">
+                                                            {{ $i++ }}
+                                                        </td>
+                                                        <td style="text-transform: uppercase"><a data-toggle="modal"
+                                                                href='#mdl-kemaskini'
+                                                                data-nama="{{ $peser->user->nama }}"
+                                                                data-nokp="{{ $peser->user->nokp }}"
+                                                                data-email="{{ $peser->user->email }}"
+                                                                data-jawatan="{{ $peser->user->jawatan }}"
+                                                                data-jabatan="{{ $peser->user->jabatan }}">
+                                                                {{ $peser->user->nama }}</a></td>
+                                                        <td></td>
+                                                    </tr>
+                                                @endif
+                                            @else
+                                                <tr>
+                                                    <td scope="row" class="text-center">
+                                                        {{ $i++ }}
+                                                    </td>
+                                                    <td style="text-transform: uppercase">
+                                                        <a data-toggle="modal" href='#mdl-kemaskini'
+                                                            data-nama="{{ $peser->user->nama }}"
+                                                            data-nokp="{{ $peser->user->nokp }}"
+                                                            data-email="{{ $peser->user->email }}"
+                                                            data-jawatan="{{ $peser->user->jawatan }}"
+                                                            data-jabatan="{{ $peser->user->jabatan }}">
+                                                            {{ $peser->user->nama }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <i>
+                                                            @if ($peser->statusPermohonan == 'Ketua Jabatan')
+                                                                (Perlu Sokongan Ketua Jabatan)
+                                                            @elseif ($peser->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                (Disokong oleh ketua Jabatan)
+                                                            @elseif ($peser->statusPermohonan == 'Permohonan Gagal')
+                                                                (Permohonan ditolak)
+                                                            @elseif ($peser->statusPermohonan == 'Permohonan Berjaya')
+                                                                (Permohonan Diluluskan)
+                                                            @endif
+                                                        </i>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                </p>
+                                <hr>
+                                <strong><i class="fa fa-file"></i> Dokumen Rasmi</strong>
+                                <p class="text-muted">
+                                    @if (is_null($dokumen))
+                                        Tiada Dokumen
+                                    @else
+                                        <a class="btn btn-sm btn-info"
+                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
                                     @endif
-                                @else
-                                    <a data-toggle="modal" href='#mdl-kemaskini' data-nama="{{ $peser->user->nama }}"
-                                        data-nokp="{{ $peser->user->nokp }}" data-email="{{ $peser->user->email }}"
-                                        data-jawatan="{{ $peser->user->jawatan }}"
-                                        data-jabatan="{{ $peser->user->jabatan }}"> 
-                                        {{ $peser->user->nama }}</a>
-                                    <i> 
-                                        @if ($peser->statusPermohonan == 'Ketua Jabatan')
-                                            (Perlu Sokongan Ketua Jabatan)
-                                        @elseif ($peser->statusPermohonan == 'Lulus Semakan BPSM')
-                                            (Disokong oleh ketua Jabatan)
-                                        @elseif ($peser->statusPermohonan == 'Permohonan Gagal')
-                                            (Permohonan ditolak)
-                                        @elseif ($peser->statusPermohonan == 'Permohonan Berjaya')
-                                            (Permohonan Diluluskan)
-                                        @endif
-                                    </i>
-                                    <br>
-                                @endif
-                                @endforeach
-                            </p>
-                            <hr>
-                            <strong><i class="fa fa-file"></i> Dokumen Rasmi</strong>
-                            <p class="text-muted">
-                                @if (is_null($dokumen))
-                                    Tiada Dokumen
-                                @else
-                                    <a class="btn btn-sm btn-info"
-                                        href="{{ route('detailPermohonanDokumen.download', ['id' => $dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
-                                @endif
-                            </p>
-                            <hr>
-                            <p class="text-center">
-                                <a class="btn btn-danger" href="{{ URL::previous() }}" role="button">Kembali</a>
-                            </p>
-                        </div>
+                                </p>
+                                <hr>
+                                <p class="text-center">
+                                    <a class="btn btn-danger" href="{{ URL::previous() }}" role="button">Kembali</a>
+                                </p>
+                            </div>
                         @endforeach
                     </div>
                 </div>

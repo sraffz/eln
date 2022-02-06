@@ -15,6 +15,7 @@ use App\Jawatan;
 use App\GredAngka;
 use App\GredKod;
 use App\InfoSurat;
+use App\Eln_pengesahan_bahagian;
 use DB;
 use Carbon\Carbon;
 use File;
@@ -330,7 +331,7 @@ class AdminController extends Controller
 
     public function showRombongan($id)
     {
-        $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+        $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.ketua_rombongan')
             ->where('rombongans_id', $id)
             ->get();
 
@@ -985,15 +986,85 @@ class AdminController extends Controller
 
         $permohonan = Permohonan::where('permohonansID', '=', $id)->first();
 
+        
         $tarikhmulajalan = $permohonan->tarikhMulaPerjalanan;
-
+        
         $end = Carbon::parse($tarikhmulajalan);
         $nowsaa = Carbon::today();
-
+        
         $length = $end->diffInDays($nowsaa);
+        
+        $pemohon = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', $permohonan->usersID)
+            ->first();
+
+        $pengesah = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+
+        Eln_pengesahan_bahagian::insertGetId( [
+            'id_permohonan' => $permohonan->permohonansID,
+            'id_pemohon' => $permohonan->usersID,
+            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pemohon' => $pemohon->userJabatan->nama_jabatan,
+            'id_pengesah' => Auth::user()->usersID,
+            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pengesah' => $pengesah->userJabatan->nama_jabatan,
+            'ulasan' => $request->ulasan,
+            'status_pengesah' => 'disokong',
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+        ]);
 
         Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
         flash('Permohonan telah disokong.', 'success');
+        return redirect()->back();
+    }
+
+    public function pengesahanTolak(Request $request)
+    {
+        $id = $request->id;
+        $ulasan = $request->ulasan;
+        $ubah = 'Permohonan Gagal';
+
+        Permohonan::where('permohonansID', '=', $id)->update([
+            'statusPermohonan' => $ubah,
+            'tarikhLulusan' => \Carbon\Carbon::now(),
+        ]);
+
+        $permohonan = Permohonan::where('permohonansID', $id)->first();
+
+        $pemohon = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', $permohonan->usersID)
+            ->first();
+
+        $pengesah = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+
+        Eln_pengesahan_bahagian::insertGetId( [
+            'id_permohonan' => $permohonan->permohonansID,
+            'id_pemohon' => $permohonan->usersID,
+            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pemohon' => $pemohon->userJabatan->nama_jabatan,
+            'id_pengesah' => Auth::user()->usersID,
+            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pengesah' => $pengesah->userJabatan->nama_jabatan,
+            'ulasan' => $request->ulasan,
+            'status_pengesah' => 'ditolak',
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+        ]);
+
+        flash('Permohonan Ditolak.')->success();
         return redirect()->back();
     }
 

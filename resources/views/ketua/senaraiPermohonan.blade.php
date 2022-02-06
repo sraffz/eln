@@ -66,7 +66,7 @@
                                                 {{-- <th>Tarikh Akhir Perjalanan</th> --}}
                                                 <th>Jenis Permohonan</th>
                                                 <th>Tindakan</th>
-                                                <th>Sejarah Keluar Negara</th>
+                                                {{-- <th>Sejarah Keluar Negara</th> --}}
                                             </tr>
                                         </thead>
 
@@ -139,7 +139,7 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     @php
                                                         $jumlah = 0;
                                                     @endphp
@@ -157,7 +157,7 @@
 
                                                     @endforeach
                                                     <strong>Jumlah:{{ $jumlah }}</strong>
-                                                </td>
+                                                </td> --}}
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -200,8 +200,8 @@
     <script>
         $(document).ready(function() {
             $('table.display').DataTable({
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 15, 20],
+                "pageLength": 10,
+                "lengthMenu": [10, 20, 50, 100],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

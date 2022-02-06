@@ -57,7 +57,7 @@
                             <strong><i class="fas fa-map-marker-alt mr-1"></i> Jawatan & Gred</strong>
                             <p class="text-muted">
                                 {{ $user->userJawatan->namaJawatan }}
-                                {{-- ({{ $user->userGredKod->gred_kod_abjad }}{{ $user->userGredAngka->gred_angka_nombor }}) --}}
+                                ({{ $user->userGredKod->gred_kod_abjad }}{{ $user->userGredAngka->gred_angka_nombor }})
                             </p>
                             <hr>
                             <strong><i class="fas fa-pencil-alt mr-1"></i> Peranan</strong>
@@ -100,7 +100,7 @@
                                     <!-- Post -->
                                     <div class="post">
                                         <div class="user-block">
-                                            <h3 class="text-danger"><strong>Negara Pernah Kunjungi:</strong></h3>
+                                            <h3 class="text-danger"><strong>Negara Pernah Dikunjungi:</strong></h3>
                                         </div>
                                         <!-- /.user-block -->
                                         <p>

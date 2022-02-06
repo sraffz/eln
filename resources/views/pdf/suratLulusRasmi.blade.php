@@ -56,7 +56,7 @@
 <body>
     {{-- format surat --}}
     <div id="watermark">
-        <img src="{{ asset('adminlte/dist/img/letterhead.jpg') }}" height="100%" width="96%" />
+        <img src="{{ asset('adminlte-3/img/letterhead.jpg') }}" height="100%" width="96%" />
     </div>
     <div class="page">
         <div class="container">
@@ -179,15 +179,20 @@
                             <strong> "{{ $cogan->maklumat3 }}"</strong><br>
                         @endif
                         <br>
-                        Saya yang menjalankan amanah,<br><br><br><br>
-
-
-
+                        Saya yang menjalankan amanah,<br>
+                        <br>
+                        <br>
                         <strong>({{ $pp->maklumat1 }})</strong><br>
                         {{ $pp->maklumat2 }}<br>
                         <strong>{{ $pp->maklumat3 }}</strong><br>
                         <strong>{{ $pp->maklumat4 }}</strong><br>
-
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <p style="font-size: 11pt" align="center">
+                            Surat ini adalah cetakan komputer dan tidak memerlukan tandatangan.
+                        </p>
                     </div>
                 </div>
             </div>

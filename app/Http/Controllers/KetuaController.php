@@ -7,6 +7,8 @@ use App\Permohonan;
 use App\Pasangan;
 use App\Rombongan;
 use App\User;
+use App\Eln_pengesahan_bahagian;
+use App\Eln_kelulusan;
 use App\Notifications\PermohonanBerjaya;
 use DB;
 use PDF;
@@ -18,7 +20,7 @@ class KetuaController extends Controller
 {
     public function index()
     {
-        $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
+        $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya'])->get();
 
         $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
             ->whereNotIn('JenisPermohonan', ['rombongan'])
@@ -71,8 +73,9 @@ class KetuaController extends Controller
         return redirect()->back();
     }
 
-    public function hantar($id)
+    public function hantar(Request $request, $id)
     {
+
         $ubah = 'Permohonan Berjaya';
 
         $ruj = Permohonan::where('permohonansID', $id)
@@ -86,8 +89,33 @@ class KetuaController extends Controller
         $nokp = $ruj->user->nokp;
         $nama = $ruj->user->nama;
 
+        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)
+        ->first();
+
+        $pelulus = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+
+        Eln_kelulusan::insertGetId( [
+            'id_pengesahan' => $pengesahan->id,
+            'id_pelulus' => Auth::user()->usersID,
+            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+            'gred_pelulus' => ''.$pelulus->userGredKod->gred_kod_abjad.''.$pelulus->userGredAngka->gred_angka_nombor.'',
+            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'ulasan' => 'tiada',
+            'status_kelulusan' => 'Berjaya',
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+        ]);
+
+
         // dd($tarikhMulaPerjalanan);
-        Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah, 'tarikhLulusan' => \Carbon\Carbon::now()]);
+        Permohonan::where('permohonansID', '=', $id)
+        ->update([
+            'statusPermohonan' => $ubah, 
+            'tarikhLulusan' => \Carbon\Carbon::now()
+        ]);
 
         flash('Permohonan Diluluskan.')->success();
         return redirect()->back();
@@ -152,6 +180,26 @@ class KetuaController extends Controller
     public function tolakPermohonan($id)
     {
         $ubah = 'Permohonan Gagal';
+
+        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)
+        ->first();
+
+        $pelulus = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+
+        Eln_kelulusan::insertGetId( [
+            'id_pengesahan' => $pengesahan->id,
+            'id_pelulus' => Auth::user()->usersID,
+            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+            'gred_pelulus' => ''.$pelulus->userGredKod->gred_kod_abjad.''.$pelulus->userGredAngka->gred_angka_nombor.'',
+            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'ulasan' => 'tiada',
+            'status_kelulusan' => 'Gagal',
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+        ]);
 
         Permohonan::where('permohonansID', '=', $id)->update([
             'statusPermohonan' => $ubah,
@@ -229,6 +277,10 @@ class KetuaController extends Controller
         ->get();
 
         // return dd($sejarah);
+        $pengesah = Eln_pengesahan_bahagian::select('users.*', 'eln_pengesahan_bahagian.*', 'eln_pengesahan_bahagian.created_at as tarikhsah')
+        ->join('users', 'users.usersID', '=', 'eln_pengesahan_bahagian.id_pengesah')
+        ->where('eln_pengesahan_bahagian.id_permohonan', $id)
+        ->get();
 
         $permohonan = Permohonan::find($id);
         $pasangan = Pasangan::where('permohonansID', $id)->get();
@@ -244,8 +296,8 @@ class KetuaController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        return view('ketua.cetak.cetak-butiran-permohonan', compact('sejarah','permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
-        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
+        // return view('ketua.cetak.cetak-butiran-permohonan', compact('pengesah','sejarah','permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('pengesah','sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Ke Luar Negara.pdf');
     }
 

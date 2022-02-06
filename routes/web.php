@@ -60,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('/padam/{id}', 'permohonanController@hapus');
 	
-	Route::get('/tolak-permohonan/{id}', 'permohonanController@tolakrombongan');
+	// Route::get('/tolak-permohonan/{id}', 'permohonanController@tolakrombongan');
 
 	Route::post('/batal-permohonan', 'permohonanController@batalpermohonan');
 	
@@ -213,5 +213,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('senaraiPermohonanLepas', 'AdminController@senaraiPermohonanLepas')->name('senaraiPermohonanLepas');
 	Route::get('daftarPenggunaJabatan', 'AdminController@daftarPenggunaJabatan')->name('daftarPenggunaJabatan');
 	Route::get('senaraiPenggunaJabatan', 'AdminController@senaraiPenggunaJabatan')->name('senaraiPenggunaJabatan');
-	Route::get('senaraiPermohonanJabatan/hantar', 'AdminController@hantarJabatan');
+	Route::get('pengesahan-permohonan', 'AdminController@hantarJabatan');
+	Route::get('pengesahan-permohonan-tolak', 'AdminController@pengesahanTolak');
 });

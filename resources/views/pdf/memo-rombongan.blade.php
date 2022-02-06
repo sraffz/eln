@@ -187,11 +187,12 @@
                     <div class="row">
                         <div class="col-xl-12" align="center">
                             <br><br>
-                            <br><br>
-                            <strong>"SURAT INI JANAAN KOMPUTER DAN TIDAK MEMERLUKAN TANDATANGAN"</strong><br>
+                            <br>
+                            <p style="font-size: 11pt" align="center">
+                                Surat ini adalah cetakan komputer dan tidak memerlukan tandatangan.
+                            </p><br>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="break">

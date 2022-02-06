@@ -441,19 +441,19 @@ class permohonanController extends Controller
                             Dokumen::create($data);
 
                             flash('Permohonan berjaya didaftar.')->success();
-                            return redirect('/');
+                            return redirect('/senaraiPermohonanProses');
                         } else {
                             flash::error('Muat naik tidak berjaya' . $doc_type);
-                            return redirect('');
+                            return redirect('/senaraiPermohonanProses');
                         }
                     } else {
                         echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                        return redirect('/');
+                        return redirect('/senaraiPermohonanProses');
                     }
                 }
             } else {
                 flash('Berjaya didaftar tanpa dokumen rasmi!')->warning();
-                return redirect('/');
+                return redirect('/senaraiPermohonanProses');
             }
         } elseif ($jenisPermohonan == 'Tidak Rasmi') {
             $tempohCuti = $request->input('tempohCuti');
@@ -543,14 +543,14 @@ class permohonanController extends Controller
 
                             DB::table('pasangans')->insert($dataPasangan);
                             flash('Permohonan berjaya didaftar.')->success();
-                            return redirect('/');
+                            return redirect('/senaraiPermohonanProses');
                         } else {
                             Flash::error('Muat naik tidak berjaya.' . $doc_type);
-                            return back('');
+                            return redirect('/senaraiPermohonanProses');
                         }
                     } else {
                         echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                        return back();
+                        return redirect('/senaraiPermohonanProses');
                     }
                 }
             } else {
@@ -604,7 +604,7 @@ class permohonanController extends Controller
 
                 DB::table('pasangans')->insert($dataPasangan);
                 flash('Permohonan berjaya didaftar.')->success();
-                return redirect('/');
+                return redirect('/senaraiPermohonanProses');
             }
         }
 
@@ -641,6 +641,8 @@ class permohonanController extends Controller
         $tarikhAkhirRom = date('Y-m-d', $DateNew2);
         $tarikhInsuranRom = date('Y-m-d', $DateNew3);
 
+        
+
         $data = [
             'tarikhMulaRom' => $tarikhMulaRom,
             'tarikhAkhirRom' => $tarikhAkhirRom,
@@ -654,6 +656,7 @@ class permohonanController extends Controller
             'jenisKewanganRom' => $jenisKewanganRom,
             'anggaranBelanja' => $anggaranBelanja,
             'usersID' => $id,
+            'ketua_rombongan' => $id,
             'created_at' => \Carbon\Carbon::now(), # \Datetime()
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
@@ -662,6 +665,26 @@ class permohonanController extends Controller
         $rombo = DB::table('rombongans')
             ->where('codeRom', '=', $code)
             ->first();
+
+            $data2 = [
+                'tarikhMulaPerjalanan' => $tarikhMulaRom,
+                'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
+                'negara' => $negaraRom,
+                'alamat' => $alamatRom,
+                'statusPermohonan' => 'Lulus Semakan BPSM',
+                // 'tarikhMulaCuti' => $tarikhMulaCuti,
+                // 'tarikhAkhirCuti' => $tarikhAkhirCuti,
+                // 'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
+                'JenisPermohonan' => 'rombongan',
+                'catatan_permohonan' => $catatan_permohonan,
+                'lainTujuan' => $tujuanRom,
+                'tick' => 'yes',
+                'usersID' => $id,
+                'rombongans_id' => $rombo->rombongans_id,
+                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+            ];
+            Permohonan::create($data2);
 
         $co = $rombo->rombongans_id;
 

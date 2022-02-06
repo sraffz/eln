@@ -45,12 +45,14 @@
                                             <tr class="text-center">
                                                 <td>{{ $index + 1 }}</td>
                                                 <td style="text-transform: capitalize">
-                                                    @if ($mohonan->JenisPermohonan == "rombongan")
-                                                    <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
-                                                        
+                                                    @if ($mohonan->JenisPermohonan == 'rombongan')
+                                                        <a
+                                                            href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
+
                                                     @else
-                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
-                                                        
+                                                        <a
+                                                            href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+
                                                     @endif
                                                 </td>
                                                 {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
@@ -60,29 +62,37 @@
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}</td>
+                                                <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}
+                                                </td>
                                                 <td>{{ $mohonan->statusPermohonan }}</td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
                                                         <a onClick="setUserData({{ $mohonan->permohonansID }});"
-                                                            data-toggle="modal" data-target="#favoritesModal"
-                                                            class="btn btn-success btn-xs"><i
-                                                                class="fa fa-thumbs-up"></i></a>
-
-                                                        <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $mohonan->permohonansID]) }}"
-                                                            class="btn btn-danger btn-xs"
-                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                                class="fa fa-thumbs-down"></i>
+                                                            data-toggle="modal" data-target="#terimapermohonan"
+                                                            class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i>
                                                         </a>
+
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                            data-toggle="modal" data-id="{{ $mohonan->permohonansID }}" data-target="#tolakpermohonan">
+                                                            <i class="fa fa-thumbs-down"></i>
+                                                        </button>
+
+{{-- 
+                                                        <a href="{{ url('pengesahan-permohonan-tolak', ['id' => $mohonan->permohonansID]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');">
+                                                            <i class="fa fa-thumbs-down"></i>
+                                                        </a> --}}
                                                         <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-dark btn-xs">
                                                             <i class="fa fa-print"></i>
                                                         </a>
-                                                    @elseif($mohonan->statusPermohonan == "Permohonan Berjaya")
+                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
                                                         {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                                                         class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
                                                                     </a> --}}
-                                                    @elseif($mohonan->statusPermohonan == "Permohonan Gagal")
+                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                         {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
                                                             class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
                                                         </a> --}}
@@ -128,35 +138,68 @@
                 <!-- /.box -->
             </div>
 
-            
+
             <!-- /.col -->
         </div>
-    </section>
-    <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="favoritesModalLabel">Catatan</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                </div>
-                <form method="GET" action="{{ url('senaraiPermohonanJabatan/hantar') }}">
-                    <div class="modal-body">
-                        {{ csrf_field() }}
-                        <div class="form-group">
-                            <label for="ulasan">Catatan (Jika perlu).</label>
-                            <textarea name="ulasan" required="required" class="form-control"></textarea>
-                            <input name="kopeID" id="kopeID" type="hidden" value="">
+        <div class="modal fade" id="terimapermohonan" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="favoritesModalLabel">Sokong Permohonan</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form method="GET" action="{{ url('pengesahan-permohonan') }}">
+                        <div class="modal-body">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="ulasan">Catatan (Jika perlu).</label>
+                                <textarea name="ulasan" required="required" class="form-control"></textarea>
+                                <input name="kopeID" id="kopeID" type="hidden" value="">
+                            </div>
+                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
                         </div>
-                        {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" value="Hantar" />
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Hantar" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- Modal -->
+        <div class="modal fade" id="tolakpermohonan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tolak Permohonan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="GET" action="{{ url('pengesahan-permohonan-tolak') }}">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="form-group">
+                                    <input name="id" id="id" type="hidden" value="">
+                                    <label for="ulasan">Catatan</label>
+                                    <textarea name="ulasan" required="required" class="form-control"></textarea>
+                                </div>
+                                {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
 @endsection
 
 @section('script')
@@ -174,6 +217,15 @@
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script>
+        $('#tolakpermohonan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+        });
+
+
         $(document).ready(function() {
             $('table.display2').DataTable({
                 "pageLength": 5,

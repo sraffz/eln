@@ -20,6 +20,10 @@
             font-size: 14px
         }
 
+        .break {
+            page-break-before: always;
+        }
+
     </style>
 </head>
 
@@ -193,6 +197,7 @@
                 </tbody>
             </table>
         @endif
+
         <table class="table table-bordered table-sm">
             <thead class="thead-dark">
                 <tr>
@@ -217,14 +222,50 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="break">
+        @foreach ($pengesah as $psh)
+            <table class="table table-bordered table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2" class="text-left">PENGESAHAN KETUA BAHAGIAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Nama Ketua Bahagian</strong> </td>
+                        <td class="text-left"><strong>{{ $psh->nama }}</strong> </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
+                        <td class="text-left"><strong>{{ $psh->jawatan_pengesah }}
+                                ({{ $psh->gred_pengesah }})</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
+                        <td class="text-left"><strong>{{ $psh->jabatan_pengesah }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>
+                        <td class="text-left">
+                            <strong>{{ $psh->ulasan }}</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Tarikh</strong> </td>
+                        <td class="text-left">
+                            <strong>{{ date('d/m/Y', strtotime($psh->tarikhsah)) }}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        @endforeach
         <br>
         <div class="text-center">
-            <p>
-                <i> *Borang ini janaan komputer dan tidak memerlukan tandatangan.*</i>
+            <p style="font-size: 11pt">
+                <i> Borang ini adalah janaan komputer dan tidak memerlukan tandatangan.</i>
             </p>
         </div>
-
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
