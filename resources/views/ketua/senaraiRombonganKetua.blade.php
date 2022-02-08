@@ -96,7 +96,7 @@
                                                     </td>
                                                     <td>{{ $rombo->tujuanRom }}</td>
                                                     <td>
-                                                        {{ $rombo->nama }} <br>
+                                                        {{-- {{ $rombo->nama }} <br> --}}
                                                         @foreach ($allPermohonan as $element)
                                                             @if ($element->rombongans_id == $rombo->rombongans_id)
                                                                 {{ $element->user->nama }} &nbsp;&nbsp;

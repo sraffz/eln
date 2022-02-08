@@ -8,18 +8,13 @@
     <title>Butiran Permohonan</title>
 
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        {{-- href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}"> --}}
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    {{-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
     <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/jqvmap/jqvmap.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}"> --}}
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
 
@@ -32,12 +27,10 @@
         .table th {
             font-size: 14px
         }
-
     </style>
 </head>
 
 <body>
-
     <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="160" height="120"
             alt="User Image" align="center"><br></p>
     <p style="text-transform: uppercase; font-size:17px" align="center">
@@ -48,41 +41,6 @@
     </p>
 
     <div class="text-center">
-        {{-- <table class="table table-bordered table-sm">
-            <thead class="thead-dark">
-                <tr>
-                    <th colspan="2" class="text-left">MAKLUMAT PEMOHON</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Nama Pegawai</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->user->nama }}</strong> </td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>No. Kad Pengenalan</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->user->nokp }}</strong> </td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Tarikh Terima Insurans</strong> </td>
-                    <td class="text-left">
-                        <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhInsuran)->format('d/m/Y') }}</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->user->userJawatan->namaJawatan }}
-                            ({{ $permohonan->user->userGredKod->gred_kod_abjad }}{{ $permohonan->user->userGredAngka->gred_angka_nombor }})</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->user->userJabatan->nama_jabatan }}
-                            ({{ $permohonan->user->userJabatan->kod_jabatan }})</strong> </td>
-                </tr>
-            </tbody>
-        </table> --}}
-
         <table class="table table-bordered table-sm">
             <thead class="thead-dark">
                 <tr>
@@ -121,7 +79,7 @@
         <table class="table table-bordered table-sm">
             <thead class="thead-dark">
                 <tr>
-                    <th colspan="4" class="text-left">SENARAI PESERTA ROMBONGAN</th>
+                    <th colspan="6" class="text-left">SENARAI PESERTA ROMBONGAN</th>
                 </tr>
             </thead>
             <tbody>
@@ -129,16 +87,18 @@
                     <td><strong>BIL</strong> </td>
                     <td><strong>NAMA</strong> </td>
                     <td><strong>NO. KP</strong> </td>
-                    <td><strong>JAWATAN & GRED</strong> </td>
+                    <td><strong>JAWATAN & GRED</strong></td>
+                    <td><strong>DILULUSKAN</strong></td>
+                    <td><strong>DITOLAK</strong></td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <td><strong>1</strong></td>
                     <td class="text-left"><strong>{{ $permohonan->nama }} (Ketua Rombongan)</strong></td>
                     <td><strong>{{ $permohonan->nokp }}</strong></td>
                     <td><strong>{{ $permohonan->namaJawatan }} ({{ $permohonan->gred_kod_abjad }}{{ $permohonan->gred_angka_nombor }})</strong></td>
-                </tr>
+                </tr> --}}
                 @php
-                    $i = 2;
+                    $i = 1;
                 @endphp
                 @foreach ($allPermohonan as $index => $element)
                     @if ($element->rombongans_id == $permohonan->rombongans_id)
@@ -147,6 +107,12 @@
                             <td class="text-left"><strong> {{ $element->nama }}</strong> </td>
                             <td><strong> {{ $element->nokp }}</strong></td>
                             <td><strong>  {{ $element->namaJawatan }} ({{ $element->gred_kod_abjad }}{{ $element->gred_angka_nombor }})</strong></td>
+                            <td>
+                                <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                         </td>
+                         <td>
+                               <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                         </td>
                         </tr>
                     @endif
                 @endforeach
@@ -185,12 +151,12 @@
 
     </div>
 
-    <script src="{{ asset('adminlte-3/plugins/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('adminlte-3/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('adminlte-3/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
     <!-- Bootstrap 4 -->
-    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('adminlte-3/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
 </body>
 
 </html>

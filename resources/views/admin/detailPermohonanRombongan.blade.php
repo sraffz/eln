@@ -138,37 +138,77 @@
                                         <tr>
                                             <th>BIL</th>
                                             <th>NAMA</th>
-                                            <th>TINDAKAN</th>
+                                            <th colspan="2">TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td scope="row" class="text-center">
-                                                1
-                                            </td>
-                                            <td style="text-transform: uppercase">
-                                                {{ $rombooo->nama }} (ketua rombongan)</td>
-                                            <td></td>
-                                        </tr>
                                         @php
-                                            $i = 2;
+                                            $i = 1;
                                         @endphp
                                         @foreach ($peserta as $peser)
                                             @if (Auth::user()->role == 'jabatan' || Auth::user()->role == 'DatoSUK')
-                                                @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya')
+                                                @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya' || $peser->statusPermohonan == 'Permohonan Gagal')
                                                     <tr>
                                                         <td scope="row" class="text-center">
                                                             {{ $i++ }}
                                                         </td>
-                                                        <td style="text-transform: uppercase"><a data-toggle="modal"
-                                                                href='#mdl-kemaskini'
+                                                        <td style="text-transform: uppercase; width: 65%">
+                                                            <a data-toggle="modal" href='#mdl-kemaskini'
                                                                 data-nama="{{ $peser->user->nama }}"
                                                                 data-nokp="{{ $peser->user->nokp }}"
                                                                 data-email="{{ $peser->user->email }}"
                                                                 data-jawatan="{{ $peser->user->jawatan }}"
-                                                                data-jabatan="{{ $peser->user->jabatan }}">
-                                                                {{ $peser->user->nama }}</a></td>
-                                                        <td></td>
+                                                                data-jabatan="{{ $peser->nama_jabatan }}">
+                                                                {{ $peser->user->nama }}</a>
+
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if ($peser->user->usersID == $rombooo->ketua_rombongan)
+                                                                Ketua Rombongan
+                                                            @else
+                                                                <button type="button" class="btn btn-primary btn-xs"
+                                                                    data-toggle="modal"
+                                                                    data-romboid="{{ $rombooo->rombongans_id }}"
+                                                                    data-id="{{ $peser->user->usersID }}"
+                                                                    data-target="#tukarkr">
+                                                                    Lantik Ketua Rombongan
+                                                                </button>
+                                                            @endif
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (Auth::user()->role == 'DatoSUK')
+                                                                @if (!empty($peser->status_kelulusan))
+                                                                    {{-- {{ $peser->status_kelulusan }} --}}
+                                                                    @if ($peser->status_kelulusan == 'Berjaya')
+                                                                        <span class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
+                                                                    @else
+                                                                        <span class="badge badge-pill badge-danger">{{ $peser->status_kelulusan }}</span>
+                                                                    @endif
+                                                                @else
+                                                                    <a href="{{ route('senaraiPermohonan.tolakPermohonan', [$peser->permohonansID]) }}"
+                                                                        class="btn btn-danger btn-xs"
+                                                                        onclick="javascript: return confirm('Anda pasti untuk menolak permohonan peserta ini?');">
+                                                                        <i class="far fa-thumbs-down"></i> Tolak Permohonan
+                                                                    </a>
+                                                                @endif
+                                                            @elseif (Auth::user()->role == 'jabatan')
+                                                                @if (!empty($peser->status_pengesah))
+                                                                    @if ($peser->status_pengesah == 'disokong')
+                                                                        <span class="badge badge-pill badge-success">{{ $peser->status_pengesah }}</span>
+                                                                    @else
+                                                                        <span class="badge badge-pill badge-danger">{{ $peser->status_pengesah }}</span>
+                                                                    @endif
+                                                                @else
+                                                                    <button type="button" class="btn btn-danger btn-xs"
+                                                                        data-toggle="modal"
+                                                                        data-romboid="{{ $rombooo->rombongans_id }}"
+                                                                        data-id="{{ $peser->permohonansID }}"
+                                                                        data-target="#tolakpermohonan">
+                                                                        <i class="fa fa-thumbs-down"> </i> Tolak Permohonan
+                                                                    </button>
+                                                                @endif
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                 @endif
                                             @else
@@ -182,9 +222,12 @@
                                                             data-nokp="{{ $peser->user->nokp }}"
                                                             data-email="{{ $peser->user->email }}"
                                                             data-jawatan="{{ $peser->user->jawatan }}"
-                                                            data-jabatan="{{ $peser->user->jabatan }}">
+                                                            data-jabatan="{{ $peser->nama_jabatan }}">
                                                             {{ $peser->user->nama }}
                                                         </a>
+                                                        @if ($peser->user->usersID == $rombooo->ketua_rombongan)
+                                                            <i> (Ketua Rombongan)</i>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         <i>
@@ -212,7 +255,7 @@
                                         Tiada Dokumen
                                     @else
                                         <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
+                                            href="{{ route('detailPermohonanDokumen.download', [$dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
                                     @endif
                                 </p>
                                 <hr>
@@ -251,13 +294,85 @@
                         {!! Form::email('email_edit', null, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
                         <small class="text-danger">{{ $errors->first('email_edit') }}</small>
                     </div>
-
+                    <div class="form-group">
+                        <label for="jabatan">Jabatan</label>
+                        <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
+                            placeholder="">
+                    </div>
+                    {{-- <div class="form-group">
+                        <label for="jabatan">Jawatan</label>
+                        <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
+                            placeholder="">
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
                     {{-- <button type="submit" class="btn btn-primary">Kemaskini</button> --}}
                 </div>
                 {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tolak permohonan-->
+    <div class="modal fade" id="tolakpermohonan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tolak Permohonan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="GET" action="{{ url('pengesahan-permohonan-tolak') }}">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <input name="id" id="id" type="hidden" value="">
+                                <input name="romboid" id="romboid" type="hidden" value="">
+                                <label for="ulasan">Catatan</label>
+                                <textarea name="ulasan" required="required" class="form-control"></textarea>
+                            </div>
+                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tukar Ketua permohonan-->
+    <div class="modal fade" id="tukarkr" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tolak Permohonan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="GET" action="{{ url('tukar-ketua-rombongan') }}">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="text-center">
+                                Lantik peserta ini sebagai ketua rombongan?
+                            </div>
+                            <input name="id" id="id" type="hidden" value="">
+                            <input name="romboid" id="romboid" type="hidden" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Lantik Ketua Rombongan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -265,6 +380,26 @@
 @section('script')
 
     <script>
+        $('#tukarkr').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            var romboid = button.data('romboid');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+            $(".modal-body #romboid").val(romboid);
+        });
+
+        $('#tolakpermohonan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            var romboid = button.data('romboid');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+            $(".modal-body #romboid").val(romboid);
+        });
+
         $('#mdl-kemaskini').on('show.bs.modal', function(event) {
 
             var button = $(event.relatedTarget);

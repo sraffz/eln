@@ -215,4 +215,5 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('senaraiPenggunaJabatan', 'AdminController@senaraiPenggunaJabatan')->name('senaraiPenggunaJabatan');
 	Route::get('pengesahan-permohonan', 'AdminController@hantarJabatan');
 	Route::get('pengesahan-permohonan-tolak', 'AdminController@pengesahanTolak');
+	Route::get('tukar-ketua-rombongan', 'AdminController@tukarketuarombongan');
 });

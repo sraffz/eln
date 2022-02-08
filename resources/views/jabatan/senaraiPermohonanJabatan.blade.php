@@ -154,7 +154,7 @@
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="ulasan">Catatan (Jika perlu).</label>
-                                <textarea name="ulasan" required="required" class="form-control"></textarea>
+                                <textarea name="ulasan" class="form-control"></textarea>
                                 <input name="kopeID" id="kopeID" type="hidden" value="">
                             </div>
                             {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
@@ -166,7 +166,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
+        <!-- Modal Tolak permohonan-->
         <div class="modal fade" id="tolakpermohonan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
             aria-hidden="true">
             <div class="modal-dialog" role="document">

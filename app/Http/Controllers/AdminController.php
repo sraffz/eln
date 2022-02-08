@@ -16,6 +16,7 @@ use App\GredAngka;
 use App\GredKod;
 use App\InfoSurat;
 use App\Eln_pengesahan_bahagian;
+use App\Eln_kelulusan;
 use DB;
 use Carbon\Carbon;
 use File;
@@ -345,8 +346,11 @@ class AdminController extends Controller
         // ->whereIn('statusPermohonanRom', ['Pending'])->get();
         // $code=$rombongan->codeRom;
 
-        $peserta = Permohonan::with('user')
-            ->where('rombongans_id', $id)
+        $peserta = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+            ->leftjoin('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id_permohonan', '=', 'permohonans.permohonansID')
+            ->leftjoin('eln_kelulusan', 'eln_kelulusan.id_pengesahan', '=', 'eln_pengesahan_bahagian.id')
+            ->where('permohonans.rombongans_id', $id)
             // ->whereIn('statusPermohonan',['Lulus Semakan BPSM'])
             ->get();
 
@@ -355,7 +359,12 @@ class AdminController extends Controller
             ->first();
         // dd($dokumen);
 
-        return view('admin.detailPermohonanRombongan', compact('rombongan', 'id', 'jumlahDate', 'peserta', 'dokumen'));
+        // $sah = Eln_pengesahan_bahagian::all();
+        // $lulus = Eln_kelulusan::all();
+
+        // return dd($peserta);
+
+        return view('admin.detailPermohonanRombongan', compact('lulus','sah','rombongan', 'id', 'jumlahDate', 'peserta', 'dokumen'));
     }
 
     public function download($id)
@@ -404,7 +413,7 @@ class AdminController extends Controller
     {
         $ubah = 'Lulus Semakan BPSM';
 
-        Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+        Permohonan::where('permohonansID', $id)->update(['statusPermohonan' => $ubah]);
 
         flash('lulus semakkan.')->success();
         return redirect()->back();
@@ -412,12 +421,54 @@ class AdminController extends Controller
 
     public function hantarRombo($id)
     {
+        $list = Rombongan::where('rombongans_id', $id)
+        ->first();
+
+        $userid = $list->usersID;
+
+        $data = Permohonan::where('usersID', $userid)
+        ->where('rombongans_id', $id)
+        ->first();
+
+        $id_permohonan = $data->permohonansID;
+
+        $pemohon = User::with('userJabatan')
+            ->where('usersID', $userid)
+            ->first();
+
+        $pengesah = User::with('userJabatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+
+        Eln_pengesahan_bahagian::insertGetId( [
+            'id_permohonan' => $id_permohonan,
+            'id_pemohon' => $userid,
+            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pemohon' => $pemohon->userJabatan->nama_jabatan,
+            'id_pengesah' => Auth::user()->usersID,
+            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pengesah' => $pengesah->userJabatan->nama_jabatan,
+            'ulasan' => 'disokong',
+            'status_pengesah' => 'disokong',
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+        ]);
+
+
         $ubah = 'Lulus Semakan';
 
-        Rombongan::where('rombongans_id', '=', $id)->update(['statusPermohonanRom' => $ubah]);
+        Rombongan::where('rombongans_id', $id)
+        ->update([
+            'statusPermohonanRom' => $ubah
+        ]);
+
+
+
 
         flash('lulus semakkan.')->success();
-        return redirect()->back();
+        return back();
     }
 
     public function sebab(Request $request)
@@ -427,7 +478,8 @@ class AdminController extends Controller
         $sebab = $request->input('sebb');
         $ubah = 'simpanan';
 
-        Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+        Permohonan::where('permohonansID', $id)
+        ->update(['statusPermohonan' => $ubah]);
 
         $data = [
             'alasan' => $sebab,
@@ -1066,6 +1118,23 @@ class AdminController extends Controller
 
         flash('Permohonan Ditolak.')->success();
         return redirect()->back();
+    }
+    
+    public function tukarketuarombongan(Request $request)
+    {
+        $id = $request->id;
+        $romboid = $request->romboid;
+
+        // return dd($romboid, $id);
+        
+        Rombongan::where('rombongans_id', $romboid)
+        ->update([
+            'ketua_rombongan' => $id
+        ]);
+        
+        flash('Ketua Rombongan baru telah berjaya ditukar')->success();
+
+        return back();
     }
 
     public function kemaskiniPengguna($id)

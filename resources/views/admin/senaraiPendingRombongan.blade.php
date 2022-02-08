@@ -36,7 +36,8 @@
                         <div class="card-header with-border">
                             <h3 class="card-title">Senarai Rombongan</h3>
                             <div class="float-right">
-                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-rombongan') }}" role="button">Cetak</a>
+                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-rombongan') }}"
+                                    role="button">Cetak</a>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -82,7 +83,7 @@
                                                         <td>
                                                             {{-- - {{ $rombo->nama }} <br> --}}
                                                             @php
-                                                                $i = 1;
+                                                                $i = 0;
                                                             @endphp
                                                             @foreach ($allPermohonan as $element)
                                                                 @if ($element->rombongans_id == $rombo->rombongans_id)
@@ -100,11 +101,11 @@
                                                                             @endphp
                                                                         @endif
                                                                     @elseif($rombo->statusPermohonanRom == 'Pending')
-                                                                        {{-- - {{ $element->user->nama }} 
-                                                                        <a href="{{ url('tolak-permohonan', [$element->permohonansID]) }}"
-                                                                            class="btn-danger btn-xs">
-                                                                            <i class="fa  fa-times"></i>
-                                                                        </a><br> --}}
+                                                                        @if ($element->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                            @php
+                                                                                $i++;
+                                                                            @endphp
+                                                                        @endif
                                                                     @endif
                                                                 @endif
                                                             @endforeach

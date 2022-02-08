@@ -125,6 +125,26 @@ class KetuaController extends Controller
     {
         $ubah = 'Permohonan Berjaya';
 
+        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)
+        ->first();
+
+        $pelulus = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+
+        Eln_kelulusan::insertGetId( [
+            'id_pengesahan' => $pengesahan->id,
+            'id_pelulus' => Auth::user()->usersID,
+            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+            'gred_pelulus' => ''.$pelulus->userGredKod->gred_kod_abjad.''.$pelulus->userGredAngka->gred_angka_nombor.'',
+            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'ulasan' => 'tiada',
+            'status_kelulusan' => 'Berjaya',
+            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+        ]);
+
         Rombongan::where('rombongans_id', '=', $id)->update([
             'statusPermohonanRom' => $ubah,
             'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
@@ -314,6 +334,7 @@ class KetuaController extends Controller
                 }elseif (Auth::user()->role == 'jabatan') {
                 $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
                     ->where('statusPermohonanRom', 'Pending')
+                    ->where('users.jabatan', Auth::user()->jabatan)
                     ->get();
             }
 

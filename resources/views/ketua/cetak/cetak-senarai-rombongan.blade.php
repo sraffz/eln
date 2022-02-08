@@ -68,14 +68,11 @@
                                 </td>
                                 <td>{{ $rombo->tujuanRom }}</td>
                                 <td>
-                                    {{ $rombo->nama }} <br>
+                                    {{-- {{ $rombo->nama }} <br> --}}
                                     @foreach ($allPermohonan as $element)
                                         @if ($element->rombongans_id == $rombo->rombongans_id)
                                             {{ $element->user->nama }} <br>
-
                                             @if ($rombo->statusPermohonanRom == 'Permohonan Berjaya')
-
-
                                             @endif
                                         @endif
                                     @endforeach
@@ -88,7 +85,6 @@
                                 <td>
                                     <span
                                         style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
                                 </td>
                         @endforeach
                     </tbody>
