@@ -8,15 +8,25 @@
     <title>Sistem Ke Luar Negara: Log Masuk</title>
     <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
+    <style>
+        body {
+            background-image: url('{{ asset('/img/mabna222.png') }}');
+            background-size: cover;
+            background-position: top center;
+            align-items: center;
+        }
+    </style>
 </head>
-<body class="hold-transition login-page" filter-color="black" style="background-image: url('{{ asset('/img/mabna222.png') }}'); background-size: cover; background-position: top center;align-items: center;">
+
+<body class="hold-transition login-page" filter-color="black" >
     <div class="login-box">
         <div class="login-logo">
             <a href="{{ url('/') }}">
