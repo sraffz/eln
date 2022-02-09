@@ -31,6 +31,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    @include('flash::message')
                     <div class="card card-success">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Rombongan</h3>
@@ -160,7 +161,6 @@
                                                                 data-jawatan="{{ $peser->user->jawatan }}"
                                                                 data-jabatan="{{ $peser->nama_jabatan }}">
                                                                 {{ $peser->user->nama }}</a>
-
                                                         </td>
                                                         <td class="text-center">
                                                             @if ($peser->user->usersID == $rombooo->ketua_rombongan)
@@ -180,23 +180,41 @@
                                                                 @if (!empty($peser->status_kelulusan))
                                                                     {{-- {{ $peser->status_kelulusan }} --}}
                                                                     @if ($peser->status_kelulusan == 'Berjaya')
-                                                                        <span class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
+                                                                        <span
+                                                                            class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
+                                                                        <!-- Button trigger modal -->
+                                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                                            data-id="{{ $peser->id_pengesahan }}"
+                                                                            data-toggle="modal"
+                                                                            data-target="#ubahstatuskelulusan">
+                                                                            <i class="fas fa-exchange-alt"></i>
+                                                                        </button>
                                                                     @else
-                                                                        <span class="badge badge-pill badge-danger">{{ $peser->status_kelulusan }}</span>
+                                                                        <span
+                                                                            class="badge badge-pill badge-danger">{{ $peser->status_kelulusan }}</span>
+                                                                        <button type="button" class="btn btn-success btn-xs"
+                                                                            data-id="{{ $peser->id_pengesahan }}"
+                                                                            data-toggle="modal"
+                                                                            data-target="#ubahstatuskelulusan">
+                                                                            <i class="fas fa-exchange-alt"></i>
+                                                                        </button>
                                                                     @endif
                                                                 @else
                                                                     <a href="{{ route('senaraiPermohonan.tolakPermohonan', [$peser->permohonansID]) }}"
                                                                         class="btn btn-danger btn-xs"
                                                                         onclick="javascript: return confirm('Anda pasti untuk menolak permohonan peserta ini?');">
-                                                                        <i class="far fa-thumbs-down"></i> Tolak Permohonan
+                                                                        <i class="far fa-thumbs-down"></i> Tolak
+                                                                        Permohonan
                                                                     </a>
                                                                 @endif
                                                             @elseif (Auth::user()->role == 'jabatan')
                                                                 @if (!empty($peser->status_pengesah))
                                                                     @if ($peser->status_pengesah == 'disokong')
-                                                                        <span class="badge badge-pill badge-success">{{ $peser->status_pengesah }}</span>
+                                                                        <span
+                                                                            class="badge badge-pill badge-success">{{ $peser->status_pengesah }}</span>
                                                                     @else
-                                                                        <span class="badge badge-pill badge-danger">{{ $peser->status_pengesah }}</span>
+                                                                        <span
+                                                                            class="badge badge-pill badge-danger">{{ $peser->status_pengesah }}</span>
                                                                     @endif
                                                                 @else
                                                                     <button type="button" class="btn btn-danger btn-xs"
@@ -204,7 +222,8 @@
                                                                         data-romboid="{{ $rombooo->rombongans_id }}"
                                                                         data-id="{{ $peser->permohonansID }}"
                                                                         data-target="#tolakpermohonan">
-                                                                        <i class="fa fa-thumbs-down"> </i> Tolak Permohonan
+                                                                        <i class="fa fa-thumbs-down"> </i> Tolak
+                                                                        Permohonan
                                                                     </button>
                                                                 @endif
                                                             @endif
@@ -376,10 +395,46 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Tukar Kelulusan-->
+    <div class="modal fade" id="ubahstatuskelulusan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tukar Status Kelulusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('tukarstatuskelulusan') }}" method="get">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" value="" name="id" id="id">
+                            Adakah pasti untuk menukar status permohonan peserta ini?
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Kemaskini</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
 
     <script>
+        $('#ubahstatuskelulusan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+        });
+
         $('#tukarkr').on('show.bs.modal', event => {
             var button = $(event.relatedTarget);
             var modal = $(this);

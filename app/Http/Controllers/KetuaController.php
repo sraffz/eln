@@ -46,7 +46,7 @@ class KetuaController extends Controller
         // $rombongan = Rombongan::all();
         $allPermohonan = Permohonan::with('user')
             ->where('statusPermohonan', '!=', 'Permohonan Gagal')
-            
+
             ->get();
 
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
@@ -75,7 +75,6 @@ class KetuaController extends Controller
 
     public function hantar(Request $request, $id)
     {
-
         $ubah = 'Permohonan Berjaya';
 
         $ruj = Permohonan::where('permohonansID', $id)
@@ -89,32 +88,29 @@ class KetuaController extends Controller
         $nokp = $ruj->user->nokp;
         $nama = $ruj->user->nama;
 
-        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)
-        ->first();
+        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)->first();
 
         $pelulus = User::with('userJabatan')
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
 
-        Eln_kelulusan::insertGetId( [
+        Eln_kelulusan::insertGetId([
             'id_pengesahan' => $pengesahan->id,
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => ''.$pelulus->userGredKod->gred_kod_abjad.''.$pelulus->userGredAngka->gred_angka_nombor.'',
+            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
             // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
             'ulasan' => 'tiada',
             'status_kelulusan' => 'Berjaya',
-            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
         ]);
 
-
         // dd($tarikhMulaPerjalanan);
-        Permohonan::where('permohonansID', '=', $id)
-        ->update([
-            'statusPermohonan' => $ubah, 
-            'tarikhLulusan' => \Carbon\Carbon::now()
+        Permohonan::where('permohonansID', '=', $id)->update([
+            'statusPermohonan' => $ubah,
+            'tarikhLulusan' => \Carbon\Carbon::now(),
         ]);
 
         flash('Permohonan Diluluskan.')->success();
@@ -125,29 +121,24 @@ class KetuaController extends Controller
     {
         $ubah = 'Permohonan Berjaya';
 
-        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)
-        ->first();
-
-        $pelulus = User::with('userJabatan')
-            // ->with('userJawatan')
-            ->where('usersID', '=', Auth::user()->usersID)
-            ->first();
-
-        Eln_kelulusan::insertGetId( [
-            'id_pengesahan' => $pengesahan->id,
-            'id_pelulus' => Auth::user()->usersID,
-            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => ''.$pelulus->userGredKod->gred_kod_abjad.''.$pelulus->userGredAngka->gred_angka_nombor.'',
-            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
-            'ulasan' => 'tiada',
-            'status_kelulusan' => 'Berjaya',
-            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
-        ]);
-
         Rombongan::where('rombongans_id', '=', $id)->update([
             'statusPermohonanRom' => $ubah,
             'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
+        ]);
+        
+        $pelulus = User::with('userJabatan')
+        // ->with('userJawatan')
+        ->where('usersID', '=', Auth::user()->usersID)
+        ->first();
+
+        DB::table('eln_pengesahan_bahagian_rombongan')->where('id_rombongan', $id)->update([
+            'id_pelulus' => Auth::user()->usersID,
+            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'ulasan_kelulusan' => 'tiada',
+            'status_kelulusan' => 'Berjaya',
+            'tarikh_kelulusan' => \Carbon\Carbon::now(), # new \Datetime()
         ]);
 
         $senarai = DB::table('permohonans')
@@ -156,9 +147,27 @@ class KetuaController extends Controller
             ->get();
 
         // dd($senarai);
-
+        
+        
+        
         foreach ($senarai as $sena) {
+
             $idPermohonan = $sena->permohonansID;
+
+            $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $idPermohonan)
+            ->first();
+
+            Eln_kelulusan::insertGetId([
+                'id_pengesahan' => $pengesahan->id,
+                'id_pelulus' => Auth::user()->usersID,
+                'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+                'ulasan' => 'tiada',
+                'status_kelulusan' => 'Berjaya',
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
 
             Permohonan::where('permohonansID', '=', $idPermohonan)->update([
                 'statusPermohonan' => $ubah,
@@ -167,7 +176,7 @@ class KetuaController extends Controller
         }
 
         flash('Permohonan Diluluskan.')->success();
-        return redirect()->back();
+        return back();
     }
 
     public function ketuaRejectRombongan($id)
@@ -177,6 +186,16 @@ class KetuaController extends Controller
         Rombongan::where('rombongans_id', '=', $id)->update([
             'statusPermohonanRom' => $ubah,
             'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
+        ]);
+
+        DB::table('eln_pengesahan_bahagian_rombongan')->where('id_rombongan', $id)->update([
+            'id_pelulus' => Auth::user()->usersID,
+            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'ulasan_kelulusan' => 'tiada',
+            'status_kelulusan' => 'Gagal',
+            'tarikh_kelulusan' => \Carbon\Carbon::now(), # new \Datetime()
         ]);
 
         $senarai = DB::table('permohonans')
@@ -201,24 +220,23 @@ class KetuaController extends Controller
     {
         $ubah = 'Permohonan Gagal';
 
-        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)
-        ->first();
+        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)->first();
 
         $pelulus = User::with('userJabatan')
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
 
-        Eln_kelulusan::insertGetId( [
+        Eln_kelulusan::insertGetId([
             'id_pengesahan' => $pengesahan->id,
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => ''.$pelulus->userGredKod->gred_kod_abjad.''.$pelulus->userGredAngka->gred_angka_nombor.'',
+            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
             // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
             'ulasan' => 'tiada',
             'status_kelulusan' => 'Gagal',
-            "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-            "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
         ]);
 
         Permohonan::where('permohonansID', '=', $id)->update([
@@ -228,6 +246,27 @@ class KetuaController extends Controller
 
         flash('Permohonan Ditolak.')->success();
         return redirect()->back();
+    }
+
+    public function tukarstatuskelulusan(Request $req)
+    {
+        $id = $req->id;
+
+        $k = Eln_kelulusan::where('id_pengesahan', $id)->first();
+
+        if ($k->status_kelulusan == 'Berjaya') {
+            $status = 'Gagal';
+        } else {
+            $status = 'Berjaya';
+        }
+        
+        Eln_kelulusan::where('id_pengesahan', $id)
+        ->update([
+            'status_kelulusan' =>  $status
+        ]);
+
+        flash('Status Kelulusan berjaya ditukar')->success();
+        return back();
     }
 
     public function permohonanGagalKetua($id)
@@ -289,18 +328,17 @@ class KetuaController extends Controller
 
     public function cetakPermohonan($id)
     {
-
-        $sej = Permohonan::where('permohonansID',$id)->first();
+        $sej = Permohonan::where('permohonansID', $id)->first();
 
         $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya'])
-        ->where('usersID', $sej->usersID)
-        ->get();
+            ->where('usersID', $sej->usersID)
+            ->get();
 
         // return dd($sejarah);
         $pengesah = Eln_pengesahan_bahagian::select('users.*', 'eln_pengesahan_bahagian.*', 'eln_pengesahan_bahagian.created_at as tarikhsah')
-        ->join('users', 'users.usersID', '=', 'eln_pengesahan_bahagian.id_pengesah')
-        ->where('eln_pengesahan_bahagian.id_permohonan', $id)
-        ->get();
+            ->join('users', 'users.usersID', '=', 'eln_pengesahan_bahagian.id_pengesah')
+            ->where('eln_pengesahan_bahagian.id_permohonan', $id)
+            ->get();
 
         $permohonan = Permohonan::find($id);
         $pasangan = Pasangan::where('permohonansID', $id)->get();
@@ -317,7 +355,7 @@ class KetuaController extends Controller
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
         // return view('ketua.cetak.cetak-butiran-permohonan', compact('pengesah','sejarah','permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
-        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('pengesah','sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
+        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('pengesah', 'sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Ke Luar Negara.pdf');
     }
 
@@ -327,16 +365,16 @@ class KetuaController extends Controller
             ->where('statusPermohonan', '!=', 'Permohonan Gagal')
             ->get();
 
-            if (Auth::user()->role == 'DatoSUK') {
-                $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-                    ->where('statusPermohonanRom', 'Lulus Semakan')
-                    ->get();
-                }elseif (Auth::user()->role == 'jabatan') {
-                $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-                    ->where('statusPermohonanRom', 'Pending')
-                    ->where('users.jabatan', Auth::user()->jabatan)
-                    ->get();
-            }
+        if (Auth::user()->role == 'DatoSUK') {
+            $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+                ->where('statusPermohonanRom', 'Lulus Semakan')
+                ->get();
+        } elseif (Auth::user()->role == 'jabatan') {
+            $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+                ->where('statusPermohonanRom', 'Pending')
+                ->where('users.jabatan', Auth::user()->jabatan)
+                ->get();
+        }
 
         // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
 
@@ -350,14 +388,13 @@ class KetuaController extends Controller
 
         if (Auth::user()->role == 'DatoSUK') {
             $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
-            ->whereNotIn('JenisPermohonan', ['rombongan'])
-            ->get();
-            }elseif (Auth::user()->role == 'jabatan') {
-                $permohonan = Permohonan::where('statusPermohonan', 'Pending')
+                ->whereNotIn('JenisPermohonan', ['rombongan'])
+                ->get();
+        } elseif (Auth::user()->role == 'jabatan') {
+            $permohonan = Permohonan::where('statusPermohonan', 'Pending')
                 ->whereNotIn('JenisPermohonan', ['rombongan'])
                 ->get();
         }
-        
 
         // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
 

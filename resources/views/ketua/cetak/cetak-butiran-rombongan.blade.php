@@ -88,15 +88,9 @@
                     <td><strong>NAMA</strong> </td>
                     <td><strong>NO. KP</strong> </td>
                     <td><strong>JAWATAN & GRED</strong></td>
-                    <td><strong>DILULUSKAN</strong></td>
-                    <td><strong>DITOLAK</strong></td>
+                    <td><strong>LULUS</strong></td>
+                    <td><strong>TOLAK</strong></td>
                 </tr>
-                {{-- <tr>
-                    <td><strong>1</strong></td>
-                    <td class="text-left"><strong>{{ $permohonan->nama }} (Ketua Rombongan)</strong></td>
-                    <td><strong>{{ $permohonan->nokp }}</strong></td>
-                    <td><strong>{{ $permohonan->namaJawatan }} ({{ $permohonan->gred_kod_abjad }}{{ $permohonan->gred_angka_nombor }})</strong></td>
-                </tr> --}}
                 @php
                     $i = 1;
                 @endphp
@@ -106,7 +100,7 @@
                             <td class="text-center"><strong> {{ $i++ }}</strong></td>
                             <td class="text-left"><strong> {{ $element->nama }}</strong> </td>
                             <td><strong> {{ $element->nokp }}</strong></td>
-                            <td><strong>  {{ $element->namaJawatan }} ({{ $element->gred_kod_abjad }}{{ $element->gred_angka_nombor }})</strong></td>
+                            <td><strong>  {{ $element->namaJawatan }} ({{ $element->gred }})</strong></td>
                             <td>
                                 <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                          </td>

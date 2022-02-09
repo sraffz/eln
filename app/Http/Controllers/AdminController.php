@@ -456,6 +456,22 @@ class AdminController extends Controller
             "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
         ]);
 
+        DB::table('eln_pengesahan_bahagian_rombongan')->insertGetId([
+            'id_rombongan' => $id,
+            'id_pemohon' => $userid,
+            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pemohon' => $pemohon->userJabatan->nama_jabatan,
+            'id_pengesah' => Auth::user()->usersID,
+            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'jabatan_pengesah' => $pengesah->userJabatan->nama_jabatan,
+            'ulasan_pengesahan' => 'disokong',
+            'status_pengesah' => 'disokong',
+            'tarikh_pengesah' =>  \Carbon\Carbon::now(), # new \Datetime()
+            'created_at' =>  \Carbon\Carbon::now(), # new \Datetime()
+            'updated_at' =>  \Carbon\Carbon::now(), # new \Datetime()
+        ]);
 
         $ubah = 'Lulus Semakan';
 
@@ -463,9 +479,6 @@ class AdminController extends Controller
         ->update([
             'statusPermohonanRom' => $ubah
         ]);
-
-
-
 
         flash('lulus semakkan.')->success();
         return back();

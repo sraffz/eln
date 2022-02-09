@@ -33,6 +33,7 @@
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
+            @include('flash::message')
             <!-- general form elements disabled -->
             <div class="card card-primary">
                 <div class="card-header">
@@ -45,7 +46,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran </label>
-                                <input type="date" class="form-control"  name="tarikhInsuranRom">
+                                <input type="date" class="form-control"  name="tarikhInsuranRom" value="{{ old('tarikhInsuranRom') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -53,7 +54,7 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan dan sehingga<span
                                         style="color:red;">**</span></label>
-                                <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhir" required>
+                                <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhir" value="{{ old('tarikhmulaAkhir') }}" required>
                             </div>
                         </div>
                     </div>
@@ -63,7 +64,7 @@
                             <div class="form-group">
                                 <label><i class="fas fa-edit"></i> Tujuan Permohonan<span
                                         style="color:red;">*</span></label>
-                                <input type="text" class="form-control" name="tujuanRom" required>
+                                <input type="text" class="form-control" name="tujuanRom" value="{{ old('tujuanRom') }}" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -73,7 +74,7 @@
                                 <select class="form-control select2bs4" name="negaraRom" id="negaraRom" style="width: 100%;"
                                     required>
                                     @foreach ($negara as $jaw)
-                                        <option value="{{ $jaw->namaNegara }}">{{ $jaw->namaNegara }}</option>
+                                        <option value="{{ $jaw->namaNegara }}" {{ $jaw->namaNegara == old('negaraRom') ? 'selected' : '' }}>{{ $jaw->namaNegara }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -86,12 +87,12 @@
                                 <label><i class="fa fa-money-bill-alt"></i> Sumber Kewangan<span
                                         style="color:red;">**</span></label>
                                 <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom" required>
-                                    <option value="Kerajaan">Kerajaan</option>
-                                    <option value="Federal">Federal</option>
-                                    <option value="Persendirian">Persendirian</option>
-                                    <option value="Jabatan">Jabatan</option>
-                                    <option value="Syarikat">Syarikat</option>
-                                    <option value="lain-lain">lain-lain</option>
+                                    <option value="Kerajaan" {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>Kerajaan</option>
+                                    <option value="Federal" {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>Federal</option>
+                                    <option value="Persendirian" {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian</option>
+                                    <option value="Jabatan" {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>Jabatan</option>
+                                    <option value="Syarikat" {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>Syarikat</option>
+                                    <option value="lain-lain" {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain</option>
                                 </select>
                             </div>
                         </div>
@@ -103,7 +104,8 @@
                                 <input class="form-control" type="number" placeholder="0.00" required
                                     name="anggaranBelanja" min="0" step="0.01" title="Currency"
                                     pattern="^\d+(?:\.\d{1,2})?$"
-                                    onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'">
+                                    onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'"
+                                    value="{{ old('anggaranBelanja') }}">
                             </div>
                         </div>
                     </div>
@@ -115,7 +117,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-map-o"></i>
                                     </div>
-                                    <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170"></textarea>
+                                    <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170">{{ old('alamatRom') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +126,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                               <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3"></textarea>
+                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>

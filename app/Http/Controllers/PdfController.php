@@ -117,7 +117,7 @@ class PdfController extends Controller
 
         $allPermohonan = DB::table('senarai_data_permohonan')
             ->where('rombongans_id', $id)
-            ->whereIn('statusPermohonan', ['Permohonan Berjaya'])
+            ->whereIn('status_kelulusan', ['Berjaya'])
             ->get();
 
         // return dd($bil);
@@ -152,7 +152,7 @@ class PdfController extends Controller
 
         $allPermohonan = DB::table('senarai_data_permohonan')
             ->where('rombongans_id', $id)
-            ->whereIn('statusPermohonan', ['Permohonan Berjaya'])
+            ->whereIn('status_kelulusan', ['Berjaya'])
             ->get();
 
         // return dd($bil);

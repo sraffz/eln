@@ -203,6 +203,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('cetak-senarai-rombongan', 'KetuaController@cetakSenarairombongan')->name('cetak-senarai-rombongan');
 	
 	
+	Route::get('tukarstatuskelulusan', 'KetuaController@tukarstatuskelulusan');
+
 	Route::get('ketua-tolak-permohonan/{id}', 'KetuaController@permohonanGagalKetua');
 	
 	Route::get('jumlahKeluarnegara', 'KetuaController@jumlahKeluarnegara')->name('jumlahKeluarnegara');

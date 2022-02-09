@@ -151,7 +151,7 @@
                     $jumlah++;
                 @endphp
                 {{-- {{ $jumlah }} --}}
-                @if ($jumlah > 0)
+                @if ($ppp->namaPasangan != null || $ppp->namaPasangan != '')
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Pasangan/Keluarga/Saudara Pegawai Di Luar Negara</h3>

@@ -27,14 +27,14 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div> 
     </section>
-    @include('flash::message')
     {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftarPermohonan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'autocomplete' => 'off']) !!}
-
+    
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
+            @include('flash::message')
             <!-- general form elements disabled -->
             <div class="card card-primary">
                 <div class="card-header">
@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
                                 {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
-                                <input type="date" class="form-control" name="tarikh">
+                                <input type="date" class="form-control" name="tarikh" value="{{ old('tarikh') }}">
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tempoh lawatan<span
                                         style="color:red;">*</span></label>
-                                <input type="text" class="form-control" id="reservation" name="tempohPerjalanan" required>
+                                <input type="text" class="form-control" id="reservation" name="tempohPerjalanan" value="{{ old('tempohPerjalanan') }}" required>
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -65,7 +65,7 @@
                                 <select class="form-control select2bs4" name="negara" style="width: 100%;"
                                     required>
                                     @foreach ($negara as $jaw)
-                                        <option value="{{ $jaw->namaNegara }}">{{ $jaw->namaNegara }}</option>
+                                        <option value="{{ $jaw->namaNegara }}" {{ $jaw->namaNegara == old('negara') ? 'selected' : '' }}>{{ $jaw->namaNegara }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -77,13 +77,13 @@
                                 <div class="form-group">
                                     <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
                                             style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="tujuan" required>
+                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}" required>
                                 </div>
                             @elseif($typeForm =="tidakRasmi")
                                 <div class="form-group">
                                     <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
                                             style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="tujuan" required>
+                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}" required>
                                 </div>
                             @endif
                             <!-- text input -->
@@ -93,13 +93,13 @@
                             <div class="form-group">
                                 <label><i class="fa fa-edit"> </i> Alamat semasa bertugas / bercuti <span
                                         style="color:red;">*</span></label>
-                                <input type="text" name="alamat" class="form-control" placeholder="">
+                                <input type="text" name="alamat" class="form-control" value="{{ old('alamat') }}" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label><i class="fa fa-phone"> </i> No. Telefon<span style="color:red;">*</span></label>
-                                <input type="text" name="phone" class="form-control" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
+                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
                             </div>
                         </div>
                     </div>
@@ -111,12 +111,12 @@
                                             style="color:red;">*</span></label>
                                     <select class="form-control" id="jenisKewangan" name="jenisKewangan"
                                         required="required">
-                                        <option value="Kerajaan">Kerajaan</option>
-                                        <option value="Federal">Federal</option>
-                                        <option value="Persendirian">Persendirian</option>
-                                        <option value="Jabatan">Jabatan</option>
-                                        <option value="Syarikat">Syarikat</option>
-                                        <option value="lain-lain">lain-lain</option>
+                                        <option value="Kerajaan" {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>Kerajaan</option>
+                                        <option value="Federal" {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>Federal</option>
+                                        <option value="Persendirian" {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian</option>
+                                        <option value="Jabatan" {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>Jabatan</option>
+                                        <option value="Syarikat" {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>Syarikat</option>
+                                        <option value="lain-lain" {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain</option>
                                     </select>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                               <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3"></textarea>
+                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -153,14 +153,14 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-user"></i> Nama Pasangan</label>
-                                <input type="text" name="namaPasangan" class="form-control" placeholder="">
+                                <input type="text" name="namaPasangan" class="form-control" placeholder="" value="{{ old('namaPasangan') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-user-friends"></i> Hubungan</label>
-                                <input type="text" name="hubungan" class="form-control" placeholder="">
+                                <input type="text" name="hubungan" class="form-control" placeholder="" value="{{ old('hubungan') }}">
                             </div>
                         </div>
                     </div>
@@ -169,14 +169,14 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
-                                <input type="text" name="phonePasangan" class="form-control" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
+                                <input type="text" name="phonePasangan" class="form-control" value="{{ old('phonePasangan') }}" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-envelope"></i> Email Pasangan (Jika Ada)</label>
-                                <input type="email" name="emailPasangan" class="form-control" placeholder="">
+                                <input type="email" name="emailPasangan" class="form-control" placeholder="" value="{{ old('emailPasangan') }}">
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                             <!-- textarea -->
                             <div class="form-group">
                                 <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
-                                <textarea class="form-control" name="alamatPasangan" rows="3" placeholder=""></textarea>
+                                <textarea class="form-control" name="alamatPasangan" rows="3" placeholder="">{{ old('alamatPasangan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -205,14 +205,14 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tempoh Cuti</label>
-                                    <input type="text" class="form-control" id="reservation2" name="tempohCuti">
+                                    <input type="text" class="form-control" id="reservation2" name="tempohCuti" value="{{ old('tempohCuti') }}">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                    <input type="date" class="form-control" name="tarikhKembaliBertugas">
+                                    <input type="date" class="form-control" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                                 </div>
                             </div>
                             <div class="col-sm-4">

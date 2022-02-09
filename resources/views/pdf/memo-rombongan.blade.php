@@ -213,26 +213,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        {{-- <tr>
                             <td style="text-align: center"><strong>1</strong></td>
-                            <td class="text-left"><strong>{{ $permohon->nama }} <br> (Ketua Rombongan)</strong>
-                            </td>
+                            <td class="text-left"><strong>{{ $permohon->nama }} <br> (Ketua Rombongan)</strong></td>
                             <td style="text-align: center"><strong>{{ $permohon->nokp }}</strong></td>
                             <td><strong>{{ $permohon->namaJawatan }}
                                     ({{ $permohon->gred_kod_abjad }}{{ $permohon->gred_angka_nombor }})</strong>
                             </td>
-                        </tr>
+                        </tr> --}}
                         @php
-                            $i = 2;
+                            $i = 1;
                         @endphp
                         @foreach ($allPermohonan as $index => $element)
                             @if ($element->rombongans_id == $permohon->rombongans_id)
                                 <tr>
                                     <td style="text-align: center"><strong> {{ $i++ }}</strong></td>
-                                    <td class="text-left"><strong> {{ $element->nama }}</strong> </td>
+                                    <td class="text-left">
+                                        <strong>
+                                            {{ $element->nama }} <br>
+                                            @if ($permohon->ketua_rombongan == $element->usersID)
+                                                (Ketua Rombongan)
+                                            @endif
+                                        </strong>
+                                    </td>
                                     <td style="text-align: center"><strong> {{ $element->nokp }}</strong></td>
                                     <td><strong> {{ $element->namaJawatan }}
-                                            ({{ $element->gred_kod_abjad }}{{ $element->gred_angka_nombor }})</strong>
+                                            ({{ $element->gred }})</strong>
                                     </td>
                                 </tr>
                             @endif

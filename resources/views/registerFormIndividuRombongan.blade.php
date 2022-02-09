@@ -36,6 +36,7 @@
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
+            @include('flash::message')
             <!-- general form elements disabled -->
             <div class="card card-primary">
                 <div class="card-header">
@@ -47,7 +48,7 @@
                         <div class="col-md-12">
                             <div class="{{ $errors->has('kodRombo') ? ' has-error' : '' }}">
                                 {!! Form::label('kodRombo', 'Kod Rombongan**') !!}
-                                {!! Form::text('kodRombo', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                                {!! Form::text('kodRombo', old('kodRombo'), ['class' => 'form-control', 'required' => 'required']) !!}
                                 <small class="text-danger">{{ $errors->first('kodRombo') }}</small>
                             </div>
                         </div>
@@ -65,14 +66,14 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula dan Akhir Cuti</label>
-                                <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhirCuti">
+                                <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhirCuti" value="{{ old('tarikhmulaAkhirCuti') }}">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="date" class="form-control" name="tarikhKembaliBertugas">
+                                <input type="date" class="form-control" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -91,7 +92,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                               <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3"></textarea>
+                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
