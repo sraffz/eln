@@ -19,8 +19,12 @@
                     @include('flash::message')
                     <br>
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header with-border">
                             <h3 class="card-title">Senarai Permohonan Baru (Individu){{-- <br><small>Tidak termasuk individu yg mengikut rombongan</small> --}} </h3>
+                            <div class="float-right">
+                                <a class="btn btn-dark btn-sm" href="{{ url('cetak-senarai-permohonan') }}"
+                                    role="button">Cetak</a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -52,7 +56,6 @@
                                                     @else
                                                         <a
                                                             href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
-
                                                     @endif
                                                 </td>
                                                 {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
@@ -74,12 +77,12 @@
 
                                                         <!-- Button trigger modal -->
                                                         <button type="button" class="btn btn-danger btn-xs"
-                                                            data-toggle="modal" data-id="{{ $mohonan->permohonansID }}" data-target="#tolakpermohonan">
+                                                            data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
+                                                            data-target="#tolakpermohonan">
                                                             <i class="fa fa-thumbs-down"></i>
                                                         </button>
 
-{{-- 
-                                                        <a href="{{ url('pengesahan-permohonan-tolak', ['id' => $mohonan->permohonansID]) }}"
+                                                        {{-- <a href="{{ url('pengesahan-permohonan-tolak', ['id' => $mohonan->permohonansID]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');">
                                                             <i class="fa fa-thumbs-down"></i>

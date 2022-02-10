@@ -111,27 +111,30 @@
             </tbody>
         </table>
 
-        <table class="table table-bordered table-sm">
-            <thead class="thead-dark">
-                <tr style="text-transform: uppercase">
-                    <th class="text-left">Sejarah Keluar Negara</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-left">
-                        <strong>
-                            @foreach ($sejarah as $sej)
-                                {{ $sej->negara }}
-                                ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
-                                -
-                                {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}),
-                            @endforeach
-                        </strong>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        @if (count($sejarah)>0)
+            <table class="table table-bordered table-sm">
+                <thead class="thead-dark">
+                    <tr style="text-transform: uppercase">
+                        <th class="text-left">Sejarah Keluar Negara</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-left">
+                            <strong>
+                                @foreach ($sejarah as $sej)
+                                    {{ $sej->negara }}
+                                    ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                    -
+                                    {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}),
+                                @endforeach
+                            </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        @else
+        @endif
 
         @foreach ($pasangan as $ppp)
             @if ($ppp->namaPasangan != null)

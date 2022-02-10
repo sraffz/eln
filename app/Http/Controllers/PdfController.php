@@ -110,15 +110,21 @@ class PdfController extends Controller
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
 
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
-
-        $bilpeserta = Permohonan::where('rombongans_id', $id)
-        ->where('statusPermohonan', 'Permohonan Berjaya')
+        
+        $bilpeserta = DB::table('senarai_nama_rombongan')
+        ->where('rombongans_id', $id)
+        ->where('status_kelulusan', 'Berjaya')
         ->count();
+
+        // return dd($bilpeserta);
 
         $allPermohonan = DB::table('senarai_data_permohonan')
             ->where('rombongans_id', $id)
             ->whereIn('status_kelulusan', ['Berjaya'])
             ->get();
+
+        $kelulusan = DB::table('senarai_data_permohonan_rombongan')->where('rombongans_id', $id)
+        ->first();
 
         // return dd($bil);
 
@@ -127,8 +133,10 @@ class PdfController extends Controller
 
         setlocale(LC_TIME, 'MS-my');
 
-        // return view('pdf.surat-rombongan',compact('permohon','pp','cogan','bilpeserta', 'allPermohonan'));
-        $pdf = PDF::loadView('pdf.surat-rombongan', compact('permohon','pp','cogan','bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
+        // return dd($kelulusan->tarikh_kelulusan);
+
+        // return view('pdf.surat-rombongan',compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'));
+        $pdf = PDF::loadView('pdf.surat-rombongan', compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk Rombongan ke' . $negara . '.pdf');
     
     }
@@ -146,8 +154,9 @@ class PdfController extends Controller
 
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
 
-        $bilpeserta = Permohonan::where('rombongans_id', $id)
-        ->where('statusPermohonan', 'Permohonan Berjaya')
+        $bilpeserta = DB::table('senarai_nama_rombongan')
+        ->where('rombongans_id', $id)
+        ->where('status_kelulusan', 'Berjaya')
         ->count();
 
         $allPermohonan = DB::table('senarai_data_permohonan')

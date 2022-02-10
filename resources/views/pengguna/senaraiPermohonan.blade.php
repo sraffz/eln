@@ -195,7 +195,15 @@
                                                         @endif
                                                     @endforeach
                                                 </td>
-                                                <td>{{ $rombo->statusPermohonanRom }}</td>
+                                                <td class="text-center">
+                                                    @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
+                                                    <span class="badge badge-primary">Disokong</span>
+                                                    @elseif ($rombo->statusPermohonanRom == 'simpanan')
+                                                    <span class="badge badge-info">Baru</span>
+                                                    @else
+                                                    <span class="badge badge-info">{{ $rombo->statusPermohonanRom }}</span>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
                                                         <span class="badge badge-warning">Pending</span>
@@ -217,7 +225,7 @@
                                                     @elseif($rombo->statusPermohonanRom == 'Permohonan Gagal')
                                                         <span class="badge badge-danger">Gagal</span>
                                                     @elseif($rombo->statusPermohonanRom == 'Permohonan Berjaya' or $rombo->statusPermohonanRom == 'Permohonan Gagal' or $rombo->statusPermohonanRom == 'Lulus Semakan')
-                                                        <span class="badge badge-primary">Tiada</span>
+                                                        {{-- <span class="badge badge-primary">Tiada</span> --}}
                                                     @endif
                                                 </td>
                                         @endforeach

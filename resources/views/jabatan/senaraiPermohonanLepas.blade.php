@@ -68,9 +68,11 @@
                                                                 <span class="badge badge-warning">Dalam Tindakkan Ketua
                                                                     Jabatan</span>
                                                             @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                                <span class="badge badge-primary">Disokong Ketua Jabatan</span>
+                                                                <span class="badge badge-primary">Disokong</span>
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                                <span class="badge badge-success">Permohonan Berjaya</span>
+                                                                <span class="badge badge-success">Berjaya</span>
+                                                            @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
+                                                                <span class="badge badge-danger">Gagal</span>
                                                             @else
                                                                 <span
                                                                     class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
@@ -148,6 +150,8 @@
                                                                 <span class="badge badge-primary">Disokong Ketua Jabatan</span>
                                                             @elseif($mohonan->statusPermohonanRom == 'Permohonan Berjaya')
                                                                 <span class="badge badge-success">Permohonan Berjaya</span>
+                                                            @elseif($mohonan->statusPermohonanRom == 'Lulus Semakan')
+                                                                <span class="badge badge-primary">Disokong</span>
                                                             @else
                                                                 <span
                                                                     class="badge badge-danger">{{ $mohonan->statusPermohonanRom }}</span>

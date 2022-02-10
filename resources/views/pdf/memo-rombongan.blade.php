@@ -79,6 +79,10 @@
         color: rgb(255, 255, 255);
     }
 
+    table {
+        border-collapse: collapse;
+    }
+
 </style>
 {{-- <style>
     /* .page {
@@ -161,7 +165,7 @@
                                         Dukacita
                                     @endif
 
-                                    dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta + 1 }}
+                                    dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                         orang</strong> dari pejabat tuan sebagaimana senarai di lampiran untuk ke luar
                                     negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
                                     tujuan {{ $permohon->tujuanRom }}
@@ -203,7 +207,7 @@
                         {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}</strong>
                     </h3>
                 </div>
-                <table id="table" class="table">
+                <table id="table" class="table" style="width: 100%;">
                     <thead style="text-align: center" id="thead-dark">
                         <tr>
                             <th><strong>BIL</strong> </th>

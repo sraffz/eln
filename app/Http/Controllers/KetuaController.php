@@ -374,10 +374,10 @@ class KetuaController extends Controller
                 ->where('statusPermohonanRom', 'Pending')
                 ->where('users.jabatan', Auth::user()->jabatan)
                 ->get();
-        }
+            }
 
         // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
-
+        
         $pdf = PDF::loadView('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'))->setpaper('a4', 'landscape');
         return $pdf->download('Senarai Permohonan Rombongan Ke Luar Negara.pdf');
     }
@@ -390,12 +390,13 @@ class KetuaController extends Controller
             $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
                 ->whereNotIn('JenisPermohonan', ['rombongan'])
                 ->get();
-        } elseif (Auth::user()->role == 'jabatan') {
-            $permohonan = Permohonan::where('statusPermohonan', 'Pending')
-                ->whereNotIn('JenisPermohonan', ['rombongan'])
+            } elseif (Auth::user()->role == 'jabatan') {
+                $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+                ->where('statusPermohonan', 'Ketua Jabatan')
+                ->where('users.jabatan', Auth::user()->jabatan)
                 ->get();
         }
-
+        // return dd($permohonan);
         // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
 
         $pdf = PDF::loadview('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'))->setpaper('a4', 'landscape');

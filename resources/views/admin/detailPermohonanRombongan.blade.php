@@ -427,6 +427,17 @@
 @section('script')
 
     <script>
+
+        $('#tolakpermohonan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            var romboid = button.data('romboid');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+            $(".modal-body #romboid").val(romboid);
+        });
+
         $('#ubahstatuskelulusan').on('show.bs.modal', event => {
             var button = $(event.relatedTarget);
             var modal = $(this);
@@ -444,17 +455,7 @@
             $(".modal-body #id").val(id);
             $(".modal-body #romboid").val(romboid);
         });
-
-        $('#tolakpermohonan').on('show.bs.modal', event => {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-            var id = button.data('id');
-            var romboid = button.data('romboid');
-            // Use above variables to manipulate the DOM
-            $(".modal-body #id").val(id);
-            $(".modal-body #romboid").val(romboid);
-        });
-
+        
         $('#mdl-kemaskini').on('show.bs.modal', function(event) {
 
             var button = $(event.relatedTarget);

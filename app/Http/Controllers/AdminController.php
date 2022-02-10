@@ -158,12 +158,16 @@ class AdminController extends Controller
             ->get();
 
             if (Auth::user()->role == "DatoSUK") {
-                $allPermohonan = Permohonan::with('user')
-                ->where('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+                
+                // $allPermohonan = Permohonan::with('user')
+                // ->where('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+                // ->get();
+
+                $allPermohonan = DB::table('senarai_nama_rombongan')
+                ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
+                ->where('status_pengesah', 'disokong')
                 ->get();
-                $billPermohonan = Permohonan::with('user')
-                ->where('statusPermohonan', ['Permohonan Berjaya'])
-                ->count();
+
             }
             elseif(Auth::user()->role == "adminBPSM"){
                 $allPermohonan = Permohonan::with('user')

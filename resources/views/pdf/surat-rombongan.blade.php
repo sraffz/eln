@@ -66,6 +66,10 @@
             color: rgb(255, 255, 255);
         }
 
+        table {
+            border-collapse: collapse;
+        }
+
     </style>
 </head>
 
@@ -112,7 +116,7 @@
                                 <td>
                                     @php
                                         use Carbon\Carbon;
-                                        $tarikh = Carbon::parse($permohon->tarikhStatusPermohonan)->formatLocalized('%d %B %Y');
+                                        $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
                                     @endphp
                                     {{ $tarikh }}
                                 </td>
@@ -152,7 +156,7 @@
                                     Dukacita
                                 @endif
 
-                                dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta + 1 }}
+                                dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                     orang</strong> dari pejabat tuan sebagaimana senarai di lampiran untuk ke luar
                                 negara
                                 iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
@@ -207,7 +211,7 @@
                     hingga
                     {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}</strong></h3>
             </div>
-            <table id="table" class="table">
+            <table id="table" class="table" style="width: 100%" bordercolor="#ff0000">
                 <thead style="text-align: center" id="thead-dark">
                     <tr>
                         <th><strong>BIL</strong> </th>
