@@ -129,15 +129,18 @@
 
                                 <strong>
                                     <hr class="solid">
-                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Ketua Jabatan <br>
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $kelulusan->jawatan_pengesah }} <br>
                                     <hr class="solid">
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhStatusPermohonan)->formatLocalized('%d %B %Y') }}<br>
+                                    @php
+                                        setlocale(LC_TIME, 'MS-my');
+                                    @endphp
+                                    {{ \Carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y') }}<br>
                                     <hr class="solid">
                                     RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
-                                    ELN.JLD.{{ $permohon->no_ruj_file }} ({{ $permohon->no_ruj_bil }})<br>
+                                    ELN.JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>
                                     <hr class="solid">
                                 </strong>
 

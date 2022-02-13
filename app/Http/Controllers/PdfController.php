@@ -135,7 +135,7 @@ class PdfController extends Controller
 
         // return dd($kelulusan->tarikh_kelulusan);
 
-        // return view('pdf.surat-rombongan',compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'));
+        return view('pdf.surat-rombongan',compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'));
         $pdf = PDF::loadView('pdf.surat-rombongan', compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk Rombongan ke' . $negara . '.pdf');
     
@@ -169,10 +169,13 @@ class PdfController extends Controller
         $nama = $permohon->nama;
         $negara = $permohon->negara;
 
+        $kelulusan = DB::table('senarai_data_permohonan_rombongan')->where('rombongans_id', $id)
+        ->first();
+
         setlocale(LC_TIME, 'MS-my');
 
-        // return view('pdf.memo-rombongan',compact('permohon','pp','cogan', 'bilpeserta','allPermohonan'));
-        $pdf = PDF::loadView('pdf.memo-rombongan', compact('permohon','pp','cogan', 'bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
+        return view('pdf.memo-rombongan',compact('kelulusan','permohon','pp','cogan', 'bilpeserta','allPermohonan'));
+        $pdf = PDF::loadView('pdf.memo-rombongan', compact('kelulusan','permohon','pp','cogan', 'bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
         return $pdf->download('MEMO Kelulusan untuk Rombongan ke ' . $negara . '.pdf');
     
     }

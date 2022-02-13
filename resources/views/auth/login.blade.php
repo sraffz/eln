@@ -26,72 +26,74 @@
     </style>
 </head>
 
-<body class="hold-transition login-page" filter-color="black" >
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ url('/') }}">
-                <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
-                {{-- <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3> --}}
-            </a>
-        </div>
-        <!-- /.login-logo -->
-        <div class="card card-outline card-danger">
-            <div class="card-header register-card-header text-center">
-                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+<body class="hold-transition login-page" filter-color="black">
+    <div class="bg-black-op">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
+                    {{-- <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3> --}}
+                </a>
             </div>
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Log masuk untuk membuat permohonan</p>
-                <form action="{{ route('login') }}" method="post">
-                    {{ csrf_field() }}
-                    <div class="input-group mb-3">
-                        <input type="text" name="nokp"
-                            class="form-control {{ $errors->has('nokp') ? ' is-invalid' : '' }}"
-                            placeholder="No Kad Pengenalan" value="{{ old('nokp') }}" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-id-card-alt"></span>
+            <!-- /.login-logo -->
+            <div class="card card-outline card-danger">
+                <div class="card-header register-card-header text-center">
+                    <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+                </div>
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg">Log masuk untuk membuat permohonan</p>
+                    <form action="{{ route('login') }}" method="post">
+                        {{ csrf_field() }}
+                        <div class="input-group mb-3">
+                            <input type="text" name="nokp"
+                                class="form-control {{ $errors->has('nokp') ? ' is-invalid' : '' }}"
+                                placeholder="No Kad Pengenalan" value="{{ old('nokp') }}" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-id-card-alt"></span>
+                                </div>
                             </div>
+                            @if ($errors->has('nokp'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('nokp') }}</strong>
+                                </span>
+                            @endif
                         </div>
-                        @if ($errors->has('nokp'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('nokp') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" name="password"
-                            class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
-                            placeholder="Kata Laluan" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                        <div class="input-group mb-3">
+                            <input type="password" name="password"
+                                class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                placeholder="Kata Laluan" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
                             </div>
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
                         </div>
-                        @if ($errors->has('password'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                    <div class="row">
-                        <div class="col-7">
-
+                        <div class="row">
+                            <div class="col-7">
+    
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-5">
+                                <button type="submit" class="btn btn-danger btn-block">Log Masuk</button>
+                            </div>
+                            <!-- /.col -->
                         </div>
-                        <!-- /.col -->
-                        <div class="col-5">
-                            <button type="submit" class="btn btn-danger btn-block">Log Masuk</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </form>
-                <p class="mb-1">
-                    {{-- <a href="forgot-password.html">Lupa Kata laluan</a> --}}
-                </p>
-                <p class="mb-0">
-                    <a href="{{ url('registerBaru') }}" class="text-center">Daftar Akaun</a>
-                </p>
+                    </form>
+                    <p class="mb-1">
+                        {{-- <a href="forgot-password.html">Lupa Kata laluan</a> --}}
+                    </p>
+                    <p class="mb-0">
+                        <a href="{{ url('registerBaru') }}" class="text-center">Daftar Akaun</a>
+                    </p>
+                </div>
+                <!-- /.login-card-body -->
             </div>
-            <!-- /.login-card-body -->
         </div>
     </div>
     <!-- /.login-box -->

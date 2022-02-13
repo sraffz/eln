@@ -101,8 +101,8 @@
                                     Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td style="width: 1%">:</td>
                                 <td>
-                                    SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
-                                    ({{ $permohon->no_ruj_bil }})
+                                    SUK.D.200 (06) 455/16 ELN.Jld {{ $kelulusan->jld_surat_rombongan }}
+                                    ({{ $kelulusan->no_surat_rombongan }})
                                 </td>
                             </tr>
                             <tr>
@@ -115,6 +115,7 @@
                                 <td>:</td>
                                 <td>
                                     @php
+                                        setlocale(LC_TIME, 'MS-my');
                                         use Carbon\Carbon;
                                         $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
                                     @endphp
@@ -124,7 +125,11 @@
                         </table>
                     </div><br>
                     Ke majlis, <br><br>
-                    Ketua Jabatan <br>
+                    {{ $kelulusan->jawatan_pengesah }} <br>
+                    alamat1 <br>
+                    alamat 2 <br>
+                    poskod daerah <br>
+                    Kelantan.
                     <div class="row">
                         <div class="col-md-12">
                             {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}
