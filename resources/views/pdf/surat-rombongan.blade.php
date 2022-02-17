@@ -114,12 +114,12 @@
                                 <td class="text-right">Tarikh</td>
                                 <td>:</td>
                                 <td>
-                                    @php
+                                    {{-- @php
                                         setlocale(LC_TIME, 'MS-my');
                                         use Carbon\Carbon;
                                         $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
-                                    @endphp
-                                    {{ $tarikh }}
+                                    @endphp --}}
+                                    {{ carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y')->locale('ms_MY') }}
                                 </td>
                             </tr>
                         </table>

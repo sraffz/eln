@@ -131,11 +131,20 @@ class PdfController extends Controller
         $nama = $permohon->nama;
         $negara = $permohon->negara;
 
-        setlocale(LC_TIME, 'MS-my');
+        // $tahun = Carbon::now()->year+1;
+        // $date = Carbon::parse($kelulusan->tarikh_kelulusan)->locale('ms');
+        
+        // $hari = $date->dayName;
+        // $tarikh = $date->isoFormat('LL');
+
+        // $time = Carbon::parse($ddd->masa)->locale('ms');
+        // $masa = $time->isoformat('h:mm A');
+
+        // setlocale(LC_TIME, 'MS-my');
 
         // return dd($kelulusan->tarikh_kelulusan);
 
-        return view('pdf.surat-rombongan',compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'));
+        return view('pdf.surat-rombongan',compact('kelulusan','hari','tarikh', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'));
         $pdf = PDF::loadView('pdf.surat-rombongan', compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk Rombongan ke' . $negara . '.pdf');
     
