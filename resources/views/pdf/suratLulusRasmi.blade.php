@@ -88,6 +88,7 @@
                             <td>:</td>
                             <td>
                                 @php
+                                    setlocale(LC_TIME, config('app.locale'));
                                     use Carbon\Carbon;
                                     $tarikh = Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y');
                                 @endphp

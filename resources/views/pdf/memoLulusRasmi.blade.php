@@ -106,7 +106,9 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div align="justify">
-
+                                @php
+                                    setlocale(LC_TIME, config('app.locale'));
+                                @endphp
                                 <strong>
                                     <hr class="solid">
                                     KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Ketua Jabatan <br>

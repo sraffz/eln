@@ -91,6 +91,9 @@
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
+                                    @php
+                                        setlocale(LC_TIME, config('app.locale'));
+                                    @endphp
                                     {{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y') }}<br>
                                     <hr class="solid">
                                     RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16

@@ -135,7 +135,7 @@
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
                                     @php
-                                        setlocale(LC_TIME, 'MS-my');
+                                        setlocale(LC_TIME, config('app.locale'));
                                     @endphp
                                     {{ \Carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y') }}<br>
                                     <hr class="solid">
