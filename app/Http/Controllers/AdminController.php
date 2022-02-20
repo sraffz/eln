@@ -116,10 +116,13 @@ class AdminController extends Controller
         // $permohonan = Permohonan::all();
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
         $permohonan = Permohonan::with('user')
+        
             ->whereNull('rombongans_id')
             ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->orderBy('created_at', 'desc')
             ->get();
+
+        $jabatan = Jabatan::where('jabatan_id', );
         //dd($permohonan);
         return view('admin.senaraiPending', compact('permohonan'));
     }
@@ -1010,11 +1013,21 @@ class AdminController extends Controller
     {
         $jab = Auth::user()->jabatan;
         // echo $jab;
-        $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
-            ->where('users.jabatan', $jab)
-            ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-            ->orderBy('permohonans.created_at','asc')
-            ->get();
+        if ($jab == 44) {
+             
+            $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
+                ->whereIn('users.jabatan', [41, 37])
+                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                ->orderBy('permohonans.created_at','asc')
+                ->get();
+        } else {
+            $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
+                ->where('users.jabatan', $jab)
+                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                ->orderBy('permohonans.created_at','asc')
+                ->get();
+        }
+        
 
         return view('jabatan.senaraiPermohonanJabatan', compact('permohonan'));
     }
