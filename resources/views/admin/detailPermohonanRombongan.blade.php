@@ -267,16 +267,20 @@
                                     </tbody>
                                 </table>
                                 </p>
-                                <hr>
-                                <strong><i class="fa fa-file"></i> Dokumen Rasmi</strong>
-                                <p class="text-muted">
-                                    @if (is_null($dokumen))
-                                        Tiada Dokumen
-                                    @else
-                                        <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonanDokumen.download', [$dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
-                                    @endif
-                                </p>
+                                @if ($rombooo->jenis_rombongan == 'Rasmi')
+                                    <hr>
+                                    <strong><i class="fa fa-file"></i> Dokumen Rasmi</strong>
+                                    <p class="text-muted">
+                                        @if (is_null($dokumen))
+                                            Tiada Dokumen
+                                        @else
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{ route('detailPermohonanDokumen.download', [$dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
+                                        @endif
+                                    </p>
+                                    
+                                @endif
+
                                 <hr>
                                 <p class="text-center">
                                     <a class="btn btn-danger" href="{{ URL::previous() }}" role="button">Kembali</a>

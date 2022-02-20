@@ -42,11 +42,30 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-archive"></i> Jenis Rombongan<span
+                                        style="color:red;">*</span></label>
+                                <select class="form-control" id="jenisRombongan" name="jenisRombongan"
+                                    onChange="changetextbox();" required>
+                                    <option value="">Sila Pilih</option>
+                                    <option value="Rasmi" {{ 'Rasmi' == old('jenisRombongan') ? 'selected' : '' }}>Rasmi
+                                    </option>
+                                    <option value="Tidak Rasmi"
+                                        {{ 'Tidak Rasmi' == old('jenisRombongan') ? 'selected' : '' }}>Tidak Rasmi
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran </label>
-                                <input type="date" class="form-control"  name="tarikhInsuranRom" value="{{ old('tarikhInsuranRom') }}">
+                                <input type="date" class="form-control" name="tarikhInsuranRom"
+                                    value="{{ old('tarikhInsuranRom') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -54,7 +73,8 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan dan sehingga<span
                                         style="color:red;">**</span></label>
-                                <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhir" value="{{ old('tarikhmulaAkhir') }}" required>
+                                <input type="text" class="form-control reservation" id="tarikhmulaAkhir" name="tarikhmulaAkhir"
+                                    value="{{ old('tarikhmulaAkhir') }}" required>
                             </div>
                         </div>
                     </div>
@@ -64,7 +84,8 @@
                             <div class="form-group">
                                 <label><i class="fas fa-edit"></i> Tujuan Permohonan<span
                                         style="color:red;">*</span></label>
-                                <input type="text" class="form-control" name="tujuanRom" value="{{ old('tujuanRom') }}" required>
+                                <input type="text" class="form-control" id="tujuanRom" name="tujuanRom"
+                                    value="{{ old('tujuanRom') }}" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -74,7 +95,9 @@
                                 <select class="form-control select2bs4" name="negaraRom" id="negaraRom" style="width: 100%;"
                                     required>
                                     @foreach ($negara as $jaw)
-                                        <option value="{{ $jaw->namaNegara }}" {{ $jaw->namaNegara == old('negaraRom') ? 'selected' : '' }}>{{ $jaw->namaNegara }}</option>
+                                        <option value="{{ $jaw->namaNegara }}"
+                                            {{ $jaw->namaNegara == old('negaraRom') ? 'selected' : '' }}>
+                                            {{ $jaw->namaNegara }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -87,12 +110,19 @@
                                 <label><i class="fa fa-money-bill-alt"></i> Sumber Kewangan<span
                                         style="color:red;">**</span></label>
                                 <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom" required>
-                                    <option value="Kerajaan" {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>Kerajaan</option>
-                                    <option value="Federal" {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>Federal</option>
-                                    <option value="Persendirian" {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian</option>
-                                    <option value="Jabatan" {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>Jabatan</option>
-                                    <option value="Syarikat" {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>Syarikat</option>
-                                    <option value="lain-lain" {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain</option>
+                                    <option value="Kerajaan" {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>
+                                        Kerajaan</option>
+                                    <option value="Federal" {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>
+                                        Federal</option>
+                                    <option value="Persendirian"
+                                        {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian
+                                    </option>
+                                    <option value="Jabatan" {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>
+                                        Jabatan</option>
+                                    <option value="Syarikat" {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>
+                                        Syarikat</option>
+                                    <option value="lain-lain"
+                                        {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain</option>
                                 </select>
                             </div>
                         </div>
@@ -117,7 +147,8 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-map-o"></i>
                                     </div>
-                                    <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170">{{ old('alamatRom') }}</textarea>
+                                    <textarea class="form-control" name="alamatRom" id="alamatRom"
+                                        cols="170">{{ old('alamatRom') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -125,8 +156,9 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                              <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
+                                <label for="catatan_permohonan">Catatan</label>
+                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan"
+                                    rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -136,21 +168,57 @@
                                 <label><i class="fa fa-file"> </i> Dokumen Rasmi<span
                                         style="color:red;">**</span></label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="fileRasmiRom[]" id="exampleInputFile"
+                                    <input type="file" class="custom-file-input" name="fileRasmiRom[]" id="filerasmi"
                                         multiple required>
-                                    <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                    <label class="custom-file-label" for="filerasmi">Pilih Fail</label>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Maklumat kelulusan cuti rehat(Sekiranya memerlukan kelulusan cuti rehat)</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12 text-center">
-                            {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
+                        <div class="col-sm-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tarikh Mula dan Akhir Cuti</label>
+                                <input type="text" class="form-control reservation" id="tarikhmulaAkhirCuti" name="tarikhmulaAkhirCuti" value="{{ old('tarikhmulaAkhirCuti') }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
+                                <input type="date" class="form-control" id="tarikhKembaliBertugas" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="fileCuti[]" id="filcuti"
+                                        multiple>
+                                    <label class="custom-file-label" for="filcuti">Pilih Fail</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    {!! Form::submit('Hantar', ['class' => 'btn btn-primary']) !!}
+                </div>
+            </div>
         </div>
+        <br>
     </section>
     {!! Form::close() !!}
 @endsection
@@ -197,4 +265,19 @@
         })
     </script>
 
+    <script>
+        $('#jenisRombongan').change(function () {
+             if( $(this).val() == 'Rasmi') {
+                $('#tarikhmulaAkhirCuti').prop( "disabled", true );
+                $('#tarikhKembaliBertugas').prop( "disabled", true );
+                $('#filcuti').prop( "disabled", true );
+                $('#filerasmi').prop( "disabled", false );
+            } else if(  $(this).val() == 'Tidak Rasmi'){
+                $('#tarikhmulaAkhirCuti').prop( "disabled", false );
+                $('#tarikhKembaliBertugas').prop( "disabled", false );
+                $('#filcuti').prop( "disabled", false );
+                $('#filerasmi').prop( "disabled", true );
+            }
+        });
+    </script>
 @endsection

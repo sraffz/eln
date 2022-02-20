@@ -263,7 +263,7 @@ desired effect
             });
 
             //Date range picker
-            $('#reservation').daterangepicker()
+            $('.reservation').daterangepicker()
             //Date range picker with time picker
             $('#reservationtime').daterangepicker({
                 timePicker: true,

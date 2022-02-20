@@ -27,6 +27,7 @@ class PdfController extends Controller
     {
         $permohon = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->where('permohonansID', '=', $id)
             ->first();
 
@@ -47,6 +48,7 @@ class PdfController extends Controller
     {
         $permohon = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->where('permohonansID', '=', $id)
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
@@ -57,7 +59,7 @@ class PdfController extends Controller
 
         setlocale(LC_TIME, 'MS-my');
 
-        // return view('pdf.suratLulusTidakRasmi',compact('permohon','pp','cogan'));
+        return view('pdf.suratLulusTidakRasmi',compact('permohon','pp','cogan'));
         $pdf = PDF::loadView('pdf.suratLulusTidakRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
@@ -66,6 +68,7 @@ class PdfController extends Controller
     {
         $permohon = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->where('permohonansID', '=', $id)
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
@@ -84,6 +87,7 @@ class PdfController extends Controller
     {
         $permohon = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->where('permohonansID', '=', $id)
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
@@ -105,6 +109,7 @@ class PdfController extends Controller
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
             ->leftjoin('gred_angka', 'users.gredAngka', '=', 'gred_angka.gred_angka_ID')
             ->leftjoin('gred_kod', 'users.gredKod', '=', 'gred_kod.gred_kod_ID')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->where('rombongans.rombongans_id', '=', $id)
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();

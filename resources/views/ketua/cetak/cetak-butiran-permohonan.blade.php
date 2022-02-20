@@ -24,10 +24,27 @@
             page-break-before: always;
         }
 
+        footer {
+                position: fixed; 
+                bottom: -30px; 
+                left: 0px; 
+                right: 0px;
+                height: 50px; 
+
+                /** Extra personal styles **/
+                background-color: #ffffff;
+                color: rgb(0, 0, 0);
+                text-align: center;
+                line-height: 35px;
+            }
+        
     </style>
 </head>
 
 <body>
+    {{-- <footer>
+       <i>Borang ini adalah janaan komputer dan tidak memerlukan tandatangan. </i> 
+    </footer> --}}
 
     <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="160" height="120"
             alt="User Image" align="center"><br></p>
@@ -226,6 +243,7 @@
             </tbody>
         </table>
     </div>
+    @if (count($pengesah)>0)
     <div class="break">
         @foreach ($pengesah as $psh)
             <table class="table table-bordered table-sm">
@@ -264,11 +282,13 @@
             </table>
         @endforeach
         <br>
-        <div class="text-center">
-            <p style="font-size: 11pt">
-                <i> Borang ini adalah janaan komputer dan tidak memerlukan tandatangan.</i>
-            </p>
-        </div>
+    </div>
+    @endif
+    <br>
+    <div class="text-center">
+        <p style="font-size: 11pt">
+            <i> Borang ini adalah janaan komputer dan tidak memerlukan tandatangan.</i>
+        </p>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

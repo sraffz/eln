@@ -88,7 +88,10 @@
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}</td>
-                                                        <td>{{ $mohonan->JenisPermohonan }}</td>
+                                                        <td>
+                                                            {{ $mohonan->JenisPermohonan }}
+                                                            
+                                                        </td>
                                                         {{-- <td>SUK.D.200 (06) 455/16
                                                             ELN.JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
                                                         </td> --}}
@@ -106,6 +109,7 @@
 
                                                             @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                 <td class="text-center">
+
                                                                     <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs">
                                                                         Surat
@@ -118,6 +122,7 @@
 
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                                 <td class="text-center">
+                                                                    {{ $mohonan->user->jabatan }}  
                                                                     <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs">
                                                                         Surat

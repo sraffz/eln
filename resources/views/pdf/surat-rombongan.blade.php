@@ -129,11 +129,11 @@
                         </table>
                     </div><br>
                     Ke majlis, <br><br>
-                    {{ $kelulusan->jawatan_pengesah }} <br>
-                    alamat1 <br>
-                    alamat 2 <br>
-                    poskod daerah <br>
-                    Kelantan.
+                    {{ $permohon->jawatan_ketua }} <br>
+                    {{ $permohon->nama_jabatan }} <br>
+                    {{ $permohon->alamat }},<br>
+                    {{ $permohon->poskod }} {{ $permohon->daerah }}, <br>
+                    {{ $permohon->negeri }}.
                     <div class="row">
                         <div class="col-md-12">
                             {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}

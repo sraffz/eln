@@ -93,7 +93,11 @@
                     </tr>
                 </table><br>
                 <div>Ke majlis,</div> <br>
-                Ketua Jabatan <br>
+                {{ $permohon->jawatan_ketua }} <br>
+                {{ $permohon->nama_jabatan }} <br>
+                {{ $permohon->alamat }}, <br>
+                {{ $permohon->poskod }} {{ $permohon->daerah }}, <br>
+                {{ $permohon->negeri }} <br>
                 {{-- {{ ucwords(strtolower($surat->nama_penuh)) }} --}}
                 {{-- K/P : --}}
                 {{-- {!! formatKP($surat->no_kad_pengenalan) !!} --}}

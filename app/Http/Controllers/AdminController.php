@@ -122,7 +122,7 @@ class AdminController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $jabatan = Jabatan::where('jabatan_id', );
+        // $jabatan = Jabatan::where('jabatan_id', );
         //dd($permohonan);
         return view('admin.senaraiPending', compact('permohonan'));
     }
