@@ -26,7 +26,8 @@ class KetuaController extends Controller
             ->whereNotIn('JenisPermohonan', ['rombongan'])
             ->orderBy('created_at', 'asc')
             ->get();
-
+            
+            
         return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah'));
     }
 

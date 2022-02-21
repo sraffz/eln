@@ -16,6 +16,7 @@ use App\GredKod;
 use App\GredAngka;
 use DB;
 use Auth;
+Use Alert;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
@@ -362,7 +363,8 @@ class permohonanController extends Controller
         $statusPermohonan = 'simpanan';
 
         if ($length <= 21) {
-            flash('Permohonan mesti dibuat 21 hari sebelum perjalanan bermula')->error();
+            Alert::info('Makluman', 'Permohonan mesti dibuat 21 hari sebelum perjalanan bermula');
+            // flash('Permohonan mesti dibuat 21 hari sebelum perjalanan bermula')->error();
             return back()->withInput();
         } else {
             if ($jenisPermohonan == 'Rasmi') {
@@ -445,10 +447,12 @@ class permohonanController extends Controller
                                 ];
                                 Dokumen::create($data);
 
-                                flash('Permohonan berjaya didaftar.')->success();
+                                // flash('Permohonan berjaya didaftar.')->success();
+                                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                                 return redirect('/senaraiPermohonanProses');
                             } else {
                                 flash::error('Muat naik tidak berjaya' . $doc_type);
+                                Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya ' . $doc_type);
                                 return redirect('/senaraiPermohonanProses');
                             }
                         } else {
@@ -547,10 +551,12 @@ class permohonanController extends Controller
                                 ];
 
                                 DB::table('pasangans')->insert($dataPasangan);
-                                flash('Permohonan berjaya didaftar.')->success();
+                                // flash('Permohonan berjaya didaftar.')->success();
+                                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                                 return redirect('/senaraiPermohonanProses');
                             } else {
-                                Flash::error('Muat naik tidak berjaya.' . $doc_type);
+                                // Flash::error('Muat naik tidak berjaya.' . $doc_type);
+                                Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya ' . $doc_type);
                                 return redirect('/senaraiPermohonanProses');
                             }
                         } else {
@@ -609,6 +615,7 @@ class permohonanController extends Controller
 
                     DB::table('pasangans')->insert($dataPasangan);
                     flash('Permohonan berjaya didaftar.')->success();
+                    Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                     return redirect('/senaraiPermohonanProses');
                 }
             }
@@ -669,7 +676,8 @@ class permohonanController extends Controller
         // return dd($length);
 
         if ($length <= 21) {
-            flash('Permohonan mesti dibuat 21 hari sebelum perjalanan bermula')->error();
+            Alert::info('Makluman', 'Permohonan mesti dibuat 21 hari sebelum perjalanan bermula');
+            // flash('Permohonan mesti dibuat 21 hari sebelum perjalanan bermula')->error();
             return back()->withInput();
         } else {
             $data = [
@@ -744,7 +752,8 @@ class permohonanController extends Controller
                                     'rombongans_id' => $co,
                                 ];
                                 Dokumen::create($data);
-                                flash('Permohonan berjaya didaftar.')->success();
+                                // flash('Permohonan berjaya didaftar.')->success();
+                                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                                 return redirect('/senaraiPermohonanProses');
                             } else {
                                 Flash::error('Muat naik tidak berjaya' . $doc_type);
@@ -804,7 +813,8 @@ class permohonanController extends Controller
                                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                                 ];
                                 Permohonan::create($data);
-                                flash('Permohonan berjaya didaftar.')->success();
+                                // flash('Permohonan berjaya didaftar.')->success();
+                                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                                 return redirect('/senaraiPermohonanProses');
                             } else {
                                 Flash::error('Error uploading ' . $doc_type);
@@ -873,7 +883,8 @@ class permohonanController extends Controller
             $length = $end->diffInDays($nowsaa);
 
             if ($length <= 21) {
-                flash('Permohonan mesti dibuat 21 hari sebelum perjalanan bermula')->error();
+                Alert::info('Makluman', 'Permohonan mesti dibuat 21 hari sebelum perjalanan bermula');
+                // flash('Permohonan mesti dibuat 21 hari sebelum perjalanan bermula')->error();
                 return back()->withInput();
             } else {
                 $jenisPermohonanrombongan = 'rombongan';
@@ -920,7 +931,8 @@ class permohonanController extends Controller
                                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                                 ];
                                 Permohonan::create($data);
-                                flash('Permohonan berjaya didaftar.')->success();
+                                // flash('Permohonan berjaya didaftar.')->success();
+                                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                                 return redirect('/senaraiPermohonanProses');
                             } else {
                                 Flash::error('Error uploading ' . $doc_type);
@@ -987,8 +999,8 @@ class permohonanController extends Controller
                     $ubah = 'Lulus Semakan BPSM';
                     Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
                 }
-
-                flash('Berjaya dihantar.')->success();
+                Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
+                // flash('Berjaya dihantar.')->success();
                 return redirect()->back();
             }
         } elseif ($status == 'Tidak Rasmi') {
@@ -1000,7 +1012,8 @@ class permohonanController extends Controller
                 Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
             }
 
-            flash('Berjaya dihantar.')->success();
+            // flash('Berjaya dihantar.')->success();
+            Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
             return redirect()->back();
         }
     }
@@ -1044,8 +1057,8 @@ class permohonanController extends Controller
                     'statusPermohonan' => 'Permohonan Gagal',
                 ]);
 
-            flash('Permohonan Berjaya Dihantar.')->success();
-
+            // flash('Permohonan Berjaya Dihantar.')->success();
+            Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
             // return dd($d);
             return redirect()->back();
         } elseif ($d == 0 && $peserta == 0) {
@@ -1099,22 +1112,26 @@ class permohonanController extends Controller
                 $doku = Dokumen::where('permohonansID', $id)->delete();
                 unlink($path);
                 unlink($pathC);
-                flash('Dokumen berjaya dipadamkan.')->success();
+                // flash('Dokumen berjaya dipadamkan.')->success();
+                Alert::success('Berjaya', 'Dokumen telah dipadam');
                 return redirect()->back();
             } elseif ($dokumen == null) {
                 $pas = Pasangan::where('permohonansID', $id)->delete();
                 $per = Permohonan::where('permohonansID', $id)->delete();
-                flash('Dokumen berjaya dipadamkan.')->success();
+                // flash('Dokumen berjaya dipadamkan.')->success();
+                Alert::success('Berjaya', 'Dokumen telah dipadam');
                 return redirect()->back();
             } else {
                 $pas = Pasangan::where('permohonansID', $id)->delete();
                 $per = Permohonan::where('permohonansID', $id)->delete();
                 unlink($pathC);
-                flash('Dokumen berjaya dipadamkan.')->success();
+                // flash('Dokumen berjaya dipadamkan.')->success();
+                Alert::success('Berjaya', 'Dokumen telah dipadam');
                 return redirect()->back();
             }
         } else {
             flash('Dokumen tidak berjaya dipadamkan.')->success();
+            Alert::error('Tidak Berjaya', 'Dokumen tidak berjaya dipadam');
             return redirect()->back();
         }
     }
@@ -1133,7 +1150,8 @@ class permohonanController extends Controller
             'tarikh_batal' => Carbon::now(),
         ]);
 
-        flash('Permohonan telah dibatalkan.')->success();
+        Alert::success('Berjaya', 'Permohonan telah dibatalkan');
+        // flash('Permohonan telah dibatalkan.')->success();
         return back();
     }
 
@@ -1155,7 +1173,8 @@ class permohonanController extends Controller
 
         if (!$dokumen) {
             $rombong = Rombongan::where('rombongans_id', $id)->delete();
-            flash('Dokumen berjaya dipadamkan.')->success();
+            Alert::success('Berjaya', 'Dokumen berjaya dipadamkan');
+            // flash('Dokumen berjaya dipadamkan.')->success();
             return redirect()->back();
         } else {
             $path = $dokumen->pathFile;
@@ -1163,7 +1182,8 @@ class permohonanController extends Controller
             Dokumen::where('rombongans_id', $id)->delete();
             Rombongan::where('rombongans_id', $id)->delete();
 
-            flash('Permohonan Rombongan berjaya dipadamkan.')->success();
+            Alert::success('Berjaya', 'Permohonan Rombongan berjaya dipadamkan');
+            // flash('Permohonan Rombongan berjaya dipadamkan.')->success();
             return redirect()->back();
         }
     }
@@ -1189,7 +1209,8 @@ class permohonanController extends Controller
 
         Dokumen::where('permohonansID', $id)->delete(); //Padam data Dokumen Rasmi
 
-        flash('Rekod berjaya dipadamkan.')->success();
+        Alert::success('Berjaya', 'Rekod berjaya dipadamkan');
+        // flash('Rekod berjaya dipadamkan.')->success();
         return redirect()->back();
     }
 
@@ -1331,7 +1352,8 @@ class permohonanController extends Controller
                             ];
                             Dokumen::create($data);
 
-                            flash('Permohonan berjaya dikemaskini.')->success();
+                            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+                            // flash('Permohonan berjaya dikemaskini.')->success();
                             return back();
                         } else {
                             Flash::error('Error uploading ' . $doc_type);
@@ -1343,8 +1365,8 @@ class permohonanController extends Controller
                     }
                 }
             }
-
-            flash('Berjaya dikemaskini.')->success();
+            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            // flash('Berjaya dikemaskini.')->success();
             return back();
         } elseif ($jenisPermohonan == 'Tidak Rasmi') {
             $tarikhMulaCuti = $request->input('tarikhMulaCuti');
@@ -1414,8 +1436,8 @@ class permohonanController extends Controller
                     }
                 }
             }
-
-            flash('Berjaya dikemaskini.')->success();
+            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            // flash('Berjaya dikemaskini.')->success();
             return back();
         }
     }

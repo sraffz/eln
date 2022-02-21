@@ -55,7 +55,7 @@
                                                     {{-- <th style="vertical-align: middle">Tarikh Akhir Perjalanan</th> --}}
                                                     <th style="vertical-align: middle">Tarikh Lulusan Permohonan</th>
                                                     <th style="vertical-align: middle">Tujuan Rombongan</th>
-                                                    <th style="vertical-align: middle">Bil. Peserta</th>
+                                                    <th style="vertical-align: middle">Peserta</th>
                                                     <th style="vertical-align: middle">Status Permohonan</th>
                                                     <th style="vertical-align: middle">Dokumen</th>
                                                 </tr>
@@ -84,13 +84,15 @@
                                                             {{-- - {{ $rombo->nama }} <br> --}}
                                                             @php
                                                                 $i = 0;
+
                                                             @endphp
                                                             @foreach ($allPermohonan as $element)
                                                                 @if ($element->rombongans_id == $rombo->rombongans_id)
                                                                     {{-- - {{ $element->user->nama }} <br> --}}
                                                                     @if ($rombo->statusPermohonanRom == 'Permohonan Berjaya')
                                                                         @if ($element->status_kelulusan == 'Berjaya')
-                                                                            <button type="button" data-toggle="modal" href='#mdl-kemaskini'
+                                                                            <button type="button" data-toggle="modal"
+                                                                                href='#detail-{{ $element->id_pemohon }}'
                                                                                 data-nama="{{ $element->nama }}"
                                                                                 data-nokp="{{ $element->nokp }}"
                                                                                 {{-- data-email="{{ $element->email }}" --}}
@@ -106,7 +108,8 @@
 
                                                                         @elseif($element->status_kelulusan == 'Gagal')
 
-                                                                            <button type="button" data-toggle="modal" href='#mdl-kemaskini'
+                                                                            <button type="button" data-toggle="modal"
+                                                                                href='#detail-{{ $element->id_pemohon }}'
                                                                                 data-nama="{{ $element->nama }}"
                                                                                 data-nokp="{{ $element->nokp }}"
                                                                                 {{-- data-email="{{ $element->email }}" --}}
@@ -119,7 +122,8 @@
                                                                                         class="badge badge-pill badge-dark">Ketua</span>
                                                                                 @endif
                                                                             </button>
-                                                                        @endif
+                                                                            @endif
+                                                                           
                                                                     @elseif($rombo->statusPermohonanRom == 'Permohonan Gagal')
                                                                         @if ($element->status_kelulusan == 'Gagal')
                                                                         @endif
@@ -130,10 +134,70 @@
                                                                             @endphp
                                                                         @endif
                                                                     @endif
+                                                                    <div class="modal fade" id="detail-{{ $element->id_pemohon }}">
+                                                                       <div class="modal-dialog">
+                                                                           <div class="modal-content">
+                                                                               <div class="modal-header">
+                                                                                   <h4 class="modal-title">
+                                                                                       Maklumat Peserta</h4>
+                                                                                   <button type="button"
+                                                                                       class="close"
+                                                                                       data-dismiss="modal"
+                                                                                       aria-hidden="true">&times;</button>
+                                                                               </div>
+                                                                               {!! Form::open(['method' => 'POST', 'url' => '#']) !!}
+                                                                               <div class="modal-body">
+                                                                                   <div
+                                                                                       class="form-group{{ $errors->has('nama_edit') ? ' has-error' : '' }}">
+                                                                                       {!! Form::label('nama_edit', 'Nama') !!}
+                                                                                       {!! Form::text('nama_edit', $element->nama, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nama_edit']) !!}
+                                                                                       <small
+                                                                                           class="text-danger">{{ $errors->first('nama_edit') }}</small>
+                                                                                   </div>
+                                                                                   <div
+                                                                                       class="form-group{{ $errors->has('nokp_edit') ? ' has-error' : '' }}">
+                                                                                       {!! Form::label('nokp_edit', 'Kad Pengenalan') !!}
+                                                                                       {!! Form::text('nokp_edit', $element->nokp, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nokp_edit']) !!}
+                                                                                       <small
+                                                                                           class="text-danger">{{ $errors->first('nokp_edit') }}</small>
+                                                                                   </div>
+                                                                                   <div class="form-group">
+                                                                                       <label
+                                                                                           for="jabatan">Jabatan</label>
+                                                                                       <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit"
+                                                                                           value="{{ $element->jabatan_pemohon }}" placeholder="">
+                                                                                   </div>
+                                                                                   <div
+                                                                                       class="form-group{{ $errors->has('jawatan_edit') ? ' has-error' : '' }}">
+                                                                                       {!! Form::label('jawatan_edit', 'Jawatan') !!}
+                                                                                       {!! Form::email('jawatan_edit', $element->jawatan_pemohon, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
+                                                                                       <small
+                                                                                           class="text-danger">{{ $errors->first('jawatan_edit') }}</small>
+                                                                                   </div>
+        
+                                                                               </div>
+                                                                               <div class="modal-footer">
+                                                                                   <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
+                                                                                   <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                                                   data-romboid="{{ $element->rombongans_id }}"
+                                                                                   data-id="{{ $element->id_pemohon }}"
+                                                                                   data-target="#tukarkr" data-dismiss="modal">
+                                                                                       Jadikan Ketua Rombongan
+                                                                                    </button>
+                                                                                   <button type="button"
+                                                                                       class="btn btn-danger">Tukar
+                                                                                       Status Kelulusan</button>
+                                                                               </div>
+                                                                               {!! Form::close() !!}
+                                                                               
+                                                                           </div>
+                                                                       </div>
+                                                                   </div>
                                                                 @endif
-                                                            @endforeach
-                                                            {{-- <strong> {{ $i }}</strong> --}}
-                                                        </td>
+                                                               @endforeach
+                                                                {{-- <strong> {{ $i }}</strong> --}}
+                                                            </td>
+                                                            <!--- Modal Detail -->
                                                         <td>
                                                             @if ($rombo->statusPermohonanRom == 'Permohonan Berjaya')
                                                                 <span
@@ -242,51 +306,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="mdl-kemaskini">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Maklumat Peserta</h4>
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">&times;</button>
-                    </div>
-                    {!! Form::open(['method' => 'POST', 'url' => '#']) !!}
-                    <div class="modal-body">
-                        <div class="form-group{{ $errors->has('nama_edit') ? ' has-error' : '' }}">
-                            {!! Form::label('nama_edit', 'Nama') !!}
-                            {!! Form::text('nama_edit', null, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nama_edit']) !!}
-                            <small class="text-danger">{{ $errors->first('nama_edit') }}</small>
-                        </div>
-                        <div class="form-group{{ $errors->has('nokp_edit') ? ' has-error' : '' }}">
-                            {!! Form::label('nokp_edit', 'Kad Pengenalan') !!}
-                            {!! Form::text('nokp_edit', null, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nokp_edit']) !!}
-                            <small class="text-danger">{{ $errors->first('nokp_edit') }}</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="jabatan">Jabatan</label>
-                            <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
-                            placeholder="">
-                        </div>
-                        <div class="form-group{{ $errors->has('jawatan_edit') ? ' has-error' : '' }}">
-                            {!! Form::label('jawatan_edit', 'Jawatan') !!}
-                            {!! Form::email('jawatan_edit', null, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
-                            <small class="text-danger">{{ $errors->first('jawatan_edit') }}</small>
-                        </div>
-                        {{-- <div class="form-group">
-                            <label for="jabatan">Jawatan</label>
-                            <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
-                                placeholder="">
-                        </div> --}}
-                    </div>
-                    <div class="modal-footer">
-                            <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
-                            <button type="button" class="btn btn-primary">Jadikan Ketua Rombongan</button>
-                            <button type="button" class="btn btn-danger">Tukar Status Kelulusan</button>
-                    </div>
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
+
 
         <!-- Modal Tukar Ketua permohonan-->
         <div class="modal fade" id="tukarkr" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
@@ -392,8 +412,8 @@
             $(".modal-body #id").val(id);
             $(".modal-body #romboid").val(romboid);
         });
-        
-        $('#mdl-kemaskini').on('show.bs.modal', function(event) {
+
+        $('#detail-'.id.'').on('show.bs.modal', function(event) {
 
             var button = $(event.relatedTarget);
             var nama = button.data('nama');

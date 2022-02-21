@@ -134,7 +134,7 @@
                                 <hr>
                                 <strong><i class="fa fa-user-friends"></i> Senarai Peserta</strong>
                                 <p class="text-muted" style="text-transform: uppercase">
-                                <table class="table table-bordered table-sm">
+                                <table class="table table-bordered table-sm ">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>BIL</th>
@@ -142,7 +142,7 @@
                                             <th colspan="2">TINDAKAN</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="peserta">
                                         @php
                                             $i = 1;
                                         @endphp
@@ -178,7 +178,6 @@
                                                         <td class="text-center">
                                                             @if (Auth::user()->role == 'DatoSUK')
                                                                 @if (!empty($peser->status_kelulusan))
-                                                                    {{-- {{ $peser->status_kelulusan }} --}}
                                                                     @if ($peser->status_kelulusan == 'Berjaya')
                                                                         <span
                                                                             class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
@@ -278,7 +277,6 @@
                                                 href="{{ route('detailPermohonanDokumen.download', [$dokumen->dokumens_id]) }}">{{ $dokumen->namaFile }}</a>
                                         @endif
                                     </p>
-                                    
                                 @endif
 
                                 <hr>
@@ -380,7 +378,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="GET" action="{{ url('tukar-ketua-rombongan') }}">
+                <form method="GET" name="ajax-contact-form" id="ajax-contact-form" action="javascript:void(0)">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div class="container-fluid">
@@ -393,7 +391,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-success">Lantik Ketua Rombongan</button>
+                        <button type="button" id="submit" class="btn btn-success tukar_button">Lantik Ketua
+                            Rombongan</button>
                     </div>
                 </form>
             </div>
@@ -429,8 +428,39 @@
     </div>
 @endsection
 @section('script')
-
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script>
+        $(document).on('click', '.tukar_button', function(event) {
+            event.preventDefault();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#submit').html('Sila Tunggu...');
+            $("#submit").attr("disabled", true);
+            $.ajax({
+                url: "{{ url('tukar-ketua-rombongan') }}",
+                type: "PUT",
+                data: $('#ajax-contact-form').serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    $('#submit').html('Berjaya Ditukar');
+                    $("#submit").attr("disabled", false);
+                    alert('Ajax form has been submitted successfully');
+                    $('#tukarkr').modal('hide');
+                }
+            });
+
+        });
+
+
+        $(document).on('click', 'tukar_button', function(e) {
+            e.preventDefault();
+
+        });
+
 
         $('#tolakpermohonan').on('show.bs.modal', event => {
             var button = $(event.relatedTarget);
@@ -459,7 +489,7 @@
             $(".modal-body #id").val(id);
             $(".modal-body #romboid").val(romboid);
         });
-        
+
         $('#mdl-kemaskini').on('show.bs.modal', function(event) {
 
             var button = $(event.relatedTarget);

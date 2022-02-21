@@ -85,6 +85,7 @@ desired effect
 -->
 
 <body class="hold-transition skin-green sidebar-mini">
+   
     <div class="wrapper">
         {{-- </header> --}}
         @include('layouts.eln.nav')
@@ -320,6 +321,7 @@ desired effect
             $('#myModal').modal('show');
         });
     </script>
+     @include('sweetalert::alert')
 </body>
 
 </html>

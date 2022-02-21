@@ -337,6 +337,21 @@ class AdminController extends Controller
         return view('admin.detailPermohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
     }
 
+    public function pesertaRombongan()
+    {
+        $peserta = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+            ->leftjoin('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id_permohonan', '=', 'permohonans.permohonansID')
+            ->leftjoin('eln_kelulusan', 'eln_kelulusan.id_pengesahan', '=', 'eln_pengesahan_bahagian.id')
+            ->where('permohonans.rombongans_id', $id)
+            // ->whereIn('statusPermohonan',['Lulus Semakan BPSM'])
+            ->get();
+
+            return response()->json([
+                'peser' => $peserta,
+            ]);
+    }
+
     public function showRombongan($id)
     {
         $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.ketua_rombongan')
@@ -348,10 +363,6 @@ class AdminController extends Controller
             $akhir = Carbon::parse($rombo->tarikhAkhirRom);
             $jumlahDate = $mula->diffInDays($akhir);
         }
-
-        // $rombongan = Permohonan::leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-        // ->whereIn('statusPermohonanRom', ['Pending'])->get();
-        // $code=$rombongan->codeRom;
 
         $peserta = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
@@ -1164,7 +1175,8 @@ class AdminController extends Controller
         
         flash('Ketua Rombongan baru telah berjaya ditukar')->success();
 
-        return back();
+        return response()->json(['success' => true, 'message' => 'Berjaya Dikemaskini']);
+        // return back();
     }
 
     public function kemaskiniPengguna($id)

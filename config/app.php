@@ -165,6 +165,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -228,7 +230,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Flash' => Laracasts\Flash\Flash::class,
         'Form' => 'Collective\Html\FormFacade',
-  'Html' => 'Collective\Html\HtmlFacade',
+        'Html' => 'Collective\Html\HtmlFacade',
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+
 
     ],
 
