@@ -15,6 +15,7 @@ use PDF;
 use Auth;
 use Notification;
 use Carbon\Carbon;
+use Alert;
 
 class KetuaController extends Controller
 {
@@ -266,7 +267,8 @@ class KetuaController extends Controller
             'status_kelulusan' =>  $status
         ]);
 
-        flash('Status Kelulusan berjaya ditukar')->success();
+        // flash('Status Kelulusan berjaya ditukar')->success();
+        Alert::success('Berjaya', 'Maklumat dikemaskini');
         return back();
     }
 
@@ -366,18 +368,49 @@ class KetuaController extends Controller
             ->where('statusPermohonan', '!=', 'Permohonan Gagal')
             ->get();
 
-        if (Auth::user()->role == 'DatoSUK') {
-            $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->where('statusPermohonanRom', 'Lulus Semakan')
-                ->get();
-        } elseif (Auth::user()->role == 'jabatan') {
-            $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->where('statusPermohonanRom', 'Pending')
-                ->where('users.jabatan', Auth::user()->jabatan)
-                ->get();
-            }
+        $jab = Auth::user()->jabatan;
 
-        // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
+        if (Auth::user()->role == 'DatoSUK') {
+            // $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            //     ->where('statusPermohonanRom', 'Lulus Semakan')
+            //     ->get();
+
+                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->whereIn('statusPermohonanRom', ['Lulus Semakan'])
+                    ->orderBy('rombongans.created_at','asc')
+                    ->get();
+
+        } elseif (Auth::user()->role == 'jabatan') {
+            // $rombongan = Rombongan::join('users', 'users.usersID', '=', 'rombongans.usersID')
+            //     ->where('statusPermohonanRom', 'Pending')
+            //     ->where('users.jabatan', Auth::user()->jabatan)
+            //     ->get();
+            if ($jab == 44) {
+                
+                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->whereIn('users.jabatan', [44, 37])
+                    ->orderBy('rombongans.created_at','asc')
+                    ->get();
+            } else {
+
+                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->where('users.jabatan', $jab)
+                    ->orderBy('rombongans.created_at','asc')
+                    ->get();
+            }
+        }
+
+        // dd($rombongan);
+        $allPermohonan = Permohonan::with('user')
+            ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
+            ->get();
+
+        return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
         
         $pdf = PDF::loadView('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'))->setpaper('a4', 'landscape');
         return $pdf->download('Senarai Permohonan Rombongan Ke Luar Negara.pdf');
@@ -386,7 +419,7 @@ class KetuaController extends Controller
     public function cetakSenaraiPermohonan()
     {
         $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
-
+        
         if (Auth::user()->role == 'DatoSUK') {
             $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
                 ->whereNotIn('JenisPermohonan', ['rombongan'])

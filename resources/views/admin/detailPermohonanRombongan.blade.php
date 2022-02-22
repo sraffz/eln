@@ -448,11 +448,15 @@
                 success: function(response) {
                     $('#submit').html('Berjaya Ditukar');
                     $("#submit").attr("disabled", false);
-                    alert('Ajax form has been submitted successfully');
                     $('#tukarkr').modal('hide');
+                    setTimeout(location.reload.bind(location), 1500);
+                    Swal.fire(
+                    'Berjaya',
+                    'Ketua Rombongan telah ditukar!',
+                    'success'
+                    );
                 }
             });
-
         });
 
 

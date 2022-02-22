@@ -26,6 +26,7 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Auth;
+use Alert;
 
 class AdminController extends Controller
 {
@@ -129,6 +130,8 @@ class AdminController extends Controller
 
     public function indexRombongan()
     {
+        $jab = Auth::user()->jabatan;
+
         if (Auth::user()->role == 'adminBPSM') {
             $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
             ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
@@ -137,13 +140,25 @@ class AdminController extends Controller
                 ->get();
 
         } elseif (Auth::user()->role == 'jabatan') {
-            $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-            ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->whereIn('statusPermohonanRom', ['Pending'])
-                ->where('users.jabatan', Auth::user()->jabatan)
-                ->orderBy('rombongans.created_at','asc')
-                ->get();
-        }
+
+            if ($jab == 44) {
+                
+                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->whereIn('users.jabatan', [44, 37])
+                    ->orderBy('rombongans.created_at','asc')
+                    ->get();
+            } else {
+
+                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->where('users.jabatan', $jab)
+                    ->orderBy('rombongans.created_at','asc')
+                    ->get();
+            }
+      }
 
         // dd($rombongan);
         $allPermohonan = Permohonan::with('user')
@@ -1027,7 +1042,7 @@ class AdminController extends Controller
         if ($jab == 44) {
              
             $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
-                ->whereIn('users.jabatan', [41, 37])
+                ->whereIn('users.jabatan', [44, 37])
                 ->whereIn('statusPermohonan', ['Ketua Jabatan'])
                 ->orderBy('permohonans.created_at','asc')
                 ->get();
@@ -1173,7 +1188,10 @@ class AdminController extends Controller
             'ketua_rombongan' => $id
         ]);
         
-        flash('Ketua Rombongan baru telah berjaya ditukar')->success();
+        // flash('Ketua Rombongan baru telah berjaya ditukar')->success();
+
+        // Alert::success('Berjaya', 'Ketua Rombongan telah ditukar!');
+        Alert::success('Berjaya', 'Maklumat dikemaskini');
 
         return response()->json(['success' => true, 'message' => 'Berjaya Dikemaskini']);
         // return back();
