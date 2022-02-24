@@ -960,63 +960,68 @@ class permohonanController extends Controller
 
     public function hantarIndividu($id)
     {
-        $permohonan = Permohonan::with('user')
-            ->where('permohonansID', '=', $id)
-            ->first();
-
-        $statusJawatan = $permohonan->user->userJawatan->statusDato;
-
-        $tarikhmulajalan = $permohonan->tarikhMulaPerjalanan;
-
-        $end = Carbon::parse($tarikhmulajalan);
-        $nowsaa = Carbon::today();
-
-        $length = $end->diffInDays($nowsaa); //panjang hari sebelum berlepas
-        // dd($length);
-
-        $d = DB::table('permohonans')
-            ->where('permohonansID', '=', $id)
-            ->whereNotNull('namaFileCuti')
-            ->count();
-        $dokumenRasmi = DB::table('dokumens')
-            ->where('permohonansID', '=', $id)
-            ->count();
-        $per = DB::table('permohonans')
-            ->where('permohonansID', '=', $id)
-            ->first();
-
-        $status = $per->JenisPermohonan;
-
-        if ($status == 'Rasmi') {
-            if ($dokumenRasmi == 0) {
-                flash('Permohonan Rasmi memerlukan dokumen rasmi.')->error();
-                return redirect()->back();
-            } else {
-                if ($statusJawatan == 'Tidak Aktif') {
-                    $ubah = 'Ketua Jabatan';
-                    Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
-                } elseif ($statusJawatan == 'Aktif') {
-                    $ubah = 'Lulus Semakan BPSM';
-                    Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
-                }
-                Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-                // flash('Berjaya dihantar.')->success();
-                return redirect()->back();
-            }
-        } elseif ($status == 'Tidak Rasmi') {
-            if ($statusJawatan == 'Tidak Aktif') {
-                $ubah = 'Ketua Jabatan';
-                Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
-            } elseif ($statusJawatan == 'Aktif') {
-                $ubah = 'Lulus Semakan BPSM';
-                Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
-            }
-
-            // flash('Berjaya dihantar.')->success();
-            Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-            return redirect()->back();
-        }
+        toast('Permohonan Berjaya dihantar','success')->position('top-end');
+        return back();
     }
+    // {
+    //     $permohonan = Permohonan::with('user')
+    //         ->where('permohonansID', '=', $id)
+    //         ->first();
+
+    //     $statusJawatan = $permohonan->user->userJawatan->statusDato;
+
+    //     $tarikhmulajalan = $permohonan->tarikhMulaPerjalanan;
+
+    //     $end = Carbon::parse($tarikhmulajalan);
+    //     $nowsaa = Carbon::today();
+
+    //     $length = $end->diffInDays($nowsaa); //panjang hari sebelum berlepas
+    //     // dd($length);
+
+    //     $d = DB::table('permohonans')
+    //         ->where('permohonansID', '=', $id)
+    //         ->whereNotNull('namaFileCuti')
+    //         ->count();
+    //     $dokumenRasmi = DB::table('dokumens')
+    //         ->where('permohonansID', '=', $id)
+    //         ->count();
+    //     $per = DB::table('permohonans')
+    //         ->where('permohonansID', '=', $id)
+    //         ->first();
+
+    //     $status = $per->JenisPermohonan;
+
+    //     if ($status == 'Rasmi') {
+    //         if ($dokumenRasmi == 0) {
+    //             flash('Permohonan Rasmi memerlukan dokumen rasmi.')->error();
+    //             return redirect()->back();
+    //         } else {
+    //             if ($statusJawatan == 'Tidak Aktif') {
+    //                 $ubah = 'Ketua Jabatan';
+    //                 Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+    //             } elseif ($statusJawatan == 'Aktif') {
+    //                 $ubah = 'Lulus Semakan BPSM';
+    //                 Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
+    //             }
+    //             Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
+    //             // flash('Berjaya dihantar.')->success();
+    //             return redirect()->back();
+    //         }
+    //     } elseif ($status == 'Tidak Rasmi') {
+    //         if ($statusJawatan == 'Tidak Aktif') {
+    //             $ubah = 'Ketua Jabatan';
+    //             Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+    //         } elseif ($statusJawatan == 'Aktif') {
+    //             $ubah = 'Lulus Semakan BPSM';
+    //             Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
+    //         }
+
+    //         // flash('Berjaya dihantar.')->success();
+    //         toast('Permohonan Berjaya dihantar','success')->position('top-end');
+    //         // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
+    //         return redirect()->back();
+    //     }
+    // }
 
     public function hantarRombongan($id)
     {
@@ -1058,7 +1063,8 @@ class permohonanController extends Controller
                 ]);
 
             // flash('Permohonan Berjaya Dihantar.')->success();
-            Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
+            // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
+            toast('Permohonan Berjaya dihantar.','success');
             // return dd($d);
             return redirect()->back();
         } elseif ($d == 0 && $peserta == 0) {
@@ -1475,10 +1481,9 @@ class permohonanController extends Controller
             ->get();
 
         $rombongan = Rombongan::where('usersID', $id)->get();
-        //$allPermohonan= Permohonan::all();
+
         $allPermohonan = Permohonan::with('user')->get();
 
-        //dd($ss);
         return view('pengguna.senaraiPermohonanIndividu', compact('permohonan', 'rombongan', 'userDetail', 'allPermohonan'));
     }
 

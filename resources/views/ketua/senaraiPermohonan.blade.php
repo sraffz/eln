@@ -63,10 +63,8 @@
                                                 <th>Tarikh Permohonan</th>
                                                 <th>Negara</th>
                                                 <th>Tarikh Mula Perjalanan</th>
-                                                {{-- <th>Tarikh Akhir Perjalanan</th> --}}
                                                 <th>Jenis Permohonan</th>
                                                 <th>Tindakan</th>
-                                                {{-- <th>Sejarah Keluar Negara</th> --}}
                                             </tr>
                                         </thead>
 
@@ -85,22 +83,19 @@
                                                 @if ($first_datetime >= $last_datetime)
                                                     @if ($final_days < 7)
                                                         <tr class="bg-gradient-danger">
-                                                            {{-- <tr style="background-color:#e46868"> --}}
                                                         @elseif ($final_days < 10)
                                                         <tr class="bg-gradient-warning">
                                                         @else
                                                         <tr>
                                                     @endif
                                                 @else
-                                                    {{-- <tr style="background-color:#e46868"> --}}
                                                     <tr class="bg-gradient-danger">
                                                 @endif
                                                 <td class="text-center">
                                                     {{ $i++ }}
                                                 </td>
                                                 <td style="text-transform: capitalize; font-weight: bold">
-                                                    <a
-                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                 </td>
                                                 <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
@@ -139,25 +134,6 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                {{-- <td>
-                                                    @php
-                                                        $jumlah = 0;
-                                                    @endphp
-                                                    @foreach ($sejarah as $sej)
-                                                        @if ($mohonan->usersID == $sej->usersID)
-                                                            {{ $sej->negara }} <br>
-                                                            ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
-                                                            -
-                                                            {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }})<br>
-                                                            @php
-                                                                $jumlah++;
-                                                            @endphp
-                                                            <br>
-                                                        @endif
-
-                                                    @endforeach
-                                                    <strong>Jumlah:{{ $jumlah }}</strong>
-                                                </td> --}}
                                             @endforeach
                                         </tbody>
                                     </table>

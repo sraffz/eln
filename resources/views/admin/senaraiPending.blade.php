@@ -46,7 +46,7 @@
                             @endif
                         </div>
                         <!-- /.box-header -->
-                        <div class="card-body">
+                        {{-- <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
@@ -61,7 +61,6 @@
                                                     <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
                                                     <th style="vertical-align: middle">Tarikh Kelulusan</th>
                                                     <th style="vertical-align: middle">Jenis Permohonan</th>
-                                                    {{-- <th style="vertical-align: middle">No Rujukan</th> --}}
                                                     <th style="vertical-align: middle">Status Permohonan</th>
                                                     @if ($url != url('senaraiRekodIndividu'))
                                                         <th style="vertical-align: middle">Tindakan</th>
@@ -74,7 +73,6 @@
                                             <tbody>
 
                                                 @foreach ($permohonan as $index => $mohonan)
-
                                                     <tr class="text-center">
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
@@ -87,23 +85,25 @@
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhLulusan)->format('d/m/Y') }}
+                                                        </td>
                                                         <td>
                                                             {{ $mohonan->JenisPermohonan }}
-                                                            
+
                                                         </td>
-                                                        {{-- <td>SUK.D.200 (06) 455/16
-                                                            ELN.JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
-                                                        </td> --}}
+    
                                                         @if ($mohonan->statusPermohonan == 'Permohonan Berjaya')
                                                             <td>
                                                                 <span
                                                                     class="badge badge-success">{{ $mohonan->statusPermohonan }}</span>
                                                                 @if ($mohonan->pengesahan_pembatalan == 1)
-                                                                    {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
-                                                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-sebab="{{ $mohonan->sebab_pembatalan }}" data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}" data-target="#detailbatal">
-                                                                            <i class="fa fa-info-circle"></i> Dibatalkan
-                                                                        </button>
+                                                                    <button type="button" class="btn btn-primary btn-xs"
+                                                                        data-toggle="modal"
+                                                                        data-sebab="{{ $mohonan->sebab_pembatalan }}"
+                                                                        data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}"
+                                                                        data-target="#detailbatal">
+                                                                        <i class="fa fa-info-circle"></i> Dibatalkan
+                                                                    </button>
                                                                 @endif
                                                             </td>
 
@@ -122,7 +122,7 @@
 
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                                 <td class="text-center">
-                                                                    {{ $mohonan->user->jabatan }}  
+                                                                    {{ $mohonan->user->jabatan }}
                                                                     <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-primary btn-xs">
                                                                         Surat
@@ -166,7 +166,6 @@
                                                         @if ($url != url('senaraiRekodIndividu'))
                                                             <td>
                                                                 @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
-
                                                                     <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
                                                                         class="btn btn-success btn-xs"
                                                                         onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
@@ -180,15 +179,11 @@
 
 
                                                                 @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-
-
                                                                 @endif
                                                             </td>
                                                         @else
-
                                                         @endif
                                                     </tr>
-
                                                 @endforeach
 
                                             </tbody>
@@ -199,9 +194,166 @@
                                 <!-- /.col -->
                             </div>
                             <!-- /.row -->
-                        </div>
+                        </div> --}}
                         <!-- ./box-body -->
                         <!-- /.box-footer -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm display">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th style="vertical-align: middle">No</th>
+                                                    <th style="vertical-align: middle">Nama</th>
+                                                    <th style="vertical-align: middle">Jabatan</th>
+                                                    <th style="vertical-align: middle">Negara</th>
+                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
+                                                    <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
+                                                    <th style="vertical-align: middle">Tarikh Kelulusan</th>
+                                                    <th style="vertical-align: middle">Jenis Permohonan</th>
+                                                    {{-- <th style="vertical-align: middle">No Rujukan</th> --}}
+                                                    <th style="vertical-align: middle">Status Permohonan</th>
+                                                    @if ($url != url('senaraiRekodIndividu'))
+                                                        <th style="vertical-align: middle">Tindakan</th>
+                                                    @else
+                                                        <th style="vertical-align: middle">Dokumen(Cetak)</th>
+                                                    @endif
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($permohonan2 as $index => $mohonan)
+                                                    <tr class="text-center">
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>
+                                                            <a
+                                                                href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                        </td>
+                                                        <td>{{ $mohonan->kod_jabatan }}</td>
+                                                        <td>{{ $mohonan->negara }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikh_kelulusan)->format('d/m/Y') }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $mohonan->JenisPermohonan }}
+
+                                                        </td>
+                                                        {{-- <td>SUK.D.200 (06) 455/16
+                                                            ELN.JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
+                                                        </td> --}}
+                                                        @if ($mohonan->status_kelulusan == 'Berjaya')
+                                                            <td>
+                                                                <span
+                                                                    class="badge badge-success">{{ $mohonan->status_kelulusan }}</span>
+                                                                @if ($mohonan->pengesahan_pembatalan == 1)
+                                                                    {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
+                                                                    <button type="button" class="btn btn-primary btn-xs"
+                                                                        data-toggle="modal"
+                                                                        data-sebab="{{ $mohonan->sebab_pembatalan }}"
+                                                                        data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}"
+                                                                        data-target="#detailbatal">
+                                                                        <i class="fa fa-info-circle"></i> Dibatalkan
+                                                                    </button>
+                                                                @endif
+                                                            </td>
+
+                                                            @if ($mohonan->JenisPermohonan == 'Rasmi')
+                                                                <td class="text-center">
+                                                                    {{-- @if ($mohonan->surat = 'MEMO') --}}
+                                                                        <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Memo
+                                                                        </a>
+                                                                    {{-- @elseif ($mohonan->surat = 'SURAT') --}}
+                                                                        <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Surat
+                                                                        </a>
+                                                                    {{-- @endif --}}
+                                                                </td>
+
+                                                            @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
+                                                                <td class="text-center">
+                                                                    {{-- @if ($mohonan->surat = 'MEMO') --}}
+                                                                        <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Memo
+                                                                        </a>
+                                                                    {{-- @elseif ($mohonan->surat = 'SURAT') --}}
+                                                                        <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Surat
+                                                                        </a>
+                                                                    {{-- @endif --}}
+                                                                </td>
+                                                            @endif
+                                                        @elseif($mohonan->status_kelulusan == 'Gagal')
+                                                            <td>
+                                                                <span class="badge badge-danger">{{ $mohonan->status_kelulusan }}</span>
+                                                            </td>
+                                                            <td>
+                                                                @if ($mohonan->JenisPermohonan == 'Rasmi')
+                                                                    @if ($mohonan->surat = 'MEMO')
+                                                                        <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Memo
+                                                                        </a>
+                                                                    @elseif ($mohonan->surat = 'SURAT')
+                                                                        <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Surat
+                                                                        </a>
+                                                                    @endif
+                                                                @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
+                                                                    @if ($mohonan->surat = 'MEMO')
+                                                                        <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Memo
+                                                                        </a>
+                                                                    @elseif ($mohonan->surat = 'SURAT')
+                                                                        <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Surat
+                                                                        </a>
+                                                                    @endif
+                                                                @endif
+                                                            </td>
+                                                        @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                            <td><span class="badge badge-info">Disokong</span></td>
+                                                        @endif
+
+                                                        @if ($url != url('senaraiRekodIndividu'))
+                                                            <td>
+                                                                @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
+                                                                    <a href="{{ route('senaraiPending.hantar', ['id' => $mohonan->permohonansID]) }}"
+                                                                        class="btn btn-success btn-xs"
+                                                                        onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');"><i
+                                                                            class="fa fa-check-square-o"> Terima</i></a>
+
+                                                                    <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                                                        href='#mdl-tolak'
+                                                                        data-id="{{ $mohonan->permohonansID }}"
+                                                                        onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
+                                                                            class="fa fa-times">Tolak</i></a>
+                                                                @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                @endif
+                                                            </td>
+                                                        @else
+                                                        @endif
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
                     </div>
                     <!-- /.box -->
                 </div>
@@ -291,7 +443,7 @@
             var sebab = button.data('sebab');
             var tarikh = button.data('tarikh');
             // Use above variables to manipulate the DOM
-            
+
             $(".modal-body #sebab").val(sebab);
             $(".modal-body #tarikh").val(tarikh);
         });

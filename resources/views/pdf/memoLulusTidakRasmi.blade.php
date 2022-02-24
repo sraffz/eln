@@ -85,7 +85,7 @@
                             <div align="justify">
                                 <strong>
                                     <hr class="solid">
-                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Ketua Jabatan
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $ketua->jawatan_ketua }}
                                     <br>
                                     <hr class="solid">
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>

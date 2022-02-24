@@ -33,14 +33,18 @@ class PdfController extends Controller
 
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
 
+        $ketua = DB::table('senarai_pengesahan_kelulusan_permohonan')
+        ->where('permohonansID', $id)
+        ->first();
+
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
         setlocale(LC_TIME, 'MS-my');
        
-        // return view('pdf.suratLulusRasmi',compact('permohon','pp','cogan'));
-        $pdf = PDF::loadView('pdf.suratLulusRasmi', compact('permohon', 'pp', 'cogan'))->setPaper('a4', 'portrait');
+        // return view('pdf.suratLulusRasmi',compact('permohon', 'pp', 'cogan', 'ketua'));
+        $pdf = PDF::loadView('pdf.suratLulusRasmi', compact('permohon', 'pp', 'cogan', 'ketua'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
@@ -53,14 +57,18 @@ class PdfController extends Controller
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
 
+        $ketua = DB::table('senarai_pengesahan_kelulusan_permohonan')
+        ->where('permohonansID', $id)
+        ->first();
+
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
         setlocale(LC_TIME, 'MS-my');
 
-        return view('pdf.suratLulusTidakRasmi',compact('permohon','pp','cogan'));
-        $pdf = PDF::loadView('pdf.suratLulusTidakRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
+        // return view('pdf.suratLulusTidakRasmi',compact('permohon', 'pp', 'cogan', 'ketua'));
+        $pdf = PDF::loadView('pdf.suratLulusTidakRasmi', compact('permohon', 'pp', 'cogan', 'ketua'))->setPaper('a4', 'portrait');
         return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
@@ -73,13 +81,17 @@ class PdfController extends Controller
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
 
+        $ketua = DB::table('senarai_pengesahan_kelulusan_permohonan')
+        ->where('permohonansID', $id)
+        ->first();
+
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
         setlocale(LC_TIME, 'MS-my');
-        // return view('pdf.memoLulusRasmi',compact('permohon','pp','cogan'));
-        $pdf = PDF::loadView('pdf.memoLulusRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
+        // return view('pdf.memoLulusRasmi',compact('permohon','pp','cogan','ketua'));
+        $pdf = PDF::loadView('pdf.memoLulusRasmi', compact('permohon','pp','cogan', 'ketua'))->setPaper('a4', 'portrait');
         return $pdf->download('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
@@ -92,14 +104,18 @@ class PdfController extends Controller
             ->first();
         $pp = InfoSurat::where('perkara', '=', 'Penolong Pengarah')->first();
 
+        $ketua = DB::table('senarai_pengesahan_kelulusan_permohonan')
+        ->where('permohonansID', $id)
+        ->first();
+
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         $nama = $permohon->user->nama;
         $negara = $permohon->negara;
 
         setlocale(LC_TIME, 'MS-my');
 
-        // return view('pdf.memoLulusTidakRasmi',compact('permohon','pp','cogan'));
-        $pdf = PDF::loadView('pdf.memoLulusTidakRasmi', ['permohon' => $permohon, 'pp' => $pp, 'cogan' => $cogan])->setPaper('a4', 'portrait');
+        // return view('pdf.memoLulusTidakRasmi',compact('permohon','pp','cogan', 'ketua'));
+        $pdf = PDF::loadView('pdf.memoLulusTidakRasmi', compact('permohon','pp','cogan', 'ketua'))->setPaper('a4', 'portrait');
         return $pdf->download('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 

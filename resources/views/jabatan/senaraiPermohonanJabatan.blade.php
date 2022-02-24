@@ -34,11 +34,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            {{-- <th>Jabatan</th> --}}
                                             <th>Tarikh Permohonan</th>
                                             <th>Negara</th>
                                             <th>Tarikh Mula Perjalanan</th>
-                                            {{-- <th>Tarikh Akhir Perjalanan</th> --}}
                                             <th>Jenis Permohonan</th>
                                             <th>Status Permohonan</th>
                                             <th>Tindakan</th>
@@ -50,23 +48,17 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td style="text-transform: capitalize">
                                                     @if ($mohonan->JenisPermohonan == 'rombongan')
-                                                        <a
-                                                            href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
-
+                                                        <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
                                                     @else
-                                                        <a
-                                                            href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                        <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                     @endif
                                                 </td>
-                                                {{-- <td>{{ $mohonan->user->jabatan }}</td> --}}
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->user->tpermohonan)->format('d/m/Y') }}
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->tpermohonan)->format('d/m/Y') }}
                                                 </td>
                                                 <td>{{ $mohonan->negara }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
-                                                {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}
-                                                </td>
+                                                <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}</td>
                                                 <td>{{ $mohonan->statusPermohonan }}</td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
@@ -74,7 +66,6 @@
                                                             data-toggle="modal" data-target="#terimapermohonan"
                                                             class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i>
                                                         </a>
-
                                                         <!-- Button trigger modal -->
                                                         <button type="button" class="btn btn-danger btn-xs"
                                                             data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
@@ -82,23 +73,14 @@
                                                             <i class="fa fa-thumbs-down"></i>
                                                         </button>
 
-                                                        {{-- <a href="{{ url('pengesahan-permohonan-tolak', ['id' => $mohonan->permohonansID]) }}"
-                                                            class="btn btn-danger btn-xs"
-                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');">
-                                                            <i class="fa fa-thumbs-down"></i>
-                                                        </a> --}}
                                                         <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-dark btn-xs">
                                                             <i class="fa fa-print"></i>
                                                         </a>
                                                     @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                        {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                                                                        class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                                                                    </a> --}}
+
                                                     @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
-                                                        {{-- <a href="{{ route('editPermohonan.edit', ['id' => $mohonan->permohonansID]) }}" 
-                                                            class="btn btn-warning btn-xs" onclick="javascript: return confirm('Adakah anda pasti untuk cetak?');"><i class="fa fa-print"></i>
-                                                        </a> --}}
+
                                                     @endif
                                                 </td>
                                             </tr>
@@ -106,43 +88,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            {{-- <div class="modal fade" id="mdl-kemaskini">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title">Sebab Ditolak</h4>
-                                            </div>
-                                            {!! Form::open(['method' => 'POST', 'url' => '/sebab']) !!}
-                                            <div class="modal-body">
-                                                <div class="form-group{{ $errors->has('sebb') ? ' has-error' : '' }}">
-                                                    {!! Form::label('sebb', 'Sebab') !!}
-                                                    {!! Form::text('sebb', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                                                    <small class="text-danger">{{ $errors->first('sebb') }}</small>
-                                                </div>
-                                                
-                                                {!! Form::hidden('id_edit', 'value',['id'=>'id_edit']) !!}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                                <button type="submit" class="btn btn-success">Hantar</button>
-                                            </div>
-                                            {!! Form::close() !!}
-                                        </div>
-                                    </div>
-                                </div> --}}
-                            <!-- /.chart-responsive -->
-                            <!-- /.row -->
                         </div>
                     </div>
-                    <!-- ./card-body -->
-                    <!-- /.box-footer -->
                 </div>
-                <!-- /.box -->
             </div>
-
-
-            <!-- /.col -->
         </div>
         <div class="modal fade" id="terimapermohonan" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
             <div class="modal-dialog" role="document">
@@ -160,7 +109,6 @@
                                 <textarea name="ulasan" class="form-control"></textarea>
                                 <input name="kopeID" id="kopeID" type="hidden" value="">
                             </div>
-                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Hantar" />
@@ -200,8 +148,6 @@
                 </div>
             </div>
         </div>
-
-
     </section>
 @endsection
 

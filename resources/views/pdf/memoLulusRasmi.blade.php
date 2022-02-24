@@ -111,7 +111,7 @@
                                 @endphp
                                 <strong>
                                     <hr class="solid">
-                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Ketua Jabatan <br>
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $ketua->jawatan_ketua }} <br>
                                     <hr class="solid">
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>
                                     <hr class="solid">

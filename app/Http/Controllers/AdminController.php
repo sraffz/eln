@@ -116,16 +116,18 @@ class AdminController extends Controller
     {
         // $permohonan = Permohonan::all();
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
-        $permohonan = Permohonan::with('user')
-        
-            ->whereNull('rombongans_id')
-            ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // $permohonan = Permohonan::with('user')
+        //     ->whereNull('rombongans_id')
+        //     ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+        //     ->orderBy('created_at', 'desc')
+        //     ->get();
 
-        // $jabatan = Jabatan::where('jabatan_id', );
-        //dd($permohonan);
-        return view('admin.senaraiPending', compact('permohonan'));
+        $permohonan2 = DB::table('senarai_rekod_permohonan_suk')
+        ->whereNotIn('jenisPermohonan', ['rombongan'])
+        ->orderBy('tarikh_permohonan', 'desc')
+        ->get();
+
+        return view('admin.senaraiPending', compact('permohonan2'));
     }
 
     public function indexRombongan()
@@ -1040,41 +1042,59 @@ class AdminController extends Controller
         $jab = Auth::user()->jabatan;
         // echo $jab;
         if ($jab == 44) {
-             
-            $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
+            $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
+                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
                 ->whereIn('users.jabatan', [44, 37])
                 ->whereIn('statusPermohonan', ['Ketua Jabatan'])
                 ->orderBy('permohonans.created_at','asc')
                 ->get();
         } else {
-            $permohonan = Permohonan::join('users', 'permohonans.usersID', '=', 'users.usersID')
+            $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
+                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
                 ->where('users.jabatan', $jab)
                 ->whereIn('statusPermohonan', ['Ketua Jabatan'])
                 ->orderBy('permohonans.created_at','asc')
                 ->get();
         }
         
-
         return view('jabatan.senaraiPermohonanJabatan', compact('permohonan'));
     }
 
     public function senaraiPermohonanLepas()
     {
         $jab = Auth::user()->jabatan;
-        // echo $jab;
-        $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
-            ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-            ->where('users.jabatan', $jab)
-            ->whereNotIn('statusPermohonan', ['simpanan'])
-            ->orderBy('permohonans.created_at', 'desc')
-            ->get();
 
-        $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-            ->join('users', 'rombongans.usersID', '=', 'users.usersID')
-            ->where('users.jabatan', $jab)
-            ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
-            ->orderBy('rombongans.created_at', 'desc')
-            ->get();
+        if ($jab == 44) {
+            $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
+                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+                ->whereIn('users.jabatan', [44, 37])
+                ->whereNotIn('statusPermohonan', ['simpanan'])
+                ->orderBy('permohonans.created_at', 'desc')
+                ->get();
+        } else {
+            $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
+                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+                ->where('users.jabatan', $jab)
+                ->whereNotIn('statusPermohonan', ['simpanan'])
+                ->orderBy('permohonans.created_at', 'desc')
+                ->get();
+        }
+
+        if ($jab == 44) {
+            $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->join('users', 'rombongans.usersID', '=', 'users.usersID')
+                ->whereIn('users.jabatan', [44, 37])
+                ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
+                ->orderBy('rombongans.created_at', 'desc')
+                ->get();
+        }else {
+            $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                ->join('users', 'rombongans.usersID', '=', 'users.usersID')
+                ->where('users.jabatan', $jab)
+                ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
+                ->orderBy('rombongans.created_at', 'desc')
+                ->get();
+        }
 
         return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'rombo'));
     }
@@ -1117,11 +1137,11 @@ class AdminController extends Controller
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
-            'jabatan_pemohon' => $pemohon->userJabatan->nama_jabatan,
+            'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
             'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
-            'jabatan_pengesah' => $pengesah->userJabatan->nama_jabatan,
+            'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
             'ulasan' => $request->ulasan,
             'status_pengesah' => 'disokong',
             "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
@@ -1161,11 +1181,11 @@ class AdminController extends Controller
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
-            'jabatan_pemohon' => $pemohon->userJabatan->nama_jabatan,
+            'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
             'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
-            'jabatan_pengesah' => $pengesah->userJabatan->nama_jabatan,
+            'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
             'ulasan' => $request->ulasan,
             'status_pengesah' => 'ditolak',
             "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()

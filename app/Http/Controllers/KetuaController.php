@@ -102,7 +102,7 @@ class KetuaController extends Controller
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
             'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
             'ulasan' => 'tiada',
             'status_kelulusan' => 'Berjaya',
             'created_at' => \Carbon\Carbon::now(), # new \Datetime()
@@ -137,7 +137,7 @@ class KetuaController extends Controller
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
             'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,            
             'ulasan_kelulusan' => 'tiada',
             'status_kelulusan' => 'Berjaya',
             'tarikh_kelulusan' => \Carbon\Carbon::now(), # new \Datetime()
@@ -147,10 +147,7 @@ class KetuaController extends Controller
             ->where('rombongans_id', '=', $id)
             ->where('statusPermohonan', 'Lulus Semakan BPSM')
             ->get();
-
         // dd($senarai);
-        
-        
         
         foreach ($senarai as $sena) {
 
@@ -164,7 +161,7 @@ class KetuaController extends Controller
                 'id_pelulus' => Auth::user()->usersID,
                 'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
                 'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
-                // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+                'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan' => 'tiada',
                 'status_kelulusan' => 'Berjaya',
                 'created_at' => \Carbon\Carbon::now(), # new \Datetime()
@@ -194,7 +191,7 @@ class KetuaController extends Controller
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
             'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
             'ulasan_kelulusan' => 'tiada',
             'status_kelulusan' => 'Gagal',
             'tarikh_kelulusan' => \Carbon\Carbon::now(), # new \Datetime()
@@ -234,7 +231,7 @@ class KetuaController extends Controller
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
             'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            // 'jabatan_pengesah' => $pelulus->userJabatan->nama_jabatan,
+            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
             'ulasan' => 'tiada',
             'status_kelulusan' => 'Gagal',
             'created_at' => \Carbon\Carbon::now(), # new \Datetime()
@@ -338,8 +335,9 @@ class KetuaController extends Controller
             ->get();
 
         // return dd($sejarah);
-        $pengesah = Eln_pengesahan_bahagian::select('users.*', 'eln_pengesahan_bahagian.*', 'eln_pengesahan_bahagian.created_at as tarikhsah')
+        $pengesah = Eln_pengesahan_bahagian::select('users.*', 'eln_pengesahan_bahagian.*', 'jabatan.nama_jabatan','eln_pengesahan_bahagian.created_at as tarikhsah')
             ->join('users', 'users.usersID', '=', 'eln_pengesahan_bahagian.id_pengesah')
+            ->join('jabatan', 'jabatan.jabatan_id', '=', 'eln_pengesahan_bahagian.jabatan_pengesah')
             ->where('eln_pengesahan_bahagian.id_permohonan', $id)
             ->get();
 
@@ -357,7 +355,7 @@ class KetuaController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        // return view('ketua.cetak.cetak-butiran-permohonan', compact('pengesah','sejarah','permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        return view('ketua.cetak.cetak-butiran-permohonan', compact('pengesah','sejarah','permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('pengesah', 'sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Ke Luar Negara.pdf');
     }
