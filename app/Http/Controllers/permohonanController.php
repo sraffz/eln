@@ -1000,7 +1000,7 @@ class permohonanController extends Controller
                     Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
                 }
                 // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-                toast('Permohonan Berjaya dihantar','success')->position('top-end');
+                toast('Permohonan Berjaya dihantar','success')->position('top');
                 // flash('Berjaya dihantar.')->success();
                 return redirect()->back();
             }
@@ -1014,7 +1014,7 @@ class permohonanController extends Controller
             }
 
             // flash('Berjaya dihantar.')->success();
-            toast('Permohonan Berjaya dihantar','success')->position('top-end');
+            toast('Permohonan Berjaya dihantar','success')->position('top');
             // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
             return redirect()->back();
         }
@@ -1061,7 +1061,7 @@ class permohonanController extends Controller
 
             // flash('Permohonan Berjaya Dihantar.')->success();
             // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-            toast('Permohonan Berjaya dihantar','success')->position('top-end');
+            toast('Permohonan Berjaya dihantar','success')->position('top');
             // return dd($d);
             return redirect()->back();
         } elseif ($d == 0 && $peserta == 0) {
@@ -1368,7 +1368,8 @@ class permohonanController extends Controller
                     }
                 }
             }
-            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            // Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            toast('Permohonan berjaya dikemaskini', 'success')->position('top');
             // flash('Berjaya dikemaskini.')->success();
             return back();
         } elseif ($jenisPermohonan == 'Tidak Rasmi') {

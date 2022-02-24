@@ -135,7 +135,6 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-
     'providers' => [
 
         /*
@@ -232,8 +231,6 @@ return [
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
-
-
     ],
 
 ];

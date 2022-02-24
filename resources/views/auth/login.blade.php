@@ -43,7 +43,7 @@
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">Log masuk untuk membuat permohonan</p>
                     <form action="{{ route('login') }}" method="post">
-                        {{ csrf_field() }}
+                         {{csrf_field()}}
                         <div class="input-group mb-3">
                             <input type="text" name="nokp"
                                 class="form-control {{ $errors->has('nokp') ? ' is-invalid' : '' }}"
