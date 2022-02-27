@@ -61,17 +61,17 @@
                 <table class="table table-borderless table-sm">
                     <tr>
                         <td>&nbsp;</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <td class="text-right" style="width: 53%">Ruj Kami&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
                         <td style="width: 1%">:</td>
-                        <td>
-                            SUK.D.200 (06) 455/16 ELN.Jld {{ $permohon->no_ruj_file }}
-                            ( {{ $permohon->no_ruj_bil }} )
+                        <td class="text-right">
+                            SUK.D.200 (06) 455/16 ELN.Jld @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif 
+                            ({{ $ketua->no_surat }})
                         </td>
                     </tr>
                     <tr>

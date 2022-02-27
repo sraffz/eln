@@ -16,7 +16,7 @@ use App\GredKod;
 use App\GredAngka;
 use DB;
 use Auth;
-Use Alert;
+use Alert;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
@@ -660,7 +660,7 @@ class permohonanController extends Controller
             $tt = explode('-', $tarikhmulaAkhirCuti); // dateRange is you string
             $dari = $tt[0];
             $hingga = $tt[1];
-    
+
             $tarikh1 = strtotime($dari);
             $tarikh2 = strtotime($hingga);
             $tarikh3 = strtotime($kembaliTugas);
@@ -767,7 +767,6 @@ class permohonanController extends Controller
                     }
                 }
             } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
-               
                 $co = $rombo->rombongans_id;
 
                 if ($request->hasFile('fileCuti')) {
@@ -866,7 +865,8 @@ class permohonanController extends Controller
 
         if ($rombo == null) {
             // user doesn't exist
-            flash('Kod Rombongan tidak wujud atau permohonan rombongan telah dihantar kepada ketua bahagian')->error();
+            Alert::error('', 'Kod Rombongan tidak wujud atau permohonan rombongan telah dihantar');
+            // flash('Kod Rombongan tidak wujud atau permohonan rombongan telah dihantar kepada ketua bahagian')->error();
             return back()->withInput();
         } else {
             $tarikhMulaRom = $rombo->tarikhMulaRom;
@@ -1000,7 +1000,7 @@ class permohonanController extends Controller
                     Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
                 }
                 // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-                toast('Permohonan Berjaya dihantar','success')->position('top-end');
+                toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
                 // flash('Berjaya dihantar.')->success();
                 return redirect()->back();
             }
@@ -1014,7 +1014,7 @@ class permohonanController extends Controller
             }
 
             // flash('Berjaya dihantar.')->success();
-            toast('Permohonan Berjaya dihantar','success')->position('top-end');
+            toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
             return redirect()->back();
         }
@@ -1026,15 +1026,6 @@ class permohonanController extends Controller
             ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'Lulus Semakan BPSM'])
             ->count();
 
-        // return dd($errorcheck);
-
-        // if ($errorcheck > 0) {
-
-        //     flash('Terdapat ahli rombongan yang belum mendapat kelulusan ketua jabatan.')->error();
-        //     return back();
-
-        // } else{
-
         $d = DB::table('dokumens')
             ->where('rombongans_id', '=', $id)
             ->count();
@@ -1044,8 +1035,8 @@ class permohonanController extends Controller
             ->count();
 
         $rombo = DB::table('rombongans')
-        ->where('rombongans_id', $id)
-        ->first();
+            ->where('rombongans_id', $id)
+            ->first();
 
         //echo $peserta;
         if ($d >= 1 && $peserta >= 1) {
@@ -1058,42 +1049,24 @@ class permohonanController extends Controller
                 ->update([
                     'statusPermohonan' => 'Permohonan Gagal',
                 ]);
-
-            // flash('Permohonan Berjaya Dihantar.')->success();
-            // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-            toast('Permohonan Berjaya dihantar','success')->position('top-end');
+            toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             // return dd($d);
             return redirect()->back();
         } elseif ($d == 0 && $peserta == 0) {
             if ($rombo->jenis_rombongan == 'Rasmi') {
                 flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
                 return back();
-            } else {
-
             }
-            
         } elseif ($d == 0) {
-
             if ($rombo->jenis_rombongan == 'Rasmi') {
                 flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
                 return back();
-            }  
+            }
         } elseif ($peserta == 0) {
             flash('Permohonan rombongan memerlukan peserta.')->error();
             return back();
         }
         // }
-    }
-
-    public function editIndividu($id)
-    {
-        // $userDetail = Permohonan::find($id);
-        // return view('registerFormIndividuRasmi',compact('userDetail'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     public function hapus($id)

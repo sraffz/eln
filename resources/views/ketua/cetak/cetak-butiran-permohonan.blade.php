@@ -237,7 +237,7 @@
                         @endif
                         <br><br>
                         <strong>Tarikh Permohonan :
-                            {{ \Carbon\Carbon::parse($permohonan->created_at)->format('d F Y') }}</strong>
+                            {{ \Carbon\Carbon::parse($permohonan->created_at)->format('d/m/Y') }}</strong>
                     </td>
                 </tr>
             </tbody>

@@ -381,7 +381,8 @@ class AdminController extends Controller
             $jumlahDate = $mula->diffInDays($akhir);
         }
 
-        $peserta = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+        $peserta = Permohonan::select('permohonans.*','users.*', 'jabatan.*', 'eln_pengesahan_bahagian.*', 'eln_kelulusan.*', 'eln_kelulusan.id as id_pelulus' )
+            ->join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->leftjoin('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id_permohonan', '=', 'permohonans.permohonansID')
             ->leftjoin('eln_kelulusan', 'eln_kelulusan.id_pengesahan', '=', 'eln_pengesahan_bahagian.id')
@@ -389,6 +390,8 @@ class AdminController extends Controller
             // ->whereIn('statusPermohonan',['Lulus Semakan BPSM'])
             ->get();
 
+            
+        
         $dokumen = DB::table('dokumens')
             ->where('rombongans_id', '=', $id)
             ->first();
@@ -1149,7 +1152,8 @@ class AdminController extends Controller
         ]);
 
         Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
-        flash('Permohonan telah disokong.', 'success');
+        // flash('Permohonan telah disokong.', 'success');
+        toast('Permohonan telah disokong', 'success')->position('top-end');
         return redirect()->back();
     }
 
@@ -1192,7 +1196,8 @@ class AdminController extends Controller
             "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
         ]);
 
-        flash('Permohonan Ditolak.')->success();
+        // flash('Permohonan Ditolak.')->success();
+        toast('Permohonan Ditolak', 'error')->position('top-end');
         return redirect()->back();
     }
     
@@ -1242,7 +1247,8 @@ class AdminController extends Controller
             'password' => Hash::make($user->nokp)
         ]);
 
-        flash('Kata Laluan Pengguna Telah Diset Semula', 'success');
+        // flash('Kata Laluan Pengguna Telah Diset Semula', 'success');
+        toast('Kata Laluan Pengguna Telah Diset Semula', 'success')->position('top-end');
         return back();
     }
 
@@ -1270,7 +1276,8 @@ class AdminController extends Controller
                 'gredKod' => $kod
             ]);
 
-        flash('Maklumat telah dikemaskini', 'success');
+        // flash('Maklumat telah dikemaskini', 'success');
+        toast('Maklumat telah dikemaskini', 'success')->position('top-end');
         return redirect()->back();
     }
 
@@ -1296,9 +1303,10 @@ class AdminController extends Controller
             'maklumat2' => $request->input('kata2'),
             'maklumat3' => $request->input('kata3'),
         ]);
-        flash('Maklumat telah dikemaskini', 'success');
+        // flash('Maklumat telah dikemaskini', 'success');
+        toast('Maklumat telah dikemaskini', 'success')->position('top-end');
 
-        return redirect()->back();
+        return back();
 
         // $cogan=$request->cogan;
         // $kata=$request->kata;
@@ -1349,12 +1357,15 @@ class AdminController extends Controller
                 'updated_at' => \Carbon\Carbon::now(), # \Datetime()
             ];
             infoSurat::create($data);
-            flash('Berjaya mendaftar Penolong Pengarah. ')->success();
-            return redirect()->back();
+            // flash('Berjaya mendaftar Penolong Pengarah. ')->success();
+            toast('Maklumat telah dikemaskini', 'success')->position('top-end');
+            return back();
         } else {
             infoSurat::where('perkara', $pp)->update(['maklumat1' => $maklumat1, 'maklumat2' => $maklumat2, 'maklumat3' => $maklumat3, 'maklumat4' => $maklumat4]);
-            flash('Maklumat telah dikemaskini', 'success');
-            return redirect()->back();
+            // flash('Maklumat telah dikemaskini', 'success');
+            toast('Maklumat telah dikemaskini', 'success')->position('top-end');
+
+            return back();
         }
     }
 }

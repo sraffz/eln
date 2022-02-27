@@ -183,7 +183,7 @@
                                                                             class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
                                                                         <!-- Button trigger modal -->
                                                                         <button type="button" class="btn btn-danger btn-xs"
-                                                                            data-id="{{ $peser->id_pengesahan }}"
+                                                                            data-id="{{ $peser->id_pelulus }}"
                                                                             data-toggle="modal"
                                                                             data-target="#ubahstatuskelulusan">
                                                                             <i class="fas fa-exchange-alt"></i>
@@ -192,7 +192,7 @@
                                                                         <span
                                                                             class="badge badge-pill badge-danger">{{ $peser->status_kelulusan }}</span>
                                                                         <button type="button" class="btn btn-success btn-xs"
-                                                                            data-id="{{ $peser->id_pengesahan }}"
+                                                                            data-id="{{ $peser->id_pelulus }}"
                                                                             data-toggle="modal"
                                                                             data-target="#ubahstatuskelulusan">
                                                                             <i class="fas fa-exchange-alt"></i>
