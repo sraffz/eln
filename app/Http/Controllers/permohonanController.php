@@ -1341,7 +1341,8 @@ class permohonanController extends Controller
                     }
                 }
             }
-            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            // Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            toast('Permohonan berjaya dikemaskini', 'success')->position('top');
             // flash('Berjaya dikemaskini.')->success();
             return back();
         } elseif ($jenisPermohonan == 'Tidak Rasmi') {
