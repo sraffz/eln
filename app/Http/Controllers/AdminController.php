@@ -40,20 +40,26 @@ class AdminController extends Controller
         // $permohonan = Permohonan::all();
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
         if (Auth::user()->role == 'adminBPSM') {
-            $permohonan = Permohonan::with('user')
+            $permohonan2 = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+                ->leftjoin('jabatan', 'jabatan.jabatan_id','=' ,'users.jabatan')
                 ->whereNull('rombongans_id')
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
                 ->get();
         } elseif (Auth::user()->role == 'jabatan') {
-            $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+            $permohonan2 = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
                 ->whereNull('rombongans_id')
                 ->where('users.jabatan', Auth::user()->jabatan)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
                 ->get();
         }
 
+        // $permohonan2 = DB::table('senarai_rekod_permohonan_suk')
+        // ->whereNotIn('jenisPermohonan', ['rombongan'])
+        // ->orderBy('tarikh_permohonan', 'desc')
+        // ->get();
+
         //dd($permohonan);
-        return view('admin.senaraiPending', compact('permohonan'));
+        return view('admin.senaraiPending', compact('permohonan', 'permohonan2'));
     }
 
     public function profil()
@@ -90,8 +96,8 @@ class AdminController extends Controller
             'gredAngka' => $req->input('gredangka'),
         ]);
 
-        Session::flash('message', 'Berjaya dikemaskini.');
-
+        // Session::flash('message', 'Berjaya dikemaskini.');
+        toast('Berjaya dikemaskini', 'success')->position('top-end');
         return back();
     }
 
@@ -107,7 +113,8 @@ class AdminController extends Controller
             'password' => Hash::make($req->newpassword),
         ]);
 
-        Session::flash('message', 'Kata laluan berjaya ditukar.');
+        // Session::flash('message', 'Kata laluan berjaya ditukar.');
+        toast('Kata laluan berjaya ditukar', 'success')->position('top-end');
 
         return back();
     }
@@ -145,16 +152,18 @@ class AdminController extends Controller
 
             if ($jab == 44) {
                 
-                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                $rombongan = Rombongan::select('users.*', 'jabatan.*','rombongans.*', 'rombongans.created_at as tarikmohon')
+                    ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
                     ->whereIn('statusPermohonanRom', ['Pending'])
                     ->whereIn('users.jabatan', [44, 37])
                     ->orderBy('rombongans.created_at','asc')
                     ->get();
             } else {
 
-                $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                $rombongan = Rombongan::select('users.*','jabatan.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+                    ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
                     ->whereIn('statusPermohonanRom', ['Pending'])
                     ->where('users.jabatan', $jab)
                     ->orderBy('rombongans.created_at','asc')
@@ -163,7 +172,7 @@ class AdminController extends Controller
       }
 
         // dd($rombongan);
-        $allPermohonan = Permohonan::with('user')
+        $allPermohonan = Permohonan::with('user', 'userJabatan')
             ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
             ->get();
 
@@ -325,7 +334,9 @@ class AdminController extends Controller
             'alamatRom' => $req->input('alamatRom'),
         ]);
 
-        flash('Maklumat dikemaskini.')->success();
+        // flash('Maklumat dikemaskini.')->success();
+        toast('Maklumat dikemaskini', 'success')->position('top-end');
+
         return back();
     }
 
@@ -518,7 +529,9 @@ class AdminController extends Controller
             'statusPermohonanRom' => $ubah
         ]);
 
-        flash('lulus semakkan.')->success();
+        // flash('lulus semakkan.')->success();
+        toast('Permohonan Rombongan Disokong', 'success')->position('top-end');
+
         return back();
     }
 
@@ -562,6 +575,7 @@ class AdminController extends Controller
         ];
         Sebab::create($data);
         flash('Berjaya dihantar semula.')->success();
+        
         return redirect('senaraiPendingRombongan');
     }
 
@@ -631,16 +645,22 @@ class AdminController extends Controller
         // dd($request);
         $namajabatan = $request->input('nama_jabatan');
         $kodjabatan = $request->input('kod_jabatan');
-
+        // dd($request->negeri);
         $data = [
+            'jawatan_ketua' => $request->ketua,
             'nama_jabatan' => $namajabatan,
             'kod_jabatan' => $kodjabatan,
-            'created_at' => \Carbon\Carbon::now(), # \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+            'alamat' => $request->alamat,
+            'poskod' => $request->poskod,
+            'daerah' => $request->daerah,
+            'negeri' => $request->negeri,
+            'surat' => $request->surat,
+            // 'created_at' => \Carbon\Carbon::now(), # \Datetime()
+            // 'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
-        Jabatan::create($data);
+        Jabatan::insertGetId($data);
 
-        flash('Jabatan berjaya ditambah')->success();
+        toast('Jabatan berjaya ditambah', 'success')->position('top-end');
         return back();
     }
 
@@ -648,11 +668,18 @@ class AdminController extends Controller
     {
         Jabatan::where('jabatan_id', $req->input('id'))
         ->update([
-            'nama_jabatan' => $req->input('nama_jabatan'),
-            'kod_jabatan' => $req->input('kod_jabatan')
+            'jawatan_ketua' => $req->ketua,
+            'nama_jabatan' => $req->nama_jabatan,
+            'kod_jabatan' => $req->kod_jabatan,
+            'alamat' => $req->alamat,
+            'poskod' => $req->poskod,
+            'daerah' => $req->daerah,
+            'negeri' => $req->negeri,
+            'surat' => $req->surat,
         ]);
 
-        flash('Jabatan berjaya dikemaskini')->success();
+        // flash('Jabatan berjaya dikemaskini')->success();
+        toast('Jabatan berjaya dikemaskini', 'success')->position('top-end');
         return back();
     }
 
@@ -661,7 +688,8 @@ class AdminController extends Controller
         Jabatan::where('jabatan_id', $req->input('id'))
         ->delete();
 
-        flash('Jabatan berjaya dipadam')->success();
+        // flash('Jabatan berjaya dipadam')->success();
+        toast('Jabatan berjaya dipadam', 'success')->position('top-end');
         return back();
     }
 
@@ -683,7 +711,8 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         Jawatan::create($data);
-        flash('Jawatan berjaya ditambah.')->success();
+        // flash('Jawatan berjaya ditambah.')->success();
+        toast('Jawatan berjaya ditambah', 'success')->position('top-end');
         return redirect('senaraiJawatan');
     }
 
@@ -694,7 +723,8 @@ class AdminController extends Controller
             'namaJawatan' => $req->input('namaJawatan')
         ]);
 
-        flash('Jawatan berjaya dikemaskini')->success();
+        toast('Jawatan berjaya dikemaskini', 'success')->position('top-end');
+        // flash('Jawatan berjaya dikemaskini')->success();
         return back();
     }
 
@@ -703,7 +733,8 @@ class AdminController extends Controller
         Jawatan::where('idJawatan', $req->input('id'))
         ->delete();
 
-        flash('Jawatan berjaya dipadam')->success();
+        // flash('Jawatan berjaya dipadam')->success();
+        toast('Jawatan berjaya dipadam', 'success')->position('top-end');
         return back();
     }
 
@@ -729,7 +760,9 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         GredAngka::create($data);
-        flash('Maklumat telah ditambah')->success();
+        // flash('Maklumat telah ditambah')->success();
+        toast('Maklumat telah ditambah', 'success')->position('top-end');
+
         return redirect('senaraiGredAngka');
     }
 
@@ -740,7 +773,9 @@ class AdminController extends Controller
             'gred_angka_nombor' => $req->input('gred_angka_nombor')
         ]);
 
-        flash('GredAngka berjaya dikemaskini')->success();
+        // flash('GredAngka berjaya dikemaskini')->success();
+        toast('Angka Gred dikemaskini', 'success')->position('top-end');
+
         return back();
     }
 
@@ -749,7 +784,9 @@ class AdminController extends Controller
         GredAngka::where('gred_angka_ID', $req->input('id'))
         ->delete();
 
-        flash('GredAngka berjaya dipadam')->success();
+        // flash('GredAngka berjaya dipadam')->success();
+        toast('Angka Gred dipadam', 'success')->position('top-end');
+
         return back();
     }
 
@@ -896,7 +933,8 @@ class AdminController extends Controller
 
         Jawatan::where('idJawatan', $angka)->update(['statusDato' => $ulasan]);
 
-        flash('Maklumat telah ditambah')->success();
+        // flash('Maklumat telah ditambah')->success();
+        toast('Maklumat telah ditambah', 'success')->position('top-end');
         return redirect('terusDato');
     }
     public function padamTerusDato($id)
@@ -904,7 +942,8 @@ class AdminController extends Controller
         $ulasan = 'Tidak Aktif';
         Jawatan::where('idJawatan', $id)->update(['statusDato' => $ulasan]);
 
-        flash('Jawatan terus ke Dato dihapuskan.')->error();
+        // flash('Jawatan terus ke Dato dihapuskan.')->error();
+        toast('Jawatan terus ke Dato dihapuskan', 'error')->position('top-end');
         return redirect('terusDato');
     }
 
@@ -932,7 +971,9 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         GredKod::create($data);
-        flash('Maklumat telah ditambah')->success();
+        // flash('Maklumat telah ditambah')->success();
+        toast('Maklumat telah ditambah', 'success')->position('top-end');
+
         return redirect('senaraiGredKod');
     }
 
@@ -944,7 +985,9 @@ class AdminController extends Controller
             'gred_kod_klasifikasi' => $req->input('gred_kod_klasifikasi')
         ]);
 
-        flash('GredKod berjaya dikemaskini')->success();
+        // flash('GredKod berjaya dikemaskini')->success();
+        toast('GredKod berjaya dikemaskini', 'success')->position('top-end');
+
         return back();
     }
 
@@ -953,7 +996,9 @@ class AdminController extends Controller
         GredKod::where('gred_kod_ID', $req->input('id'))
         ->delete();
 
-        flash('GredKod berjaya dipadam')->success();
+        // flash('GredKod berjaya dipadam')->success();
+        toast('GredKod telah dipadam', 'success')->position('top-end');
+
         return back();
     }
 
@@ -994,7 +1039,8 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         User::create($data);
-        flash('Pentadbir telah berjaya ditambah')->success();
+        toast('Pentadbir telah berjaya ditambah','success')->position('top-end');
+        
         return redirect()->back();
     }
 
@@ -1033,7 +1079,8 @@ class AdminController extends Controller
         //dd($request);
         $users = User::find($id);
         $users->update($request->all());
-        flash('Maklumat telah dikemaskini.')->success();
+        // flash('Maklumat telah dikemaskini.')->success();
+        toast('Maklumat telah dikemaskini','success')->position('top-end');
         return redirect('senaraiPic');
     }
 
@@ -1099,7 +1146,9 @@ class AdminController extends Controller
                 ->get();
         }
 
-        return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'rombo'));
+        $jabatan = Jabatan::where('jabatan_id', $jab)->first();
+
+        return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'rombo', 'jabatan'));
     }
 
     public function daftarPenggunaJabatan()

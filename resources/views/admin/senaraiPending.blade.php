@@ -226,8 +226,7 @@
                                                     <tr class="text-center">
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
-                                                            <a
-                                                                href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
                                                         </td>
                                                         <td>{{ $mohonan->kod_jabatan }}</td>
                                                         <td>{{ $mohonan->negara }}</td>

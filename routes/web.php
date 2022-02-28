@@ -116,7 +116,6 @@ Route::middleware(['auth'])->group(function () {
 	
 	//Konfigurasi------------------------------------------------------------------------------
 	Route::get('senaraiJabatan', 'AdminController@senaraiJabatan')->name('senaraiJabatan');
-	Route::get('tambahJabatan', 'AdminController@tambahJabatan')->name('tambahJabatan');
 	Route::POST('prosesTambahJab', 'AdminController@prosesTambahJab')->name('prosesTambahJab');
 	Route::POST('kemaskini-jabatan', 'AdminController@kemaskinijabatan')->name('kemaskini-jabatan');
 	Route::get('padam-jabatan', 'AdminController@padamjabatan')->name('padam-jabatan');

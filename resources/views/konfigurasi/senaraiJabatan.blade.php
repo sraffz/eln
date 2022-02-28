@@ -22,8 +22,7 @@
                             <h3 class="card-title">Senarai Jabatan </h3>
                             <div class="float-right">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                    data-target="#tambahjabatan">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahjabatan">
                                     <i class="fa fa-plus"></i> Tambah Jabatan
                                 </button>
                             </div>
@@ -37,7 +36,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Jabatan</th>
-                                                <th>Kod Jabatan</th>
+                                                <th>Alamat Jabatan</th>
+                                                <th>Ketua Jabatan</th>
                                                 <th>Tindakan</th>
                                             </tr>
                                         </thead>
@@ -47,14 +47,28 @@
                                                 <tr>
                                                     <td><?php echo $i;
                                                     $i = $i + 1; ?></td>
-                                                    <td>{{ $jabatans->nama_jabatan }}</td>
-                                                    <td>{{ $jabatans->kod_jabatan }}</td>
+                                                    <td>{{ $jabatans->nama_jabatan }} ({{ $jabatans->kod_jabatan }})</td>
+                                                    <td>
+                                                        @if ($jabatans->alamat != null)
+                                                        {{ $jabatans->alamat }}, <br> 
+                                                            
+                                                        @endif
+                                                        {{ $jabatans->poskod }} {{ $jabatans->daerah }},  <br> 
+                                                        {{ $jabatans->negeri }} 
+                                                    </td>
+                                                    <td>{{ $jabatans->jawatan_ketua }}</td>
                                                     <td class="text-center">
                                                         <!-- Button trigger modal -->
                                                         <button type="button" class="btn btn-primary btn-xs"
                                                             data-toggle="modal" data-id="{{ $jabatans->jabatan_id }}"
                                                             data-kod_jabatan="{{ $jabatans->kod_jabatan }}"
                                                             data-nama_jabatan="{{ $jabatans->nama_jabatan }}"
+                                                            data-ketua="{{ $jabatans->jawatan_ketua }}"
+                                                            data-alamat="{{ $jabatans->alamat }}"
+                                                            data-poskod="{{ $jabatans->poskod }}"
+                                                            data-daerah="{{ $jabatans->daerah }}"
+                                                            data-negeri="{{ $jabatans->negeri }}"
+                                                            data-surat="{{ $jabatans->surat }}"
                                                             data-target="#kemaskinijabatan">
                                                             <i class="far fa-edit"></i>
                                                         </button>
@@ -86,18 +100,56 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ url('prosesTambahJab') }}" method="post">
+                    <form action="{{ url('prosesTambahJab') }}" method="post" autocomplete="off">
                         <div class="modal-body">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label for="nama_jabatan">Nama Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" name="nama_jabatan"
-                                    id="nama_jabatan" required placeholder="Pejabat Setiausaha Kerjaana">
+                                <label for="ketua">Jawatan Ketua Jabatan/Agensi</label>
+                                <input type="text" class="form-control form-control-sm" name="ketua" placeholder="Pengarah" required>
                             </div>
                             <div class="form-group">
                                 <label for="kod_jabatan">Kod Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" name="kod_jabatan" id="kod_jabatan"
-                                    placeholder="SUK" required>
+                                <input type="text" class="form-control form-control-sm" name="kod_jabatan" placeholder="SUK" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nama_jabatan">Nama Jabatan</label>
+                                <input type="text" class="form-control form-control-sm" name="nama_jabatan" required placeholder="Pejabat Setiausaha Kerajaan">
+                            </div>
+                            <div class="form-group">
+                              <label for="alamat">Alamat</label>
+                              <textarea class="form-control" name="alamat" id="alamat" rows="3"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="poskod">Poskod</label>
+                                        <input type="text" class="form-control form-control-sm" name="poskod" placeholder="" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="daerah">Daerah</label>
+                                        <input type="text" class="form-control form-control-sm" name="daerah" placeholder="" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="negeri">Negeri</label>
+                                    <input type="text" class="form-control form-control-sm" name="negeri" value="Kelantan" required>
+                                </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="surat">Surat</label>
+                                        <select name="surat" id="surat" class="form-control form-control-sm">
+                                            <option value="">Sila Pilih</option>
+                                            <option value="SURAT">SURAT</option>
+                                            <option value="MEMO">MEMO</option>
+                                        </select>                                    
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -126,6 +178,10 @@
                             <div class="container-fluid">
                                 <input type="hidden" id="id" name="id" value="">
                                 <div class="form-group">
+                                    <label for="ketua">Jawatan Ketua Jabatan/Agensi</label>
+                                    <input type="text" class="form-control form-control-sm" id="ketua" name="ketua" placeholder="Pengarah" value="" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="nama_jabatan">Nama Jabatan</label>
                                     <input type="text" class="form-control" name="nama_jabatan" id="nama_jabatan" required
                                         placeholder="Pejabat Setiausaha Kerjaana" value="">
@@ -135,10 +191,46 @@
                                     <input type="text" class="form-control" name="kod_jabatan" id="kod_jabatan"
                                         placeholder="SUK" required value="">
                                 </div>
+                                <div class="form-group">
+                                    <label for="alamat">Alamat</label>
+                                    <textarea class="form-control" name="alamat" id="alamat" rows="3"></textarea>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <div class="form-group">
+                                              <label for="poskod">Poskod</label>
+                                              <input type="text" class="form-control form-control-sm" id="poskod" name="poskod" value="" required>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <div class="form-group">
+                                              <label for="daerah">Daerah</label>
+                                              <input type="text" class="form-control form-control-sm" id="daerah" name="daerah" value="" required>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                      <div class="form-group">
+                                          <label for="negeri">Negeri</label>
+                                          <input type="text" class="form-control form-control-sm" id="negeri" name="negeri" value="" required>
+                                      </div>
+                                      </div>
+                                      <div class="col-md-4">
+                                          <div class="form-group">
+                                              <label for="surat">Surat</label>
+                                              <select name="surat" id="surat" class="form-control form-control-sm">
+                                                  <option value="">Sila Pilih</option>
+                                                  <option value="SURAT">SURAT</option>
+                                                  <option value="MEMO">MEMO</option>
+                                              </select>                                    
+                                          </div>
+                                      </div>
+                                  </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="button" id="id" data-id="id" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                             <button type="submit" class="btn btn-primary">Kemaskini</button>
                         </div>
                     </form>
@@ -199,11 +291,23 @@
             var id = button.data('id');
             var nama_jabatan = button.data('nama_jabatan');
             var kod_jabatan = button.data('kod_jabatan');
+            var ketua = button.data('ketua');
+            var alamat = button.data('alamat');
+            var poskod = button.data('poskod');
+            var daerah = button.data('daerah');
+            var negeri = button.data('negeri');
+            var surat = button.data('surat');
             // Use above variables to manipulate the DOM
 
-            $(".modal-body #id").val(id);
+            $("#id").val(id);
             $(".modal-body #kod_jabatan").val(kod_jabatan);
-            $(".modal-body #nama_jabatan").val(nama_jabatan);
+            $("#nama_jabatan").val(nama_jabatan);
+            $(".modal-body #ketua").val(ketua);
+            $(".modal-body #alamat").val(alamat);
+            $(".modal-body #poskod").val(poskod);
+            $(".modal-body #daerah").val(daerah);
+            $(".modal-body #negeri").val(negeri);
+            $(".modal-body #surat").val(surat);
         });
 
         $('#padamjabatan').on('show.bs.modal', event => {
@@ -254,5 +358,20 @@
                 "responsive": true,
             });
         });
+
+        $(':input').keyup(function(){
+            var box = event.target;
+            var txt = $(this).val();
+            var stringStart = box.selectionStart;
+            var stringEnd = box.selectionEnd;
+            $(this).val(txt.replace(/^(.)|(\s|\-)(.)/g, function($word) {
+                return $word.toUpperCase();
+            }));
+            box.setSelectionRange(stringStart , stringEnd);
+        });
+        // $(':input').keyup(function(){
+        //     $(this).val($(this).val().toUpperCase());
+        // });
+
     </script>
 @endsection
