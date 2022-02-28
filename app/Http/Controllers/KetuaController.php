@@ -280,7 +280,7 @@ class KetuaController extends Controller
         ]);
 
         // flash('Permohonan Ditolak.')->success();
-        toast('Permohonan Ditolak', 'error')->posistion('top-end');
+        toast('Permohonan Ditolak', 'error')->position('top-end');
         return back();
     }
 
