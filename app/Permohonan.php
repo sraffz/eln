@@ -32,6 +32,11 @@ class Permohonan extends Model
         return $this->hasOne(\App\Pasangan::class,'permohonansID','permohonansID');
     }
 
+    public function jabatan()
+    {
+        return $this->hasManyThrough('App\Jabatan', 'App\User', 'jabatan', 'jabatan_id');
+    }
+
     public function jumlahKeluarNegara($id) 
     {
         // $jumlah=1;

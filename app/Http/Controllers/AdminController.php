@@ -169,14 +169,25 @@ class AdminController extends Controller
                     ->orderBy('rombongans.created_at','asc')
                     ->get();
             }
-      }
+        }
 
         // dd($rombongan);
-        $allPermohonan = Permohonan::with('user', 'userJabatan')
-            ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
-            ->get();
+            $allPermohonan = Permohonan::select('users.*', 'jabatan.nama_jabatan', 'jawatan.namaJawatan', 'permohonans.*', 'eln_pengesahan_bahagian.id as id_pengesahan')
+                ->join('users', 'users.usersID', '=', 'permohonans.usersID' )
+                ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+                ->leftjoin('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id_permohonan', '=', 'permohonans.permohonansID')
+                ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+                ->whereNotIn('permohonans.statusPermohonan', ['Permohonan Gagal'])
+                ->get();
 
-        return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+            // dd($allPermohonan);
+
+            if (Auth::user()->role == 'adminBPSM'){
+                return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+            } elseif (Auth::user()->role == 'jabatan') {
+                return view('jabatan.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+
+            }
     }
 
     public function senaraiRekodRombongan()
@@ -199,8 +210,14 @@ class AdminController extends Controller
 
             }
             elseif(Auth::user()->role == "adminBPSM"){
-                $allPermohonan = Permohonan::with('user')
+                // $allPermohonan = Permohonan::with('user')
+                // ->get();
+                $allPermohonan = DB::table('senarai_nama_rombongan')
+                ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
+                ->where('status_pengesah', 'disokong')
                 ->get();
+
+
                 $billPermohonan = Permohonan::with('user')
                 ->where('statusPermohonan', ['Permohonan Berjaya'])
                 ->count();
@@ -209,7 +226,7 @@ class AdminController extends Controller
             }
             
 
-        return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan', 'billPermohonan'));
+        return view('admin.rekod-rombongan', compact('rombongan', 'allPermohonan', 'billPermohonan'));
     }
 
     /**
@@ -464,7 +481,7 @@ class AdminController extends Controller
 
         Permohonan::where('permohonansID', $id)->update(['statusPermohonan' => $ubah]);
 
-        flash('lulus semakkan.')->success();
+        toast('Permohonan disokong', 'success')->position('top-end');
         return redirect()->back();
     }
 
@@ -553,8 +570,8 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         Sebab::create($data);
-        flash('Berjaya dihantar semula.')->success();
-        return redirect()->back();
+        toast('Berjaya dihantar semula', 'success')->position('top-end');
+        return back();
     }
 
     public function sebabRombongan(Request $request)
@@ -574,32 +591,9 @@ class AdminController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
         Sebab::create($data);
-        flash('Berjaya dihantar semula.')->success();
+        toast('Berjaya dihantar semula', 'success')->position('top-end');
         
-        return redirect('senaraiPendingRombongan');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return back();
     }
 
     public function laporanDato()

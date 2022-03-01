@@ -69,7 +69,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($rombongan as $index => $rombo)
-                                            <tr>
+                                            <tr class="text-center">
                                                 <td>
                                                     {{ $index + 1 }}
                                                 </td>
@@ -88,49 +88,70 @@
                                                 <td>
                                                     @foreach ($allPermohonan as $element)
                                                         @if ($element->rombongans_id == $rombo->rombongans_id)
-                                                            {{-- {{ $element->user->nama }} --}}
                                                             @if ($element->statusPermohonan == 'Permohonan Berjaya')
-
-                                                                <span
-                                                                    class="badge badge-success">{{ $element->user->nama }}</span><br>
-
+                                                            <button type="button" data-toggle="modal"
+                                                                                    href='#detail-{{ $element->permohonansID }}'
+                                                                                    data-nama="{{ $element->nama }}"
+                                                                                    data-nokp="{{ $element->nokp }}"
+                                                                                    {{-- data-email="{{ $element->email }}" --}}
+                                                                                    data-jawatan="{{ $element->jawatan_pemohon }}"
+                                                                                    data-jabatan="{{ $element->jabatan_pemohon }}"
+                                                                                    class="btn btn-success btn-block btn-xs">
+                                                                                    {{ $element->user->nama }}
+                                                                                    @if ($rombo->ketua_rombongan == $element->usersID)
+                                                                                        <span class="badge badge-pill badge-dark">Ketua</span>
+                                                                                    @endif
+                                                                                </button>
                                                             @elseif($element->statusPermohonan == "Permohonan Gagal")
-
-                                                                <span
-                                                                    class="badge badge-danger">{{ $element->user->nama }}</span><br>
-
+                                                                <button type="button" data-toggle="modal"
+                                                                href='#detail-{{ $element->permohonansID }}'
+                                                                data-nama="{{ $element->nama }}"
+                                                                data-nokp="{{ $element->nokp }}"
+                                                                {{-- data-email="{{ $element->email }}" --}}
+                                                                data-jawatan="{{ $element->jawatan_pemohon }}"
+                                                                data-jabatan="{{ $element->jabatan_pemohon }}"
+                                                                class="btn btn-danger btn-block btn-xs">
+                                                                {{ $element->user->nama }}
+                                                                @if ($rombo->ketua_rombongan == $element->usersID)
+                                                                    <span class="badge badge-pill badge-dark">Ketua</span>
+                                                                @endif
+                                                            </button>
                                                             @elseif($element->statusPermohonan == "Pending")
-
-                                                                {{ $element->user->nama }}<br>
-
+                                                                {{ $element->user->nama }}
                                                             @elseif($element->statusPermohonan == "Tindakan BPSM" &&
                                                                 $rombo->statusPermohonanRom == "simpanan")
-
                                                                 {{ $element->user->nama }}<a
                                                                     href="{{ url('padam-permohonan', [$element->permohonansID]) }}"
                                                                     class="btn-danger btn-xs"
                                                                     onclick="javascript: return confirm('Padam maklumat ini?');"><i
-                                                                        class="fa  fa-remove"></i></a><br>
-
+                                                                        class="fa  fa-remove"></i></a>
                                                             @elseif($element->statusPermohonan == "Tindakan BPSM" &&
                                                                 $rombo->statusPermohonanRom == "Pending")
-
-                                                                {{ $element->user->nama }}<br>
-
+                                                                {{ $element->user->nama }}
                                                             @elseif($element->statusPermohonan == "Tindakan BPSM" &&
                                                                 $rombo->statusPermohonanRom == "Lulus Semakan")
-
-                                                                {{ $element->user->nama }}<br>
-
+                                                                {{ $element->user->nama }}
                                                             @else
                                                             @endif
+                                                          
                                                         @endif
                                                     @endforeach
                                                 </td>
-                                                <td style="width: 10%">{{ $rombo->statusPermohonanRom }}</td>
+                                                <td style="width: 10%">
+                                                    @if ($rombo->statusPermohonanRom == 'Pending')
+                                                        <span class="badge badge-warning">Dalam Proses</span>
+                                                    @elseif($rombo->statusPermohonanRom == "simpanan")
+                                                        <span class="badge badge-success">Baru</span>
+                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
+                                                        <span class="badge badge-success">Berjaya</span>
+                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Gagal")
+                                                        <span class="badge badge-danger">Gagal</span>
+ 
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
-                                                        <span class="badge badge-warning">Pending</span>
+                                                        <span class="badge badge-warning">Dalam Proses</span>
                                                     @elseif($rombo->statusPermohonanRom == "simpanan")
                                                         <a href="{{ url('hantarRombongan', [$rombo->rombongans_id]) }}"
                                                             class="btn btn-success btn-xs"
@@ -142,14 +163,16 @@
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                                 class="fa fa-user-times"></i></a>
-                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya")
-                                                        <span class="badge badge-success">Berjaya</span>
-                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Gagal")
-                                                        <span class="badge badge-danger">Gagal</span>
-                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya" or
-                                                        $rombo->statusPermohonanRom == "Permohonan Gagal" or
-                                                        $rombo->statusPermohonanRom == "Lulus Semakan")
-                                                        <span class="badge badge-primary">Tiada</span>
+                                                    @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya" or $rombo->statusPermohonanRom == "Permohonan Gagal")
+                                                        <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"
+                                                            class="btn btn-primary btn-xs">
+                                                            Surat
+                                                        </a> 
+                                                        <div class="mt-2"></div>
+                                                        <a href="{{ route('memo-rombongan', ['id' => $rombo->rombongans_id]) }}"
+                                                            class="btn btn-primary btn-xs">
+                                                            Memo
+                                                        </a>
                                                     @endif
                                                 </td>
                                         @endforeach

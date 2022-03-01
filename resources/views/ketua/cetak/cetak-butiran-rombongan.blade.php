@@ -7,17 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Butiran Permohonan</title>
 
-    <link rel="stylesheet"
-        {{-- href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
-    <!-- Font Awesome -->
-    {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}"> --}}
-    <!-- Ionicons -->
-    {{-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
-    <!-- Tempusdominus Bootstrap 4 -->
-    {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}"> --}}
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}"> --}}
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
     <style>
         .table td {
             font-size: 13px;
@@ -26,6 +18,10 @@
 
         .table th {
             font-size: 14px
+        }
+
+        .break {
+            page-break-before: always;
         }
     </style>
 </head>
@@ -76,6 +72,43 @@
             </tbody>
         </table>
 
+        @if (count($pengesahan)>0)
+        <table class="table table-bordered table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="2" class="text-left">PENGESAHAN KETUA BAHAGIAN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left" style="width: 30%"><strong>Nama Ketua Bahagian</strong> </td>
+                    <td class="text-left"><strong>{{ $pengesahan->nama }}</strong> </td>
+                </tr>
+                <tr>
+                    <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
+                    <td class="text-left"><strong>{{ $pengesahan->jawatan_pengesah }}
+                            ({{ $pengesahan->gred_pengesah }})</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
+                    <td class="text-left"><strong>{{ $pengesahan->jabatan_pengesah }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>
+                    <td class="text-left">
+                        <strong>{{ $pengesahan->ulasan_pengesahan }}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-left" style="width: 30%"><strong>Tarikh</strong> </td>
+                    <td class="text-left">
+                        <strong>{{ date('d/m/Y', strtotime($pengesahan->tarikh_pengesah)) }}</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @endif
+
         <table class="table table-bordered table-sm">
             <thead class="thead-dark">
                 <tr>
@@ -102,39 +135,18 @@
                             <td><strong> {{ $element->nokp }}</strong></td>
                             <td><strong>  {{ $element->namaJawatan }} ({{ $element->gred }})</strong></td>
                             <td>
-                                <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                {{-- <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> --}}
                          </td>
                          <td>
-                               <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                               {{-- <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> --}}
                          </td>
                         </tr>
                     @endif
                 @endforeach
             </tbody>
         </table> <br>
-        <strong>Tarikh Permohonan : {{ \Carbon\Carbon::parse($tarikhmohon)->format('d F Y') }}</strong>
-        {{-- <table class="table table-bordered table-sm">
-            <thead class="thead-dark">
-                <tr>
-                    <th class="text-left">PERAKUAN PEMOHON</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-left">
-                        @if ($permohonan->tick == 'yes')
-                            <strong>1) Saya dengan ini memenuhi segala peraturan yang ditetapkan di perenggan 6 (i),
-                                (ii) dan perenggan 10 Surat Pekeliling Am Bilangan 3 tahun 2021</strong>
-                            <br><br>
-                            <strong>2) Saya dengan ini mengisytiharkan segala maklumat yang diberikan adalah benar.
-                                Sekiranya didapati maklumat ini tidak benar, saya boleh diambil tindakan mengikut
-                                peraturan sedia ada.</strong>
-                        @endif
-                        <br><br>
-                    </td>
-                </tr>
-            </tbody>
-        </table> --}}
+        <strong>Tarikh Permohonan : {{ \Carbon\Carbon::parse($tarikhmohon)->format('d/m/Y') }}</strong>
+
         <br>
         <div class="text-center">
             <p>

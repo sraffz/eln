@@ -166,6 +166,8 @@
                                                             @if ($peser->user->usersID == $rombooo->ketua_rombongan)
                                                                 Ketua Rombongan
                                                             @else
+                                                                @if (Auth::user()->role == 'jabatan' && $peser->status_pengesah == 'disokong')
+                                                                @else
                                                                 <button type="button" class="btn btn-primary btn-xs"
                                                                     data-toggle="modal"
                                                                     data-romboid="{{ $rombooo->rombongans_id }}"
@@ -173,6 +175,7 @@
                                                                     data-target="#tukarkr">
                                                                     Lantik Ketua Rombongan
                                                                 </button>
+                                                                @endif
                                                             @endif
                                                         </td>
                                                         <td class="text-center">

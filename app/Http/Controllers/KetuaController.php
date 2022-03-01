@@ -136,7 +136,7 @@ class KetuaController extends Controller
         return redirect()->back();
     }
 
-    public function ketuaSentRombongan($id)
+    public function lulusrombongan($id)
     {
         $ubah = 'Permohonan Berjaya';
 
@@ -149,6 +149,21 @@ class KetuaController extends Controller
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
+            
+            $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
+
+            if (!empty($rujukan)) {
+                if ($rujukan->no_surat < 100) {
+                    $jld = $rujukan->jilid;
+                    $no = $rujukan->no_surat + 1;
+                } else {
+                    $jld = $rujukan->jilid + 1;
+                    $no = 1;
+                }
+            } else {
+                $jld = 1;
+                $no = 1;
+            }
 
         DB::table('eln_pengesahan_bahagian_rombongan')
             ->where('id_rombongan', $id)
@@ -159,6 +174,8 @@ class KetuaController extends Controller
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan_kelulusan' => 'tiada',
                 'status_kelulusan' => 'Berjaya',
+                'jld_surat_rombongan' => $jld,
+                'no_surat_rombongan' => $no,
                 'tarikh_kelulusan' => \Carbon\Carbon::now(), # new \Datetime()
             ]);
 
@@ -181,6 +198,8 @@ class KetuaController extends Controller
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan' => 'tiada',
                 'status_kelulusan' => 'Berjaya',
+                'jilid' => $jld,
+                'no_surat' => $no,
                 'created_at' => \Carbon\Carbon::now(), # new \Datetime()
                 'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
             ]);
@@ -191,7 +210,7 @@ class KetuaController extends Controller
             ]);
         }
 
-        flash('Permohonan Diluluskan.')->success();
+        toast('Permohonan Telah Diluluskan', 'success')->position('top-end');
         return back();
     }
 
@@ -204,6 +223,21 @@ class KetuaController extends Controller
             'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
         ]);
 
+        $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
+
+        if (!empty($rujukan)) {
+            if ($rujukan->no_surat < 100) {
+                $jld = $rujukan->jilid;
+                $no = $rujukan->no_surat + 1;
+            } else {
+                $jld = $rujukan->jilid + 1;
+                $no = 1;
+            }
+        } else {
+            $jld = 1;
+            $no = 1;
+        }
+
         DB::table('eln_pengesahan_bahagian_rombongan')
             ->where('id_rombongan', $id)
             ->update([
@@ -213,6 +247,8 @@ class KetuaController extends Controller
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan_kelulusan' => 'tiada',
                 'status_kelulusan' => 'Gagal',
+                'jld_surat_rombongan' => $jld,
+                'no_surat_rombongan' => $no,
                 'tarikh_kelulusan' => \Carbon\Carbon::now(), # new \Datetime()
             ]);
 
@@ -223,6 +259,22 @@ class KetuaController extends Controller
 
         foreach ($senarai as $sena) {
             $idPermohonan = $sena->permohonansID;
+
+            $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $idPermohonan)->first();
+
+            Eln_kelulusan::insertGetId([
+                'id_pengesahan' => $pengesahan->id,
+                'id_pelulus' => Auth::user()->usersID,
+                'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
+                'ulasan' => 'tiada',
+                'status_kelulusan' => 'Gagal',
+                'jilid' => $jld,
+                'no_surat' => $no,
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
             // echo $idPermohonan;
             Permohonan::where('permohonansID', '=', $idPermohonan)->update([
                 'statusPermohonan' => $ubah,
@@ -230,7 +282,7 @@ class KetuaController extends Controller
             ]);
         }
 
-        flash('Permohonan Telah Ditolak.')->success();
+        toast('Permohonan Telah Ditolak', 'success')->position('top-end');
         return redirect()->back();
     }
 
@@ -245,7 +297,7 @@ class KetuaController extends Controller
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
 
-            $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
+        $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
 
         if (!empty($rujukan)) {
             if ($rujukan->no_surat < 100) {
@@ -305,6 +357,27 @@ class KetuaController extends Controller
         return back();
     }
 
+    public function tukarstatussekongan(Request $req)
+    {
+        $id = $req->id;
+dd($id);
+        $k = Eln_pengesahan_bahagian::where('id', $id)->first();
+
+        if ($k->status_pengesah == 'disokong') {
+            $status = 'ditolak';
+        } else {
+            $status = 'disokong';
+        }
+
+        Eln_pengesahan_bahagian::where('id', $id)->update([
+            'status_pengesah' => $status,
+        ]);
+
+        // flash('Status Kelulusan berjaya ditukar')->success();
+        Alert::success('Berjaya', 'Maklumat dikemaskini');
+        return back();
+    }
+
     public function permohonanGagalKetua($id)
     {
         $ubah = 'Permohonan Gagal';
@@ -352,13 +425,18 @@ class KetuaController extends Controller
 
         \Carbon\Carbon::setLocale('ms-MY');
 
+        $pengesahan = DB::table('eln_pengesahan_bahagian_rombongan')
+        ->join('users', 'users.usersID','=', 'eln_pengesahan_bahagian_rombongan.id_pengesah')
+        ->where('id_rombongan', $id)
+        ->first();
+
         $allPermohonan = DB::table('senarai_data_permohonan')
             ->where('rombongans_id', $id)
             ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
             ->get();
 
-        // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen'));
-        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen'))->setpaper('a4', 'potrait');
+        // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen', 'pengesahan'));
+        $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen', 'pengesahan'))->setpaper('a4', 'potrait');
         return $pdf->download('Borang Permohonan Rombongan Ke Luar Negara.pdf');
     }
 
@@ -441,7 +519,7 @@ class KetuaController extends Controller
             ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
             ->get();
 
-        return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
+        // return view('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'));
 
         $pdf = PDF::loadView('ketua.cetak.cetak-senarai-rombongan', compact('rombongan', 'allPermohonan'))->setpaper('a4', 'landscape');
         return $pdf->download('Senarai Permohonan Rombongan Ke Luar Negara.pdf');
