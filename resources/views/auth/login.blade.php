@@ -27,7 +27,7 @@
 </head>
 
 <body class="hold-transition login-page" filter-color="black">
-    <div class="bg-black-op">
+     
         <div class="login-box">
             <div class="login-logo">
                 <a href="{{ url('/') }}">
@@ -95,7 +95,7 @@
                 <!-- /.login-card-body -->
             </div>
         </div>
-    </div>
+     
     <!-- /.login-box -->
 
     <!-- jQuery -->

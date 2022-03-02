@@ -340,27 +340,66 @@ class KetuaController extends Controller
     {
         $id = $req->id;
 
-        $k = Eln_kelulusan::where('id', $id)->first();
-
+        $k = Eln_kelulusan::join('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id', '=', 'eln_kelulusan.id_pengesahan')
+        ->where('eln_kelulusan.id', $id)
+        ->first();
+        
         if ($k->status_kelulusan == 'Berjaya') {
             $status = 'Gagal';
+            $status2 = 'Permohonan Gagal';
         } else {
             $status = 'Berjaya';
+            $status2 = 'Permohonan Berjaya';
         }
+
+        Permohonan::where('permohonansID', $k->id_permohonan)
+        ->update([
+            'statusPermohonan' => $status2,
+        ]);
 
         Eln_kelulusan::where('id', $id)->update([
             'status_kelulusan' => $status,
         ]);
 
         // flash('Status Kelulusan berjaya ditukar')->success();
-        Alert::success('Berjaya', 'Maklumat dikemaskini');
+        toast('Status Permohonan Ditukar', 'info')->position('top-end');
+        return back();
+    }
+
+    public function ubahstatusrombongan(Request $req)
+    {
+        $id = $req->id;
+        
+        $k= Rombongan::where('rombongans_id', $id)->first();
+
+        if ($k->statusPermohonanRom == 'Permohonan Berjaya') {
+            $status = 'Gagal';
+            $status2 = 'Permohonan Gagal';
+        } else {
+            $status = 'Berjaya';
+            $status2 = 'Permohonan Berjaya';
+        }
+
+        Rombongan::where('rombongans_id', $id)
+        ->update([
+            'statusPermohonanRom' => $status2,
+        ]);
+
+        DB::table('eln_pengesahan_bahagian_rombongan')
+        ->where('id_rombongan', $id)
+        ->update([
+            'status_kelulusan' => $status,
+        ]);
+
+        // flash('Status Kelulusan berjaya ditukar')->success();
+        toast('Status Permohonan Ditukar', 'info')->position('top-end');
         return back();
     }
 
     public function tukarstatussekongan(Request $req)
     {
         $id = $req->id;
-dd($id);
+// dd($id);
         $k = Eln_pengesahan_bahagian::where('id', $id)->first();
 
         if ($k->status_pengesah == 'disokong') {
@@ -530,14 +569,34 @@ dd($id);
         $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
 
         if (Auth::user()->role == 'DatoSUK') {
-            $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
+            $permohonan = Permohonan::select('permohonans.*', 'permohonans.created_at as tpermohonan')
+            ->where('statusPermohonan', 'Lulus Semakan BPSM')
                 ->whereNotIn('JenisPermohonan', ['rombongan'])
                 ->get();
+
         } elseif (Auth::user()->role == 'jabatan') {
-            $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
-                ->where('statusPermohonan', 'Ketua Jabatan')
-                ->where('users.jabatan', Auth::user()->jabatan)
-                ->get();
+            $jab = Auth::user()->jabatan;
+            // echo $jab;
+            if ($jab == 44) {
+                $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
+                    ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+                    ->whereIn('users.jabatan', [44, 37])
+                    ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                    ->orderBy('permohonans.created_at','asc')
+                    ->get();
+            } else {
+                $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
+                    ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+                    ->where('users.jabatan', $jab)
+                    ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                    ->orderBy('permohonans.created_at','asc')
+                    ->get();
+            }
+
+            // $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+            //     ->where('statusPermohonan', 'Ketua Jabatan')
+            //     ->where('users.jabatan', Auth::user()->jabatan)
+            //     ->get();
         }
         // return dd($permohonan);
         // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));

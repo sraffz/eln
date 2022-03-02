@@ -89,7 +89,7 @@
                                                     @foreach ($allPermohonan as $element)
                                                         @if ($element->rombongans_id == $rombo->rombongans_id)
                                                             @if ($element->statusPermohonan == 'Permohonan Berjaya')
-                                                            <button type="button" data-toggle="modal"
+                                                                                    <button type="button" data-toggle="modal"
                                                                                     href='#detail-{{ $element->permohonansID }}'
                                                                                     data-nama="{{ $element->nama }}"
                                                                                     data-nokp="{{ $element->nokp }}"

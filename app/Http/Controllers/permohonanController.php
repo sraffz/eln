@@ -121,16 +121,19 @@ class permohonanController extends Controller
             if (Auth::user()->role == 'adminBPSM' || Auth::user()->role == 'DatoSUK') {
                 $TotalPerm1 = DB::table('permohonans')
                     ->whereNotIn('statusPermohonan', ['simpanan'])
+                    ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhMulaPerjalanan', $year)
                     ->count();
 
-                $TotalBerjaya1 = DB::table('permohonans')
-                    ->whereIn('statusPermohonan', ['Permohonan Berjaya'])
+                $TotalBerjaya1 = DB::table('senarai_rekod_permohonan_suk')
+                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
 
-                $TotalGagal1 = DB::table('permohonans')
-                    ->where('statusPermohonan', '=', 'Permohonan Gagal')
+                $TotalGagal1 = DB::table('senarai_rekod_permohonan_suk')
+                    ->where('status_kelulusan', '=', 'Gagal')
+                    ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
                 $TotalProces1 = DB::table('permohonans')
@@ -236,6 +239,7 @@ class permohonanController extends Controller
 
                 return view('admin.homepage', compact('bilRombo', 'bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalPerm1', 'TotalBerjaya1', 'TotalGagal1', 'TotalProces1', 'senarai1'));
             } elseif ($role == 'DatoSUK') {
+
                 $bilrasmi = DB::table('jumlah_permohonan_negara_tahun')
                     ->where('statusPermohonan', 'Permohonan Berjaya')
                     ->orderBy('bil', 'desc')

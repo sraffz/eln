@@ -46,8 +46,8 @@
                             <th colspan="2">Tindakan</th>
                         </tr>
                         <tr class="text-center">
-                            <th style="vertical-align: middle; width: 8%">Diluluskan</th>
-                            <th style="vertical-align: middle; width: 8%">Tidak Diluluskan</th>
+                            <th style="vertical-align: middle; width: 8%">LULUS</th>
+                            <th style="vertical-align: middle; width: 8%">TOLAK</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +58,7 @@
                                     {{ $mohonan->user->nama }}
                                 </td>
                                 <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                                <td>{{ \Carbon\Carbon::parse($mohonan->user->created_at)->format('d/m/Y') }}
+                                <td>{{ \Carbon\Carbon::parse($mohonan->tpermohonan)->format('d/m/Y') }}
                                 </td>
                                 <td>{{ $mohonan->negara }}</td>
                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}

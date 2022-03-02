@@ -204,6 +204,7 @@ Route::middleware(['auth'])->group(function () {
 	
 	
 	Route::get('tukarstatuskelulusan', 'KetuaController@tukarstatuskelulusan');
+	Route::get('ubahstatusrombongan', 'KetuaController@ubahstatusrombongan');
 	Route::get('tukarstatussekongan', 'KetuaController@tukarstatussekongan');
 
 	Route::get('ketua-tolak-permohonan/{id}', 'KetuaController@permohonanGagalKetua');

@@ -110,6 +110,8 @@
                                                                     <div class="mt-2">
                                                                     </div>
 
+                                                                @endif
+                                                                    @if (Auth::user()->role == 'pengguna')
                                                                     @if ($mohonan->pengesahan_pembatalan == 1)
                                                                         <button type="button" class="btn btn-info btn-xs"
                                                                             data-toggle="modal"
@@ -126,7 +128,10 @@
                                                                             Batal Permohonan
                                                                         </button>
                                                                     @endif
-                                                                @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
+                                                                        
+                                                                    @endif
+
+                                                            @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                                     @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                         @if ($jabatan->surat == 'MEMO')
                                                                             <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -154,7 +159,6 @@
                                                                             </a>
                                                                         @endif
                                                                     @endif
-                                                                @endif
                                                             @endif
                                                         </td>
                                                 @endforeach

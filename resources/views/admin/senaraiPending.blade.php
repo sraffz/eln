@@ -226,7 +226,8 @@
                                                     <tr class="text-center">
                                                         <td>{{ $index + 1 }}</td>
                                                         <td>
-                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                            <a
+                                                                href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
                                                         </td>
                                                         <td>{{ $mohonan->kod_jabatan }}</td>
                                                         <td>{{ $mohonan->negara }}</td>
@@ -238,6 +239,10 @@
                                                         </td>
                                                         <td>
                                                             {{ $mohonan->JenisPermohonan }}
+                                                            {{-- <button type="button" class="btn btn-danger btn-xs" data-id="{{ $mohonan->id_kelulusan }}"
+                                                                data-toggle="modal" data-target="#ubahstatuskelulusan" data-dismiss="modal">
+                                                                    Tukar Status Kelulusan
+                                                                </button> --}}
 
                                                         </td>
                                                         {{-- <td>SUK.D.200 (06) 455/16
@@ -245,7 +250,10 @@
                                                         </td> --}}
                                                         @if ($mohonan->status_kelulusan == 'Berjaya')
                                                             <td>
-                                                                <span
+                                                                <span type="button"
+                                                                    data-id="{{ $mohonan->id_kelulusan }}"
+                                                                    data-toggle="modal" data-target="#ubahstatuskelulusan"
+                                                                    data-dismiss="modal"
                                                                     class="badge badge-success">{{ $mohonan->status_kelulusan }}</span>
                                                                 @if ($mohonan->pengesahan_pembatalan == 1)
                                                                     {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
@@ -273,7 +281,6 @@
                                                                         </a>
                                                                     @endif
                                                                 </td>
-
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                                 <td class="text-center">
                                                                     @if ($mohonan->surat = 'MEMO')
@@ -291,7 +298,10 @@
                                                             @endif
                                                         @elseif($mohonan->status_kelulusan == 'Gagal')
                                                             <td>
-                                                                <span class="badge badge-danger">{{ $mohonan->status_kelulusan }}</span>
+                                                                <span class="badge badge-danger" type="button"
+                                                                    data-id="{{ $mohonan->id_kelulusan }}"
+                                                                    data-toggle="modal" data-target="#ubahstatuskelulusan"
+                                                                    data-dismiss="modal">{{ $mohonan->status_kelulusan }}</span>
                                                             </td>
                                                             <td>
                                                                 @if ($mohonan->JenisPermohonan == 'Rasmi')
@@ -417,6 +427,36 @@
             </div>
         </div>
     </div>
+    @if (Auth::user()->role == 'DatoSUK')
+    <!-- Modal Tukar Kelulusan-->
+    <div class="modal fade" id="ubahstatuskelulusan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tukar Status Kelulusan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url('tukarstatuskelulusan') }}" method="GET" id="ajax_tukar_status"
+                    name="ajax_tukar_status">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" value="" name="id" id="id">
+                            Adakah pasti untuk menukar status permohonan ini?
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Kemaskini</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
 
 @endsection
 
@@ -445,6 +485,14 @@
 
             $(".modal-body #sebab").val(sebab);
             $(".modal-body #tarikh").val(tarikh);
+        });
+
+        $('#ubahstatuskelulusan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
         });
 
         $(document).ready(function() {
