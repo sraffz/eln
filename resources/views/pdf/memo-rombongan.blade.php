@@ -135,9 +135,25 @@
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
                                     @php
+                                        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
+                                                "Julai", "Ogos", "September", "October", "November", "Disember"
+                                                ];
+
+                                        setlocale(LC_TIME, config('app.locale'));
+                                        use Carbon\Carbon;
+
+                                        $bulan = monthNames[Carbon::parse($kelulusan->tarikh_kelulusan)->month - 1];
+                                        $tahun = Carbon::parse($kelulusan->tarikh_kelulusan)->year;
+                                        $hari = Carbon::parse($kelulusan->tarikh_kelulusan)->day;
+                                        
+                                        // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+                                    @endphp
+                                    {{ $hari }} {{ $bulan }} {{ $tahun }}
+                                    <br>
+                                    {{-- @php
                                         setlocale(LC_TIME, config('app.locale'));
                                     @endphp
-                                    {{ \Carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y') }}<br>
+                                    {{ \Carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y') }}<br> --}}
                                     <hr class="solid">
                                     RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
                                     ELN.JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>

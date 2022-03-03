@@ -115,15 +115,20 @@
                                 <td>:</td>
                                 <td>
                                     @php
-                                        // setlocale(LC_TIME, 'ms');
+                                        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
+                                                "Julai", "Ogos", "September", "October", "November", "Disember"
+                                                ];
+
                                         setlocale(LC_TIME, config('app.locale'));
                                         use Carbon\Carbon;
-                                        $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+
+                                        $bulan = monthNames[Carbon::parse($kelulusan->tarikh_kelulusan)->month - 1];
+                                        $tahun = Carbon::parse($kelulusan->tarikh_kelulusan)->year;
+                                        $hari = Carbon::parse($kelulusan->tarikh_kelulusan)->day;
+                                        
+                                        // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
                                     @endphp
-                                   
-                                    {{-- {{ carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y') }}
-                                    {{ carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->isoFormat('dddd') }} --}}
-                                    {{ $tarikh }}
+                                    {{ $hari }} {{ $bulan }} {{ $tahun }}
                                 </td>
                             </tr>
                         </table>

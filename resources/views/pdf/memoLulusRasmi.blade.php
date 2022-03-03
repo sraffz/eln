@@ -106,7 +106,23 @@
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y') }}<br>
+                                    @php
+                                        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
+                                                "Julai", "Ogos", "September", "October", "November", "Disember"
+                                                ];
+
+                                        setlocale(LC_TIME, config('app.locale'));
+                                        use Carbon\Carbon;
+
+                                        $bulan = monthNames[Carbon::parse($permohon->tarikhLulusan)->month - 1];
+                                        $tahun = Carbon::parse($permohon->tarikhLulusan)->year;
+                                        $hari = Carbon::parse($permohon->tarikhLulusan)->day;
+                                        
+                                        // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+                                    @endphp
+                                    {{ $hari }} {{ $bulan }} {{ $tahun }}
+                                    {{-- {{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y') }} --}}
+                                    <br>
                                     <hr class="solid">
                                     RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16 ELN
                                     @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif
