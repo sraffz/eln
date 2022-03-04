@@ -124,13 +124,22 @@
                         <p>YB. Dato’/ YM / YBhg. Dato’ / Tuan/ Puan,</p>
                     </div>
                 </div>
+                @php
+                    $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaPerjalanan)->month - 1];
+                    $tahunMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->year;
+                    $hariMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->day;
+
+                    $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirPerjalanan)->month - 1];
+                    $tahunAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->year;
+                    $hariAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->day;
+                @endphp
                 <div class="row">
                     <div class="col-md-12" style="text-transform: uppercase; text-align: justify;">
                         <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN RASMI UNTUK MENGHADIRI
                             {{ strtoupper($permohon->lainTujuan) }} PADA
-                            {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                            {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                             HINGGA
-                            {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}
+                            {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
                             DI
                             {{ strtoupper($permohon->negara) }}</strong>
                     </div>
@@ -158,6 +167,7 @@
                         </tbody>
                     </table>
                 </div><br>
+               
                 <div class="row">
                     <div align="justify">
                         {{-- <strong>
@@ -178,14 +188,14 @@
                             <strong>{{ strtoupper($permohon->user->nama) }}</strong> untuk ke luar negara
                             iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi menghadiri
                             urusan rasmi tersebut pada
-                            <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                            <strong>{{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                 hingga
-                                {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
+                                {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong>
                             adalah
                             @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
                                 <strong>telah diluluskan.</strong>
                             @else
-                                <strong>ditolak.</strong>
+                                <strong>tidak dipertimbangkan.</strong>
                             @endif
                         </div> <br>
 

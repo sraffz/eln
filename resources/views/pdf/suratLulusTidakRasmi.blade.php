@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Surat Kelulusan Tidak Rasmi</title>
     <style>
-        /** 
+        /**
             * Set the margins of the PDF to 0
             * so the background image will cover the entire page.
             **/
@@ -29,7 +29,7 @@
             font-size: 15px;
         }
 
-        /** 
+        /**
             * Define the width, height, margins and position of the watermark.
             **/
         #watermark {
@@ -37,7 +37,7 @@
             bottom: 0px;
             left: 0px;
 
-            /** The width and height may change 
+            /** The width and height may change
                     according to the dimensions of your letterhead
                 **/
             width: 21.8cm;
@@ -70,7 +70,9 @@
                         </td>
                         <td style="width: 1%">:</td>
                         <td class="text-right">
-                            SUK.D.200 (06) 455/16 ELN.Jld @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif 
+                            SUK.D.200 (06) 455/16 ELN.Jld @if ($ketua->jilid > 1)
+                                jld.{{ $ketua->jilid }}
+                            @endif
                             ({{ $ketua->no_surat }})
                         </td>
                     </tr>
@@ -90,20 +92,19 @@
                             @endphp
                             {{ $tarikh }} --}}
                             @php
-                            const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
-                                    "Julai", "Ogos", "September", "October", "November", "Disember"
-                                    ];
-
-                            setlocale(LC_TIME, config('app.locale'));
-                            use Carbon\Carbon;
-
-                            $bulan = monthNames[Carbon::parse($permohon->tarikhLulusan)->month - 1];
-                            $tahun = Carbon::parse($permohon->tarikhLulusan)->year;
-                            $hari = Carbon::parse($permohon->tarikhLulusan)->day;
-                            
-                            // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
-                        @endphp
-                        {{ $hari }} {{ $bulan }} {{ $tahun }}
+                                const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
+                                
+                                setlocale(LC_TIME, config('app.locale'));
+                                use Carbon\Carbon;
+                                
+                                $bulan = monthNames[Carbon::parse($permohon->tarikhLulusan)->month - 1];
+                                $tahun = Carbon::parse($permohon->tarikhLulusan)->year;
+                                $hari = Carbon::parse($permohon->tarikhLulusan)->day;
+                                
+                                // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+                                
+                            @endphp
+                            {{ $hari }} {{ $bulan }} {{ $tahun }}
                         </td>
                     </tr>
                 </table><br>
@@ -124,6 +125,15 @@
                             {!! negeri($surat->calon_perkhidmatans->perkhidmatan_AlamatJabatanNegeri) !!} --}}
             </div>
         </div>
+        @php
+            $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaPerjalanan)->month - 1];
+            $tahunMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->year;
+            $hariMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->day;
+            
+            $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirPerjalanan)->month - 1];
+            $tahunAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->year;
+            $hariAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->day;
+        @endphp
         <div class="row">
             <div class="col-xl-12">
                 {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}
@@ -133,8 +143,8 @@
         <div class="row">
             <div class="col-xl-12" style="text-transform: uppercase; text-align: justify;">
                 <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA BAGI URUSAN PERSENDIRIAN PADA
-                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }} HINGGA
-                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }} DI
+                    {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }} HINGGA
+                    {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }} DI
                     {{ strtoupper($permohon->negara) }}</strong>
             </div>
         </div>
@@ -183,9 +193,9 @@
                         <strong>{{ strtoupper($permohon->user->nama) }}</strong> untuk ke luar negara iaitu
                         ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi menghadiri urusan rasmi
                         tersebut pada
-                        <strong>{{ \Carbon\Carbon::parse($permohon->tarikhMulaPerjalanan)->formatLocalized('%d %B %Y') }}
+                        <strong>{{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                             hingga
-                            {{ \Carbon\Carbon::parse($permohon->tarikhAkhirPerjalanan)->formatLocalized('%d %B %Y') }}</strong>
+                            {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong>
                         adalah @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
                             <strong>telah diluluskan.</strong>
                         @else

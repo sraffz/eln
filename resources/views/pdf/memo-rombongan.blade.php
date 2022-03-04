@@ -122,7 +122,7 @@
                             </strong>
                         </div>
                     </div>
-
+                   
                     <div class="row">
                         <div class="col-xl-12">
                             <div align="justify">
@@ -139,7 +139,7 @@
                                                 "Julai", "Ogos", "September", "October", "November", "Disember"
                                                 ];
 
-                                        setlocale(LC_TIME, config('app.locale'));
+                                        // setlocale(LC_TIME, config('app.locale'));
                                         use Carbon\Carbon;
 
                                         $bulan = monthNames[Carbon::parse($kelulusan->tarikh_kelulusan)->month - 1];
@@ -150,23 +150,28 @@
                                     @endphp
                                     {{ $hari }} {{ $bulan }} {{ $tahun }}
                                     <br>
-                                    {{-- @php
-                                        setlocale(LC_TIME, config('app.locale'));
-                                    @endphp
-                                    {{ \Carbon\Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y') }}<br> --}}
+
                                     <hr class="solid">
                                     RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
                                     ELN.JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>
                                     <hr class="solid">
                                 </strong>
-
+                                @php
+                                    $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaRom)->month - 1];
+                                    $tahunMula = Carbon::parse($permohon->tarikhMulaRom)->year;
+                                    $hariMula = Carbon::parse($permohon->tarikhMulaRom)->day;
+            
+                                    $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirRom)->month - 1];
+                                    $tahunAkhir = Carbon::parse($permohon->tarikhAkhirRom)->year;
+                                    $hariAkhir = Carbon::parse($permohon->tarikhAkhirRom)->day;
+                                @endphp
                                 <font style="text-transform: uppercase">
                                     <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA Secara rombongan bagi tujuan
                                         {{ $permohon->tujuanRom }}
                                         {{ strtoupper($permohon->lainTujuan) }} PADA
-                                        {{ \Carbon\Carbon::parse($permohon->tarikhMulaRom)->formatLocalized('%d %B %Y') }}
+                                        {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                         HINGGA
-                                        {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}
+                                        {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
                                         DI
                                         {{ strtoupper($permohon->negaraRom) }}
                                     </strong>
@@ -189,9 +194,9 @@
                                     negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
                                     tujuan {{ $permohon->tujuanRom }}
                                     <strong>pada
-                                        {{ \Carbon\Carbon::parse($permohon->tarikhMulaRom)->formatLocalized('%d %B %Y') }}
+                                        {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                         hingga
-                                        {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}</strong>
+                                        {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong>
 
                                     @if ($permohon->statusPermohonanRom == 'Permohonan Berjaya')
                                         telah <strong>diluluskan.</strong>
@@ -221,9 +226,9 @@
             <div class="break">
                 <div style="text-align: center; text-transform:uppercase;">
                     <h3>SENARAI PEGAWAI DAN KAKITANGAN MENYERTAI ROMBONGAN KE {{ $permohon->negaraRom }} pada
-                        {{ \Carbon\Carbon::parse($permohon->tarikhMulaRom)->formatLocalized('%d %B %Y') }}
+                        {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                         hingga
-                        {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}</strong>
+                        {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong>
                     </h3>
                 </div>
                 <table id="table" class="table" style="width: 100%;">

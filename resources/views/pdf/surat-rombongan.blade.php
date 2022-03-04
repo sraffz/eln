@@ -11,7 +11,7 @@
     <!-- Theme style -->
     {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}"> --}}
     <style>
-        /** 
+        /**
             * Set the margins of the PDF to 0
             * so the background image will cover the entire page.
             **/
@@ -33,14 +33,14 @@
             font-size: 15px;
         }
 
-        /** 
+        /**
             * Define the width, height, margins and position of the watermark.
             **/
         #watermark {
             position: fixed;
             bottom: 0px;
             left: 0px;
-            /** The width and height may change 
+            /** The width and height may change
                     according to the dimensions of your letterhead
                 **/
             width: 21.8cm;
@@ -115,18 +115,17 @@
                                 <td>:</td>
                                 <td>
                                     @php
-                                        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
-                                                "Julai", "Ogos", "September", "October", "November", "Disember"
-                                                ];
-
-                                        setlocale(LC_TIME, config('app.locale'));
+                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
+                                        
+                                        
                                         use Carbon\Carbon;
-
+                                        
                                         $bulan = monthNames[Carbon::parse($kelulusan->tarikh_kelulusan)->month - 1];
                                         $tahun = Carbon::parse($kelulusan->tarikh_kelulusan)->year;
                                         $hari = Carbon::parse($kelulusan->tarikh_kelulusan)->day;
                                         
                                         // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+                                        
                                     @endphp
                                     {{ $hari }} {{ $bulan }} {{ $tahun }}
                                 </td>
@@ -145,14 +144,23 @@
                             <p>YB. Dato’/ YM / YBhg. Dato’ / Tuan/ Puan,</p>
                         </div>
                     </div>
+                    @php
+                        $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaRom)->month - 1];
+                        $tahunMula = Carbon::parse($permohon->tarikhMulaRom)->year;
+                        $hariMula = Carbon::parse($permohon->tarikhMulaRom)->day;
+
+                        $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirRom)->month - 1];
+                        $tahunAkhir = Carbon::parse($permohon->tarikhAkhirRom)->year;
+                        $hariAkhir = Carbon::parse($permohon->tarikhAkhirRom)->day;
+                    @endphp
                     <div class="row">
                         <div class="col-md-12" style="text-transform: uppercase; text-align: justify;">
                             <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA Secara rombongan bagi tujuan
                                 {{ $permohon->tujuanRom }}
                                 {{ strtoupper($permohon->lainTujuan) }} PADA
-                                {{ \Carbon\Carbon::parse($permohon->tarikhMulaRom)->formatLocalized('%d %B %Y') }}
+                                {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                 HINGGA
-                                {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}
+                                {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
                                 DI
                                 {{ strtoupper($permohon->negaraRom) }}
                             </strong>
@@ -176,14 +184,14 @@
                                 iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
                                 tujuan {{ $permohon->tujuanRom }}
                                 <strong>pada
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaRom)->formatLocalized('%d %B %Y') }}
+                                    {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                     hingga
-                                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}</strong>
+                                    {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
 
                                 @if ($permohon->statusPermohonanRom == 'Permohonan Berjaya')
                                     telah <strong>diluluskan.</strong>
                                 @elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal')
-                                    adalah <strong>ditolak.</strong>
+                                    adalah <strong>tidak dipertimbangkan.</strong>
                                 @endif
                             </div><br>
 
@@ -221,9 +229,9 @@
         <div class="break">
             <div style="text-align: center; text-transform:uppercase;">
                 <h3>SENARAI PEGAWAI DAN KAKITANGAN MENYERTAI ROMBONGAN KE {{ $permohon->negaraRom }} pada
-                    {{ \Carbon\Carbon::parse($permohon->tarikhMulaRom)->formatLocalized('%d %B %Y') }}
+                    {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                     hingga
-                    {{ \Carbon\Carbon::parse($permohon->tarikhAkhirRom)->formatLocalized('%d %B %Y') }}</strong></h3>
+                    {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong></h3>
             </div>
             <table id="table" class="table" style="width: 100%" bordercolor="#ff0000">
                 <thead style="text-align: center" id="thead-dark">
