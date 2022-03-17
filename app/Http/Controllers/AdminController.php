@@ -911,6 +911,17 @@ class AdminController extends Controller
 
         return view('konfigurasi.terusDato', compact('jawatan', 'jawatan2'));
     }
+    
+    public function sokongantsuk()
+    {
+        $tsukpem = Jawatan::where('stsukpem', '1')->get();
+        $tsukpen = Jawatan::where('stsukpen', '1')->get();
+
+        $jawatan2 = Jawatan::get()->sortBy('namaJawatan');
+
+
+        return view('konfigurasi.sokongan-tsuk', compact('tsukpem', 'tsukpen', 'jawatan2'));
+    }
 
     public function tambahterusDato()
     {
@@ -919,18 +930,33 @@ class AdminController extends Controller
         return view('konfigurasi.tambahterusDato', compact('jawatan'));
     }
 
+    public function tambahsokongantsukpen(Request $request)
+    {
+       Jawatan::where('idJawatan', $request->jawatan)->update(['stsukpen' => 1]);
+       toast('Maklumat telah ditambah', 'success')->position('top-end');
+       return back();
+    }
+
+    public function tambahsokongantsukpem(Request $request)
+    {
+       Jawatan::where('idJawatan', $request->jawatan)->update(['stsukpem' => 1]);
+       toast('Maklumat telah ditambah', 'success')->position('top-end');
+       return back();
+    }
+
     public function prosesTambahterusDato(Request $request)
     {
         // dd($request);
         $angka = $request->input('jawatan');
         $ulasan = 'Aktif';
 
-        Jawatan::where('idJawatan', $angka)->update(['statusDato' => $ulasan]);
+        Jawatan::where('idJawatan', $request->jawatan)->update(['statusDato' => $ulasan]);
 
         // flash('Maklumat telah ditambah')->success();
         toast('Maklumat telah ditambah', 'success')->position('top-end');
         return redirect('terusDato');
     }
+
     public function padamTerusDato($id)
     {
         $ulasan = 'Tidak Aktif';
@@ -939,6 +965,26 @@ class AdminController extends Controller
         // flash('Jawatan terus ke Dato dihapuskan.')->error();
         toast('Jawatan terus ke Dato dihapuskan', 'error')->position('top-end');
         return redirect('terusDato');
+    }
+
+    public function padamtsukpen($id)
+    {
+        $ulasan = 'Tidak Aktif';
+        Jawatan::where('idJawatan', $id)->update(['stsukpen' =>'']);
+
+        // flash('Jawatan terus ke Dato dihapuskan.')->error();
+        toast('Maklumat telah dihapuskan', 'error')->position('top-end');
+        return back();
+    }
+
+    public function padamtsukpem($id)
+    {
+        $ulasan = 'Tidak Aktif';
+        Jawatan::where('idJawatan', $id)->update(['stsukpem' => '']);
+
+        // flash('Maklumat telah dihapuskan.')->error();
+        toast('Maklumat telah dihapuskan', 'error')->position('top-end');
+        return back();
     }
 
     public function senaraiGredKod()

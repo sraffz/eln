@@ -246,8 +246,19 @@
             Angka</span></a>
 </li>
 <li class="nav-item"><a class="nav-link {{ request()->is('terusDato') ? 'active' : '' }}"
-        href="{{ route('terusDato') }}"><i class="nav-icon fa fa-briefcase"></i> <span>Permohonan Terus
-            Dato</span></a>
+        href="{{ route('terusDato') }}"><i class="nav-icon fa fa-briefcase"></i> 
+        <span>
+            Permohonan Terus SUK
+        </span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {{ request()->is('sokongantsuk') ? 'active' : '' }}" href="{{ route('sokongantsuk') }}">
+        <i class="nav-icon fa fa-briefcase"></i> 
+        <span>
+            Sokongan Timbalan SUK
+        </span>
+    </a>
 </li>
 <li class="nav-item"><a class="nav-link {{ request()->is('infoSurat') ? 'active' : '' }}"
         href="{{ route('infoSurat') }}"><i class="nav-icon fa fa-briefcase"></i> <span>Maklumat Surat</span></a>

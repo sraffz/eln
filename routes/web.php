@@ -140,9 +140,14 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('padam-kodgred', 'AdminController@padamgredkod')->name('padam-kodgred');
 	
 	Route::get('terusDato', 'AdminController@terusDato')->name('terusDato');
+	Route::get('sokongantsuk', 'AdminController@sokongantsuk')->name('sokongantsuk');
 	Route::get('tambahterusDato', 'AdminController@tambahterusDato')->name('tambahterusDato');
+	Route::post('tambahsokongantsukpem', 'AdminController@tambahsokongantsukpem')->name('tambahsokongantsukpem');
+	Route::post('tambahsokongantsukpen', 'AdminController@tambahsokongantsukpen')->name('tambahsokongantsukpen');
 	Route::POST('prosesTambahterusDato', 'AdminController@prosesTambahterusDato')->name('prosesTambahterusDato');
 	Route::get('padamTerusDato/{id}', 'AdminController@padamTerusDato')->name('padamTerusDato');
+	Route::get('padamtsukpen/{id}', 'AdminController@padamtsukpen')->name('padamtsukpen');
+	Route::get('padamtsukpem/{id}', 'AdminController@padamtsukpem')->name('padamtsukpem');
 	Route::get('infoSurat', 'AdminController@infoSurat')->name('infoSurat');
 	
 	Route::POST('prosesTambahCoganKata', 'AdminController@prosesTambahCoganKata')->name('prosesTambahCoganKata');

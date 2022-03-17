@@ -88,7 +88,7 @@
                                     KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $ketua->jawatan_ketua }}
                                     <br>
                                     <hr class="solid">
-                                    DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Penolong Pengarah (Perkhidmatan)<br>
+                                    DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $pp->maklumat2 }} <br>
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
                                     @php
