@@ -155,7 +155,7 @@
                                     RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
                                     ELN.JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>
                                     <hr class="solid">
-                                </strong>
+                                </strong> <br>
                                 @php
                                     $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaRom)->month - 1];
                                     $tahunMula = Carbon::parse($permohon->tarikhMulaRom)->year;

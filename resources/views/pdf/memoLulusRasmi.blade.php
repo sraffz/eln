@@ -128,7 +128,7 @@
                                     @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif
                                     ({{ $ketua->no_surat }})<br>
                                     <hr class="solid">
-                                </strong>
+                                </strong> <br>
                                 @php
                                     $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaPerjalanan)->month - 1];
                                     $tahunMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->year;
@@ -187,7 +187,7 @@
                                     @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
                                     <strong>telah diluluskan.</strong>
                                     @else
-                                    <strong>tidak dipertimbangkan.</strong>
+                                    <strong>tidak dapat dipertimbangkan.</strong>
                                     @endif
                                     </div><br>
 

@@ -195,7 +195,7 @@
                             @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
                                 <strong>telah diluluskan.</strong>
                             @else
-                                <strong>tidak dipertimbangkan.</strong>
+                                <strong>tidak dapat dipertimbangkan.</strong>
                             @endif
                         </div> <br>
 

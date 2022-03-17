@@ -191,7 +191,7 @@
                                 @if ($permohon->statusPermohonanRom == 'Permohonan Berjaya')
                                     telah <strong>diluluskan.</strong>
                                 @elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal')
-                                    adalah <strong>tidak dipertimbangkan.</strong>
+                                    adalah <strong>tidak dapat dipertimbangkan.</strong>
                                 @endif
                             </div><br>
 
