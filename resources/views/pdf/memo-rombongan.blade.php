@@ -190,7 +190,7 @@
                                     @endif
 
                                     dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
-                                        orang</strong> dari pejabat tuan sebagaimana senarai di lampiran untuk ke luar
+                                        orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
                                     negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
                                     tujuan {{ $permohon->tujuanRom }}
                                     <strong>pada

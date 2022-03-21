@@ -145,7 +145,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('tambahsokongantsukpem', 'AdminController@tambahsokongantsukpem')->name('tambahsokongantsukpem');
 	Route::post('tambahsokongantsukpen', 'AdminController@tambahsokongantsukpen')->name('tambahsokongantsukpen');
 	Route::POST('prosesTambahterusDato', 'AdminController@prosesTambahterusDato')->name('prosesTambahterusDato');
-	Route::get('padamTerusDato/{id}', 'AdminController@padamTerusDato')->name('padamTerusDato');
+	Route::get('padamTerusDato/{id}', 'AdminController@laporandato')->name('padamTerusDato');
 	Route::get('padamtsukpen/{id}', 'AdminController@padamtsukpen')->name('padamtsukpen');
 	Route::get('padamtsukpem/{id}', 'AdminController@padamtsukpem')->name('padamtsukpem');
 	Route::get('infoSurat', 'AdminController@infoSurat')->name('infoSurat');
@@ -159,6 +159,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('laporan-jabatan', 'AdminController@laporanjabatan')->name('laporan-jabatan');
 	Route::get('laporan-negara', 'AdminController@laporannegara')->name('laporan-negara');
 	Route::get('laporan-bulanan', 'AdminController@laporanbulanan')->name('laporan-bulanan');
+	Route::get('laporan-butiran-bulanan/{tahun}/{bulan}', 'AdminController@laporanbutiranbulanan')->name('laporan-butiran-bulanan');
+	Route::get('laporan-butiran-bulanan', 'AdminController@laporanbutiranbulanan2')->name('laporan-butiran-bulanan2');
 	Route::get('laporan-tahunan', 'AdminController@laporantahunan')->name('laporan-tahunan');
 	Route::get('laporan-individu', 'AdminController@laporanindividu')->name('laporan-individu');
 	Route::get('butiran-individu/{id}', 'AdminController@butiranindividu')->name('butiran-individu');

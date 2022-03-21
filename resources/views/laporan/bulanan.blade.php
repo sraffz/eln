@@ -8,8 +8,8 @@
     <link rel="stylesheet"
         href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-   
-   <style>
+
+    <style>
         table td {
             font-weight: bold;
             text-transform: uppercase;
@@ -48,7 +48,8 @@
                                     <label for="tahun">Tahun</label>
                                     <select class="form-control" name="tahun" id="tahun">
                                         @foreach ($listyear as $ly)
-                                        <option value="{{  $ly->tahun }}" {{ $tahun == $ly->tahun ? 'selected' : '' }}>{{  $ly->tahun }}</option>
+                                            <option value="{{ $ly->tahun }}"
+                                                {{ $tahun == $ly->tahun ? 'selected' : '' }}>{{ $ly->tahun }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -94,6 +95,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 1)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -105,6 +108,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 2)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -115,6 +120,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 3)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -125,6 +132,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 4)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -135,6 +144,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 5)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -145,6 +156,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 6)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -155,6 +168,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 7)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -165,6 +180,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 8)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -175,6 +192,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 9)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -185,6 +204,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 10)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -195,6 +216,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 11)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>
@@ -206,6 +229,8 @@
                                                     @foreach ($bil as $jbil)
                                                         @if ($jbil->bulan == 12)
                                                             {{ $jbil->bil }}
+                                                            &nbsp;&nbsp;
+                                                            <a href="{{ route('laporan-butiran-bulanan', [$tahun, $jbil->bulan]) }}"><span class="badge badge-primary">Butiran</span></a>
                                                         @endif
                                                     @endforeach
                                                 </td>

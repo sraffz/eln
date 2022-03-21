@@ -870,6 +870,33 @@ class AdminController extends Controller
         return view('laporan.bulanan', compact('tahun', 'listyear', 'bil', 'jumlah'));
     }
 
+    public function laporanbutiranbulanan(Request $req, $tahun, $bulan)
+    {
+        $listyear = DB::table('tahun_ada_permohonan')->get();
+
+        $list = DB::table('senarai_berjaya_bulan_tahun')
+        ->where('tahun', $tahun)
+        ->where('bulan', $bulan)
+        ->get();
+
+        return view('laporan.butiran-bulanan', compact('listyear', 'list', 'tahun', 'bulan'));
+    }
+
+    public function laporanbutiranbulanan2(Request $req)
+    {
+        $tahun = $req->input('tahun');
+        $bulan = $req->input('bulan');
+
+        $listyear = DB::table('tahun_ada_permohonan')->get();
+
+        $list = DB::table('senarai_berjaya_bulan_tahun')
+        ->where('tahun', $tahun)
+        ->where('bulan', $bulan)
+        ->get();
+
+        return view('laporan.butiran-bulanan', compact('listyear', 'list', 'tahun', 'bulan'));
+    }
+
     public function laporantahunan()
     {
         $listyear = DB::table('tahun_ada_permohonan')->get();

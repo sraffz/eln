@@ -70,29 +70,28 @@
                     </a>
                 </li>
                 <li class="nav-item"><a
-                    class="nav-link {{ request()->is('laporan-individu') ? 'active' : '' }}"
-                    href="{{ url('laporan-individu') }}"><i class="far fa-circle nav-icon"></i>
-                    <span>Individu</span></a></li>
-                <li class="nav-item"><a
-                        class="nav-link {{ request()->is('laporan-jabatan') ? 'active' : '' }}"
-                        href="{{ url('laporan-jabatan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
+                        class="nav-link {{ request()->is('laporan-individu') ? 'active' : '' }}"
+                        href="{{ url('laporan-individu') }}"><i class="far fa-circle nav-icon"></i>
+                        <span>Individu</span></a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->is('laporan-jabatan') ? 'active' : '' }}"
+                        href="{{ url('laporan-jabatan?tahun=' . now()->year) }}"><i
+                            class="far fa-circle nav-icon"></i>
                         <span>Jabatan</span></a></li>
                 {{-- <li class="nav-item"><a class="nav-link" href="{{ url('laporan-individu?tahun='.now()->year) }}"><i
                             class="far fa-circle nav-icon"></i> <span>Individu</span></a></li> --}}
-                <li class="nav-item"><a
-                        class="nav-link {{ request()->is('laporan-negara') ? 'active' : '' }} "
-                        href="{{ url('laporan-negara?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
+                <li class="nav-item"><a class="nav-link {{ request()->is('laporan-negara') ? 'active' : '' }} "
+                        href="{{ url('laporan-negara?tahun=' . now()->year) }}"><i
+                            class="far fa-circle nav-icon"></i>
                         <span>Negara</span></a></li>
                 {{-- <li class="nav-item"><a class="nav-link {{  request()->is('laporan-jabatan') ? 'active' : '' }}" href="{{ route('laporanViewBG') }}"><i
                             class="far fa-circle nav-icon"></i> <span>Lulus / Gagal</span></a></li> --}}
-                <li class="nav-item"><a
-                        class="nav-link {{ request()->is('laporan-tahunan') ? 'active' : '' }}"
+                <li class="nav-item"><a class="nav-link {{ request()->is('laporan-bulanan') ? 'active' : '' }}"
+                        href="{{ url('laporan-bulanan?tahun=' . now()->year) }}"><i
+                            class="far fa-circle nav-icon"></i>
+                        <span>Bulanan</span></a></li>
+                <li class="nav-item"><a class="nav-link {{ request()->is('laporan-tahunan') ? 'active' : '' }}"
                         href="{{ route('laporan-tahunan') }}"><i class="far fa-circle nav-icon"></i>
                         <span>Tahun</span></a></li>
-                <li class="nav-item"><a
-                        class="nav-link {{ request()->is('laporan-bulanan') ? 'active' : '' }}"
-                        href="{{ url('laporan-bulanan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
-                        <span>Berjaya Setiap Bulan</span></a></li>
             </ul>
         </li>
         <li class="nav-item">

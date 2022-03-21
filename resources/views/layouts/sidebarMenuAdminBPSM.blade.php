@@ -63,22 +63,23 @@
     </a>
 </li>
 <li
-    class="nav-item {{ url()->current() == url('permohonan-rombongan') || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('sertai-rombongan') ? 'menu-open' : '' }}">
+    class="nav-item {{ url()->current() == url('permohonan-rombongan') ||url()->current() == url('registerFormIndividu', 'rasmi') ||url()->current() == url('registerFormIndividu', 'tidakRasmi') ||url()->current() == url('sertai-rombongan')? 'menu-open': '' }}">
     <a href="#"
-        class="nav-link {{ url()->current() ==  url('permohonan-rombongan') || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('sertai-rombongan') ? 'active' : '' }}">
+        class="nav-link {{ url()->current() == url('permohonan-rombongan') ||url()->current() == url('registerFormIndividu', 'rasmi') ||url()->current() == url('registerFormIndividu', 'tidakRasmi') ||url()->current() == url('sertai-rombongan')? 'active': '' }}">
         <i class="nav-icon fa fa-users"></i>
         <p>Borang
             <i class="fas fa-angle-left right"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item {{ url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'menu-open' : '' }}">
-                    <a href=" #"
-            class="nav-link  {{ url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID) ? 'active' : '' }}">
-                        <i class="  nav-icon fa fa-user"></i>
-            <p>Individu
-                <i class="fas fa-angle-left right"></i>
-            </p>
+        <li
+            class="nav-item {{ url()->current() == url('registerFormIndividu', 'rasmi') ||url()->current() == url('registerFormIndividu', 'tidakRasmi') ||url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID)? 'menu-open': '' }}">
+            <a href=" #"
+                class="nav-link  {{ url()->current() == url('registerFormIndividu', 'rasmi') ||url()->current() == url('registerFormIndividu', 'tidakRasmi') ||url()->current() == url('registerFormIndividuRombongan', Auth::user()->usersID)? 'active': '' }}">
+                <i class="  nav-icon fa fa-user"></i>
+                <p>Individu
+                    <i class="fas fa-angle-left right"></i>
+                </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
@@ -95,9 +96,9 @@
         </li>
 
         <li
-            class="nav-item {{ url()->current() == route('permohonan-rombongan') || url()->current() == route('sertai-rombongan') ? 'menu-open' : '' }}">
+            class="nav-item {{ url()->current() == route('permohonan-rombongan') || url()->current() == route('sertai-rombongan')? 'menu-open': '' }}">
             <a href="#"
-                class="nav-link {{ url()->current() == route('permohonan-rombongan') || url()->current() == route('sertai-rombongan') ? 'active' : '' }}">
+                class="nav-link {{ url()->current() == route('permohonan-rombongan') || url()->current() == route('sertai-rombongan')? 'active': '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                     Rombongan
@@ -124,9 +125,9 @@
     </ul>
 </li>
 <li
-    class="nav-item {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'menu-open' : '' }}">
+    class="nav-item {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan')? 'menu-open': '' }}">
     <a href="#"
-        class="nav-link {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'active' : '' }}">
+        class="nav-link {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan')? 'active': '' }}">
         <i class="nav-icon fas fa-chalkboard"></i>
         <p>
             Keputusan
@@ -182,12 +183,12 @@
                 <span>Negara</span></a></li>
         {{-- <li class="nav-item"><a class="nav-link {{  request()->is('laporan-jabatan') ? 'active' : '' }}" href="{{ route('laporanViewBG') }}"><i
                     class="far fa-circle nav-icon"></i> <span>Lulus / Gagal</span></a></li> --}}
+        <li class="nav-item"><a class="nav-link {{ request()->is('laporan-bulanan') ? 'active' : '' }}"
+                href="{{ url('laporan-bulanan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
+                <span>Bulanan</span></a></li>
         <li class="nav-item"><a class="nav-link {{ request()->is('laporan-tahunan') ? 'active' : '' }}"
                 href="{{ route('laporan-tahunan') }}"><i class="far fa-circle nav-icon"></i> <span>Tahun</span></a>
         </li>
-        <li class="nav-item"><a class="nav-link {{ request()->is('laporan-bulanan') ? 'active' : '' }}"
-                href="{{ url('laporan-bulanan?tahun=' . now()->year) }}"><i class="far fa-circle nav-icon"></i>
-                <span>Berjaya Setiap Bulan</span></a></li>
     </ul>
 </li>
 <li class="nav-item">
@@ -246,7 +247,7 @@
             Angka</span></a>
 </li>
 <li class="nav-item"><a class="nav-link {{ request()->is('terusDato') ? 'active' : '' }}"
-        href="{{ route('terusDato') }}"><i class="nav-icon fa fa-briefcase"></i> 
+        href="{{ route('terusDato') }}"><i class="nav-icon fa fa-briefcase"></i>
         <span>
             Permohonan Terus SUK
         </span>
@@ -254,7 +255,7 @@
 </li>
 <li class="nav-item">
     <a class="nav-link {{ request()->is('sokongantsuk') ? 'active' : '' }}" href="{{ route('sokongantsuk') }}">
-        <i class="nav-icon fa fa-briefcase"></i> 
+        <i class="nav-icon fa fa-briefcase"></i>
         <span>
             Sokongan Timbalan SUK
         </span>

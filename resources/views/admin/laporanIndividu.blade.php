@@ -27,7 +27,7 @@
     <div class="text-center">
         <p>
             <strong>
-                PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA ATAS URUSAN RASMI/PERSENDIRIAN
+                LAPORAN PERJALANAN PEGAWAI  KE LUAR NEGARA ATAS URUSAN RASMI/PERSENDIRIAN
                 <BR>BAGI TAHUN {{ now()->year }}
             </strong>
         </p>
@@ -37,7 +37,7 @@
             <thead class="thead-dark">
                 <tr>
                     <th style="vertical-align: middle; text-align: center; width: 2%" rowspan="2">BIL</th>
-                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">NAMA</th>
+                    <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">NAMA / JAWATAN</th>
                     {{-- <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">JAWATAN/GRED</th> --}}
                     <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">JABATAN</th>
                     <th style="vertical-align: middle; text-align: center; width: 8%" rowspan="2">TUJUAN PERMOHONAN

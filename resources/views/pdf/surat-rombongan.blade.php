@@ -141,7 +141,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}
-                            <p>YB. Dato’/ YM / YBhg. Dato’ / Tuan/ Puan,</p>
+                            <p>YB / Dato’/ YM / YBhg. Dato’ / Tuan/ Puan,</p>
                         </div>
                     </div>
                     @php
@@ -179,7 +179,7 @@
                                 @endif
 
                                 dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
-                                    orang</strong> dari pejabat tuan sebagaimana senarai di lampiran untuk ke luar
+                                    orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
                                 negara
                                 iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
                                 tujuan {{ $permohon->tujuanRom }}
