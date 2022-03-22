@@ -49,9 +49,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for=""><i class="fas fa-question-circle"></i> Status</label>
+                                            <label for=""><i class="fas fa-question-circle"></i> Jenis Rombongan</label>
                                             <input type="text" class="form-control" disabled
-                                                value="{{ $rombooo->statusPermohonanRom }}">
+                                                value="{{ $rombooo->jenis_rombongan }}">
                                         </div>
                                     </div>
                                 </div>
