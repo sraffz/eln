@@ -1158,21 +1158,47 @@ class AdminController extends Controller
     {
         $jab = Auth::user()->jabatan;
         // echo $jab;
-        if ($jab == 44) {
-            $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
-                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                ->whereIn('users.jabatan', [44, 37])
-                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                ->orderBy('permohonans.created_at','asc')
-                ->get();
+
+        if ($jab == 38) {
+            $permohonan = DB::table('senarai_data_permohonan')
+            ->Where('jabatan', $jab)
+            ->orwhere('stsukpem', ['1'])
+            ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            ->orderBy('tarikhmohon','asc')
+            ->get();
+        } elseif  ($jab == 39) {
+            $permohonan = DB::table('senarai_data_permohonan')
+            ->Where('jabatan', $jab)
+            ->orwhere('stsukpen', ['1'])
+            ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            ->orderBy('tarikhmohon','asc')
+            ->get();
         } else {
-            $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
-                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                ->where('users.jabatan', $jab)
-                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                ->orderBy('permohonans.created_at','asc')
-                ->get();
+            $permohonan = DB::table('senarai_data_permohonan')
+            ->where('jabatan', $jab)
+            ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            // ->whereNotIn('stsukpen', ['1'])
+            // ->whereNotIn('stsukpem', ['1'])
+            ->whereNotIn('role', ['jabatan'])
+            ->orderBy('tarikhmohon','asc')
+            ->get();
         }
+
+        // if ($jab == 44) {
+        //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
+        //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+        //         ->whereIn('users.jabatan', [44, 37])
+        //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+        //         ->orderBy('permohonans.created_at','asc')
+        //         ->get();
+        // } else {
+        //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
+        //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+        //         ->where('users.jabatan', $jab)
+        //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+        //         ->orderBy('permohonans.created_at','asc')
+        //         ->get();
+        // }
         
         return view('jabatan.senaraiPermohonanJabatan', compact('permohonan'));
     }
@@ -1182,11 +1208,7 @@ class AdminController extends Controller
         $jab = Auth::user()->jabatan;
 
         if ($jab == 44) {
-            // $permohonan = DB::table('senarai_data_permohonan')
-            // ->whereIn('jabatan_pemohon', [44, 37])
-            // ->orderBy('tarikh_permohonan', 'desc')
-            // ->get();
-
+           
             $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
                 ->join('users', 'permohonans.usersID', '=', 'users.usersID')
                 ->whereIn('users.jabatan', [44, 37])
@@ -1207,20 +1229,8 @@ class AdminController extends Controller
                 ->get();
         }
 
-        if ($jab == 44) {
-            $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-                ->join('users', 'rombongans.usersID', '=', 'users.usersID')
-                ->whereIn('users.jabatan', [44, 37])
-                ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
-                ->orderBy('rombongans.created_at', 'desc')
-                ->get();
 
-                // $rombo = DB::table('senarai_data_permohonan_rombongan')
-                // ->whereIn('jabatan_pemohon', [44, 37])
-                // ->orderBy('tarikhmohon', 'desc')
-                // ->get();
-        }else {
-            $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
+            $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhmohon')
                 ->join('users', 'rombongans.usersID', '=', 'users.usersID')
                 ->where('users.jabatan', $jab)
                 ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
@@ -1231,7 +1241,7 @@ class AdminController extends Controller
                 // ->where('jabatan_pemohon', $jab)
                 // ->orderBy('tarikhmohon', 'desc')
                 // ->get();
-        }
+        
 
         $jabatan = Jabatan::where('jabatan_id', $jab)->first();
 

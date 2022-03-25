@@ -48,12 +48,12 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td style="text-transform: capitalize">
                                                     @if ($mohonan->JenisPermohonan == 'rombongan')
-                                                        <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->user->nama }}</a>
+                                                        <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a>
                                                     @else
-                                                        <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                        <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
                                                     @endif
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->tpermohonan)->format('d/m/Y') }}
+                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
                                                 </td>
                                                 <td>{{ $mohonan->negara }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
