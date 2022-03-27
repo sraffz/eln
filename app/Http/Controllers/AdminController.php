@@ -192,10 +192,13 @@ class AdminController extends Controller
 
     public function senaraiRekodRombongan()
     {
-        $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhMohon')
-            ->join('users', 'users.usersID', '=', 'rombongans.usersID')
-            ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
-            ->get();
+        // $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhMohon')
+        //     ->join('users', 'users.usersID', '=', 'rombongans.usersID')
+        //     ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
+        //     ->get();
+
+        $rombongan = DB::table('senarai_data_permohonan_rombongan')
+        ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])->get();
 
             if (Auth::user()->role == "DatoSUK") {
                 
@@ -508,6 +511,7 @@ class AdminController extends Controller
 
         Eln_pengesahan_bahagian::insertGetId( [
             'id_permohonan' => $id_permohonan,
+            'id_rombongan' => $id,
             'id_pemohon' => $userid,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
@@ -1161,24 +1165,29 @@ class AdminController extends Controller
 
         if ($jab == 38) {
             $permohonan = DB::table('senarai_data_permohonan')
+            ->where('statusPermohonan', 'Ketua Jabatan')
             ->Where('jabatan', $jab)
-            ->orwhere('stsukpem', ['1'])
-            ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            // ->Where('stsukpem', ['1'])
+            ->orWhere(function ($query) {
+                $query->where('statusPermohonan', 'Ketua Jabatan')
+                ->Where('stsukpem', 1);
+            })
             ->orderBy('tarikhmohon','asc')
             ->get();
         } elseif  ($jab == 39) {
             $permohonan = DB::table('senarai_data_permohonan')
-            ->Where('jabatan', $jab)
-            ->orwhere('stsukpen', ['1'])
             ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            ->Where('jabatan', $jab)
+            ->orWhere(function ($query) {
+                $query->where('statusPermohonan', 'Ketua Jabatan')
+                ->Where('stsukpen', 1);
+            })
             ->orderBy('tarikhmohon','asc')
             ->get();
         } else {
             $permohonan = DB::table('senarai_data_permohonan')
             ->where('jabatan', $jab)
             ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-            // ->whereNotIn('stsukpen', ['1'])
-            // ->whereNotIn('stsukpem', ['1'])
             ->whereNotIn('role', ['jabatan'])
             ->orderBy('tarikhmohon','asc')
             ->get();
@@ -1216,31 +1225,31 @@ class AdminController extends Controller
                 ->orderBy('permohonans.created_at', 'desc')
                 ->get();
         } else {
-            $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
+            $permohonan2 = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
                 ->join('users', 'permohonans.usersID', '=', 'users.usersID')
                 ->where('users.jabatan', $jab)
                 ->whereNotIn('statusPermohonan', ['simpanan'])
                 ->orderBy('permohonans.created_at', 'desc')
                 ->get();
 
-                $permohonan2 = DB::table('senarai_data_permohonan')
+                $permohonan = DB::table('senarai_data_permohonan')
                 ->where('jabatan_pemohon', $jab)
                 ->orderBy('tarikhmohon', 'desc')
                 ->get();
         }
 
 
-            $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhmohon')
-                ->join('users', 'rombongans.usersID', '=', 'users.usersID')
-                ->where('users.jabatan', $jab)
-                ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
-                ->orderBy('rombongans.created_at', 'desc')
-                ->get();
+            // $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhMohon')
+            //     ->join('users', 'rombongans.usersID', '=', 'users.usersID')
+            //     ->where('users.jabatan', $jab)
+            //     ->whereNotIn('rombongans.statusPermohonanRom', ['simpanan'])
+            //     ->orderBy('rombongans.created_at', 'desc')
+            //     ->get();
 
-                // $rombo = DB::table('senarai_data_permohonan_rombongan')
-                // ->where('jabatan_pemohon', $jab)
-                // ->orderBy('tarikhmohon', 'desc')
-                // ->get();
+                $rombo = DB::table('senarai_data_permohonan_rombongan')
+                ->where('jabatan_pemohon', $jab)
+                ->orderBy('tarikhMohon', 'desc')
+                ->get();
         
 
         $jabatan = Jabatan::where('jabatan_id', $jab)->first();
@@ -1283,6 +1292,7 @@ class AdminController extends Controller
 
         Eln_pengesahan_bahagian::insertGetId( [
             'id_permohonan' => $permohonan->permohonansID,
+            'id_rombongan' => $permohonan->rombongans_id,
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
@@ -1328,6 +1338,7 @@ class AdminController extends Controller
 
         Eln_pengesahan_bahagian::insertGetId( [
             'id_permohonan' => $permohonan->permohonansID,
+            'id_rombongan' => $permohonan->rombongans_id,
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
@@ -1417,6 +1428,7 @@ class AdminController extends Controller
                 'nama' => $nama, 
                 'email' => $email,
                 'jawatan' => $jawatan,
+                'role' => $request->role,
                 'jabatan' => $jabatan,
                 'gredAngka' => $gred,
                 'gredKod' => $kod

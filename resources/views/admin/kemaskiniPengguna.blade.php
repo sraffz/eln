@@ -59,17 +59,12 @@
                                     <div class="form-group">
                                         <label>Peranan</label>
                                         <div class="input-group">
-                                            <select style="width: 100%;" id="role" class="form-control select2bs4"
-                                                name="role" required>
+                                            <select style="width: 100%;" id="role" class="form-control select2bs4" name="role" required>
                                                 <option value="">Sila Pilih</option>
-                                                <option value="jabatan" {{ $users->role == 'jabatan' ? 'selected' : '' }}>
-                                                    Ketua Jabatan</option>
-                                                <option value="adminBPSM"
-                                                    {{ $users->role == 'adminBPSM' ? 'selected' : '' }}>Admin PSM</option>
-                                                <option value="DatoSUK" {{ $users->role == 'DatoSUK' ? 'selected' : '' }}>
-                                                    Admin Pejabat Dato</option>
-                                                <option value="pengguna"
-                                                    {{ $users->role == 'pengguna' ? 'selected' : '' }}>Pengguna</option>
+                                                <option value="jabatan" {{ $users->role == 'jabatan' ? 'selected' : '' }}>Ketua Jabatan</option>
+                                                <option value="adminBPSM" {{ $users->role == 'adminBPSM' ? 'selected' : '' }}>Pentadbir PSM</option>
+                                                <option value="DatoSUK" {{ $users->role == 'DatoSUK' ? 'selected' : '' }}>Dato SUK</option>
+                                                <option value="pengguna" {{ $users->role == 'pengguna' ? 'selected' : '' }}>Pengguna</option>
                                             </select>{{-- {{$k->anugerah}} --}}
                                         </div>
                                     </div>

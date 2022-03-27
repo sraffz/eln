@@ -148,7 +148,7 @@
                                         <i class="fa fa-map-o"></i>
                                     </div>
                                     <textarea class="form-control" name="alamatRom" id="alamatRom"
-                                        cols="170">{{ old('alamatRom') }}</textarea>
+                                        cols="170" required>{{ old('alamatRom') }}</textarea>
                                 </div>
                             </div>
                         </div>

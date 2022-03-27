@@ -91,7 +91,7 @@
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
-                    <td class="text-left"><strong>{{ $pengesahan->jabatan_pengesah }}</strong></td>
+                    <td class="text-left"><strong>{{ $pengesahan->nama_jabatan }}</strong></td>
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>

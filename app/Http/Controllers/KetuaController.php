@@ -23,9 +23,15 @@ class KetuaController extends Controller
     {
         $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya'])->get();
 
-        $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
+        // $permohonan = Permohonan::where('statusPermohonan', 'Lulus Semakan BPSM')
+        //     ->whereNotIn('JenisPermohonan', ['rombongan'])
+        //     ->orderBy('created_at', 'asc')
+        //     ->get();
+
+            $permohonan = DB::table('senarai_data_permohonan')
+            ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
             ->whereNotIn('JenisPermohonan', ['rombongan'])
-            ->orderBy('created_at', 'asc')
+            ->orderBy('tarikhmohon','asc')
             ->get();
 
         return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah'));
@@ -466,6 +472,7 @@ class KetuaController extends Controller
 
         $pengesahan = DB::table('eln_pengesahan_bahagian_rombongan')
         ->join('users', 'users.usersID','=', 'eln_pengesahan_bahagian_rombongan.id_pengesah')
+        ->join('jabatan', 'jabatan.jabatan_id','=', 'eln_pengesahan_bahagian_rombongan.jabatan_pengesah')
         ->where('id_rombongan', $id)
         ->first();
 
@@ -569,29 +576,71 @@ class KetuaController extends Controller
         $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])->get();
 
         if (Auth::user()->role == 'DatoSUK') {
-            $permohonan = Permohonan::select('permohonans.*', 'permohonans.created_at as tpermohonan')
-            ->where('statusPermohonan', 'Lulus Semakan BPSM')
+            // $permohonan = Permohonan::select('permohonans.*', 'permohonans.created_at as tarikhmohon')
+            // ->where('statusPermohonan', 'Lulus Semakan BPSM')
+            //     ->whereNotIn('JenisPermohonan', ['rombongan'])
+            //     ->get();
+
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
                 ->whereNotIn('JenisPermohonan', ['rombongan'])
+                ->orderBy('tarikhmohon','asc')
                 ->get();
+                // $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
+                //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+                //         ->where('users.jabatan', $jab)
+                //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                //         ->orderBy('permohonans.created_at','asc')
+                //         ->get();
 
         } elseif (Auth::user()->role == 'jabatan') {
             $jab = Auth::user()->jabatan;
             // echo $jab;
-            if ($jab == 44) {
-                $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
-                    ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                    ->whereIn('users.jabatan', [44, 37])
-                    ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                    ->orderBy('permohonans.created_at','asc')
-                    ->get();
+            if ($jab == 38) {
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->where('statusPermohonan', 'Ketua Jabatan')
+                ->Where('jabatan', $jab)
+                // ->Where('stsukpem', ['1'])
+                ->orWhere(function ($query) {
+                    $query->where('statusPermohonan', 'Ketua Jabatan')
+                    ->Where('stsukpem', 1);
+                })
+                ->orderBy('tarikhmohon','asc')
+                ->get();
+            } elseif  ($jab == 39) {
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                ->Where('jabatan', $jab)
+                ->orWhere(function ($query) {
+                    $query->where('statusPermohonan', 'Ketua Jabatan')
+                    ->Where('stsukpen', 1);
+                })
+                ->orderBy('tarikhmohon','asc')
+                ->get();
             } else {
-                $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
-                    ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                    ->where('users.jabatan', $jab)
-                    ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                    ->orderBy('permohonans.created_at','asc')
-                    ->get();
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                ->where('jabatan', $jab)
+                ->whereNotIn('role', ['jabatan'])
+                ->orderBy('tarikhmohon','asc')
+                ->get();
             }
+
+            // if ($jab == 44) {
+            //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
+            //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+            //         ->whereIn('users.jabatan', [44, 37])
+            //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            //         ->orderBy('permohonans.created_at','asc')
+            //         ->get();
+            // } else {
+            //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
+            //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+            //         ->where('users.jabatan', $jab)
+            //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            //         ->orderBy('permohonans.created_at','asc')
+            //         ->get();
+            // }
 
             // $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
             //     ->where('statusPermohonan', 'Ketua Jabatan')
@@ -599,7 +648,7 @@ class KetuaController extends Controller
             //     ->get();
         }
         // return dd($permohonan);
-        // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
+        return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
 
         $pdf = PDF::loadview('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'))->setpaper('a4', 'landscape');
         return $pdf->download('Senarai Permohonan Individu Ke Luar Negara.pdf');

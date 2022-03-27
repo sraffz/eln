@@ -129,7 +129,7 @@
 
                                 <strong>
                                     <hr class="solid">
-                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $kelulusan->jawatan_pengesah }} <br>
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $permohon->jawatan_ketua }} <br>
                                     <hr class="solid">
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $pp->maklumat2 }} <br>
                                     <hr class="solid">
@@ -201,7 +201,7 @@
                                     @if ($permohon->statusPermohonanRom == 'Permohonan Berjaya')
                                         telah <strong>diluluskan.</strong>
                                     @elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal')
-                                        adalah <strong>ditolak.</strong>
+                                        adalah <strong>tidak dapat dipertimbangkan.</strong>
                                     @endif
                                 </div><br>
 

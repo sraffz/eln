@@ -164,6 +164,7 @@ class PdfController extends Controller
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
             ->leftjoin('gred_angka', 'users.gredAngka', '=', 'gred_angka.gred_angka_ID')
             ->leftjoin('gred_kod', 'users.gredKod', '=', 'gred_kod.gred_kod_ID')
+            ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->where('rombongans.rombongans_id', '=', $id)
             ->first();
 

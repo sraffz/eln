@@ -53,7 +53,7 @@
                                                                     href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
                                                             @endif
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMohon)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ $mohonan->negara }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
@@ -211,11 +211,10 @@
                                                                 <a
                                                                     href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
                                                             @else --}}
-                                                                <a
-                                                                    href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a>
+                                                                <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a>
                                                             {{-- @endif --}}
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMohon)->format('d/m/Y') }}
                                                         </td>
                                                         <td>{{ $mohonan->negaraRom }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaRom)->format('d/m/Y') }}
@@ -234,7 +233,9 @@
                                                                 <span class="badge badge-primary">Disokong Ketua
                                                                     Jabatan</span>
                                                             @elseif($mohonan->statusPermohonanRom == 'Permohonan Berjaya')
-                                                                <span class="badge badge-success">Permohonan Berjaya</span>
+                                                                <span class="badge badge-success">Berjaya</span>
+                                                            @elseif($mohonan->statusPermohonanRom == 'Permohonan Gagal')
+                                                                <span class="badge badge-danger">Gagal</span>
                                                             @elseif($mohonan->statusPermohonanRom == 'Lulus Semakan')
                                                                 <span class="badge badge-primary">Disokong</span>
                                                             @else
@@ -244,14 +245,17 @@
                                                         </td>
                                                         <td>
                                                             @if($mohonan->statusPermohonanRom == 'Permohonan Berjaya' || $mohonan->statusPermohonanRom == 'Permohonan Gagal')
-                                                            <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
-                                                                class="btn btn-primary btn-xs">
-                                                                Surat
-                                                            </a>
-                                                            <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
-                                                                class="btn btn-primary btn-xs">
-                                                                Memo
-                                                            </a>
+                                                                @if ($mohonan->surat == "MEMO")
+                                                                    <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Memo
+                                                                    </a>
+                                                                @elseif ($mohonan->surat == "SURAT")
+                                                                    <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Surat
+                                                                    </a>
+                                                                @endif
                                                             @endif
                                                         </td>
                                                 @endforeach

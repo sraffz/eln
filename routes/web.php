@@ -145,7 +145,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('tambahsokongantsukpem', 'AdminController@tambahsokongantsukpem')->name('tambahsokongantsukpem');
 	Route::post('tambahsokongantsukpen', 'AdminController@tambahsokongantsukpen')->name('tambahsokongantsukpen');
 	Route::POST('prosesTambahterusDato', 'AdminController@prosesTambahterusDato')->name('prosesTambahterusDato');
-	Route::get('padamTerusDato/{id}', 'AdminController@laporandato')->name('padamTerusDato');
+	Route::get('padamTerusDato/{id}', 'AdminController@padamTerusDato')->name('padamTerusDato');
 	Route::get('padamtsukpen/{id}', 'AdminController@padamtsukpen')->name('padamtsukpen');
 	Route::get('padamtsukpem/{id}', 'AdminController@padamtsukpem')->name('padamtsukpem');
 	Route::get('infoSurat', 'AdminController@infoSurat')->name('infoSurat');
@@ -221,7 +221,7 @@ Route::middleware(['auth'])->group(function () {
 	// ----------------------------Admin Jabatan-------------------------------------------------------------
 	
 	Route::get('senaraiPermohonanJabatan', 'AdminController@senaraiPermohonanJabatan')->name('senaraiPermohonanJabatan');
-	Route::get('senaraiPermohonanLepas', 'AdminController@senaraiPermohonanLepas')->name('senaraiPermohonanLepas');
+	Route::get('rekod-permohonan', 'AdminController@senaraiPermohonanLepas')->name('senaraiPermohonanLepas');
 	Route::get('daftarPenggunaJabatan', 'AdminController@daftarPenggunaJabatan')->name('daftarPenggunaJabatan');
 	Route::get('senaraiPenggunaJabatan', 'AdminController@senaraiPenggunaJabatan')->name('senaraiPenggunaJabatan');
 	Route::get('pengesahan-permohonan', 'AdminController@hantarJabatan');

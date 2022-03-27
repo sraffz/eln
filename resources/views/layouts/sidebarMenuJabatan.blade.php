@@ -36,7 +36,7 @@
     </ul>
 </li>
 <li class="nav-item">
-    <a class="nav-link  {{ url()->current() == url('senaraiPermohonanLepas') ? 'active' : '' }}"
+    <a class="nav-link  {{ url()->current() == url('rekod-permohonan') ? 'active' : '' }}"
         href="{{ route('senaraiPermohonanLepas') }}">
         <i class="nav-icon fas fa-chalkboard"></i>
         <P>Keputusan Permohonan</P>

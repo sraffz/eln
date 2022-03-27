@@ -14,6 +14,8 @@ use App\Jabatan;
 use Illuminate\Support\Facades\Hash;
 use App\GredKod;
 use App\GredAngka;
+use App\Eln_pengesahan_bahagian;
+use App\Eln_kelulusan;
 use DB;
 use Auth;
 use Alert;
@@ -1019,33 +1021,86 @@ class permohonanController extends Controller
         if ($status == 'Rasmi') {
             if ($dokumenRasmi == 0) {
                 flash('Permohonan Rasmi memerlukan dokumen rasmi.')->error();
-                return redirect()->back();
+                return back();
             } else {
                 if ($statusJawatan == 'Tidak Aktif') {
                     $ubah = 'Ketua Jabatan';
-                    Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+                    Permohonan::where('permohonansID', '=', $id)
+                    ->update(['statusPermohonan' => $ubah]);
+
                 } elseif ($statusJawatan == 'Aktif') {
+
                     $ubah = 'Lulus Semakan BPSM';
-                    Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
+
+                    Eln_pengesahan_bahagian::insertGetId( [
+                        'id_permohonan' => $id,
+                        'id_rombongan' => $permohonan->rombongans_id,
+                        'id_pemohon' => Auth::user()->usersID,
+                        'jawatan_pemohon' => $permohonan->user->userJawatan->namaJawatan,
+                        'gred_pemohon' => ''.$permohonan->user->userGredKod->gred_kod_abjad.''.$permohonan->user->userGredAngka->gred_angka_nombor.'',
+                        'jabatan_pemohon' => $permohonan->user->userJabatan->jabatan_id,
+                        'id_pengesah' => Auth::user()->usersID,
+                        'jawatan_pengesah' => "Terus Dato",
+                        'gred_pengesah' => "Terus Dato",
+                        // 'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+                        // 'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+                        'jabatan_pengesah' => "Terus Dato",
+                        'ulasan' => 'disokong',
+                        'status_pengesah' => 'disokong',
+                        "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                        "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+                    ]);
+                    
+                    Permohonan::where('permohonansID', '=', $id)
+                    ->update([
+                        'jumlahHariPermohonanBerlepas' => $length, 
+                        'statusPermohonan' => $ubah
+                    ]);
                 }
+
                 // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
                 toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
-                // flash('Berjaya dihantar.')->success();
-                return redirect()->back();
+                return back();
             }
         } elseif ($status == 'Tidak Rasmi') {
             if ($statusJawatan == 'Tidak Aktif') {
+
                 $ubah = 'Ketua Jabatan';
-                Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+                Permohonan::where('permohonansID', '=', $id)
+                ->update(['statusPermohonan' => $ubah]);
+
             } elseif ($statusJawatan == 'Aktif') {
+
                 $ubah = 'Lulus Semakan BPSM';
-                Permohonan::where('permohonansID', '=', $id)->update(['jumlahHariPermohonanBerlepas' => $length, 'statusPermohonan' => $ubah]);
+
+                Eln_pengesahan_bahagian::insertGetId( [
+                    'id_permohonan' => $id,
+                    'id_rombongan' => $permohonan->rombongans_id,
+                    'id_pemohon' => Auth::user()->usersID,
+                    'jawatan_pemohon' => $permohonan->user->userJawatan->namaJawatan,
+                    'gred_pemohon' => ''.$permohonan->user->userGredKod->gred_kod_abjad.''.$permohonan->user->userGredAngka->gred_angka_nombor.'',
+                    'jabatan_pemohon' => $permohonan->user->userJabatan->jabatan_id,
+                    'id_pengesah' => Auth::user()->usersID,
+                    'jawatan_pengesah' => "Terus Dato",
+                    'gred_pengesah' => "Terus Dato",
+                    // 'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+                    // 'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+                    'jabatan_pengesah' => "Terus Dato",
+                    'ulasan' => 'disokong',
+                    'status_pengesah' => 'disokong',
+                    "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                    "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+                ]);
+
+                Permohonan::where('permohonansID', '=', $id)
+                ->update([
+                    'jumlahHariPermohonanBerlepas' => $length, 
+                    'statusPermohonan' => $ubah
+                ]);
             }
 
-            // flash('Berjaya dihantar.')->success();
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
-            // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
-            return redirect()->back();
+            return back();
         }
     }
 

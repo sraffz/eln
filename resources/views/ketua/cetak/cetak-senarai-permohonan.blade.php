@@ -55,10 +55,11 @@
                             <tr class="text-center">
                                 <td> {{ $index + 1 }}</td>
                                 <td class="text-left" style="text-transform: uppercase">
-                                    {{ $mohonan->user->nama }}
+                                    {{ $mohonan->nama }}
                                 </td>
-                                <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                                <td>{{ \Carbon\Carbon::parse($mohonan->tpermohonan)->format('d/m/Y') }}
+                                <td>{{ $mohonan->kod_jabatan }}</td>
+                                {{-- <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td> --}}
+                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
                                 </td>
                                 <td>{{ $mohonan->negara }}</td>
                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
