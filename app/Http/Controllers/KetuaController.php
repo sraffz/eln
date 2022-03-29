@@ -121,7 +121,7 @@ class KetuaController extends Controller
             'id_pengesahan' => $pengesahan->id,
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
             'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
             'ulasan' => 'tiada',
             'status_kelulusan' => 'Berjaya',
@@ -176,7 +176,7 @@ class KetuaController extends Controller
             ->update([
                 'id_pelulus' => Auth::user()->usersID,
                 'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan_kelulusan' => 'tiada',
                 'status_kelulusan' => 'Berjaya',
@@ -200,7 +200,7 @@ class KetuaController extends Controller
                 'id_pengesahan' => $pengesahan->id,
                 'id_pelulus' => Auth::user()->usersID,
                 'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan' => 'tiada',
                 'status_kelulusan' => 'Berjaya',
@@ -249,7 +249,7 @@ class KetuaController extends Controller
             ->update([
                 'id_pelulus' => Auth::user()->usersID,
                 'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan_kelulusan' => 'tiada',
                 'status_kelulusan' => 'Gagal',
@@ -272,7 +272,7 @@ class KetuaController extends Controller
                 'id_pengesahan' => $pengesahan->id,
                 'id_pelulus' => Auth::user()->usersID,
                 'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
                 'ulasan' => 'tiada',
                 'status_kelulusan' => 'Gagal',
@@ -322,7 +322,7 @@ class KetuaController extends Controller
             'id_pengesahan' => $pengesahan->id,
             'id_pelulus' => Auth::user()->usersID,
             'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . '' . $pelulus->userGredAngka->gred_angka_nombor . '',
+            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
             'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
             'ulasan' => 'tiada',
             'status_kelulusan' => 'Gagal',
@@ -648,7 +648,7 @@ class KetuaController extends Controller
             //     ->get();
         }
         // return dd($permohonan);
-        return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
+        // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));
 
         $pdf = PDF::loadview('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'))->setpaper('a4', 'landscape');
         return $pdf->download('Senarai Permohonan Individu Ke Luar Negara.pdf');

@@ -96,8 +96,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <select id="gredAngka" class="form-control select22" name="gredAngka"
-                                    required="required">
+                                <select id="gredAngka" class="form-control select22" name="gredAngka" required="required">
                                     <option value="">Pilih Gred</option>
                                     @foreach ($gredAngka as $gredAngkas)
                                         <option value="{{ $gredAngkas->gred_angka_ID }}">

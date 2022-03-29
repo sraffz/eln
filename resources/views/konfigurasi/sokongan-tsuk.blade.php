@@ -132,7 +132,7 @@
 
     <!-- Modal Pengurusan-->
     <div class="modal fade" id="tsukpeng" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Jawatan Sokongan TSUK Pengurusan</h5>
@@ -146,7 +146,7 @@
                     <div class="form-group">
                         <label>Nama Jawatan</label>
                         <div class="input-group">
-                            <select style="width: 100%;" id="jawatan" class="form-control select2bs4" name="jawatan" required>
+                            <select style="width: 100%;" id="jawatan2" class="form-control select2bs4" name="jawatan" required>
                                 <option value="">Sila Pilih</option>
                                 @foreach ($jawatan2 as $jaw)
                                     <option value="{{ $jaw->idJawatan }}">
@@ -167,7 +167,7 @@
    
     <!-- Modal Pembangunan-->
     <div class="modal fade" id="tsukpem" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Jawatan Sokongan TSUK Pembangunan</h5>

@@ -150,17 +150,6 @@ class AdminController extends Controller
 
         } elseif (Auth::user()->role == 'jabatan') {
 
-            if ($jab == 44) {
-                
-                $rombongan = Rombongan::select('users.*', 'jabatan.*','rombongans.*', 'rombongans.created_at as tarikmohon')
-                    ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                    ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
-                    ->whereIn('statusPermohonanRom', ['Pending'])
-                    ->whereIn('users.jabatan', [44, 37])
-                    ->orderBy('rombongans.created_at','asc')
-                    ->get();
-            } else {
-
                 $rombongan = Rombongan::select('users.*','jabatan.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
                     ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
                     ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
@@ -168,7 +157,7 @@ class AdminController extends Controller
                     ->where('users.jabatan', $jab)
                     ->orderBy('rombongans.created_at','asc')
                     ->get();
-            }
+            
         }
 
         // dd($rombongan);
@@ -192,19 +181,11 @@ class AdminController extends Controller
 
     public function senaraiRekodRombongan()
     {
-        // $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhMohon')
-        //     ->join('users', 'users.usersID', '=', 'rombongans.usersID')
-        //     ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
-        //     ->get();
 
         $rombongan = DB::table('senarai_data_permohonan_rombongan')
         ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])->get();
 
             if (Auth::user()->role == "DatoSUK") {
-                
-                // $allPermohonan = Permohonan::with('user')
-                // ->where('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
-                // ->get();
 
                 $allPermohonan = DB::table('senarai_nama_rombongan')
                 ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
@@ -220,15 +201,13 @@ class AdminController extends Controller
                 ->where('status_pengesah', 'disokong')
                 ->get();
 
-
                 $billPermohonan = Permohonan::with('user')
                 ->where('statusPermohonan', ['Permohonan Berjaya'])
                 ->count();
             } else {
-                return view('');
+                return view('/');
             }
             
-
         return view('admin.rekod-rombongan', compact('rombongan', 'allPermohonan', 'billPermohonan'));
     }
 
@@ -241,6 +220,7 @@ class AdminController extends Controller
     public function carian()
     {
         $negara = Negara::all();
+        
         return view('admin/carian', compact('negara'));
     }
 
@@ -514,11 +494,11 @@ class AdminController extends Controller
             'id_rombongan' => $id,
             'id_pemohon' => $userid,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.' '.$pengesah->userGredAngka->gred_angka_nombor.'',
             'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
             'ulasan' => 'disokong',
             'status_pengesah' => 'disokong',
@@ -530,11 +510,11 @@ class AdminController extends Controller
             'id_rombongan' => $id,
             'id_pemohon' => $userid,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.' '.$pengesah->userGredAngka->gred_angka_nombor.'',
             'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
             'ulasan_pengesahan' => 'disokong',
             'status_pengesah' => 'disokong',
@@ -938,7 +918,7 @@ class AdminController extends Controller
     {
         $jawatan = Jawatan::where('statusDato', '=', 'Aktif')->get();
 
-        $jawatan2 = Jawatan::get()->sortBy('namaJawatan');
+        $jawatan2 = Jawatan::whereNotIn('statusDato', ['Aktif'])->get();
 
         return view('konfigurasi.terusDato', compact('jawatan', 'jawatan2'));
     }
@@ -1215,28 +1195,50 @@ class AdminController extends Controller
     public function senaraiPermohonanLepas()
     {
         $jab = Auth::user()->jabatan;
-
-        if ($jab == 44) {
-           
-            $permohonan = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
-                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                ->whereIn('users.jabatan', [44, 37])
-                ->whereNotIn('statusPermohonan', ['simpanan'])
-                ->orderBy('permohonans.created_at', 'desc')
+            if ($jab == 38) {
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->Where('jabatan_pemohon', $jab)
+                ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
+                ->orWhere(function ($query) {
+                    $query->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
+                    ->Where('stsukpem', 1);
+                })
+                ->orderBy('tarikhmohon','desc')
                 ->get();
-        } else {
+            } elseif  ($jab == 39) {
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
+                ->Where('jabatan_pemohon', $jab)
+                ->orWhere(function ($query) {
+                    $query->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
+                    ->Where('stsukpen', 1);
+                })
+                ->orderBy('tarikhmohon','desc')
+                ->get();
+
+            } else {
+
+                $permohonan = DB::table('senarai_data_permohonan')
+                ->where('jabatan_pemohon', $jab)
+                ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
+                ->whereNotIn('role', ['jabatan'])
+                ->orderBy('tarikhmohon', 'desc')
+                ->get();
+
+            }
+
+
             $permohonan2 = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
                 ->join('users', 'permohonans.usersID', '=', 'users.usersID')
                 ->where('users.jabatan', $jab)
                 ->whereNotIn('statusPermohonan', ['simpanan'])
                 ->orderBy('permohonans.created_at', 'desc')
                 ->get();
-
-                $permohonan = DB::table('senarai_data_permohonan')
-                ->where('jabatan_pemohon', $jab)
-                ->orderBy('tarikhmohon', 'desc')
-                ->get();
-        }
+                
+            // $permohonan = DB::table('senarai_data_permohonan')
+            //     ->where('jabatan_pemohon', $jab)
+            //     ->orderBy('tarikhmohon', 'desc')
+            //     ->get();
 
 
             // $rombo = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikhMohon')
@@ -1295,11 +1297,11 @@ class AdminController extends Controller
             'id_rombongan' => $permohonan->rombongans_id,
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.' '.$pengesah->userGredAngka->gred_angka_nombor.'',
             'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
             'ulasan' => $request->ulasan,
             'status_pengesah' => 'disokong',
@@ -1341,11 +1343,11 @@ class AdminController extends Controller
             'id_rombongan' => $permohonan->rombongans_id,
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.''.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.' '.$pengesah->userGredAngka->gred_angka_nombor.'',
             'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
             'ulasan' => $request->ulasan,
             'status_pengesah' => 'ditolak',

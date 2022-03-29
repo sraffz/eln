@@ -67,7 +67,6 @@
                                                 <th>Tindakan</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             @php
                                                 $i = 1;
@@ -82,9 +81,9 @@
 
                                                 @if ($first_datetime >= $last_datetime)
                                                     @if ($final_days < 7)
-                                                        <tr class="bg-gradient-danger">
+                                                        <tr class="bg-gradient-danger text-center">
                                                         @elseif ($final_days < 10)
-                                                        <tr class="bg-gradient-warning">
+                                                        <tr class="bg-gradient-warning text-center">
                                                         @else
                                                         <tr>
                                                     @endif
@@ -95,17 +94,17 @@
                                                     {{ $i++ }}
                                                 </td>
                                                 <td style="text-transform: capitalize; font-weight: bold">
-                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->user->nama }}</a>
+                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
                                                 </td>
-                                                <td>{{ $mohonan->user->userJabatan->kod_jabatan }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->created_at)->format('d/m/Y') }}
+                                                <td class="text-center">{{ $mohonan->kod_jabatan }}</td>
+                                                <td class="text-center">{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
                                                 </td>
-                                                <td>{{ $mohonan->negara }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                <td class="text-center">{{ $mohonan->negara }}</td>
+                                                <td class="text-center">{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                <td>{{ $mohonan->JenisPermohonan }}</td>
-                                                <td>
+                                                <td class="text-center">{{ $mohonan->JenisPermohonan }}</td>
+                                                <td class="text-center">
                                                     @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
 
                                                         <a href="{{ route('senaraiPermohonan.hantar', ['id' => $mohonan->permohonansID]) }}"

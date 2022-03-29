@@ -18,6 +18,16 @@
             font-size: 15px;
             font-weight: bold;
         }
+        
+        .table tr th {
+            vertical-align: middle;
+
+        }
+
+        .table tr td {
+            vertical-align: middle;
+
+        }
 
     </style>
 @endsection
@@ -67,27 +77,27 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($permohonan as $index => $mohonan)
-                                            <tr>
-                                                <td>
+                                            <tr class="text-center">
+                                                <td class="text-center">
                                                     {{ $index + 1 }}
                                                 </td>
-                                                <td><a
-                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}</a>
+                                                <td class="text-center">
+                                                    <a  href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}</a>
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                <td class="text-center">{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
+                                                <td class="text-center">{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
                                                 </td>
-                                                <td>{{ $mohonan->lainTujuan }} <br> ({{ $mohonan->JenisPermohonan }})
+                                                <td class="text-center">{{ $mohonan->lainTujuan }} <br> ({{ $mohonan->JenisPermohonan }})
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     @if ($mohonan->statusPermohonan == 'simpanan')
-                                                        <span class="badge badge-info">Draf</span>
-                                                    @elseif($mohonan->statusPermohonan =="Lulus Semakan BPSM")
-                                                        <span class="badge badge-info">Disokong Ketua Jabatan</span>
+                                                        <span class="badge badge-info">Deraf</span>
+                                                    {{-- @elseif($mohonan->statusPermohonan =="Lulus Semakan BPSM")
+                                                        <span class="badge badge-info">Disokong Ketua Jabatan</span> --}}
                                                     @else
                                                         <span
-                                                            class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
+                                                            class="badge badge-info">Dihantar</span>
                                                     @endif
                                                 </td>
                                                 <td>
