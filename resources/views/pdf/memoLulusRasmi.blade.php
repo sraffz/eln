@@ -183,7 +183,7 @@
                                     <strong>pada
                                     {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                     hingga
-                                    {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }} adalah 
+                                    {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong> adalah 
                                     @if ($permohon->statusPermohonan == 'Permohonan Berjaya')
                                     <strong>telah diluluskan.</strong>
                                     @else
