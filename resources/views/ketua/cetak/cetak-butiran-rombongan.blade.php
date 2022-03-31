@@ -131,7 +131,14 @@
                     @if ($element->rombongans_id == $permohonan->rombongans_id)
                         <tr>
                             <td class="text-center"><strong> {{ $i++ }}</strong></td>
-                            <td class="text-left"><strong> {{ $element->nama }}</strong> </td>
+                            <td class="text-left">
+                                <strong> 
+                                    {{ $element->nama }}
+                                    @if ($element->usersID == $permohonan->ketua_rombongan)
+                                        (Ketua Rombongan)
+                                    @endif
+                                </strong> 
+                            </td>
                             <td><strong> {{ $element->nokp }}</strong></td>
                             <td><strong>  {{ $element->namaJawatan }} ({{ $element->gred }})</strong></td>
                             <td>

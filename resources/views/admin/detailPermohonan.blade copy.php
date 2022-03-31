@@ -39,25 +39,25 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">Nama</label>
-                                <input type="text" class="form-control" disabled value="{{ $permohonan->nama }}">
+                                <input type="text" class="form-control" disabled value="{{ $permohonan->user->nama }}">
                             </div>
                             <div class="form-group">
                                 <label for="">Kad Pengenalan</label>
-                                <input type="text" class="form-control" disabled value="{{ $permohonan->nokp }}">
+                                <input type="text" class="form-control" disabled value="{{ $permohonan->user->nokp }}">
                             </div>
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <input type="text" class="form-control" disabled value="{{ $permohonan->email }}">
+                                <input type="text" class="form-control" disabled value="{{ $permohonan->user->email }}">
                             </div>
                             <div class="form-group">
                                 <label for="">Jawatan & Gred</label>
                                 <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                    disabled>{{ $permohonan->jawatan_pemohon }}({{ $permohonan->gred_pemohon }})</textarea>
+                                    disabled>{{ $permohonan->user->userJawatan->namaJawatan }}({{ $permohonan->user->userGredKod->gred_kod_abjad }}{{ $permohonan->user->userGredAngka->gred_angka_nombor }})</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="">Jabatan</label>
                                 <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                    disabled>{{ $permohonan->nama_jabatan }} ({{ $permohonan->kod_jabatan }})</textarea>
+                                    disabled>{{ $permohonan->user->userJabatan->nama_jabatan }} ({{ $permohonan->user->userJabatan->kod_jabatan }})</textarea>
                             </div>
                         </div>
                         <!-- /.card-body -->

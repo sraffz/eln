@@ -133,7 +133,7 @@
                                                                     class="fa fa-thumbs-down"></i></a>
 
                                                             <a href="{{ route('cetak-butiran-rombongan', [$rombo->rombongans_id]) }}"
-                                                                class="btn btn-warning btn-xs">
+                                                                class="btn btn-dark btn-xs">
                                                                 <i class="fa fa-print"></i>
                                                             </a>
 

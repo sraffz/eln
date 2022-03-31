@@ -348,7 +348,11 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $permohonan = Permohonan::find($id);
+        // $permohonan = Permohonan::find($id);
+        $permohonan = DB::table('butiran_permohonan')
+        ->where('permohonansID', $id)
+        ->first();
+
         $pasangan = Pasangan::where('permohonansID', $id)->get();
         $dokumen = DB::table('dokumens')
             ->where('permohonansID', '=', $id)
@@ -362,7 +366,7 @@ class AdminController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        return view('admin.detailPermohonan', compact('permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        return view('admin.detailPermohonan', compact('permohonan','pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
     }
 
     public function pesertaRombongan()
@@ -1196,6 +1200,7 @@ class AdminController extends Controller
     {
         $jab = Auth::user()->jabatan;
             if ($jab == 38) {
+                
                 $permohonan = DB::table('senarai_data_permohonan')
                 ->Where('jabatan_pemohon', $jab)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
@@ -1205,6 +1210,7 @@ class AdminController extends Controller
                 })
                 ->orderBy('tarikhmohon','desc')
                 ->get();
+
             } elseif  ($jab == 39) {
                 $permohonan = DB::table('senarai_data_permohonan')
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
