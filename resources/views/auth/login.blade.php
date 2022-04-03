@@ -86,7 +86,7 @@
                         </div>
                     </form>
                     <p class="mb-1">
-                        {{-- <a href="forgot-password.html">Lupa Kata laluan</a> --}}
+                        <a href="{{ url('password/reset') }}">Lupa Kata laluan</a>
                     </p>
                     <p class="mb-0">
                         <a href="{{ url('registerBaru') }}" class="text-center">Daftar Akaun</a>

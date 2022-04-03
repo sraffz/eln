@@ -12,6 +12,14 @@
 
 Auth::routes();
 
+// Password reset link request routes...
+Route::get('password/email', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.email');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+
+// Password reset routes...
+// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.request');
+Route::post('password/update', 'Auth\ResetPasswordController@reset')->name('password.update');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/','HomeController@index')->name('home');

@@ -68,9 +68,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Log Masuk') }}
                                 </button>
-                                <br 
+                                <br>
                             </div>
-                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

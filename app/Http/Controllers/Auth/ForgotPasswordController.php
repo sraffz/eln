@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Alert;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -29,4 +30,11 @@ class ForgotPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    protected function sendResetLinkResponse($response)
+    {
+        toast('Pautan telah dihantar ke email', 'success')->position('top');
+        return back();
+    }
+    
 }
