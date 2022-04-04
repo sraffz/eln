@@ -371,8 +371,8 @@
         
         $(document).ready(function() {
             $('table.display2').DataTable({
-                "pageLength": 10,
-                "lengthMenu": [10, 30, 50, 100],
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 30, 50],
                 "language": {
                     "emptyTable": "Tiada data",
                     "lengthMenu": "_MENU_ Rekod setiap halaman",

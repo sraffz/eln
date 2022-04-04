@@ -36,6 +36,7 @@
                             <h3 class="card-title">Maklumat Pemohon</h3>
                         </div>
                         <!-- /.card-header -->
+                        @if ($permohonan->status_pengesah != "")
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">Nama</label>
@@ -60,6 +61,32 @@
                                     disabled>{{ $permohonan->nama_jabatan }} ({{ $permohonan->kod_jabatan }})</textarea>
                             </div>
                         </div>
+                        @else
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Nama</label>
+                                    <input type="text" class="form-control" disabled value="{{ $permohonan->nama }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Kad Pengenalan</label>
+                                    <input type="text" class="form-control" disabled value="{{ $permohonan->nokp }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Email</label>
+                                    <input type="text" class="form-control" disabled value="{{ $permohonan->email }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Jawatan & Gred</label>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                        disabled>{{ Auth::user()->userJawatan->namaJawatan }} ({{ Auth::user()->userGredKod->gred_kod_abjad }}{{ Auth::user()->userGredAngka->gred_angka_nombor }})</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Jabatan</label>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                        disabled>{{ Auth::user()->userJabatan->nama_jabatan }} ({{ Auth::user()->userJabatan->kod_jabatan }})</textarea>
+                                </div>
+                            </div>
+                        @endif
                         <!-- /.card-body -->
                     </div>
                 </div>
