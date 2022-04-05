@@ -175,9 +175,9 @@ class KetuaController extends Controller
             ->where('id_rombongan', $id)
             ->update([
                 'id_pelulus' => Auth::user()->usersID,
-                'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
-                'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
+                'jawatan_pelulus' => Auth::user()->userJawatan->namaJawatan,
+                'gred_pelulus' => '' . Auth::user()->userGredKod->gred_kod_abjad . ' ' . Auth::user()->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pelulus' => Auth::user()->userJabatan->id_jabatan,
                 'ulasan_kelulusan' => 'tiada',
                 'status_kelulusan' => 'Berjaya',
                 'jld_surat_rombongan' => $jld,

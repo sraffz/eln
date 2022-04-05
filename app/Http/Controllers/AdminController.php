@@ -368,7 +368,7 @@ class AdminController extends Controller
 
         return view('admin.detailPermohonan', compact('permohonan','pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
     }
-
+    
     public function pesertaRombongan()
     {
         $peserta = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')

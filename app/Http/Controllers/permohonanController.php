@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Negara;
 use App\User;
 use App\Permohonan;
@@ -11,15 +12,16 @@ use App\Rombongan;
 use App\Pasangan;
 use App\Jawatan;
 use App\Jabatan;
-use Illuminate\Support\Facades\Hash;
 use App\GredKod;
 use App\GredAngka;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
+
 use DB;
 use Auth;
 use Alert;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
@@ -1268,7 +1270,7 @@ class permohonanController extends Controller
         // dd($pemohon->user->userJawatan->namaJawatan, $pemohon->user->userJabatan->jabatan_id);
 
         //echo $peserta;
-        if ($d >= 1 && $peserta >= 1) {
+        if ($d >= 1 && $peserta > 1) {
 
             if ($statusJawatan == 'Aktif') {
 
