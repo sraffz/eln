@@ -86,7 +86,7 @@
                         {{-- <a href="{{ url('password/reset') }}">Lupa Kata laluan</a> --}}
                     </p>
                     <p class="mb-0">
-                        <a href="{{ url('login') }}" class="text-center">Login</a>
+                        <a href="{{ url('login') }}" class="text-center">Log Masuk</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->

@@ -81,7 +81,7 @@
                             placeholder="Kata laluan baru" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                                <span class="fas fa-lock"></span>
                             </div>
                         </div>
                         @if ($errors->has('password'))
@@ -95,15 +95,15 @@
                         placeholder="Taip Semula Kata laluan baru" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                                <span class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class=" ">
-                        <div class="col-md-6 offset-md-7">
+                        <div class="text-right">
                             <button type="submit" class="btn btn-primary">
-                                {{ __('Reset Password') }}
+                                {{ __('Reset Kata Laluan') }}
                             </button>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                     {{-- <a href="{{ url('password/reset') }}">Lupa Kata laluan</a> --}}
                 </p>
                 <p class="mb-0">
-                    <a href="{{ url('login') }}" class="text-center">Login</a>
+                    <a href="{{ url('login') }}" class="text-center">Log Masuk</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

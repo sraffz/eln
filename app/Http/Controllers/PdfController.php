@@ -18,6 +18,7 @@ use App\GredKod;
 use DB;
 use Carbon\Carbon;
 use File;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 use Auth;
 
@@ -367,5 +368,12 @@ class PdfController extends Controller
         // return view('pdf.laporanUmum',compact('info'));
         $pdf = PDF::loadView('pdf.laporanUmum', ['info' => $info])->setPaper('a4', 'portrait');
         return $pdf->download('Laporan Status.pdf');
+    }
+
+    public function manualpengguna()
+    {
+        $path = 'public/manual/panduan_pengguna_eln.pdf';
+
+        return Storage::download($path);
     }
 }

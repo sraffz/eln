@@ -81,6 +81,7 @@
                             <!-- /.col -->
                             <div class="col-5">
                                 <button type="submit" class="btn btn-danger btn-block">Log Masuk</button>
+                               
                             </div>
                             <!-- /.col -->
                         </div>
@@ -91,6 +92,12 @@
                     <p class="mb-0">
                         <a href="{{ url('registerBaru') }}" class="text-center">Daftar Akaun</a>
                     </p>
+                    
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                        <a href="{{ route('panduan-pengguna') }}">Panduan Pengguna</a>
+                    </div>
                 </div>
                 <!-- /.login-card-body -->
             </div>

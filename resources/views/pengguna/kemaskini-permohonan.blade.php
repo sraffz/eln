@@ -177,18 +177,20 @@
                                                             Fail</label>
                                                     </div>
                                                     {{-- <input type="file" class="custom-file-input" name="fileRasmiRom[]" multiple> --}}
-                                                </div> <br>
-                                                @if ($dokumen->isEmpty())
-                                                    Tiada Dokumen.
-                                                @else
-                                                    @foreach ($dokumen as $doku)
-                                                        <a class="btn btn-sm btn-info"
-                                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">{{ $doku->namaFile }}</a><a
-                                                            href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"
-                                                            onclick="javascript: return confirm('Padam dokumen ini?');"><i
-                                                                class="fa fa-remove"></i></a>
-                                                    @endforeach
-                                                @endif
+                                                </div>  
+                                                <div class="mt-2">
+                                                    @if ($dokumen->isEmpty())
+                                                        Tiada Dokumen.
+                                                    @else
+                                                        @foreach ($dokumen as $doku)
+                                                            <a class="btn btn-sm btn-info"
+                                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen Rombongan</a><a
+                                                                href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"
+                                                                onclick="javascript: return confirm('Padam dokumen ini?');"><i
+                                                                    class="fa fa-remove"></i></a>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12 text-center">

@@ -41,66 +41,90 @@
                 <form method="POST" action="{{ route('register') }}" autocomplete="off">
                     {{ csrf_field() }}
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nama Pegawai" name="nama"
+                        <input type="text" class="form-control {{ $errors->has('nama') ? ' is-invalid' : '' }}" placeholder="Nama Pegawai" name="nama"
                             value="{{ old('nama') }}" required autofocus>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
+                        @if ($errors->has('nama'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('nama') }}</strong>
+                        </span>
+                    @endif
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" max="12" class="form-control" placeholder="No. Kad Pengenalan" name="nokp"
+                        <input type="text" max="12" class="form-control {{ $errors->has('nokp') ? ' is-invalid' : '' }}" placeholder="No. Kad Pengenalan" name="nokp"
                             value="{{ old('nokp') }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-id-card-alt"></span>
                             </div>
                         </div>
+                        @if ($errors->has('nokp'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>No Kad Pengenalan Telah Berdaftar</strong>
+                                </span>
+                            @endif
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email"
+                        <input type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Email" name="email"
                             value="{{ old('email') }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
+                        @if ($errors->has('email'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
                     </div>
                     <div class="input-group mb-3">
-                        <select name="jantina" id="jantina" class="form-control select22" required>
+                        <select name="jantina" id="jantina" class="form-control {{ $errors->has('jantina') ? ' is-invalid' : '' }} select22" required>
                             <option value="">Pilih Jantina</option>
-                            <option value="Lelaki">Lelaki</option>
-                            <option value="Perempuan">Perempuan</option>
+                            <option value="Lelaki" {{ old('jantina') == 'Lelaki' ? "selected" : "" }}>Lelaki</option>
+                            <option value="Perempuan" {{ old('jantina') == 'Perempuan' ? "selected" : "" }}>Perempuan</option>
                         </select>
+                        @if ($errors->has('jantina'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('jantina') }}</strong>
+                        </span>
+                    @endif
                     </div>
                     <div class="input-group mb-3">
-                        <select id="jawatan" class="form-control select22" name="jawatan" required>
+                        <select id="jawatan" class="form-control {{ $errors->has('jawatan') ? ' is-invalid' : '' }} select22" name="jawatan" required>
                             <option value="">Pilih Jawatan</option>
                             @foreach ($jawatan as $jaw)
-                                <option value="{{ $jaw->idJawatan }}">{{ $jaw->namaJawatan }}</option>
+                                <option value="{{ $jaw->idJawatan }}" {{ old('jawatan') == $jaw->idJawatan ? "selected" : "" }}>{{ $jaw->namaJawatan }}</option>
                             @endforeach
                         </select>
+                        @if ($errors->has('jawatan'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('jawatan') }}</strong>
+                        </span>
+                    @endif
                     </div>
 
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <select id="gredKod" class="form-control select22" name="gredKod" required="required">
+                                <select id="gredKod" class="form-control {{ $errors->has('gredKod') ? ' is-invalid' : '' }} select22" name="gredKod" required="required">
                                     <option value="">Pilih Kod Gred</option>
                                     @foreach ($gredKod as $gredKods)
-                                        <option value="{{ $gredKods->gred_kod_ID }}">
+                                        <option value="{{ $gredKods->gred_kod_ID }}" {{ old('gredKod') == $gredKods->gred_kod_ID ? "selected" : "" }}>
                                             {{ $gredKods->gred_kod_abjad }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <select id="gredAngka" class="form-control select22" name="gredAngka" required="required">
+                                <select id="gredAngka" class="form-control {{ $errors->has('gredAngka') ? ' is-invalid' : '' }} select22" name="gredAngka" required="required">
                                     <option value="">Pilih Gred</option>
                                     @foreach ($gredAngka as $gredAngkas)
-                                        <option value="{{ $gredAngkas->gred_angka_ID }}">
-                                            {{ $gredAngkas->gred_angka_nombor }}</option>
+                                        <option value="{{ $gredAngkas->gred_angka_ID }}" {{ old('gredAngka') == $gredAngkas->gred_angka_ID ? "selected" : "" }}> {{ $gredAngkas->gred_angka_nombor }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -108,32 +132,47 @@
                     </div>
 
                     <div class="input-group mb-3">
-                        <select id="jabatan" class="form-control select22" name="jabatan" required>
+                        <select id="jabatan" class="form-control {{ $errors->has('jabatan') ? ' is-invalid' : '' }} select22" name="jabatan" required>
                             <option value="">Pilih Jabatan</option>
                             @foreach ($jabatan as $jab)
-                                <option value="{{ $jab->jabatan_id }}">
+                                <option value="{{ $jab->jabatan_id }}" {{ old('jabatan') == $jab->jabatan_id ? "selected" : "" }}>
                                     {{ $jab->nama_jabatan }}({{ $jab->kod_jabatan }})</option>
                             @endforeach
                         </select>
+                        @if ($errors->has('jabatan'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('jabatan') }}</strong>
+                        </span>
+                    @endif
                     </div>
                     <div class="input-group mb-3">
                         <input id="password" type="password"
-                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
+                            class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
                             required placeholder="kata Laluan">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        @if ($errors->has('password'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
                     </div>
                     <div class="input-group mb-3">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                        <input id="password-confirm" type="password" class="form-control {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation"
                             required placeholder="Taip Semula Kata Laluan">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        @if ($errors->has('password_confirmation'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                </span>
+                            @endif
                     </div>
                     <div class="row">
                         <div class="col-8">

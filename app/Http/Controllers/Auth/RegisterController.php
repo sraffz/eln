@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'gredKod'           => 'required',
             'gredAngka'           => 'required',
             'jabatan'           => 'required',
-            'password'       => 'required|min:6|confirmed',
+            'password'       => 'required|min:8|confirmed',
             ], [
             'nama.required'           => 'Nama wajib di isi.',
             'nokp.required'           => 'No Kad Pengenalan wajib di isi.',

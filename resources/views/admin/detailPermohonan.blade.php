@@ -306,9 +306,11 @@
                                     @if ($dokumen->isEmpty())
                                         Tiada Dokumen
                                     @else
+                                    @php
+                                        $i =1;
+                                    @endphp
                                         @foreach ($dokumen as $doku)
-                                            <a class="btn btn-sm btn-info"
-                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">{{ $doku->namaFile }}</a>
+                                            <a class="btn btn-sm btn-info" href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen Rasmi {{ $i++ }}</a>
                                         @endforeach
                                     @endif
                                 </p>
@@ -318,8 +320,7 @@
                                     @if ($permohonan->namaFileCuti == '')
                                         Tiada Dokumen
                                     @else
-                                        <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">{{ $permohonan->namaFileCuti }}</a>
+                                        <a class="btn btn-sm btn-info" href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">Dokumen Cuti</a>
                                     @endif
                                 </p>
                             @endif

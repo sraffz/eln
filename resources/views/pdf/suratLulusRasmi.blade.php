@@ -113,11 +113,11 @@
                     </table>
                 </div><br>
                 Ke majlis, <br><br>
-                {{ $permohon->jawatan_ketua }} <br>
-                {{ $permohon->nama_jabatan }} <br>
-                {{ $permohon->alamat }}, <br>
-                {{ $permohon->poskod }} {{ $permohon->daerah }}, <br>
-                {{ $permohon->negeri }} <br>
+                {{ $ketua->jawatan_ketua }} <br>
+                {{ $ketua->nama_jabatan }} <br>
+                {{ $ketua->alamat }}, <br>
+                {{ $ketua->poskod }} {{ $ketua->daerah }}, <br>
+                {{ $ketua->negeri }} <br>
                 <div class="row">
                     <div class="col-md-12">
                         {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}

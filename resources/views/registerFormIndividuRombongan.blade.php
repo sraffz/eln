@@ -32,7 +32,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftarPermohonanIndividuRombongan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['sertai-rombongan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">

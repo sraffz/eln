@@ -423,18 +423,22 @@ class AdminController extends Controller
     public function download($id)
     {
         $permohonan = Permohonan::find($id);
+        $extension = $permohonan->jenisFileCuti;
         $path = $permohonan->pathFileCuti;
 
-        return Storage::download($path);
+        return Storage::download($path, 'Dokumen Cuti.'.$extension.'');
     }
+    
     public function downloadDokumen($id)
     {
         $dokumen = Dokumen::find($id);
         // $path = $dokumen->namaFile;
         $path = $dokumen->pathFile;
 
+        $extension = $dokumen->typeFile;
+
         // return dd($path);
-        return Storage::download($path);
+        return Storage::download($path, 'Dokumen Rasmi.'.$extension.'');
     }
 
     public function gambar($name)

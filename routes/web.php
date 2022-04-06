@@ -21,6 +21,7 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::post('password/update', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/panduan-pengguna', 'PdfController@manualpengguna')->name('panduan-pengguna');
 
 // Route::get('/','HomeController@index')->name('home');
 Route::get('registerBaru', 'permohonanController@registerBaru')->name('registerBaru');
@@ -39,18 +40,18 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('profil', 'AdminController@profil')->name('profil');
 	Route::POST('kemaskini-profil', 'AdminController@kemaskiniprofil')->name('kemaskiniprofil');
 	Route::POST('kemaskini-katalaluan', 'AdminController@kemaskinikatalaluan')->name('kemaskinikatalaluan');
-	Route::POST('tukar-password', 'PermohonanController@tukarkatalaluan')->name('kemaskinikatalaluan');
+	Route::POST('tukar-password', 'permohonanController@tukarkatalaluan')->name('kemaskinikatalaluan');
 	//untuk individu
 	Route::get('registerFormIndividu/{typeForm}', 'permohonanController@individu')->name('registerFormIndividu');
-	Route::get('sertai-rombongan', 'permohonanController@individuRombongan')->name('sertai-rombongan');
+	Route::get('sertai-rombongan', 'permohonanController@sertaiRombongan')->name('sertai-rombongan');
 	
 	//untuk rombongan
 	Route::get('permohonan-rombongan', 'permohonanController@rombongan')->name('permohonan-rombongan');
 	//Route::get('senaraiPermohonan/{id}','permohonanController@senarai')->name('senaraiPermohonan');
 	Route::POST('daftarPermohonan/{id}', 'permohonanController@store');
 	
-	Route::POST('daftarPermohonanIndividuRombongan/{id}', 'permohonanController@storeIndividuRombongan');
-	Route::POST('daftarPermohonanRombongan/{id}', 'permohonanController@storeRombongan');
+	Route::POST('sertai-rombongan/{id}', 'permohonanController@storeIndividuRombongan');
+	Route::POST('daftar-rombongan/{id}', 'permohonanController@storeRombongan');
 	Route::POST('updatePermohonan/{id}', 'permohonanController@updatePermohonan');
 	
 	

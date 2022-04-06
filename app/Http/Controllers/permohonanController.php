@@ -281,7 +281,8 @@ class permohonanController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        flash('Kata laluan telah ditukar.')->success();
+        // flash('Kata laluan telah ditukar.')->success();
+        Alert::Success('Makluman', 'Kata laluan telah ditukar.');
 
         return back();
     }
@@ -305,7 +306,7 @@ class permohonanController extends Controller
         return view('registerFormRombonganRasmi', compact('userDetail', 'negara'));
     }
 
-    public function individuRombongan()
+    public function sertaiRombongan()
     {
         $id = Auth::user()->usersID;
         $userDetail = User::find($id);
@@ -427,7 +428,8 @@ class permohonanController extends Controller
                     $files = $request->file('fileRasmi');
 
                     foreach ($files as $file) {
-                        $filename = $file->getClientOriginalName();
+                        $filename = $file->hashName();
+                        // $filename = $file->getClientOriginalName();
                         $extension = $file->extension();
 
                         // dd($filename, $filename2,$extension);
@@ -487,7 +489,8 @@ class permohonanController extends Controller
                     $files = $request->file('fileCuti');
 
                     foreach ($files as $file) {
-                        $filename = $file->getClientOriginalName();
+                        $filename = $file->hashName();
+                        // $filename = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
 
                         //dd($extension);
@@ -724,7 +727,7 @@ class permohonanController extends Controller
                     'lainTujuan' => $tujuanRom,
                     'tick' => 'yes',
                     'usersID' => $id,
-                    'rombongans_id' => $rombo->rombongans_id,
+                    'rombongans_id' => $getid,
                     'created_at' => \Carbon\Carbon::now(), # \Datetime()
                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                 ];
@@ -737,7 +740,8 @@ class permohonanController extends Controller
                     $files = $request->file('fileRasmiRom');
 
                     foreach ($files as $file) {
-                        $filename = $file->getClientOriginalName();
+                        $filename = $file->hashName();
+                        // $filename = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
 
                         //dd($extension);
@@ -781,7 +785,8 @@ class permohonanController extends Controller
                     // $allowedfileExtension=['pdf','jpg','png','docx'];
                     // $file = $request->file('fileCuti');
                     foreach ($request->file('fileCuti') as $file) {
-                        $filename = $file->getClientOriginalName();
+                        $filename = $file->hashName();
+                        // $filename = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
 
                         // dd($filename, $extension);
@@ -980,7 +985,8 @@ class permohonanController extends Controller
                         // $allowedfileExtension=['pdf','jpg','png','docx'];
                         // $file = $request->file('fileCuti');
                         foreach ($request->file('fileCuti') as $file) {
-                            $filename = $file->getClientOriginalName();
+                            $filename = $file->hashName();
+                            // $filename = $file->getClientOriginalName();
                             $extension = $file->getClientOriginalExtension();
     
                             dd($filename, $extension);
@@ -1455,7 +1461,7 @@ class permohonanController extends Controller
         $doc = Dokumen::where('permohonansID', $id)->get();
 
         foreach ($doc as $file) {
-            $url = $doc->pathFile;
+            $url = $file->pathFile;
 
             Storage::delete($url); //Padam Setiap Fail Dokumen Rasmi
         }
@@ -1578,7 +1584,8 @@ class permohonanController extends Controller
                 $files = $request->file('fileRasmi');
 
                 foreach ($files as $file) {
-                    $filename = $file->getClientOriginalName();
+                    $filename = $file->hashName();
+                    // $filename = $file->getClientOriginalName();
                     $extension = $file->getClientOriginalExtension();
 
                     //dd($extension);
@@ -1643,7 +1650,8 @@ class permohonanController extends Controller
                 $files = $request->file('fileCuti');
 
                 foreach ($files as $file) {
-                    $filename = $file->getClientOriginalName();
+                    $filename = $file->hashName();
+                    // $filename = $file->getClientOriginalName();
                     $extension = $file->getClientOriginalExtension();
 
                     //dd($extension);

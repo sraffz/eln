@@ -155,16 +155,21 @@
                                 @if ($dokumen->isEmpty())
                                     <label for="nama" class="label-danger">Tiada Dokumen</label>
                                 @else
+                                @php
+                                    $i = 1;
+                                @endphp
                                     @foreach ($dokumen as $doku)
+                                    <div class="mt-2">
                                         <a class="btn btn-sm btn-info"
                                             href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">
 
-                                            <i class="fa fa-download"></i> {{ $doku->namaFile }}
+                                            <i class="fa fa-download"></i> Dokumen Rasmi {{ $i++ }}
                                         </a>
                                         <a
                                             href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}">
                                             <i class="fa fa-times"></i>
                                         </a>
+                                    </div>
                                     @endforeach
                                 @endif
                             </div>
@@ -293,14 +298,16 @@
                                 @if (is_null($permohonan->namaFileCuti))
                                     <label class="label label-warning">Tiada Dokumen</label>
                                 @else
+                                <div class="mt-2">
                                     <a class="btn btn-sm btn-info"
                                         href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">
-                                        <i class="fa fa-download"></i> {{ $permohonan->namaFileCuti }}
+                                        <i class="fa fa-download"></i> Dokumen Cuti
                                     </a>
                                     <a
                                         href="{{ route('detailPermohonan.deleteFileCuti', ['id' => $permohonan->permohonansID]) }}">
                                         <i class="fa fa-times"></i>
                                     </a>
+                                </div>
                                 @endif
                             </div>
                         </div>
