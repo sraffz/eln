@@ -73,7 +73,15 @@
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Tarikh Terima Insurans</strong> </td>
                     <td class="text-left">
-                        <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhInsuran)->format('d/m/Y') }}</strong>
+                        @php
+                            if ($permohonan->tarikhInsuran == '1970-01-01') {
+                                $ti = '';
+                            } else {
+                                $ti = \Carbon\Carbon::parse($permohonan->tarikhInsuran)->format('d/m/Y');
+                            }
+                            
+                        @endphp
+                        <strong>{{ $ti }}</strong>
                     </td>
                 </tr>
                 <tr>

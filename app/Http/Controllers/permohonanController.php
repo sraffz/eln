@@ -1276,7 +1276,7 @@ class permohonanController extends Controller
         // dd($pemohon->user->userJawatan->namaJawatan, $pemohon->user->userJabatan->jabatan_id);
 
         //echo $peserta;
-        if ($d >= 1 && $peserta > 1) {
+        if ($d >= 1 && $peserta >= 2) {
 
             if ($statusJawatan == 'Aktif') {
 
@@ -1337,16 +1337,19 @@ class permohonanController extends Controller
 
         } elseif ($d == 0 && $peserta == 0) {
             if ($rombo->jenis_rombongan == 'Rasmi') {
-                flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
+                Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi dan peserta');
+                // flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
                 return back();
             }
         } elseif ($d == 0) {
             if ($rombo->jenis_rombongan == 'Rasmi') {
-                flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+                Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
+                // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
                 return back();
             }
-        } elseif ($peserta == 0) {
-            flash('Permohonan rombongan memerlukan peserta.')->error();
+        } elseif ($peserta < 2) {
+            Alert::info('Makluman', 'Permohonan rombongan memerlukan sekurang-kurang 2 orang peserta');
+            // flash('Permohonan rombongan memerlukan sekurang-kurang 2 orang peserta.')->error();
             return back();
         }
         // }

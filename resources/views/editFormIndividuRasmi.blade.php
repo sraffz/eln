@@ -217,8 +217,7 @@
                             <div class="form-group">
                                 <label><i class="fa fa-envelope"></i> E-mel Pasangan</label>
                                 <div class="input-group">
-                                    <input type="email" name="emailPasangan" class="form-control"
-                                        value="{{ $permohonan->pasanganPermohonan->emailPasangan }}">
+                                    <input type="email" name="emailPasangan" class="form-control" value="{{ $permohonan->pasanganPermohonan->emailPasangan }}">
                                 </div>
                             </div>
                         </div>
