@@ -74,7 +74,7 @@
                     <td class="text-left" style="width: 30%"><strong>Tarikh Terima Insurans</strong> </td>
                     <td class="text-left">
                         @php
-                            if ($permohonan->tarikhInsuran == '1970-01-01') {
+                            if ($permohonan->tarikhInsuran == '1970-01-01' || $permohonan->tarikhInsuran == null) {
                                 $ti = '';
                             } else {
                                 $ti = \Carbon\Carbon::parse($permohonan->tarikhInsuran)->format('d/m/Y');

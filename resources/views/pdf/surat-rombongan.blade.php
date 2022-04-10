@@ -181,7 +181,7 @@
                                 dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                     orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
                                 negara
-                                iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
+                                iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}</strong> bagi
                                 tujuan {{ $permohon->tujuanRom }}
                                 <strong>pada
                                     {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
