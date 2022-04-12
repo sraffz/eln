@@ -15,7 +15,7 @@
                 <table class="table">
                   <tr>
                     <td align="right" width="22%"><img src="{{ asset('public/adminlte/dist/img/kelantan.png')}}" width="140" height="100" alt="User Image"></td>
-                    <td><h1 style ='font:42px Algerian,sans-serif;color:#080808'>SISTEM PERMOHONAN KE LUAR NEGARA</h1></td>
+                    <td><h1 style ='font:42px Algerian,sans-serif;color:#080808'>SISTEM E-LUAR NEGARA</h1></td>
                     </tr>
                 </table>
               </div>

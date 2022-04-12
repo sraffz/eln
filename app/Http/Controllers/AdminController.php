@@ -616,7 +616,7 @@ class AdminController extends Controller
         }
         // return view('admin.laporanIndividu', compact('permohon', 'PermohonanRombongan', 'list', 'bilkluarneagara'));
         $pdf = PDF::loadView('admin.laporanIndividu', compact('permohon', 'PermohonanRombongan', 'list', 'bilkluarneagara'))->setPaper('a4', 'landscape');
-        return $pdf->download('Laporan Secara Bundle.pdf');
+        return $pdf->download('Laporan Perjalanan Pegawai Ke Luar Negara.pdf');
     }
 
     public function senaraiJabatan()

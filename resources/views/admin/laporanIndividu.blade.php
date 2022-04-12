@@ -100,38 +100,7 @@
                         @endphp
 
                 @endforeach
-                @foreach ($PermohonanRombongan as $index => $prombongan)
-                    <tr class="text-center">
-                        <td>{{ $index + 1 }}</td>
-                        <td class="text-left">
-                            {{ $prombongan->user->nama }}
-                            <br>
-                            {{ $mohonan->namaJawatan }}
-                            ({{ $mohonan->gred_kod_abjad }}{{ $mohonan->gredAngka }})
-                        </td>
-                        <td>{{ $mohonan->nama_jabatan }}</td>
-                        <td>
-                            @if (in_array($prombongan->jenisKewangan, $a))
-                            @else
-                                @php
-                                    array_push($a, $prombongan->jenisKewangan);
-                                @endphp
-                                {{ $prombongan->lainTujuan }}
-                            @endif
-                        </td>
-                        <td>{{ $mohonan->negara }}</td>
-                  
-                        <td>{{ \Carbon\Carbon::parse($prombongan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                        </td>
-                        <td>{{ \Carbon\Carbon::parse($prombongan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
-                        </td>
-                        <td>{{ $prombongan->jenisKewangan }}</td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                @endforeach
+             
             </tbody>
         </table>
     </div>

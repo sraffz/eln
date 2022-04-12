@@ -1,6 +1,6 @@
 @extends('layouts.layoutHalamanUtama')
 
-@section('title', 'Sistem Ke Luar Negara: Daftar Pengguna')
+@section('title', 'SISTEM E-LUAR NEGARA Daftar Pengguna')
 
 @section('link')
 <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css')}}">

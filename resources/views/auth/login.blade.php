@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sistem Ke Luar Negara: Log Masuk</title>
+    <title>Sistem e-Luar Negara : Log Masuk</title>
     <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -32,13 +32,13 @@
             <div class="login-logo">
                 <a href="{{ url('/') }}">
                     <img src="{{ asset('img/logoKelantan.png') }}" alt="" height="30%" width="30%">
-                    {{-- <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3> --}}
+                    {{-- <h3>SISTEM E-LUAR NEGARA</h3> --}}
                 </a>
             </div>
             <!-- /.login-logo -->
             <div class="card card-outline card-danger">
                 <div class="card-header register-card-header text-center">
-                    <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+                    <h3>SISTEM E-LUAR NEGARA</h3>
                 </div>
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">Log masuk untuk membuat permohonan</p>

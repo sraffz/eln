@@ -1,6 +1,6 @@
 @extends('layouts.layoutHalamanUtama')
 
-@section('title', 'Sistem Ke Luar Negara: Log Masuk')
+@section('title', 'SISTEM E-LUAR NEGARA Log Masuk')
 
 @section('link')
 @endsection

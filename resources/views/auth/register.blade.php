@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sistem Ke Luar Negara: Daftar Pengguna</title>
+    <title>Sistem e-Luar Negara : Daftar Pengguna</title>
     <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -33,7 +33,7 @@
         </div>
         <div class="card card-outline card-danger">
             <div class="card-header register-card-header text-center">
-                <h3>SISTEM PERMOHONAN KE LUAR NEGARA</h3>
+                <h3>SISTEM E-LUAR NEGARA</h3>
             </div>
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Daftar untuk mencipta akaun</p>
