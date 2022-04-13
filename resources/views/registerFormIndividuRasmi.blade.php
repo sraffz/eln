@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
                                 {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
-                                <input type="date" class="form-control" name="tarikh" value="{{ old('tarikh') }}">
+                                <input type="text" class="form-control datepicker" name="tarikh" value="{{ old('tarikh') }}">
                             </div>
                         </div>
                         <div class="col-sm-4">
@@ -278,7 +278,11 @@
     <script>
         $(function() {
             //Date range picker
-            $('#reservation').daterangepicker()
+            $('#reservation').daterangepicker({
+                locale: {
+                    dateFormat: 'DD/M/YYYY'
+                }
+            })
             $('#reservation2').daterangepicker()
             //Date range as a button
             $('#daterange-btn').daterangepicker({
@@ -295,17 +299,28 @@
                     endDate: moment()
                 },
                 function(start, end) {
-                    $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format(
-                        'MMMM D, YYYY'))
+                    $('#daterange-btn span').html(start.format('D MMMM, YYYY') + ' - ' + end.format(
+                        'D MMMM, YYYY'))
                 }
             )
             //Date picker
-            $('#datepicker').datepicker({
-                autoclose: true
+            $('.datepicker').datepicker({
+                autoclose: true,
+                dateFormat : 'dd/mm/yyyy'
             })
             $('#datepicker2').datepicker({
                 autoclose: true
             })
+
+            // $('input[name="tempohPerjalanan"]').daterangepicker({
+            //     opens: 'left',
+            //     dateFormat : 'dd/mm/yyyy',
+            //     locale: {
+            //         dateFormat: 'DD/M/YYYY'
+            //         }
+            // }, function(start, end, label) {
+            //     console.log("A new date selection was made: " + start.format('dd/m/yyyy') + ' to ' + end.format('dd/m/yyyy'));
+            // });
         })
     </script>
 

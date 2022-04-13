@@ -16,7 +16,6 @@ use App\GredKod;
 use App\GredAngka;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
-
 use DB;
 use Auth;
 use Alert;
@@ -349,25 +348,33 @@ class permohonanController extends Controller
         $tick = $request->input('tick');
 
         $tempohPerjalanan = $request->input('tempohPerjalanan');
-
-        $datePer = explode('-', $tempohPerjalanan); // dateRange is you string
+        $datePer = explode(' - ', $tempohPerjalanan); // dateRange is you string
         $dateFrom = $datePer[0];
         $dateTo = $datePer[1];
+        
+        // dd($tempohPerjalanan, $tarikh, $dateFrom, $dateTo);
 
-        $DateNew1 = strtotime($dateFrom);
-        $DateNew2 = strtotime($dateTo);
-        $DateNew3 = strtotime($tarikhBertugas);
-        $DateNew4 = strtotime($tarikh);
-        $tarikhMulaPerjalanan = date('Y-m-d', $DateNew1);
-        $tarikhAkhirPerjalanan = date('Y-m-d', $DateNew2);
-        $tarikhKembaliBertugas = date('Y-m-d', $DateNew3);
-        $insuran = date('Y-m-d', $DateNew4);
+        // $DateNew1 = strtotime($dateFrom);
+        // $DateNew2 = strtotime($dateTo);
+        // $DateNew3 = strtotime($tarikhBertugas);
+        // $DateNew4 = strtotime($tarikh);
+        // $tarikhMulaPerjalanan = date('Y-m-d', $DateNew1);
+        // $tarikhAkhirPerjalanan = date('Y-m-d', $DateNew2);
+        // $tarikhKembaliBertugas = date('Y-m-d', $DateNew3);
+        // $insuran = date('Y-m-d', $DateNew4);
 
+        $tarikhMulaPerjalanan = Carbon::parse($dateFrom)->format('Y-m-d');
+        $tarikhAkhirPerjalanan = Carbon::parse($dateTo)->format('Y-m-d');
+        $tarikhKembaliBertugas = Carbon::parse($tarikhBertugas)->format('Y-m-d');
+        $insuran = Carbon::parse($tarikh)->format('Y-m-d');
+        
+        
         $end = Carbon::parse($tarikhMulaPerjalanan);
         $nowsaa = Carbon::now();
-
+        
         $length = $end->diffInDays($nowsaa);
-
+        
+        dd($tarikhMulaPerjalanan, $dateFrom, $tarikhAkhirPerjalanan, $dateTo, $tarikhKembaliBertugas, $length, $insuran);
         // return dd($length);
         $statusPermohonan = 'simpanan';
 

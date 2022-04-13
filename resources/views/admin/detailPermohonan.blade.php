@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label for="">Jawatan & Gred</label>
                                     <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                        disabled>{{ Auth::user()->userJawatan->namaJawatan }} ({{ Auth::user()->userGredKod->gred_kod_abjad }}{{ Auth::user()->userGredAngka->gred_angka_nombor }})</textarea>
+                                        disabled>{{ $permohonan->namaJawatan }} ({{ $permohonan->gred_kod_abjad }}{{ $permohonan->gred_angka_nombor }})</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jabatan</label>
