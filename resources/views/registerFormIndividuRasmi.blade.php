@@ -3,8 +3,6 @@
 @section('title', 'Permohonan Individu')
 
 @section('link')
-    <!-- bootstrap datepicker -->
-    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @endsection
 
 @section('content')
@@ -43,23 +41,31 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
                                 {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
-                                <input type="text" class="form-control datepicker" name="tarikh" value="{{ old('tarikh') }}">
+                                <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikh" value="{{ old('tarikh') }}">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tempoh lawatan<span
                                         style="color:red;">*</span></label>
-                                <input type="text" class="form-control" id="reservation" name="tempohPerjalanan" value="{{ old('tempohPerjalanan') }}" required>
+                                <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhMula" value="{{ old('tarikhMula') }}" required>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tempoh lawatan<span
+                                        style="color:red;">*</span></label>
+                                <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label><i class="fas fa-globe"></i> Negara<span style="color:red;">*</span></label>
                                 <select class="form-control select2bs4" name="negara" style="width: 100%;"
@@ -201,21 +207,28 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-calendar"></i> Tempoh Cuti</label>
-                                    <input type="text" class="form-control" id="reservation2" name="tempohCuti" value="{{ old('tempohCuti') }}">
+                                    <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
+                                    <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}" required>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
+                                    <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                    <input type="date" class="form-control" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                    <input type="date" class="form-control" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}" required>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
@@ -271,57 +284,25 @@
 @endsection
 
 @section('script')
-    <!-- bootstrap datepicker -->
-    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}">
-    </script>
+<script>
+     $(function() {
+           
+            //Date picker
+            $('#reservationdate').datetimepicker({
+                format: 'L'
+            });
 
-    <script>
-        $(function() {
             //Date range picker
             $('#reservation').daterangepicker({
                 locale: {
-                    dateFormat: 'DD/M/YYYY'
+                    format: 'MM/DD/YYYY'
                 }
             })
-            $('#reservation2').daterangepicker()
-            //Date range as a button
-            $('#daterange-btn').daterangepicker({
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
-                            'month').endOf('month')]
-                    },
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment()
-                },
-                function(start, end) {
-                    $('#daterange-btn span').html(start.format('D MMMM, YYYY') + ' - ' + end.format(
-                        'D MMMM, YYYY'))
-                }
-            )
-            //Date picker
-            $('.datepicker').datepicker({
-                autoclose: true,
-                dateFormat : 'dd/mm/yyyy'
-            })
-            $('#datepicker2').datepicker({
-                autoclose: true
-            })
-
-            // $('input[name="tempohPerjalanan"]').daterangepicker({
-            //     opens: 'left',
-            //     dateFormat : 'dd/mm/yyyy',
-            //     locale: {
-            //         dateFormat: 'DD/M/YYYY'
-            //         }
-            // }, function(start, end, label) {
-            //     console.log("A new date selection was made: " + start.format('dd/m/yyyy') + ' to ' + end.format('dd/m/yyyy'));
-            // });
-        })
-    </script>
-
+        
+            //Timepicker
+            $('#timepicker').datetimepicker({
+                format: 'LT'
+            });
+        });
+</script>
 @endsection

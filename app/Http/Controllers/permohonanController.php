@@ -347,10 +347,13 @@ class permohonanController extends Controller
         // echo $jenisKew;
         $tick = $request->input('tick');
 
-        $tempohPerjalanan = $request->input('tempohPerjalanan');
-        $datePer = explode(' - ', $tempohPerjalanan); // dateRange is you string
-        $dateFrom = $datePer[0];
-        $dateTo = $datePer[1];
+        // $tempohPerjalanan = $request->input('tempohPerjalanan');
+        // $datePer = explode(' - ', $tempohPerjalanan); // dateRange is you string
+        // $dateFrom = $datePer[0];
+        // $dateTo = $datePer[1];
+
+        $dateFrom = $request->input('tarikhMula');;
+        $dateTo = $request->input('tarikhAkhir');
         
         // dd($tempohPerjalanan, $tarikh, $dateFrom, $dateTo);
 
@@ -374,7 +377,6 @@ class permohonanController extends Controller
         
         $length = $end->diffInDays($nowsaa);
         
-        dd($tarikhMulaPerjalanan, $dateFrom, $tarikhAkhirPerjalanan, $dateTo, $tarikhKembaliBertugas, $length, $insuran);
         // return dd($length);
         $statusPermohonan = 'simpanan';
 
@@ -482,15 +484,25 @@ class permohonanController extends Controller
                     return redirect('/senaraiPermohonanProses');
                 }
             } elseif ($jenisPermohonan == 'Tidak Rasmi') {
-                $tempohCuti = $request->input('tempohCuti');
-                $dateCuti = explode('-', $tempohCuti); // dateRange is you string
-                $dateFromCuti = $dateCuti[0];
-                $dateToCuti = $dateCuti[1];
-                $DateNew1Cuti = strtotime($dateFromCuti);
-                $DateNew2Cuti = strtotime($dateToCuti);
-                $tarikhMulaCuti = date('Y-m-d', $DateNew1Cuti);
-                $tarikhAkhirCuti = date('Y-m-d', $DateNew2Cuti);
 
+                // $tempohCuti = $request->input('tempohCuti');
+                // $dateCuti = explode('-', $tempohCuti); // dateRange is you string
+                // $dateFromCuti = $dateCuti[0];
+                // $dateToCuti = $dateCuti[1];
+
+                // $DateNew1Cuti = strtotime($dateFromCuti);
+                // $DateNew2Cuti = strtotime($dateToCuti);
+                // $tarikhMulaCuti = date('Y-m-d', $DateNew1Cuti);
+                // $tarikhAkhirCuti = date('Y-m-d', $DateNew2Cuti);
+
+                $dateFromCuti = $request->input('tarikhMulaCuti');
+                $dateToCuti = $request->input('tarikhAkhirCuti');
+
+                $tarikhMulaCuti = Carbon::parse($dateFromCuti)->format('Y-m-d');
+                $tarikhAkhirCuti = Carbon::parse($dateToCuti)->format('Y-m-d');
+
+                // dd($tarikhMulaPerjalanan, $tarikhAkhirPerjalanan, $tarikhKembaliBertugas, $tarikhMulaCuti, $tarikhAkhirCuti);
+                
                 if ($request->hasFile('fileCuti')) {
                     // $allowedfileExtension=['pdf','jpg','png','docx'];
                     $files = $request->file('fileCuti');
@@ -499,8 +511,9 @@ class permohonanController extends Controller
                         $filename = $file->hashName();
                         // $filename = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
+                        
+                        // dd($filename);
 
-                        //dd($extension);
                         if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
                             // check folder for 'current year', if not exist, create one
                             $currYear = Carbon::now()->format('Y');
@@ -1622,7 +1635,8 @@ class permohonanController extends Controller
                             ];
                             Dokumen::create($data);
 
-                            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+                            // Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+                            toast('Permohonan berjaya dikemaskini', 'success')->position('top-end');
                             // flash('Permohonan berjaya dikemaskini.')->success();
                             return back();
                         } else {
@@ -1636,7 +1650,7 @@ class permohonanController extends Controller
                 }
             }
             // Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
-            toast('Permohonan berjaya dikemaskini', 'success')->position('top');
+            toast('Permohonan berjaya dikemaskini', 'success')->position('top-end');
             // flash('Berjaya dikemaskini.')->success();
             return back();
         } elseif ($jenisPermohonan == 'Tidak Rasmi') {
@@ -1708,7 +1722,8 @@ class permohonanController extends Controller
                     }
                 }
             }
-            Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            // Alert::success('Berjaya', 'Permohonan berjaya dikemaskini');
+            toast('Permohonan berjaya dikemaskini', 'success')->position('top-end');
             // flash('Berjaya dikemaskini.')->success();
             return back();
         }

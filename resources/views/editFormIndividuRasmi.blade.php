@@ -53,7 +53,7 @@
                                     @php
                                         $da = date('m/d/Y', strtotime($permohonan->tarikhInsuran));
                                     @endphp
-                                    <input type="date" class="form-control pull-right" name="tarikh"
+                                    <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" name="tarikh"
                                         value="{{ $permohonan->tarikhInsuran }}">
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                     @php
                                         $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaPerjalanan));
                                     @endphp
-                                    <input type="date" class="form-control pull-right" 
+                                    <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" 
                                         name="tarikhMulaPerjalanan" value="{{ $permohonan->tarikhMulaPerjalanan }}">
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                     @php
                                         $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirPerjalanan));
                                     @endphp
-                                    <input type="date" class="form-control pull-right"  
+                                    <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right"  
                                         name="tarikhAkhirPerjalanan" value="{{ $permohonan->tarikhAkhirPerjalanan }}">
                                 </div>
                             </div>
@@ -256,10 +256,10 @@
                                     <label><i class="fa fa-calendar"></i> Tarikh Mula Cuti</label>
                                     <div class="input-group date">
                                         @php
-                                            $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaCuti));
+                                            $mula = date('d/m/Y', strtotime($permohonan->tarikhMulaCuti));
                                         @endphp
-                                        <input type="text" class="form-control pull-right" id="datepicker5"
-                                            name="tarikhMulaCuti" value="{{ $mula }}">
+                                        <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" id="datepicker5"
+                                            name="tarikhMulaCuti" value="{{ $permohonan->tarikhMulaCuti }}">
                                     </div>
                                 </div>
                             </div>
@@ -268,10 +268,10 @@
                                     <label><i class="fa fa-calendar"></i> Tarikh Akhir Cuti</label>
                                     <div class="input-group date">
                                         @php
-                                            $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirCuti));
+                                            $akhir = date('d/m/Y', strtotime($permohonan->tarikhAkhirCuti));
                                         @endphp
-                                        <input type="text" class="form-control pull-right" id="datepicker6"
-                                            name="tarikhAkhirCuti" value="{{ $akhir }}">
+                                        <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" id="datepicker6"
+                                            name="tarikhAkhirCuti" value="{{ $permohonan->tarikhAkhirCuti }}">
                                     </div>
                                 </div>
                             </div>
@@ -280,10 +280,10 @@
                                     <label><i class="fa fa-calendar"></i> Tarikh Kembali Bertugas</label>
                                     <div class="input-group date">
                                         @php
-                                            $kembali = date('m/d/Y', strtotime($permohonan->tarikhKembaliBertugas));
+                                            $kembali = date('d/m/Y', strtotime($permohonan->tarikhKembaliBertugas));
                                         @endphp
-                                        <input type="text" class="form-control pull-right" id="datepicker7"
-                                            name="tarikhKembaliBertugas" value="{{ $kembali }}">
+                                        <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" id="datepicker7"
+                                            name="tarikhKembaliBertugas" value="{{ $permohonan->tarikhKembaliBertugas }}">
                                     </div>
                                 </div>
                             </div>
@@ -291,8 +291,12 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Dokumen Cuti</label>
-                                <div class="input-group">
+                                {{-- <div class="input-group">
                                     <input type="file" class="form-control" name="fileCuti[]" multiple />
+                                </div> --}}
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="fileCuti[]" id="exampleInputFile" multiple>
+                                    <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                 </div>
                                 @if (is_null($permohonan->namaFileCuti))
                                     <label class="label label-warning">Tiada Dokumen</label>

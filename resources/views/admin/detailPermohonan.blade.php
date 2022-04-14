@@ -30,37 +30,70 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-left">
+                                <a href="{{ URL::previous() }}" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-chevron-left"></i> KEMBALI</a>
+                            </div>
+                            <div class="float-right">
+                                @if ($permohonan->statusPermohonan == 'Ketua Jabatan')
+                                    <a onClick="setUserData({{ $permohonan->permohonansID }});" data-toggle="modal"
+                                        data-target="#terimapermohonan" class="btn btn-success  btn-sm"><i
+                                            class="fa fa-thumbs-up"></i> Lulus
+                                    </a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger  btn-sm" data-toggle="modal"
+                                        data-id="{{ $permohonan->permohonansID }}" data-target="#tolakpermohonan">
+                                        <i class="fa fa-thumbs-down"></i> Tolak
+                                    </button>
+        
+                                    <a href="{{ url('cetak-butiran-permohonan', [$permohonan->permohonansID]) }}"
+                                        class="btn btn-dark  btn-sm">
+                                        <i class="fa fa-print"></i> Cetak
+                                    </a>
+                                @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
+        
+                                @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3">
                     <div class="card card-success">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Pemohon</h3>
                         </div>
                         <!-- /.card-header -->
-                        @if ($permohonan->status_pengesah != "")
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="">Nama</label>
-                                <input type="text" class="form-control" disabled value="{{ $permohonan->nama }}">
+                        @if ($permohonan->status_pengesah != '')
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Nama</label>
+                                    <input type="text" class="form-control" disabled value="{{ $permohonan->nama }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Kad Pengenalan</label>
+                                    <input type="text" class="form-control" disabled value="{{ $permohonan->nokp }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Email</label>
+                                    <input type="text" class="form-control" disabled value="{{ $permohonan->email }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Jawatan & Gred</label>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                        disabled>{{ $permohonan->jawatan_pemohon }}({{ $permohonan->gred_pemohon }})</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Jabatan</label>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
+                                        disabled>{{ $permohonan->nama_jabatan }} ({{ $permohonan->kod_jabatan }})</textarea>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">Kad Pengenalan</label>
-                                <input type="text" class="form-control" disabled value="{{ $permohonan->nokp }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control" disabled value="{{ $permohonan->email }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Jawatan & Gred</label>
-                                <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                    disabled>{{ $permohonan->jawatan_pemohon }}({{ $permohonan->gred_pemohon }})</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Jabatan</label>
-                                <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                    disabled>{{ $permohonan->nama_jabatan }} ({{ $permohonan->kod_jabatan }})</textarea>
-                            </div>
-                        </div>
                         @else
                             <div class="card-body">
                                 <div class="form-group">
@@ -108,8 +141,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Alamat</label>
-                                        <textarea style="resize: none" class="form-control" disabled
-                                            rows="3">{{ $permohonan->alamat }}</textarea>
+                                        <textarea style="resize: none" class="form-control" disabled rows="3">{{ $permohonan->alamat }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -306,11 +338,13 @@
                                     @if ($dokumen->isEmpty())
                                         Tiada Dokumen
                                     @else
-                                    @php
-                                        $i =1;
-                                    @endphp
+                                        @php
+                                            $i = 1;
+                                        @endphp
                                         @foreach ($dokumen as $doku)
-                                            <a class="btn btn-sm btn-info" href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen Rasmi {{ $i++ }}</a>
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen
+                                                Rasmi {{ $i++ }}</a>
                                         @endforeach
                                     @endif
                                 </p>
@@ -320,7 +354,9 @@
                                     @if ($permohonan->namaFileCuti == '')
                                         Tiada Dokumen
                                     @else
-                                        <a class="btn btn-sm btn-info" href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">Dokumen Cuti</a>
+                                        <a class="btn btn-sm btn-info"
+                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">Dokumen
+                                            Cuti</a>
                                     @endif
                                 </p>
                             @endif
@@ -328,12 +364,68 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-12 text-center">
                     <a href="{{ URL::previous() }}" class="btn btn-primary">Kembali</a>
                 </div>
-            </div>
+            </div> --}}
             <br>
         </div>
     </section>
+
+    <div class="modal fade" id="terimapermohonan" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="favoritesModalLabel">Sokong Permohonan</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
+                <form method="GET" action="{{ url('pengesahan-permohonan') }}">
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="ulasan">Catatan (Jika perlu).</label>
+                            <textarea name="ulasan" class="form-control"></textarea>
+                            <input name="kopeID" id="kopeID" type="hidden" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Hantar" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Tolak permohonan-->
+    <div class="modal fade" id="tolakpermohonan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tolak Permohonan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="GET" action="{{ url('pengesahan-permohonan-tolak') }}">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <input name="id" id="id" type="hidden" value="">
+                                <label for="ulasan">Catatan</label>
+                                <textarea name="ulasan" required="required" class="form-control"></textarea>
+                            </div>
+                            {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button> --}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
