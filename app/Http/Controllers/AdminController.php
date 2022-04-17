@@ -328,6 +328,7 @@ class AdminController extends Controller
             'negaraRom' => $req->input('negaraRom'),
             'tujuanRom' => $req->input('tujuanRom'),
             'catatan_permohonan' => $req->input('catatan_permohonan'),
+            'jenis_rombongan' => $req->input('jenis_rombongan'),
             'jenisKewanganRom' => $req->input('jenisKewanganRom'),
             'anggaranBelanja' => $req->input('anggaranBelanja'),
             'alamatRom' => $req->input('alamatRom'),
@@ -353,6 +354,13 @@ class AdminController extends Controller
         ->where('permohonansID', $id)
         ->first();
 
+        $sej = Permohonan::where('permohonansID', $id)->first();
+        
+        $sejarah = Permohonan::where('permohonans.usersID', $sej->usersID)
+            ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
+            ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya'])
+            ->get();
+
         $pasangan = Pasangan::where('permohonansID', $id)->get();
         $dokumen = DB::table('dokumens')
             ->where('permohonansID', '=', $id)
@@ -366,7 +374,7 @@ class AdminController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        return view('admin.detailPermohonan', compact('permohonan','pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        return view('admin.detailPermohonan', compact('sejarah','permohonan','pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
     }
     
     public function pesertaRombongan()
@@ -1205,7 +1213,7 @@ class AdminController extends Controller
         $jab = Auth::user()->jabatan;
             if ($jab == 38) {
                 
-                $permohonan = DB::table('senarai_data_permohonan')
+                $permohonan = DB::table('senarai_data_permohonan_ind_rom')
                 ->Where('jabatan_pemohon', $jab)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
                 ->orWhere(function ($query) {
@@ -1216,7 +1224,7 @@ class AdminController extends Controller
                 ->get();
 
             } elseif  ($jab == 39) {
-                $permohonan = DB::table('senarai_data_permohonan')
+                $permohonan = DB::table('senarai_data_permohonan_ind_rom')
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
                 ->Where('jabatan_pemohon', $jab)
                 ->orWhere(function ($query) {
@@ -1227,8 +1235,7 @@ class AdminController extends Controller
                 ->get();
 
             } else {
-
-                $permohonan = DB::table('senarai_data_permohonan')
+                $permohonan = DB::table('senarai_data_permohonan_ind_rom')
                 ->where('jabatan_pemohon', $jab)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
                 ->whereNotIn('role', ['jabatan'])

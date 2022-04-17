@@ -45,13 +45,13 @@
                                                     <tr class="text-center">
                                                         <td> {{ $index + 1 }} </td>
                                                         <td style="text-transform: capitalize">
-                                                            @if ($mohonan->JenisPermohonan == 'rombongan')
+                                                            {{-- @if ($mohonan->JenisPermohonan == 'rombongan')
                                                                 <a
                                                                     href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a>
-                                                            @else
+                                                            @else --}}
                                                                 <a
                                                                     href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
-                                                            @endif
+                                                            {{-- @endif --}}
                                                         </td>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
@@ -72,22 +72,27 @@
                                                             @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
                                                                 <span class="badge badge-primary">Disokong</span>
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                                <span class="badge badge-success">Berjaya</span>
-                                                                @if ($mohonan->pengesahan_pembatalan == 1)
-                                                                    {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
-                                                                    <button type="button" class="btn btn-primary btn-xs"
-                                                                        data-toggle="modal"
-                                                                        data-sebab="{{ $mohonan->sebab_pembatalan }}"
-                                                                        data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}"
-                                                                        data-target="#detailbatal">
-                                                                        <i class="fa fa-info-circle"></i> Dibatalkan
-                                                                    </button>
-                                                                @endif
+                                                                
+                                                                   @if ($mohonan->status_rombongan == 'Gagal')
+                                                                   <span class="badge badge-danger">{{ $mohonan->status_rombongan }}</span>
+                                                                   @else
+                                                                   <span class="badge badge-success">Berjaya</span>
+                                                                    @if ($mohonan->pengesahan_pembatalan == 1)
+                                                                        {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
+                                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                                            data-toggle="modal"
+                                                                            data-sebab="{{ $mohonan->sebab_pembatalan }}"
+                                                                            data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}"
+                                                                            data-target="#detailbatal">
+                                                                            <i class="fa fa-info-circle"></i> Dibatalkan
+                                                                        </button>
+                                                                    @endif
+                                                                   @endif     
+
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                                 <span class="badge badge-danger">Gagal</span>
                                                             @else
-                                                                <span
-                                                                    class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
+                                                                <span class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
                                                             @endif
                                                         </td>
                                                         <td>

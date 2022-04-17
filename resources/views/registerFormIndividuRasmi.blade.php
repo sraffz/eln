@@ -52,7 +52,7 @@
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tempoh lawatan<span
+                                <label><i class="fas fa-calendar"></i> Tarikh Mula Perjalanan<span
                                         style="color:red;">*</span></label>
                                 <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhMula" value="{{ old('tarikhMula') }}" required>
                             </div>
@@ -60,7 +60,7 @@
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tempoh lawatan<span
+                                <label><i class="fas fa-calendar"></i> Tarikh Akhir Perjalanan<span
                                         style="color:red;">*</span></label>
                                 <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" required>
                             </div>

@@ -147,10 +147,12 @@
                         <td class="text-left">
                             <strong>
                                 @foreach ($sejarah as $sej)
-                                    {{ $sej->negara }}
-                                    ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
-                                    -
-                                    {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}),
+                                    @if ($sej->statusPermohonanRom == 'Permohonan Gagal')
+                                    @else
+                                        {{ $sej->negara }} ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                        -
+                                        {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}), 
+                                    @endif
                                 @endforeach
                             </strong>
                         </td>

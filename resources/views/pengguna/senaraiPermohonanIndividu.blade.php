@@ -87,7 +87,11 @@
                                                 @elseif($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
                                                     <span class="badge badge-info">Tindakan BPSM</span>
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                    @if ($mohonan->statusPermohonanRom == 'Permohonan Gagal')
+                                                    <span class="badge badge-danger">Gagal</span>
+                                                    @else
                                                     <span class="badge badge-success">Berjaya</span>
+                                                    @endif
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                     <span class="badge badge-danger">Gagal</span>
                                                 @else

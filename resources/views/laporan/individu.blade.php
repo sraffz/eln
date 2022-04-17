@@ -41,16 +41,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header with-border">
+                        {{-- <div class="card-header with-border">
                             <div class="float-left">
-                                {{-- <h5><strong>JUMLAH KESELURUHAN : {{ $jumlah }}</strong></h5> --}}
+                                <h5><strong>JUMLAH KESELURUHAN : {{ $jumlah }}</strong></h5>
                             </div>
                             <div class="float-right">
-                                {{-- <a type="button" href="{{ url('laporanIndividu') }}" class="btn btn-dark">Cetak
+                                <a type="button" href="{{ url('laporanIndividu') }}" class="btn btn-dark">Cetak
                                     Laporan
-                                </a> --}}
+                                </a>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">

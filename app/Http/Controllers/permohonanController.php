@@ -1009,7 +1009,7 @@ class permohonanController extends Controller
                             // $filename = $file->getClientOriginalName();
                             $extension = $file->getClientOriginalExtension();
     
-                            dd($filename, $extension);
+                            // dd($filename, $extension);
                             if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'doc') {
                                 // check folder for 'current year', if not exist, create one
                                 $currYear = Carbon::now()->format('Y');
@@ -1754,18 +1754,17 @@ class permohonanController extends Controller
     {
         $id = Auth::user()->usersID;
 
-        $userDetail = User::find($id);
-
-        $permohonan = Permohonan::where('usersID', $id)
-            ->whereIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
-            ->orderBy('created_at', 'desc')
+        $permohonan = Permohonan::where('permohonans.usersID', $id)
+            ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
+            ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->orderBy('permohonans.created_at', 'desc')
             ->get();
 
         $rombongan = Rombongan::where('usersID', $id)->get();
 
-        $allPermohonan = Permohonan::with('user')->get();
+        // $allPermohonan = Permohonan::with('user')->get();
 
-        return view('pengguna.senaraiPermohonanIndividu', compact('permohonan', 'rombongan', 'userDetail', 'allPermohonan'));
+        return view('pengguna.senaraiPermohonanIndividu', compact('permohonan', 'rombongan'));
     }
 
     public function senaraiPermohonanRombongan()

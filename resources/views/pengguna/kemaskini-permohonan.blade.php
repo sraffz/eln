@@ -104,6 +104,24 @@
                                     <div class="form-row">
                                         <div class="col-md-4">
                                             <div class="form-group">
+                                                <label><i class="fa fa-edit"></i> Jenis Rombongan</label>
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <select style="width: 100%;" id="jenis_rombongan"
+                                                        class="form-control select2bs4" name="jenis_rombongan"
+                                                        required="required">
+                                                        <option value="" selected="selected"></option>
+                                                        <option value="Rasmi" {{ 'Rasmi' == $rmbgn->jenis_rombongan ? 'selected' : '' }}>Rasmi</option>
+                                                        <option value="Tidak Rasmi" {{ 'Tidak Rasmi' == $rmbgn->jenis_rombongan ? 'selected' : '' }}>Tidak Rasmi</option>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
                                                 <label><i class="fas fa-money-bill"></i> Anggaran Belanja(RM)</label>
                                                 <div class="input-group">
                                                     <input type="text" class="form-control" name="anggaranBelanja"

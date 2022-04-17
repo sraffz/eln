@@ -490,8 +490,13 @@ class KetuaController extends Controller
     {
         $sej = Permohonan::where('permohonansID', $id)->first();
 
-        $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya'])
-            ->where('usersID', $sej->usersID)
+        // $sejarah = Permohonan::whereIn('statusPermohonan', ['Permohonan Berjaya'])
+        //     ->where('usersID', $sej->usersID)
+        //     ->get();
+
+            $sejarah = Permohonan::where('permohonans.usersID', $sej->usersID)
+            ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
+            ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya'])
             ->get();
 
         // return dd($sejarah);

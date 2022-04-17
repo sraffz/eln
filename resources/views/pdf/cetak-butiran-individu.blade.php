@@ -102,9 +102,13 @@
                                 {{ \Carbon\Carbon::parse($dd->tarikhLulusan)->format('d/m/y') }}
                             </td>
                             <td style="vertical-align: middle">
-                                {{ substr($dd->statusPermohonan, 11) }}
-                                @if ($dd->pengesahan_pembatalan == 1)
-                                    (DIBATALKAN)
+                                @if ($dd->status_rombongan == 'Permohonan Gagal')
+                                    Gagal
+                                @else
+                                    {{ substr($dd->statusPermohonan, 11) }}
+                                    @if ($dd->pengesahan_pembatalan == 1)
+                                        (DIBATALKAN)
+                                    @endif
                                 @endif
                             </td>
                         </tr>

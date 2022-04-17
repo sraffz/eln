@@ -38,24 +38,53 @@
                                     <i class="fa fa-chevron-left"></i> KEMBALI</a>
                             </div>
                             <div class="float-right">
-                                @if ($permohonan->statusPermohonan == 'Ketua Jabatan')
-                                    <a onClick="setUserData({{ $permohonan->permohonansID }});" data-toggle="modal"
-                                        data-target="#terimapermohonan" class="btn btn-success  btn-sm"><i
-                                            class="fa fa-thumbs-up"></i> Lulus
-                                    </a>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-danger  btn-sm" data-toggle="modal"
-                                        data-id="{{ $permohonan->permohonansID }}" data-target="#tolakpermohonan">
-                                        <i class="fa fa-thumbs-down"></i> Tolak
-                                    </button>
-        
-                                    <a href="{{ url('cetak-butiran-permohonan', [$permohonan->permohonansID]) }}"
-                                        class="btn btn-dark  btn-sm">
-                                        <i class="fa fa-print"></i> Cetak
-                                    </a>
-                                @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
-        
-                                @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
+                                @if (Auth::user()->role == 'jabatan')
+                                    @if ($permohonan->statusPermohonan == 'Ketua Jabatan')
+                                        <a onClick="setUserData({{ $permohonan->permohonansID }});" data-toggle="modal"
+                                            data-target="#terimapermohonan" class="btn btn-success  btn-sm"><i
+                                                class="fa fa-thumbs-up"></i> Sokong
+                                        </a>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-danger  btn-sm" data-toggle="modal"
+                                            data-id="{{ $permohonan->permohonansID }}" data-target="#tolakpermohonan">
+                                            <i class="fa fa-thumbs-down"></i> Tolak
+                                        </button>
+
+                                        <a href="{{ url('cetak-butiran-permohonan', [$permohonan->permohonansID]) }}"
+                                            class="btn btn-dark  btn-sm">
+                                            <i class="fa fa-print"></i> Cetak
+                                        </a>
+                                        @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
+                                        <button type="button" class="btn btn-success btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                        @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
+                                        <button type="button" class="btn btn-danger btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                        @else
+                                            {{-- <button type="button" class="btn btn-primary btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button> --}}
+                                        @endif
+                                @endif
+                                @if (Auth::user()->role == 'DatoSUK')
+                                    @if ($permohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                        <a href="{{ route('senaraiPermohonan.hantar', ['id' => $permohonan->permohonansID]) }}"
+                                            class="btn btn-success btn-sm"
+                                            onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
+                                            <i class="far fa-thumbs-up"></i> Lulus
+                                        </a>
+                                        <a href="{{ route('senaraiPermohonan.tolakPermohonan', ['id' => $permohonan->permohonansID]) }}"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
+                                                class="far fa-thumbs-down"></i> Tolak
+                                        </a>
+                                        <a href="{{ url('cetak-butiran-permohonan', [$permohonan->permohonansID]) }}"
+                                            class="btn btn-dark btn-sm"> Cetak
+                                            <i class="fa fa-print"></i>
+                                        </a>
+                                    @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
+                                    <button type="button" class="btn btn-success btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                    @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
+                                    <button type="button" class="btn btn-danger btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                    @else
+                                        {{-- <button type="button" class="btn btn-primary btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button> --}}
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -123,7 +152,7 @@
                         <!-- /.card-body -->
                     </div>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Permohonan</h3>
@@ -149,8 +178,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Jenis Permohonan</label>
+                                        @php
+                                        if ($permohonan->jenis_rombongan == "") {
+                                            $jenis = $permohonan->JenisPermohonan;
+                                        }else {
+                                            $jenis = 'Rombongan ('.$permohonan->jenis_rombongan.')';
+                                        }
+                                        @endphp
                                         <input type="text" class="form-control" disabled
-                                            value=" {{ $permohonan->JenisPermohonan }}">
+                                            value="{{ $jenis }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -198,6 +234,69 @@
                         </div>
                         <!-- /.card-body -->
                     </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Dokumen</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            @php
+                                $type = $permohonan->JenisPermohonan;
+                            @endphp
+
+                            @if ($type == 'Rasmi')
+                                <strong><i class="fa fa-book margin-r-5"></i>Dokumen Rasmi</strong>
+                                <p class="text-muted">
+                                    @if ($dokumen->isEmpty())
+                                        Tiada Dokumen
+                                    @else
+                                        @php
+                                            $i = 1;
+                                        @endphp
+                                        @foreach ($dokumen as $doku)
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen
+                                                Rasmi {{ $i++ }}</a>
+                                        @endforeach
+                                    @endif
+                                </p>
+                            @elseif ($type == 'Tidak Rasmi' || $type == 'rombongan')
+                                <strong><i class="fa fa-book margin-r-5"></i>Dokumen Cuti</strong>
+                                <p class="text-muted">
+                                    @if ($permohonan->namaFileCuti == '')
+                                        Tiada Dokumen
+                                    @else
+                                        <a class="btn btn-sm btn-info"
+                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">Dokumen
+                                            Cuti</a>
+                                    @endif
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                    @if (Auth::user()->role == 'DatoSUK' || Auth::user()->role == 'jabatan')
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Sejarah Perjalanan</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <strong>
+                                @foreach ($sejarah as $sej)
+                                    @if ($sej->statusPermohonanRom == 'Permohonan Gagal')
+                                    @else
+                                        {{ $sej->negara }} <br>
+                                        - ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                        -
+                                        {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}),<br>
+                                    @endif
+                                @endforeach
+                            </strong>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -274,7 +373,7 @@
             @php
                 $type = $permohonan->JenisPermohonan;
             @endphp
-            @if ($type == 'Tidak Rasmi' || $type == 'rombongan')
+            @if (($type == 'Tidak Rasmi')||( $type == 'rombongan' && $permohonan->jenis_rombongan == 'Tidak Rasmi'))
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card card-primary">
@@ -321,48 +420,7 @@
                 </div>
             @endif
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Dokumen</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            @php
-                                $type = $permohonan->JenisPermohonan;
-                            @endphp
 
-                            @if ($type == 'Rasmi')
-                                <strong><i class="fa fa-book margin-r-5"></i>Dokumen Rasmi</strong>
-                                <p class="text-muted">
-                                    @if ($dokumen->isEmpty())
-                                        Tiada Dokumen
-                                    @else
-                                        @php
-                                            $i = 1;
-                                        @endphp
-                                        @foreach ($dokumen as $doku)
-                                            <a class="btn btn-sm btn-info"
-                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen
-                                                Rasmi {{ $i++ }}</a>
-                                        @endforeach
-                                    @endif
-                                </p>
-                            @elseif ($type == 'Tidak Rasmi' || $type == 'rombongan')
-                                <strong><i class="fa fa-book margin-r-5"></i>Dokumen Cuti</strong>
-                                <p class="text-muted">
-                                    @if ($permohonan->namaFileCuti == '')
-                                        Tiada Dokumen
-                                    @else
-                                        <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">Dokumen
-                                            Cuti</a>
-                                    @endif
-                                </p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
             </div>
             {{-- <div class="row">
                 <div class="col-md-12 text-center">
