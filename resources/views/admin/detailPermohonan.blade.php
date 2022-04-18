@@ -276,7 +276,7 @@
                             @endif
                         </div>
                     </div>
-                    @if (Auth::user()->role == 'DatoSUK' || Auth::user()->role == 'jabatan')
+                    @if (Auth::user()->role == 'DatoSUK' || Auth::user()->role == 'jabatan' || Auth::user()->role == 'adminBPSM')
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Sejarah Perjalanan</h3>

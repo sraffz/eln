@@ -33,8 +33,7 @@
                     <div class="card card-danger card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                    src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" alt="User profile picture">
+                                <img class="profile-user-img img-fluid img-circle" src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" alt="User profile picture">
                             </div>
                             <h3 class="profile-username text-center">{{ $user->nama }}</h3>
                             <p class="text-muted text-center">{{ $user->nokp }}</p>
@@ -57,7 +56,8 @@
                             <strong><i class="fas fa-map-marker-alt mr-1"></i> Jawatan & Gred</strong>
                             <p class="text-muted">
                                 {{ $user->userJawatan->namaJawatan }}
-                                ({{ $user->userGredKod->gred_kod_abjad }}{{ $user->userGredAngka->gred_angka_nombor }})
+                                ({{ $user->userGredKod->gred_kod_abjad }}{{ $user->userGredAngka->gred_angka_nombor }}) <br>
+                                ({{ $user->taraf }})
                             </p>
                             <hr>
                             <strong><i class="fas fa-pencil-alt mr-1"></i> Peranan</strong>
@@ -178,6 +178,21 @@
                                                             {{ $gred->gred_angka_ID == $user->gredAngka ? 'selected' : '' }}>
                                                             {{ $gred->gred_angka_nombor }}</option>
                                                     @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label" for="taraf">Taraf</label>
+                                            <div class="col-sm-10">
+                                                <select name="taraf" id="taraf" class="form-control {{ $errors->has('taraf') ? ' is-invalid' : '' }} select2bs4" required>
+                                                    <option value="">Pilih Taraf</option>
+                                                    <option value="Tetap" {{ $user->taraf == 'Tetap' ? 'selected' : '' }}>Tetap</option>
+                                                    <option value="Jawatan Berasaskan Caruman (JBC)" {{ $user->taraf == 'Jawatan Berasaskan Caruman (JBC)' ? 'selected' : '' }}>Jawatan Berasaskan Caruman (JBC)</option>
+                                                    <option value="Sementara" {{ $user->taraf == 'Sementara' ? 'selected' : '' }}>Sementara</option>
+                                                    <option value="Contract Of Service (COS)" {{ $user->taraf == 'Contract Of Service (COS)' ? 'selected' : '' }}>Contract Of Service (COS)</option>
+                                                    <option value="Contract For Service (CFS)" {{ $user->taraf == 'Contract For Service (CFS)' ? 'selected' : '' }}>Contract For Service (CFS)</option>
+                                                    <option value="Berelaun" {{ $user->taraf == 'Berelaun' ? 'selected' : '' }}>Berelaun</option>
+                                                    <option value="Sambilan" {{ $user->taraf == 'Sambilan' ? 'selected' : '' }}>Sambilan</option>
                                                 </select>
                                             </div>
                                         </div>

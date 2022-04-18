@@ -58,6 +58,7 @@ class RegisterController extends Controller
             'gredKod'           => 'required',
             'gredAngka'           => 'required',
             'jabatan'           => 'required',
+            'taraf'           => 'required',
             'password'       => 'required|min:8|confirmed',
             ], [
             'nama.required'           => 'Nama wajib di isi.',
@@ -68,6 +69,7 @@ class RegisterController extends Controller
             'gredKod.required'       => 'Gred Kod wajib di isi.',
             'gredAngka.required'       => 'Gred Angka wajib di isi.',
             'jabatan.required'       => 'Jabatan wajib di isi.',
+            'taraf.required'       => 'Taraf wajib di isi.',
             'password.required'       => 'Katalaluan wajib di isi.',
             
         ]);
@@ -89,6 +91,7 @@ class RegisterController extends Controller
             'jantina' => $data['jantina'],
             'gredKod' => $data['gredKod'],
             'gredAngka' => $data['gredAngka'],
+            'taraf' => $data['taraf'],
             'jabatan' => $data['jabatan'],
             'nokp' => $data['nokp'],
             'password' => Hash::make($data['password']),

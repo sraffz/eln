@@ -93,6 +93,7 @@ class AdminController extends Controller
             'jawatan' => $req->input('jawatan'),
             'jabatan' => $req->input('jabatan'),
             'gredKod' => $req->input('gredKod'),
+            'taraf' => $req->input('taraf'),
             'gredAngka' => $req->input('gredangka'),
         ]);
 
@@ -1449,6 +1450,7 @@ class AdminController extends Controller
                 'jawatan' => $jawatan,
                 'role' => $request->role,
                 'jabatan' => $jabatan,
+                'taraf' => $request->taraf,
                 'gredAngka' => $gred,
                 'gredKod' => $kod
             ]);

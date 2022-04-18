@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Email</label>
                                         <div class="input-group">
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Jabatan</label>
                                         <select class="form-control select2bs4" name="jabatan" style="width: 100%;"
@@ -91,6 +91,21 @@
                                                     {{ $jaw->jabatan_id == $users->jabatan ? 'selected' : '' }}>
                                                     {{ $jaw->nama_jabatan }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Taraf</label>
+                                        <select name="taraf" id="taraf" class="form-control {{ $errors->has('taraf') ? ' is-invalid' : '' }} select2bs4" required>
+                                            <option value="">Pilih Taraf</option>
+                                            <option value="Tetap" {{ $users->taraf == 'Tetap' ? 'selected' : '' }}>Tetap</option>
+                                            <option value="Jawatan Berasaskan Caruman (JBC)" {{ $users->taraf == 'Jawatan Berasaskan Caruman (JBC)' ? 'selected' : '' }}>Jawatan Berasaskan Caruman (JBC)</option>
+                                            <option value="Sementara" {{ $users->taraf == 'Sementara' ? 'selected' : '' }}>Sementara</option>
+                                            <option value="Contract Of Service (COS)" {{ $users->taraf == 'Contract Of Service (COS)' ? 'selected' : '' }}>Contract Of Service (COS)</option>
+                                            <option value="Contract For Service (CFS)" {{ $users->taraf == 'Contract For Service (CFS)' ? 'selected' : '' }}>Contract For Service (CFS)</option>
+                                            <option value="Berelaun" {{ $users->taraf == 'Berelaun' ? 'selected' : '' }}>Berelaun</option>
+                                            <option value="Sambilan" {{ $users->taraf == 'Sambilan' ? 'selected' : '' }}>Sambilan</option>
                                         </select>
                                     </div>
                                 </div>
