@@ -513,6 +513,7 @@ class AdminController extends Controller
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
+            'taraf_pemohon' => $pemohon->taraf,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
             'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.' '.$pengesah->userGredAngka->gred_angka_nombor.'',
@@ -529,6 +530,7 @@ class AdminController extends Controller
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
+            'taraf_pemohon' => $pemohon->taraf,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
             'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.' '.$pengesah->userGredAngka->gred_angka_nombor.'',
@@ -1174,7 +1176,7 @@ class AdminController extends Controller
         } elseif  ($jab == 39) {
             $permohonan = DB::table('senarai_data_permohonan')
             ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-            ->Where('jabatan', $jab)
+            ->WhereIn('jabatan', ['39', '40', '35', '36'])
             ->orWhere(function ($query) {
                 $query->where('statusPermohonan', 'Ketua Jabatan')
                 ->Where('stsukpen', 1);
@@ -1213,9 +1215,8 @@ class AdminController extends Controller
     {
         $jab = Auth::user()->jabatan;
             if ($jab == 38) {
-                
                 $permohonan = DB::table('senarai_data_permohonan_ind_rom')
-                ->Where('jabatan_pemohon', $jab)
+                ->Where('jabatan_pengesah', $jab)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
                 ->orWhere(function ($query) {
                     $query->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
@@ -1227,10 +1228,10 @@ class AdminController extends Controller
             } elseif  ($jab == 39) {
                 $permohonan = DB::table('senarai_data_permohonan_ind_rom')
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
-                ->Where('jabatan_pemohon', $jab)
+                ->where('jabatan_pengesah', $jab)
                 ->orWhere(function ($query) {
                     $query->whereIn('statusPermohonan', ['Lulus Semakan BPSM','Permohonan Berjaya', 'Permohonan Gagal'])
-                    ->Where('stsukpen', 1);
+                    ->where('stsukpen', 1);
                 })
                 ->orderBy('tarikhmohon','desc')
                 ->get();
@@ -1246,12 +1247,12 @@ class AdminController extends Controller
             }
 
 
-            $permohonan2 = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
-                ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                ->where('users.jabatan', $jab)
-                ->whereNotIn('statusPermohonan', ['simpanan'])
-                ->orderBy('permohonans.created_at', 'desc')
-                ->get();
+            // $permohonan2 = Permohonan::select('users.*', 'permohonans.*', 'permohonans.created_at as tarikhmohon')
+            //     ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+            //     ->where('users.jabatan', $jab)
+            //     ->whereNotIn('statusPermohonan', ['simpanan'])
+            //     ->orderBy('permohonans.created_at', 'desc')
+            //     ->get();
                 
             // $permohonan = DB::table('senarai_data_permohonan')
             //     ->where('jabatan_pemohon', $jab)
@@ -1274,7 +1275,7 @@ class AdminController extends Controller
 
         $jabatan = Jabatan::where('jabatan_id', $jab)->first();
 
-        return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'permohonan2', 'rombo', 'jabatan'));
+        return view('jabatan.senaraiPermohonanLepas', compact('permohonan', 'rombo', 'jabatan'));
     }
 
     public function daftarPenggunaJabatan()
@@ -1316,6 +1317,7 @@ class AdminController extends Controller
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'taraf_pemohon' => $pemohon->taraf,
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
@@ -1362,6 +1364,7 @@ class AdminController extends Controller
             'id_pemohon' => $permohonan->usersID,
             'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
             'gred_pemohon' => ''.$pemohon->userGredKod->gred_kod_abjad.' '.$pemohon->userGredAngka->gred_angka_nombor.'',
+            'taraf_pemohon' => $pemohon->taraf,
             'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
             'id_pengesah' => Auth::user()->usersID,
             'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
