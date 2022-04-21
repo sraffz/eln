@@ -36,8 +36,12 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
+                            <h5>Permohonan dalam proses</h5>
                             <h3>{{ $jumlahPendingKelulusanDato + $jumlahPendingrombo }}</h3>
-                            <p>Permohonan dalam proses</p>
+                            <h5>
+                                Individu : {{ $jumlahPendingKelulusanDato }}<br>
+                                Rombongan : {{ $jumlahPendingrombo }}
+                            </h5>
                         </div>
                         <div class="icon">
                             <i class="fa fa-spinner"></i>
@@ -50,8 +54,12 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ $TotalBerjaya1 }}</h3>
-                            <p>Permohonan Berjaya</p>
+                            <h5>Permohonan Berjaya</h5>
+                            <h3>{{ $TotalBerjaya1 + $TotalBerjaya1Rom }}</h3>
+                            <h5>
+                                Individu : {{ $TotalBerjaya1 }} <br>
+                                Rombongan : {{ $TotalBerjaya1Rom }}
+                            </h5>
                         </div>
                         <div class="icon">
                             <i class="fa  fa-check-square"></i>
@@ -65,8 +73,12 @@
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>{{ $TotalGagal1 }}</h3>
-                            <p>Permohonan Gagal</p>
+                            <h5>Permohonan Gagal</h5>
+                            <h3>{{ $TotalGagal1+$TotalGagal1Rom }}</h3>
+                            <h5>
+                                Individu : {{ $TotalGagal1 }} <br>
+                                Rombongan : {{ $TotalGagal1Rom }}
+                            </h5>
                         </div>
                         <div class="icon">
                             <i class="fa fa-minus-circle"></i>

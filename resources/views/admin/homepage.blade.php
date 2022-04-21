@@ -41,9 +41,12 @@
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>{{ $TotalPerm1 }}</h3>
-
-                            <p>Jumlah Permohonan</p>
+                            <h5>Jumlah Permohonan</h5>
+                            <h3>{{ $TotalPerm1+$TotalPermRom}}</h3>
+                            <p>
+                                Individu : {{ $TotalPerm1 }} <br>
+                                Rombongan : {{ $TotalPermRom }}
+                            </p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -55,9 +58,12 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{{ $TotalProces1 }}</h3>
-
-                            <p>Permohonan dalam proses</p>
+                            <h5>Permohonan dalam proses</h5>
+                            <h3>{{ $TotalProces1 + $TotalProces1Rom }}</h3>
+                            <p>
+                                Individu : {{ $TotalProces1 }} <br>
+                                Rombongan : {{ $TotalProces1Rom }}
+                            </p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-spinner"></i>
@@ -70,9 +76,12 @@
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ $TotalBerjaya1 }}</h3>
-
-                            <p>Permohonan Berjaya</p>
+                            <h5>Permohonan Berjaya</h5>
+                            <h3>{{ $TotalBerjaya1+$TotalBerjaya1Rom }}</h3>
+                            <p>
+                                Individu : {{ $TotalBerjaya1 }} <br>
+                                Rombongan : {{ $TotalBerjaya1Rom }}
+                            </p>
                         </div>
                         <div class="icon">
                             <i class="fa  fa-check-square"></i>
@@ -85,9 +94,12 @@
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>{{ $TotalGagal1 }}</h3>
-
-                            <p>Permohonan Gagal</p>
+                            <h5>Permohonan Gagal</h5>
+                            <h3>{{ $TotalGagal1+$TotalGagal1Rom }}</h3>
+                            <p>
+                                Individu : {{ $TotalGagal1 }} <br>
+                                Rombongan : {{ $TotalGagal1Rom }}
+                            </p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-minus-circle"></i>

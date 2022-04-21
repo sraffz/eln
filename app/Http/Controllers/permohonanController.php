@@ -128,9 +128,21 @@ class permohonanController extends Controller
                     // ->whereYear('tarikhMulaPerjalanan', $year)
                     ->count();
 
+                $TotalPermRom = DB::table('rombongans')
+                    ->whereNotIn('statusPermohonanRom', ['simpanan'])
+                    // ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
+                    ->count();
+
                 $TotalBerjaya1 = DB::table('senarai_rekod_permohonan_suk')
                     ->whereIn('status_kelulusan', ['Berjaya'])
                     ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
+                $TotalBerjaya1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
+                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    // ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
 
@@ -139,8 +151,19 @@ class permohonanController extends Controller
                     ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
+
+                 $TotalGagal1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
+                    ->whereIn('status_kelulusan', ['Gagal'])
+                    // ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
                 $TotalProces1 = DB::table('permohonans')
                     ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
+                    ->count();
+                $TotalProces1Rom = DB::table('rombongans')
+                    ->whereNotIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
                     // ->whereYear('tarikhMulaPerjalanan', $year)
                     ->count();
 
@@ -149,32 +172,59 @@ class permohonanController extends Controller
                     // ->whereYear('tarikhLulusan', $year)
                     ->orderBy('tarikhLulusan', 'DESC')
                     ->get();
+
             } elseif (Auth::user()->role == 'jabatan') {
+
                 $TotalPerm1 = DB::table('permohonans')
                     ->join('users', 'users.usersID', '=', 'permohonans.usersID')
-                    ->where('statusPermohonan', '!=', 'simpanan')
+                    ->where('statusPermohonan', '<>', 'simpanan')
                     // ->whereYear('tarikhMulaPerjalanan', $year)
                     ->where('users.jabatan', Auth::user()->jabatan)
                     ->count();
 
-                $TotalBerjaya1 = DB::table('permohonans')
-                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
-                    ->where('statusPermohonan', '=', 'Permohonan Berjaya')
-                    // ->whereYear('tarikhLulusan', $year)
-                    ->where('users.jabatan', Auth::user()->jabatan)
-                    ->count();
-                $TotalGagal1 = DB::table('permohonans')
-                    ->where('statusPermohonan', '=', 'Permohonan Gagal')
-                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
-                    // ->whereYear('tarikhLulusan', $year)
+                $TotalPerm1Rom = DB::table('rombongans')
+                    ->join('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->where('statusPermohonanRom', '<>', 'simpanan')
+                    // ->whereYear('tarikhMulaPerjalanan', $year)
                     ->where('users.jabatan', Auth::user()->jabatan)
                     ->count();
 
-                $TotalProces1 = DB::table('permohonans')
-                    ->join('users', 'users.usersID', '=', 'permohonans.usersID')
-                    ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
+                $TotalBerjaya1 = DB::table('senarai_rekod_permohonan_suk')
+                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    ->where('jabatan_pemohon', Auth::user()->jabatan)
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
+                $TotalBerjaya1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
+                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    // ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
+                $TotalGagal1 = DB::table('senarai_rekod_permohonan_suk')
+                    ->where('status_kelulusan', '=', 'Gagal')
+                    ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    ->where('jabatan_pemohon', Auth::user()->jabatan)
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
+                 $TotalGagal1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
+                    ->whereIn('status_kelulusan', ['Gagal'])
+                    // ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
+                $TotalProces1 = DB::table('senarai_rekod_permohonan_suk')
+                    ->where('statusPermohonan', 'Ketua Jabatan')
+                    ->whereNotIn('JenisPermohonan', ['rombongan'])
+                    ->where('jabatan', Auth::user()->jabatan)
+                    // ->whereYear('tarikhLulusan', $year)
+                    ->count();
+
+                $TotalProces1Rom = DB::table('rombongans')
+                    ->whereNotIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
                     // ->whereYear('tarikhMulaPerjalanan', $year)
-                    ->where('users.jabatan', Auth::user()->jabatan)
                     ->count();
 
                 $senarai1 = DB::table('permohonans')
@@ -223,6 +273,7 @@ class permohonanController extends Controller
             if ($role == 'pengguna') {
                 return view('pengguna.homepage', compact('user', 'mula', 'TotalPerm', 'TotalPermRomb', 'TotalBerjaya', 'TotalBerjayaRomb', 'TotalGagal', 'TotalGagalRomb', 'TotalProces', 'TotalProcesRomb', 'senarai'));
             } elseif ($role == 'adminBPSM') {
+
                 $bilrasmi = DB::table('jumlah_permohonan_negara_tahun')
                     ->where('statusPermohonan', 'Permohonan Berjaya')
                     ->orderBy('bil', 'desc')
@@ -240,7 +291,7 @@ class permohonanController extends Controller
                     ->orderBy('bil', 'desc')
                     ->get();
 
-                return view('admin.homepage', compact('bilRombo', 'bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalPerm1', 'TotalBerjaya1', 'TotalGagal1', 'TotalProces1', 'senarai1'));
+                return view('admin.homepage', compact('bilRombo', 'bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalPerm1', 'TotalPermRom', 'TotalBerjaya1', 'TotalBerjaya1Rom', 'TotalGagal1', 'TotalGagal1Rom', 'TotalProces1', 'TotalProces1Rom', 'senarai1'));
             } elseif ($role == 'DatoSUK') {
 
                 $bilrasmi = DB::table('jumlah_permohonan_negara_tahun')
@@ -260,9 +311,9 @@ class permohonanController extends Controller
                     ->orderBy('bil', 'desc')
                     ->get();
 
-                return view('ketua.homepage', compact('bilRombo', 'bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalBerjaya1', 'TotalGagal1', 'senarai1', 'jumlahPendingKelulusanDato', 'jumlahPendingrombo', 'listnegara', 'listcount'));
+                return view('ketua.homepage', compact('bilRombo', 'bilrasmi', 'bilxrasmi', 'user', 'mula', 'TotalBerjaya1', 'TotalBerjaya1Rom', 'TotalGagal1', 'TotalGagal1Rom', 'senarai1', 'jumlahPendingKelulusanDato', 'jumlahPendingrombo', 'listnegara', 'listcount'));
             } elseif ($role == 'jabatan') {
-                return view('jabatan.homepage', compact('user', 'mula', 'TotalPerm1', 'TotalBerjaya1', 'TotalGagal1', 'TotalProces1', 'senarai1'));
+                return view('jabatan.homepage', compact('user', 'mula', 'TotalPerm1', 'TotalPerm1Rom', 'TotalBerjaya1', 'TotalBerjaya1Rom', 'TotalGagal1', 'TotalGagal1Rom', 'TotalProces1', 'TotalProces1Rom', 'senarai1'));
             }
         } else {
             return view('halamanUtama');
