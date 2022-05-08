@@ -121,7 +121,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         {{-- <p> @if ($surat->gelaran == 10 || $surat->gelaran == 11) @else {{ getGelaran($surat->gelaran) }} @endif {{ getPangkat($surat->pangkat) }} </p> --}}
-                        <p>YB / Dato’/ YM / YBhg. Dato’ / Tuan/ Puan,</p>
+                        <p>YB.Dato'/ YBhg. Dato'/ YM Tengku/ Tuan / Puan,</p>
                     </div>
                 </div>
                 @php

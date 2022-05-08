@@ -135,13 +135,13 @@ class permohonanController extends Controller
                     ->count();
 
                 $TotalBerjaya1 = DB::table('senarai_rekod_permohonan_suk')
-                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    ->where('status_kelulusan', 'Berjaya')
                     ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
 
                 $TotalBerjaya1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
-                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    ->where('status_kelulusan', 'Berjaya')
                     // ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
@@ -153,7 +153,7 @@ class permohonanController extends Controller
                     ->count();
 
                  $TotalGagal1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
-                    ->whereIn('status_kelulusan', ['Gagal'])
+                    ->where('status_kelulusan', 'Gagal')  
                     // ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
@@ -190,14 +190,14 @@ class permohonanController extends Controller
                     ->count();
 
                 $TotalBerjaya1 = DB::table('senarai_rekod_permohonan_suk')
-                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    ->where('status_kelulusan', 'Berjaya')
                     ->whereNotIn('JenisPermohonan', ['rombongan'])
                     ->where('jabatan_pemohon', Auth::user()->jabatan)
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
 
                 $TotalBerjaya1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
-                    ->whereIn('status_kelulusan', ['Berjaya'])
+                    ->where('status_kelulusan', 'Berjaya')
                     // ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
@@ -210,7 +210,7 @@ class permohonanController extends Controller
                     ->count();
 
                  $TotalGagal1Rom = DB::table('senarai_rekod_permohonan_rombongan_suk')
-                    ->whereIn('status_kelulusan', ['Gagal'])
+                    ->where('status_kelulusan', 'Gagal')                    
                     // ->whereNotIn('JenisPermohonan', ['rombongan'])
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
