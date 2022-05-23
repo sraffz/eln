@@ -208,14 +208,14 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                <input type="date" class="form-control" id="tarikhmulaAkhirCuti" name="tarikhmulaAkhirCuti" value="{{ old('tarikhmulaAkhirCuti') }}">
+                                <input type="date" class="form-control" id="tarikhAkhirCuti" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="date" class="form-control" id="tarikhAkhirCuti" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                <input type="date" class="form-control" id="tarikhKembaliBertugas" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -288,12 +288,14 @@
     <script>
         $('#jenisRombongan').change(function () {
              if( $(this).val() == 'Rasmi') {
-                $('#tarikhmulaAkhirCuti').prop( "disabled", true );
+                $('#tarikhMulaCuti').prop( "disabled", true );
+                $('#tarikhAkhirCuti').prop( "disabled", true );
                 $('#tarikhKembaliBertugas').prop( "disabled", true );
                 $('#filcuti').prop( "disabled", true );
                 $('#filerasmi').prop( "disabled", false );
             } else if(  $(this).val() == 'Tidak Rasmi'){
-                $('#tarikhmulaAkhirCuti').prop( "disabled", false );
+                $('#tarikhMulaCuti').prop( "disabled", false );
+                $('#tarikhAkhirCuti').prop( "disabled", false );
                 $('#tarikhKembaliBertugas').prop( "disabled", false );
                 $('#filcuti').prop( "disabled", false );
                 $('#filerasmi').prop( "disabled", true );
