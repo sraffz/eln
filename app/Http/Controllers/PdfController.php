@@ -376,4 +376,11 @@ class PdfController extends Controller
 
         return Storage::download($path);
     }
+
+    public function perananKetuaJabatan()
+    {
+        $path = 'public/manual/borang_akuan_ketua_jabatan.pdf';
+
+        return Storage::download($path);
+    }
 }

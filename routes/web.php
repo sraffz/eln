@@ -22,6 +22,7 @@ Route::post('password/update', 'Auth\ResetPasswordController@reset')->name('pass
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/panduan-pengguna', 'PdfController@manualpengguna')->name('panduan-pengguna');
+Route::get('/perananKetuaJabatan', 'PdfController@perananKetuaJabatan')->name('perananKetuaJabatan');
 
 // Route::get('/','HomeController@index')->name('home');
 Route::get('registerBaru', 'permohonanController@registerBaru')->name('registerBaru');

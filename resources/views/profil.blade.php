@@ -63,7 +63,13 @@
                             <hr>
                             <strong><i class="fas fa-pencil-alt mr-1"></i> Peranan</strong>
                             <p class="text-muted">
-                                {{ $user->role }}
+                                @if ($user->role == 'jabatan')
+                                    Ketua Jabatan
+                                @elseif ($user->role == 'pengguna')
+                                    Pengguna <br> <a href="{{ route('perananKetuaJabatan') }}">(Borang Peranan Ketua Jabatan)</a>
+                                @else
+                                    {{ $user->role }}
+                                @endif
                             </p>
                             <hr>
                             <strong><i class="far fa-file-alt mr-1"></i> Jabatan</strong>

@@ -24,6 +24,7 @@ use PDF;
 use Session;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use Alert;
@@ -131,6 +132,7 @@ class AdminController extends Controller
         //     ->get();
 
         $permohonan2 = DB::table('senarai_rekod_permohonan_suk')
+        ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
         ->whereNotIn('jenisPermohonan', ['rombongan'])
         ->orderBy('tarikh_permohonan', 'desc')
         ->get();
@@ -336,6 +338,54 @@ class AdminController extends Controller
             'alamatRom' => $req->input('alamatRom'),
         ]);
 
+        if ($req->hasFile('fileRasmiRom')) {
+            $files = $req->file('fileRasmiRom');
+    
+            foreach ($files as $file) {
+                $filename = $file->hashName();
+                $extension = $file->getClientOriginalExtension();
+    
+                if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
+                    $currYear = Carbon::now()->format('Y');
+                    $storagePath = 'upload/dokumen/' . $currYear. '/rombongan/rasmi/' .$id.'';
+                    $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
+    
+                    $upload_success = $file->storeAs($storagePath, $filename);
+    
+                    if ($upload_success) {
+                        $perm = Permohonan::findOrFail($id);
+                        if (is_null($perm->pathFileCuti)) {
+                            $data = [
+                                'namaFile' => $filename,
+                                'typeFile' => $extension,
+                                'pathFile' => $filePath,
+                                'rombongans_id' => $id,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ];
+                            Dokumen::create($data);
+                        } else {
+                            // unlink(storage_path($perm->pathFileCuti));
+                            Storage::Delete($perm->pathFileCuti);
+    
+                            Dokumen::where('rombongans_id', $id)->update([
+                                'namaFile' => $filename,
+                                'typeFile' => $extension,
+                                'pathFile' => $filePath,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ]);
+                        }
+                    } else {
+                        Flash::error('Error uploading ' . $doc_type);
+                        return redirect('');
+                    }
+                } else {
+                    echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
+                    return redirect('');
+                }
+            }
+        }
         // flash('Maklumat dikemaskini.')->success();
         toast('Maklumat dikemaskini', 'success')->position('top-end');
 
@@ -1291,8 +1341,7 @@ class AdminController extends Controller
         $ulasan = $request->ulasan;
         $upda = 'Lulus Semakan BPSM';
 
-        $permohonan = Permohonan::where('permohonansID', '=', $id)->first();
-
+        $permohonan = Permohonan::where('permohonansID', $id)->first();
         
         $tarikhmulajalan = $permohonan->tarikhMulaPerjalanan;
         

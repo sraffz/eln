@@ -54,13 +54,15 @@
                                             class="btn btn-dark  btn-sm">
                                             <i class="fa fa-print"></i> Cetak
                                         </a>
-                                        @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
-                                        <button type="button" class="btn btn-success btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
-                                        @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
-                                        <button type="button" class="btn btn-danger btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
-                                        @else
-                                            {{-- <button type="button" class="btn btn-primary btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button> --}}
-                                        @endif
+                                    @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
+                                        <button type="button" class="btn btn-success btn-sm" btn-lg
+                                            btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                    @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
+                                        <button type="button" class="btn btn-danger btn-sm" btn-lg
+                                            btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                    @else
+                                        {{-- <button type="button" class="btn btn-primary btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button> --}}
+                                    @endif
                                 @endif
                                 @if (Auth::user()->role == 'DatoSUK')
                                     @if ($permohonan->statusPermohonan == 'Lulus Semakan BPSM')
@@ -79,9 +81,11 @@
                                             <i class="fa fa-print"></i>
                                         </a>
                                     @elseif($permohonan->statusPermohonan == 'Permohonan Berjaya')
-                                    <button type="button" class="btn btn-success btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                        <button type="button" class="btn btn-success btn-sm" btn-lg
+                                            btn-block>{{ $permohonan->statusPermohonan }}</button>
                                     @elseif($permohonan->statusPermohonan == 'Permohonan Gagal')
-                                    <button type="button" class="btn btn-danger btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button>
+                                        <button type="button" class="btn btn-danger btn-sm" btn-lg
+                                            btn-block>{{ $permohonan->statusPermohonan }}</button>
                                     @else
                                         {{-- <button type="button" class="btn btn-primary btn-sm" btn-lg btn-block>{{ $permohonan->statusPermohonan }}</button> --}}
                                     @endif
@@ -179,14 +183,13 @@
                                     <div class="form-group">
                                         <label for="">Jenis Permohonan</label>
                                         @php
-                                        if ($permohonan->jenis_rombongan == "") {
-                                            $jenis = $permohonan->JenisPermohonan;
-                                        }else {
-                                            $jenis = 'Rombongan ('.$permohonan->jenis_rombongan.')';
-                                        }
+                                            if ($permohonan->jenis_rombongan == '') {
+                                                $jenis = $permohonan->JenisPermohonan;
+                                            } else {
+                                                $jenis = 'Rombongan (' . $permohonan->jenis_rombongan . ')';
+                                            }
                                         @endphp
-                                        <input type="text" class="form-control" disabled
-                                            value="{{ $jenis }}">
+                                        <input type="text" class="form-control" disabled value="{{ $jenis }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -256,7 +259,7 @@
                                             $i = 1;
                                         @endphp
                                         @foreach ($dokumen as $doku)
-                                            <a class="btn btn-sm btn-info"
+                                            <a class="btn btn-block btn-info"
                                                 href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen
                                                 Rasmi {{ $i++ }}</a>
                                         @endforeach
@@ -277,25 +280,25 @@
                         </div>
                     </div>
                     @if (Auth::user()->role == 'DatoSUK' || Auth::user()->role == 'jabatan' || Auth::user()->role == 'adminBPSM')
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Sejarah Perjalanan</h3>
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Sejarah Perjalanan</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <strong>
+                                    @foreach ($sejarah as $sej)
+                                        @if ($sej->statusPermohonanRom == 'Permohonan Gagal')
+                                        @else
+                                            {{ $sej->negara }} <br>
+                                            - ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                            -
+                                            {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}),<br>
+                                        @endif
+                                    @endforeach
+                                </strong>
+                            </div>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <strong>
-                                @foreach ($sejarah as $sej)
-                                    @if ($sej->statusPermohonanRom == 'Permohonan Gagal')
-                                    @else
-                                        {{ $sej->negara }} <br>
-                                        - ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
-                                        -
-                                        {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}),<br>
-                                    @endif
-                                @endforeach
-                            </strong>
-                        </div>
-                    </div>
                     @endif
                 </div>
             </div>
@@ -373,7 +376,7 @@
             @php
                 $type = $permohonan->JenisPermohonan;
             @endphp
-            @if (($type == 'Tidak Rasmi')||( $type == 'rombongan' && $permohonan->jenis_rombongan == 'Tidak Rasmi'))
+            @if ($type == 'Tidak Rasmi' || ($type == 'rombongan' && $permohonan->jenis_rombongan == 'Tidak Rasmi'))
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card card-primary">
@@ -486,4 +489,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script language="javascript">
+        $('#tolakpermohonan').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var id = button.data('id');
+            // Use above variables to manipulate the DOM
+            $(".modal-body #id").val(id);
+        });
+
+        function setUserData(id) {
+            var userHidden = document.getElementById('kopeID');
+            userHidden.value = id;
+        }
+    </script>
 @endsection

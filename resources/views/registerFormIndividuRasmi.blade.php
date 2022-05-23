@@ -105,7 +105,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label><i class="fa fa-phone"> </i> No. Telefon<span style="color:red;">*</span></label>
-                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
+                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" data-inputmask='"mask": "999-99999999"' data-mask>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
-                                <input type="text" name="phonePasangan" class="form-control" value="{{ old('phonePasangan') }}" data-inputmask='"mask": "(99) 99-99999999"' data-mask>
+                                <input type="text" name="phonePasangan" class="form-control" value="{{ old('phonePasangan') }}" data-mask>
                             </div>
                         </div>
                         <div class="col-sm-6">

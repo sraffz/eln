@@ -25,7 +25,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form action="{{ url('kemaskini-rombongan') }}" method="post" autocomplete="off">
+                            <form action="{{ url('kemaskini-rombongan') }}" method="post" autocomplete="off" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 @foreach ($rombongan as $rmbgn)
                                     <input type="hidden" name="id" id="id" value="{{ $rmbgn->rombongans_id }}">
@@ -185,31 +185,37 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label><i class="fas fa-file"></i> Dokumen Rasmi</label>
-                                                <div class="input-group">
-                                                    <div class="custom-file ">
-                                                        <input type="file" class="custom-file-input" name="fileRasmiRom[]"
-                                                            id="exampleInputFile" multiple>
-                                                        <label class="custom-file-label" for="exampleInputFile">Pilih
-                                                            Fail</label>
+                                            @if ($rmbgn->jenis_rombongan == 'Rasmi')
+                                                <div class="form-group">
+                                                    <label><i class="fas fa-file"></i> Dokumen Rasmi</label>
+                                                    <div class="input-group">
+                                                        <div class="custom-file ">
+                                                            <input type="file" class="custom-file-input" name="fileRasmiRom[]" id="exampleInputFile" multiple>
+                                                            <label class="custom-file-label" for="exampleInputFile">Pilih
+                                                                Fail</label>
+                                                        </div>
+                                                        {{-- <input type="file" class="custom-file-input" name="fileRasmiRom[]" multiple> --}}
+                                                    </div>  
+                                                    <div class="mt-2">
+                                                        @if ($dokumen->isEmpty())
+                                                            Tiada Dokumen.
+                                                        @else
+                                                        @php
+                                                            $i = 1;
+                                                        @endphp
+                                                            @foreach ($dokumen as $doku)
+                                                            <div class="btn-group">
+                                                                <a class="btn btn-sm btn-info"
+                                                                    href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen Rombongan {{ $i++ }}</a>
+                                                                <a class="btn btn-sm btn-danger" href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"
+                                                                    onclick="javascript: return confirm('Padam dokumen ini?');" alt="Padam Dokumen"><i class="fas fa-backspace"></i></a>
+                                                            </div>
+                                                            @endforeach
+                                                        @endif
                                                     </div>
-                                                    {{-- <input type="file" class="custom-file-input" name="fileRasmiRom[]" multiple> --}}
-                                                </div>  
-                                                <div class="mt-2">
-                                                    @if ($dokumen->isEmpty())
-                                                        Tiada Dokumen.
-                                                    @else
-                                                        @foreach ($dokumen as $doku)
-                                                            <a class="btn btn-sm btn-info"
-                                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen Rombongan</a><a
-                                                                href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}"
-                                                                onclick="javascript: return confirm('Padam dokumen ini?');"><i
-                                                                    class="fa fa-remove"></i></a>
-                                                        @endforeach
-                                                    @endif
                                                 </div>
-                                            </div>
+                                                @else
+                                            @endif
                                         </div>
                                         <div class="col-md-12 text-center">
                                             <a class="btn btn-danger"

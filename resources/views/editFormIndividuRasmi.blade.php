@@ -295,7 +295,7 @@
                                     <input type="file" class="form-control" name="fileCuti[]" multiple />
                                 </div> --}}
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="fileCuti[]" id="exampleInputFile" multiple>
+                                    <input type="file" class="custom-file-input" name="fileCuti[]" id="exampleInputFile">
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                 </div>
                                 @if (is_null($permohonan->namaFileCuti))

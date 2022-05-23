@@ -11,8 +11,8 @@
 @section('content')
     <section class="content">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3 col-xs-6">
+            <div class="row mt-2">
+                {{-- <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
@@ -28,17 +28,50 @@
                         </div>
                         <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
+                </div> --}}
+                 <!-- ./col -->
+                 <div class="col-lg-4 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h5>Permohonan dalam proses</h5>
+                            <h3>{{ $TotalProces1+$TotalProces1Rom }}</h3>
+
+                            <h5>
+                                Individu : 
+                                <a class="badge badge-danger" href="{{ url('senaraiPermohonanJabatan') }}">
+                                    {{ $TotalProces1 }}
+                                </a>
+                                <br>
+                                Rombongan : 
+                                <a class="badge badge-danger" href="{{ url('senaraiPendingRombongan') }}">
+                                    {{ $TotalProces1Rom }}
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-spinner"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h5>Permohonan Berjaya</h5>
                             <h3>{{ $TotalBerjaya1+$TotalBerjaya1Rom }}</h3>
                             <h5>
-                                Individu : {{ $TotalBerjaya1 }}<br>
-                                Rombongan : {{ $TotalBerjaya1Rom }}
+                                Individu :  
+                                <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
+                                    {{ $TotalBerjaya1 }}
+                                </a>
+                                <br>
+                                Rombongan : 
+                                <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
+                                    {{ $TotalBerjaya1Rom }}
+                                </a>
                             </h5>
 
                         </div>
@@ -49,7 +82,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
@@ -57,31 +90,18 @@
                             <h3>{{ $TotalGagal1 }}</h3>
 
                             <h5>
-                                Individu : {{ $TotalGagal1 }}<br>
-                                Rombongan : {{ $TotalGagal1Rom }}
+                                Individu : 
+                                <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
+                                    {{ $TotalGagal1 }}
+                                </a><br>
+                                Rombongan :  
+                                <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
+                                    {{ $TotalGagal1Rom }}
+                                </a>
                             </h5>
                         </div>
                         <div class="icon">
                             <i class="fa fa-minus-circle"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h5>Permohonan dalam proses</h5>
-                            <h3>{{ $TotalProces1+$TotalProces1Rom }}</h3>
-
-                            <h5>
-                                Individu : {{ $TotalProces1 }}<br>
-                                Rombongan : {{ $TotalProces1Rom }}
-                            </h5>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-spinner"></i>
                         </div>
                         <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -109,7 +129,7 @@
                                         <span class="bg-red">
                                 @endif
                                 @php
-                                    $create = $sena->tarikhLulusan;
+                                    $create = $sena->tarikh_kelulusan;
                                     $DateNew3 = strtotime($create);
                                     $mula = date('d-m-Y', $DateNew3);
                                     echo $mula;

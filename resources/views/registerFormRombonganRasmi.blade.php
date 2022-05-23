@@ -70,11 +70,24 @@
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
-                            <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan dan sehingga<span
-                                        style="color:red;">**</span></label>
-                                <input type="text" class="form-control reservation" id="tarikhmulaAkhir" name="tarikhmulaAkhir"
-                                    value="{{ old('tarikhmulaAkhir') }}" required>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan<span
+                                                style="color:red;">**</span></label>
+                                        <input type="date" class="form-control reservation" id="tarikhMulaRom" name="tarikhMulaRom"
+                                            value="{{ old('tarikhMulaRom') }}" required>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-calendar"></i> Tarikh Akhir Rombongan<span
+                                                style="color:red;">**</span></label>
+                                        <input type="date" class="form-control reservation" id="tarikhAkhirRom" name="tarikhAkhirRom"
+                                            value="{{ old('tarikhAkhirRom') }}" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -184,21 +197,28 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Mula dan Akhir Cuti</label>
-                                <input type="text" class="form-control reservation" id="tarikhmulaAkhirCuti" name="tarikhmulaAkhirCuti" value="{{ old('tarikhmulaAkhirCuti') }}">
+                                <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
+                                <input type="date" class="form-control" id="tarikhMulaCuti" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
+                                <input type="date" class="form-control" id="tarikhmulaAkhirCuti" name="tarikhmulaAkhirCuti" value="{{ old('tarikhmulaAkhirCuti') }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="date" class="form-control" id="tarikhKembaliBertugas" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                <input type="date" class="form-control" id="tarikhAkhirCuti" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-file"> </i> Dokumen Cuti</label>

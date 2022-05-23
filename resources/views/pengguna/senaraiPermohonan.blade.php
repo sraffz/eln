@@ -189,11 +189,13 @@
                                                                 - {{ $element->user->nama }}<br>
                                                             @elseif($element->statusPermohonan == 'Lulus Semakan BPSM' && $rombo->statusPermohonanRom == 'simpanan')
                                                                 - {{ $element->user->nama }}
+                                                                @if (!($element->user->id == Auth::user()->id))
                                                                 <a href="{{ url('tolak-permohonan', [$element->permohonansID]) }}"
                                                                     class="btn-danger btn-xs"
                                                                     onclick="javascript: return confirm('Padam maklumat ini?');">
                                                                     <i class="fa  fa-times"></i>
                                                                 </a>
+                                                                @endif
                                                                 <br>
                                                             @elseif($element->statusPermohonan == 'Lulus Semakan BPSM' && $rombo->statusPermohonanRom == 'Pending')
                                                                 - {{ $element->user->nama }}

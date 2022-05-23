@@ -43,13 +43,7 @@
     </a>
 </li>
 <li class="nav-header">PERMOHONAN</li>
-<li class="nav-item">
-    <a href="{{ route('senaraiPermohonanProses') }}"
-        class="nav-link {{ url()->current() == route('senaraiPermohonanProses') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-book"></i>
-        <p>Permohonan Baru</p>
-    </a>
-</li>
+
 <li
     class="nav-item {{ url()->current() == url('permohonan-rombongan') || url()->current() == url('registerFormIndividu', 'rasmi') || url()->current() == url('registerFormIndividu', 'tidakRasmi') || url()->current() == url('sertai-rombongan') ? 'menu-open' : '' }}">
     <a href="#"
@@ -111,6 +105,13 @@
             </ul>
         </li>
     </ul>
+</li>
+<li class="nav-item">
+    <a href="{{ route('senaraiPermohonanProses') }}"
+        class="nav-link {{ url()->current() == route('senaraiPermohonanProses') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-book"></i>
+        <p>Permohonan Baru</p>
+    </a>
 </li>
 <li
     class="nav-item {{ url()->current() == route('keputusan-permohonan') || url()->current() == route('keputusan-rombongan') ? 'menu-open' : '' }}">
