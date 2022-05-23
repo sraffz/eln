@@ -43,7 +43,7 @@
                 <form method="POST" action="{{ route('register') }}" autocomplete="off">
                     {{ csrf_field() }}
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control {{ $errors->has('nama') ? ' is-invalid' : '' }}"
+                        <input type="text" class="form-control upcase {{ $errors->has('nama') ? ' is-invalid' : '' }}"
                             placeholder="Nama Pegawai" name="nama" value="{{ old('nama') }}" required autofocus>
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -272,6 +272,11 @@
         })
         //Money Euro
         $('[data-mask]').inputmask()
+    });
+</script>
+<script>
+    $('.upcase').keyup(function() {
+        $(this).val($(this).val().toUpperCase());
     });
 </script>
 
