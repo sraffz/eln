@@ -14,7 +14,7 @@
 @endsection
 
 @section('content')
-    
+
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -25,7 +25,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}">Senarai Permohonan</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ url('senaraiPermohonanProses', [Auth::user()->usersID]) }}">Senarai
+                                Permohonan</a></li>
                         <li class="breadcrumb-item active">Kemaskini Permohonan</li>
                     </ol>
                 </div>
@@ -53,8 +55,8 @@
                                     @php
                                         $da = date('m/d/Y', strtotime($permohonan->tarikhInsuran));
                                     @endphp
-                                    <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" name="tarikh"
-                                        value="{{ $permohonan->tarikhInsuran }}">
+                                    <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
+                                        name="tarikh" value="{{ \Carbon\Carbon::parse($permohonan->tarikhInsuran)->format('d-m-Y') }}">
                                 </div>
                             </div>
                         </div>
@@ -65,8 +67,8 @@
                                     @php
                                         $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaPerjalanan));
                                     @endphp
-                                    <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" 
-                                        name="tarikhMulaPerjalanan" value="{{ $permohonan->tarikhMulaPerjalanan }}">
+                                    <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
+                                        name="tarikhMulaPerjalanan" value="{{ \Carbon\Carbon::parse($permohonan->tarikhMulaPerjalanan)->format('d-m-Y') }}">
                                 </div>
                             </div>
                         </div>
@@ -77,8 +79,8 @@
                                     @php
                                         $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirPerjalanan));
                                     @endphp
-                                    <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right"  
-                                        name="tarikhAkhirPerjalanan" value="{{ $permohonan->tarikhAkhirPerjalanan }}">
+                                    <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
+                                        name="tarikhAkhirPerjalanan" value="{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirPerjalanan)->format('d-m-Y') }}">
                                 </div>
                             </div>
                         </div>
@@ -108,7 +110,7 @@
                                             value="{{ $permohonan->lainTujuan }}">
                                     </div>
                                 </div>
-                            @elseif($typeForm =="tidakRasmi")
+                            @elseif($typeForm == 'tidakRasmi')
                                 <div class="form-group">
                                     <label><i class="fa fa-edit"></i> Tujuan Permohonan</label>
                                     <div class="input-group">
@@ -155,33 +157,34 @@
                                 @if ($dokumen->isEmpty())
                                     <label for="nama" class="label-danger">Tiada Dokumen</label>
                                 @else
-                                @php
-                                    $i = 1;
-                                @endphp
+                                    @php
+                                        $i = 1;
+                                    @endphp
                                     @foreach ($dokumen as $doku)
-                                    <div class="mt-2">
-                                        <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">
+                                        <div class="mt-2">
+                                            <a class="btn btn-sm btn-info"
+                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">
 
-                                            <i class="fa fa-download"></i> Dokumen Rasmi {{ $i++ }}
-                                        </a>
-                                        <a
-                                            href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>
+                                                <i class="fa fa-download"></i> Dokumen Rasmi {{ $i++ }}
+                                            </a>
+                                            <a
+                                                href="{{ route('detailPermohonan.deleteFileRasmi', ['id' => $doku->dokumens_id]) }}">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
                                     @endforeach
                                 @endif
                             </div>
-                        @elseif($typeForm == "tidakRasmi")
+                        @elseif($typeForm == 'tidakRasmi')
                             <input type="hidden" name="jenisKewangan" value="Persendirian">
                         @endif
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                              <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ $permohonan->catatan_permohonan }}</textarea>
+                                <label for="catatan_permohonan">Catatan</label>
+                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan"
+                                    rows="3">{{ $permohonan->catatan_permohonan }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -217,7 +220,8 @@
                             <div class="form-group">
                                 <label><i class="fa fa-envelope"></i> E-mel Pasangan</label>
                                 <div class="input-group">
-                                    <input type="email" name="emailPasangan" class="form-control" value="{{ $permohonan->pasanganPermohonan->emailPasangan }}">
+                                    <input type="email" name="emailPasangan" class="form-control"
+                                        value="{{ $permohonan->pasanganPermohonan->emailPasangan }}">
                                 </div>
                             </div>
                         </div>
@@ -255,11 +259,9 @@
                                 <div class="form-group">
                                     <label><i class="fa fa-calendar"></i> Tarikh Mula Cuti</label>
                                     <div class="input-group date">
-                                        @php
-                                            $mula = date('d/m/Y', strtotime($permohonan->tarikhMulaCuti));
-                                        @endphp
-                                        <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" id="datepicker5"
-                                            name="tarikhMulaCuti" value="{{ $permohonan->tarikhMulaCuti }}">
+                                        <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
+                                             name="tarikhMulaCuti"
+                                            value="{{ \Carbon\Carbon::parse($permohonan->tarikhMulaCuti)->format('d-m-Y') }}">
                                     </div>
                                 </div>
                             </div>
@@ -267,11 +269,10 @@
                                 <div class="form-group">
                                     <label><i class="fa fa-calendar"></i> Tarikh Akhir Cuti</label>
                                     <div class="input-group date">
-                                        @php
-                                            $akhir = date('d/m/Y', strtotime($permohonan->tarikhAkhirCuti));
-                                        @endphp
-                                        <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" id="datepicker6"
-                                            name="tarikhAkhirCuti" value="{{ $permohonan->tarikhAkhirCuti }}">
+                                       
+                                        <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
+                                             name="tarikhAkhirCuti"
+                                            value="{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d-m-Y') }}">
                                     </div>
                                 </div>
                             </div>
@@ -279,11 +280,10 @@
                                 <div class="form-group">
                                     <label><i class="fa fa-calendar"></i> Tarikh Kembali Bertugas</label>
                                     <div class="input-group date">
-                                        @php
-                                            $kembali = date('d/m/Y', strtotime($permohonan->tarikhKembaliBertugas));
-                                        @endphp
-                                        <input type="date"  pattern="\d{4}-\d{2}-\d{2}" class="form-control pull-right" id="datepicker7"
-                                            name="tarikhKembaliBertugas" value="{{ $permohonan->tarikhKembaliBertugas }}">
+                                      
+                                        <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
+                                            name="tarikhKembaliBertugas"
+                                            value="{{ \Carbon\Carbon::parse($permohonan->tarikhKembaliBertugas)->format('d-m-Y') }}">
                                     </div>
                                 </div>
                             </div>
@@ -301,16 +301,16 @@
                                 @if (is_null($permohonan->namaFileCuti))
                                     <label class="label label-warning">Tiada Dokumen</label>
                                 @else
-                                <div class="mt-2">
-                                    <a class="btn btn-sm btn-info"
-                                        href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">
-                                        <i class="fa fa-download"></i> Dokumen Cuti
-                                    </a>
-                                    <a
-                                        href="{{ route('detailPermohonan.deleteFileCuti', ['id' => $permohonan->permohonansID]) }}">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
+                                    <div class="mt-2">
+                                        <a class="btn btn-sm btn-info"
+                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">
+                                            <i class="fa fa-download"></i> Dokumen Cuti
+                                        </a>
+                                        <a
+                                            href="{{ route('detailPermohonan.deleteFileCuti', ['id' => $permohonan->permohonansID]) }}">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -320,7 +320,7 @@
             <div class="text-center">
                 @if ($typeForm == 'rasmi')
                     <input type="hidden" name="jenisPermohonan" value="Rasmi">
-                @elseif($typeForm =="tidakRasmi")
+                @elseif($typeForm == 'tidakRasmi')
                     <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
                 @endif
                 <input type="hidden" name="pasanganID" value="{{ $permohonan->pasanganPermohonan->pasangansID }}">
@@ -371,26 +371,10 @@
                 }
             )
             //Date picker
-            $('#datepicker').datepicker({
+            $('.datepicker').datepicker({
                 autoclose: true,
-            })
-            $('#datepicker2').datepicker({
-                autoclose: true
-            })
-            $('#datepicker3').datepicker({
-                autoclose: true
-            })
-            $('#datepicker4').datepicker({
-                autoclose: true
-            })
-            $('#datepicker5').datepicker({
-                autoclose: true
-            })
-            $('#datepicker6').datepicker({
-                autoclose: true
-            })
-            $('#datepicker7').datepicker({
-                autoclose: true
+                format: 'dd-mm-yyyy',
+                orientation: "bottom",
             })
         })
     </script>
