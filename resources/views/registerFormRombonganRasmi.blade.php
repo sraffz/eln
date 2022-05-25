@@ -6,8 +6,7 @@
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap datepicker -->
-    <link rel="stylesheet"
-        href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css') }}">
 @endsection
@@ -29,7 +28,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftar-rombongan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftar-rombongan', $userDetail->usersID], 'class' => 'form-horizontal','autocomplete' => 'off' , 'enctype' => 'multipart/form-data']) !!}
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
@@ -60,22 +59,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran </label>
-                                <input type="date" class="form-control" name="tarikhInsuranRom"
+                                <input type="text" class="form-control datepicker" name="tarikhInsuranRom"
                                     value="{{ old('tarikhInsuranRom') }}">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <!-- text input -->
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan<span
                                                 style="color:red;">**</span></label>
-                                        <input type="date" class="form-control reservation" id="tarikhMulaRom" name="tarikhMulaRom"
+                                        <input type="text" class="form-control datepicker" id="tarikhMulaRom" name="tarikhMulaRom"
                                             value="{{ old('tarikhMulaRom') }}" required>
                                     </div>
                                     
@@ -84,7 +83,7 @@
                                     <div class="form-group">
                                         <label><i class="fas fa-calendar"></i> Tarikh Akhir Rombongan<span
                                                 style="color:red;">**</span></label>
-                                        <input type="date" class="form-control reservation" id="tarikhAkhirRom" name="tarikhAkhirRom"
+                                        <input type="text" class="form-control datepicker" id="tarikhAkhirRom" name="tarikhAkhirRom"
                                             value="{{ old('tarikhAkhirRom') }}" required>
                                     </div>
                                 </div>
@@ -201,21 +200,21 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
-                                <input type="date" class="form-control" id="tarikhMulaCuti" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
+                                <input type="text" class="form-control datepicker" id="tarikhMulaCuti" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                <input type="date" class="form-control" id="tarikhAkhirCuti" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                <input type="text" class="form-control datepicker" id="tarikhAkhirCuti" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="date" class="form-control" id="tarikhKembaliBertugas" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                <input type="text" class="form-control datepicker" id="tarikhKembaliBertugas" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -279,8 +278,9 @@
                 }
             )
             //Date picker
-            $('#datepicker').datepicker({
-                autoclose: true
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'd-m-yyyy'
             })
         })
     </script>

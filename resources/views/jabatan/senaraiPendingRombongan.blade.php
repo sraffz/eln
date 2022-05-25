@@ -219,7 +219,13 @@
                                                                 <a href="{{ route('cetak-butiran-rombongan', [$rombo->rombongans_id]) }}"
                                                                     class="btn btn-dark btn-xs">
                                                                     <i class="fa fa-print"></i>
-                                                                </a>
+                                                                </a> 
+                                                                <hr class="mt-1 mb-1">
+                                                                @foreach ($dokumen as $doc)
+                                                                    @if ($rombo->rombongans_id == $doc->rombongans_id)
+                                                                        <a class="btn btn-xs btn-primary" href="{{ route('detailPermohonanDokumen.download', ['id' => $doc->dokumens_id]) }}" target="blank"><i class="far fa-file-alt"></i></a>
+                                                                    @endif
+                                                                @endforeach
                                                             @elseif($rombo->statusPermohonanRom == 'Diluluskan')
                                                                 <span class="badge badge-success">Diluluskan</span>
                                                             @elseif($rombo->statusPermohonanRom == 'Permohonan Diluluskan' or $rombo->statusPermohonanRom == 'Permohonan Ditolak' or $rombo->statusPermohonanRom == 'Lulus Semakan')

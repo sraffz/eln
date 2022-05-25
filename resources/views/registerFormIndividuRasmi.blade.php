@@ -3,6 +3,9 @@
 @section('title', 'Permohonan Individu')
 
 @section('link')
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet"
+        href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @endsection
 
 @section('content')
@@ -13,7 +16,7 @@
                 <div class="col-sm-6">
                     @if ($typeForm == 'rasmi')
                         <h3 class="box-title">Borang Pemohonan Rasmi</h3>
-                    @elseif($typeForm =="tidakRasmi")
+                    @elseif($typeForm == 'tidakRasmi')
                         <h3 class="box-title">Borang Pemohonan Tidak Rasmi</h3>
                     @endif
                     {{-- <h1>Borang Permohonan (Rasmi)</h1> --}}
@@ -25,10 +28,10 @@
                     </ol>
                 </div>
             </div>
-        </div> 
+        </div>
     </section>
     {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftarPermohonan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'autocomplete' => 'off']) !!}
-    
+
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
@@ -46,7 +49,8 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
                                 {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
-                                <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikh" value="{{ old('tarikh') }}">
+                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}" name="tarikh"
+                                    value="{{ old('tarikh') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -54,7 +58,8 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Perjalanan<span
                                         style="color:red;">*</span></label>
-                                <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhMula" value="{{ old('tarikhMula') }}" required>
+                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
+                                    name="tarikhMula" value="{{ old('tarikhMula') }}" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -62,16 +67,18 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Akhir Perjalanan<span
                                         style="color:red;">*</span></label>
-                                <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" required>
+                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
+                                    name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" required>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label><i class="fas fa-globe"></i> Negara<span style="color:red;">*</span></label>
-                                <select class="form-control select2bs4" name="negara" style="width: 100%;"
-                                    required>
+                                <select class="form-control select2bs4" name="negara" style="width: 100%;" required>
                                     @foreach ($negara as $jaw)
-                                        <option value="{{ $jaw->namaNegara }}" {{ $jaw->namaNegara == old('negara') ? 'selected' : '' }}>{{ $jaw->namaNegara }}</option>
+                                        <option value="{{ $jaw->namaNegara }}"
+                                            {{ $jaw->namaNegara == old('negara') ? 'selected' : '' }}>
+                                            {{ $jaw->namaNegara }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -83,13 +90,15 @@
                                 <div class="form-group">
                                     <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
                                             style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}" required>
+                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}"
+                                        required>
                                 </div>
-                            @elseif($typeForm =="tidakRasmi")
+                            @elseif($typeForm == 'tidakRasmi')
                                 <div class="form-group">
                                     <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
                                             style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}" required>
+                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}"
+                                        required>
                                 </div>
                             @endif
                             <!-- text input -->
@@ -99,13 +108,15 @@
                             <div class="form-group">
                                 <label><i class="fa fa-edit"> </i> Alamat semasa bertugas / bercuti <span
                                         style="color:red;">*</span></label>
-                                <input type="text" name="alamat" class="form-control" value="{{ old('alamat') }}" placeholder="">
+                                <input type="text" name="alamat" class="form-control" value="{{ old('alamat') }}"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label><i class="fa fa-phone"> </i> No. Telefon<span style="color:red;">*</span></label>
-                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" data-inputmask='"mask": "999-99999999"' data-mask>
+                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}"
+                                    data-inputmask='"mask": "999-99999999"' data-mask>
                             </div>
                         </div>
                     </div>
@@ -117,31 +128,42 @@
                                             style="color:red;">*</span></label>
                                     <select class="form-control" id="jenisKewangan" name="jenisKewangan"
                                         required="required">
-                                        <option value="Kerajaan" {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>Kerajaan</option>
-                                        <option value="Federal" {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>Federal</option>
-                                        <option value="Persendirian" {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian</option>
-                                        <option value="Jabatan" {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>Jabatan</option>
-                                        <option value="Syarikat" {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>Syarikat</option>
-                                        <option value="lain-lain" {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain</option>
+                                        <option value="Kerajaan"
+                                            {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>Kerajaan</option>
+                                        <option value="Federal"
+                                            {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>Federal</option>
+                                        <option value="Persendirian"
+                                            {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian
+                                        </option>
+                                        <option value="Jabatan"
+                                            {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>Jabatan</option>
+                                        <option value="Syarikat"
+                                            {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>Syarikat</option>
+                                        <option value="lain-lain"
+                                            {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain
+                                        </option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span style="color:red;">*</span></label>
+                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span
+                                        style="color:red;">*</span></label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="fileRasmi[]" id="exampleInputFile" multiple>
+                                    <input type="file" class="custom-file-input" name="fileRasmi[]" id="exampleInputFile"
+                                        multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                 </div>
                             </div>
-                        @elseif($typeForm =="tidakRasmi")
+                        @elseif($typeForm == 'tidakRasmi')
                             <input type="hidden" name="jenisKewangan" value="Persendirian">
                         @endif
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                              <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
+                                <label for="catatan_permohonan">Catatan</label>
+                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan"
+                                    rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -159,14 +181,16 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-user"></i> Nama Pasangan</label>
-                                <input type="text" name="namaPasangan" class="form-control" placeholder="" value="{{ old('namaPasangan') }}">
+                                <input type="text" name="namaPasangan" class="form-control" placeholder=""
+                                    value="{{ old('namaPasangan') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-user-friends"></i> Hubungan</label>
-                                <input type="text" name="hubungan" class="form-control" placeholder="" value="{{ old('hubungan') }}">
+                                <input type="text" name="hubungan" class="form-control" placeholder=""
+                                    value="{{ old('hubungan') }}">
                             </div>
                         </div>
                     </div>
@@ -175,14 +199,16 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
-                                <input type="text" name="phonePasangan" class="form-control" value="{{ old('phonePasangan') }}" data-mask>
+                                <input type="text" name="phonePasangan" class="form-control"
+                                    value="{{ old('phonePasangan') }}" data-mask>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-envelope"></i> Email Pasangan (Jika Ada)</label>
-                                <input type="email" name="emailPasangan" class="form-control" placeholder="" value="{{ old('emailPasangan') }}">
+                                <input type="email" name="emailPasangan" class="form-control" placeholder=""
+                                    value="{{ old('emailPasangan') }}">
                             </div>
                         </div>
                     </div>
@@ -211,21 +237,24 @@
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
-                                    <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}" required>
+                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
+                                        name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}" required>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                    <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}" required>
+                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
+                                        name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}" required>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                    <input type="date" class="form-control" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}" required>
+                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}" name="tarikhKembaliBertugas"
+                                        value="{{ old('tarikhKembaliBertugas') }}" required>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -233,7 +262,8 @@
                                 <div class="form-group">
                                     <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="fileCuti[]" id="exampleInputFile" multiple>
+                                        <input type="file" class="custom-file-input" name="fileCuti[]"
+                                            id="exampleInputFile" multiple>
                                         <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                     </div>
                                 </div>
@@ -265,7 +295,7 @@
                         <div class="col-md-12 text-center">
                             @if ($typeForm == 'rasmi')
                                 <input type="hidden" name="jenisPermohonan" value="Rasmi">
-                            @elseif($typeForm =="tidakRasmi")
+                            @elseif($typeForm == 'tidakRasmi')
                                 <input type="hidden" name="jenisPermohonan" value="Tidak Rasmi">
                             @endif
                             <div class="">
@@ -284,9 +314,16 @@
 @endsection
 
 @section('script')
-<script>
-     $(function() {
-           
+    <!-- bootstrap datepicker -->
+    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy',
+            orientation: "bottom",
+        })
+
+        $(function() {
             //Date picker
             $('#reservationdate').datetimepicker({
                 format: 'L'
@@ -298,11 +335,11 @@
                     format: 'MM/DD/YYYY'
                 }
             })
-        
+
             //Timepicker
             $('#timepicker').datetimepicker({
                 format: 'LT'
             });
         });
-</script>
+    </script>
 @endsection

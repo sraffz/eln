@@ -93,16 +93,15 @@
                                                 <td class="text-center">
                                                     @if ($mohonan->statusPermohonan == 'simpanan')
                                                         <span class="badge badge-info">Deraf</span>
-                                                    {{-- @elseif($mohonan->statusPermohonan =="Lulus Semakan BPSM")
-                                                        <span class="badge badge-info">Disokong Ketua Jabatan</span> --}}
+                                                    @elseif($mohonan->statusPermohonan =="Lulus Semakan BPSM")
+                                                        <span class="badge badge-primary">Disokong</span>
                                                     @else
-                                                        <span
-                                                            class="badge badge-info">Dihantar</span>
+                                                        <span class="badge badge-info">Dihantar</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Pending')
-                                                        <span class="badge badge-warning">Pending</span>
+                                                        <span class="badge badge-warning">Dihantar</span>
                                                     @elseif($mohonan->statusPermohonan == 'simpanan')
                                                         <a href="{{ url('hantar-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-success btn-xs"
@@ -123,7 +122,7 @@
                                                     @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                         <span class="badge badge-danger">Gagal</span>
                                                     @else
-                                                        <span class="badge badge-primary">Tiada</span>
+                                                        <span class="badge badge-dark">Tiada</span>
                                                     @endif
                                                 </td>
                                         @endforeach
@@ -212,13 +211,15 @@
                                                     <span class="badge badge-primary">Disokong</span>
                                                     @elseif ($rombo->statusPermohonanRom == 'simpanan')
                                                     <span class="badge badge-info">Baru</span>
+                                                    @elseif ($rombo->statusPermohonanRom == 'Pending')
+                                                    <span class="badge badge-info">Dihantar</span>
                                                     @else
                                                     <span class="badge badge-info">{{ $rombo->statusPermohonanRom }}</span>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
-                                                        <span class="badge badge-warning">Pending</span>
+                                                        <span class="badge badge-dark">Tiada</span>
                                                     @elseif($rombo->statusPermohonanRom == 'simpanan')
                                                         <a href="{{ url('hantarRombongan', [$rombo->rombongans_id]) }}"
                                                             class="btn btn-success btn-xs"

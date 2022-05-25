@@ -325,9 +325,9 @@ class AdminController extends Controller
         $id = $req->input('id');
 
         Rombongan::where('rombongans_id', $id)->update([
-            'tarikhInsuranRom' => $req->input('tarikhInsuranRom'),
-            'tarikhMulaRom' => $req->input('tarikhmula'),
-            'tarikhAkhirRom' => $req->input('tarikhakhir'),
+            'tarikhInsuranRom' => Carbon::parse($req->input('tarikhInsuranRom'))->format('Y-m-d'),
+            'tarikhMulaRom' => Carbon::parse($req->input('tarikhmula'))->format('Y-m-d'),
+            'tarikhAkhirRom' => Carbon::parse($req->input('tarikhakhir'))->format('Y-m-d'),
             'negaraRom' => $req->input('negaraRom'),
             'tujuanRom' => $req->input('tujuanRom'),
             'catatan_permohonan' => $req->input('catatan_permohonan'),
@@ -338,54 +338,56 @@ class AdminController extends Controller
             'alamatRom' => $req->input('alamatRom'),
         ]);
 
-        if ($req->hasFile('fileRasmiRom')) {
-            $files = $req->file('fileRasmiRom');
-    
-            foreach ($files as $file) {
-                $filename = $file->hashName();
-                $extension = $file->getClientOriginalExtension();
-    
-                if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
-                    $currYear = Carbon::now()->format('Y');
-                    $storagePath = 'upload/dokumen/' . $currYear. '/rombongan/rasmi/' .$id.'';
-                    $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
-    
-                    $upload_success = $file->storeAs($storagePath, $filename);
-    
-                    if ($upload_success) {
-                        $perm = Permohonan::findOrFail($id);
-                        if (is_null($perm->pathFileCuti)) {
-                            $data = [
-                                'namaFile' => $filename,
-                                'typeFile' => $extension,
-                                'pathFile' => $filePath,
-                                'rombongans_id' => $id,
-                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                            ];
-                            Dokumen::create($data);
+        if ($req->input('jenis_rombongan') == 'Rasmi') {
+             if ($req->hasFile('fileRasmiRom')) {
+                $files = $req->file('fileRasmiRom');
+                
+                foreach ($files as $file) {
+                    $filename = $file->hashName();
+                    $extension = $file->getClientOriginalExtension();
+        
+                    if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
+                        $currYear = Carbon::now()->format('Y');
+                        $storagePath = 'upload/dokumen/' . $currYear. '/rombongan/rasmi/' .$id.'';
+                        $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
+        
+                        $upload_success = $file->storeAs($storagePath, $filename);
+        
+                        if ($upload_success) {
+                            $perm = Dokumen::where('rombongans_id',$id)->first();
+                            if (empty($perm->pathFile)) {
+                                $data = [
+                                    'namaFile' => $filename,
+                                    'typeFile' => $extension,
+                                    'pathFile' => $filePath,
+                                    'rombongans_id' => $id,
+                                    'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                    'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                                ];
+                                Dokumen::create($data);
+                            } else {
+                                Storage::Delete($perm->pathFile);
+        
+                                Dokumen::where('rombongans_id', $id)->update([
+                                    'namaFile' => $filename,
+                                    'typeFile' => $extension,
+                                    'pathFile' => $filePath,
+                                    'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                    'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                                ]);
+                            }
                         } else {
-                            // unlink(storage_path($perm->pathFileCuti));
-                            Storage::Delete($perm->pathFileCuti);
-    
-                            Dokumen::where('rombongans_id', $id)->update([
-                                'namaFile' => $filename,
-                                'typeFile' => $extension,
-                                'pathFile' => $filePath,
-                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                            ]);
+                            Flash::error('Error uploading ' . $doc_type);
+                            return redirect('');
                         }
                     } else {
-                        Flash::error('Error uploading ' . $doc_type);
+                        echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
                         return redirect('');
                     }
-                } else {
-                    echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                    return redirect('');
                 }
             }
         }
+
         // flash('Maklumat dikemaskini.')->success();
         toast('Maklumat dikemaskini', 'success')->position('top-end');
 
@@ -1242,6 +1244,8 @@ class AdminController extends Controller
             ->get();
         }
 
+        $dokumen = Dokumen::all();
+
         // if ($jab == 44) {
         //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tpermohonan')
         //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
@@ -1258,7 +1262,7 @@ class AdminController extends Controller
         //         ->get();
         // }
         
-        return view('jabatan.senaraiPermohonanJabatan', compact('permohonan'));
+        return view('jabatan.senaraiPermohonanJabatan', compact('permohonan', 'dokumen'));
     }
 
     public function senaraiPermohonanLepas()

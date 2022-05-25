@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    {{-- <link rel="stylesheet" href="{{ asset('adminlte/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <!-- Select2 -->
     {{-- <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}"> --}}
 @endsection
@@ -34,8 +34,8 @@
                                             <div class="form-group">
                                                 <label><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
                                                 <div class="input-group date">
-                                                    <input type="date" class="form-control pull-right"name="tarikhInsuranRom" 
-                                                        value="{{ $rmbgn->tarikhInsuranRom->format('Y-m-d') }}">
+                                                    <input type="text" class="form-control pull-right datepicker"name="tarikhInsuranRom" 
+                                                        value="{{ $rmbgn->tarikhInsuranRom->format('d-m-Y') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -44,8 +44,8 @@
                                                 <label><i class="fa fa-calendar"></i> Tarikh Mula Rombongan</label>
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                        <input type="date" class="form-control" name="tarikhmula"
-                                                            value="{{ $rmbgn->tarikhMulaRom->format('Y-m-d') }}">
+                                                        <input type="text" class="form-control datepicker" name="tarikhmula"
+                                                            value="{{ $rmbgn->tarikhMulaRom->format('d-m-Y') }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -55,8 +55,8 @@
                                                 <label><i class="fa fa-calendar"></i> Tarikh Akhir Rombongan</label>
                                                 <div class="form-group">
                                                     <div class="input-group">
-                                                        <input type="date" class="form-control" name="tarikhakhir"
-                                                            value="{{ $rmbgn->tarikhAkhirRom->format('Y-m-d') }}">
+                                                        <input type="text" class="form-control datepicker" name="tarikhakhir"
+                                                            value="{{ $rmbgn->tarikhAkhirRom->format('d-m-Y') }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -278,7 +278,7 @@
     <script src="{{ asset('adminlte/plugins/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <!-- bootstrap datepicker -->
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}">
 
     <script>
         $('#mdl-kemaskini').on('show.bs.modal', function(event) {
@@ -326,25 +326,30 @@
 
         });
 
-        $(function() {
-            $("#datepicker").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'yy-mm-dd'
-            });
+        $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'd-m-yyyy'
+            })
 
-            $("#datepicker1").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'yy-mm-dd'
-            });
+        // $(function() {
+        //     $("#datepicker").datepicker({
+        //         changeMonth: true,
+        //         changeYear: true,
+        //         dateFormat: 'yy-mm-dd'
+        //     });
 
-            $("#datepicker2").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'yy-mm-dd'
-            });
-        });
+        //     $("#datepicker1").datepicker({
+        //         changeMonth: true,
+        //         changeYear: true,
+        //         dateFormat: 'yy-mm-dd'
+        //     });
+
+        //     $("#datepicker2").datepicker({
+        //         changeMonth: true,
+        //         changeYear: true,
+        //         dateFormat: 'yy-mm-dd'
+        //     });
+        // });
     </script>
 
 @endsection

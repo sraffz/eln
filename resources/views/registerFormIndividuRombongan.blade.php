@@ -32,7 +32,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['sertai-rombongan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['sertai-rombongan', $userDetail->usersID], 'class' => 'form-horizontal', 'autocomplete' => 'off', 'enctype' => 'multipart/form-data']) !!}
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
@@ -62,28 +62,47 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Mula dan Akhir Cuti</label>
-                                <input type="text" class="form-control" id="reservation" name="tarikhmulaAkhirCuti" value="{{ old('tarikhmulaAkhirCuti') }}">
+                                <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
+                                <input type="text" class="form-control datepicker {{ $errors->has('tarikhMulaCuti') ? 'is-invalid' : '' }}" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
+                                @if ($errors->has('tarikhMulaCuti'))
+                                    <span class="error invalid-feedback">Tarikh diperlukan</span>
+                                @endif
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
+                                <input type="text" class="form-control datepicker {{ $errors->has('tarikhAkhirCuti') ? 'is-invalid' : '' }}" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                @if ($errors->has('tarikhAkhirCuti'))
+                                    <span class="error invalid-feedback">Tarikh diperlukan</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="date" class="form-control" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                <input type="text" class="form-control datepicker {{ $errors->has('tarikhKembaliBertugas') ? 'is-invalid' : '' }}" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                @if ($errors->has('tarikhKembaliBertugas'))
+                                    <span class="error invalid-feedback">Tarikh kembali bertugas diperlukan</span>
+                                @endif
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="fileCuti[]" id="exampleInputFile"
+                                    <input type="file" class="custom-file-input {{ $errors->has('fileCuti') ? 'is-invalid' : '' }}" name="fileCuti[]" id="exampleInputFile"
                                         multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                    @if ($errors->has('fileCuti'))
+                                    <span class="error invalid-feedback">Dokumen perlu dimuat naik</span>
+                                @endif
                                 </div>
                             </div>
                         </div>
@@ -170,8 +189,9 @@
                 }
             )
             //Date picker
-            $('#datepicker').datepicker({
-                autoclose: true
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'd-m-yyyy'
             })
         })
     </script>

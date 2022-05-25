@@ -54,14 +54,14 @@
                 @if (Auth::user()->role == 'pengguna')
                 <li class="nav-item">
                     <a href="{{ url('panduan-pengguna') }}" class="nav-link">
-                        <i class="nav-icon fas fa-id-card"></i>
+                        <i class="nav-icon fas fa-book-open"></i>
                         <p class="text">Panduan Pengguna</p>
                     </a>
                 </li>
                 @elseif (Auth::user()->role == "jabatan")
                 <li class="nav-item">
                     <a href="{{ url('panduan-penggunaKetua') }}" class="nav-link">
-                        <i class="nav-icon fas fa-id-card"></i>
+                        <i class="nav-icon fas fa-book-open"></i>
                         <p class="text">Panduan Pengguna</p>
                     </a>
                 </li>
