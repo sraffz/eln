@@ -113,7 +113,6 @@ desired effect
                                 <div class="modal-body">
                                     <div class="container-fluid">
                                         {{ csrf_field() }}
-
                                         <div class="form-group">
                                             <label for="password">Kata Laluan Baru</label>
                                             <input type="password"
