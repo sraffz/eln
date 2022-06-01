@@ -51,7 +51,7 @@ class PermohonanBerjaya extends Notification
     {
         
         return (new MailMessage)
-            ->subject('eKeluarnegara: Permohonan Keluar Negara Anda Telah Berjaya')
+            ->subject('eLuarNegara: Permohonan Keluar Negara Anda Telah Berjaya')
             ->greeting('Assalamualaikum / Selamat Sejahtera')
             ->line("Negara: $this->negara")
             ->line("Tarikh Perjalan: $this->tarikhMulaPerjalanan")

@@ -13,7 +13,7 @@ use App\Notifications\PermohonanBerjaya;
 use DB;
 use PDF;
 use Auth;
-use Notification;
+use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use Alert;
 
@@ -130,6 +130,9 @@ class KetuaController extends Controller
             'created_at' => \Carbon\Carbon::now(), # new \Datetime()
             'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
         ]);
+
+        
+        Notification::send($user, new PermohonanBerjaya($user));
 
         // dd($tarikhMulaPerjalanan);
         Permohonan::where('permohonansID', '=', $id)->update([

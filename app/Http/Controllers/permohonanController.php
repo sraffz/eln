@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 
 use App\Negara;
@@ -23,6 +23,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
+use App\Notifications\SenaraiSokongan;
+use Illuminate\Notifications\Notifiable;
 
 class permohonanController extends Controller
 {
@@ -1882,5 +1884,18 @@ class permohonanController extends Controller
 
         flash('Permohonan Ditolak.')->success();
         return redirect()->back();
+    }
+
+    public function sendEmail()
+    {
+        $user = User::where('usersID', Auth::user()->usersID)->get();
+
+        // dd($user);
+
+        Notification::send($user, new SenaraiSokongan($user));
+
+        // Notification::route('mail', $user)->notify(new SenaraiSokongan($user));
+
+        // $mail->notify(new SenaraiSokongan($user));
     }
 }

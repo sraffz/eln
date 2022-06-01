@@ -35,6 +35,7 @@ Route::get('/logout', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+	Route::get('send', 'permohonanController@sendEmail');
 	Route::get('/', 'permohonanController@index2')->name('halamanUtama');
 	Route::get('kemaskini-permohonan-individu/{id}', 'permohonanController@kemaskiniPermohonan');
 	// Route::POST('/proLogin','LoginController@proLogin');
