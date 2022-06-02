@@ -41,9 +41,10 @@ class SenaraiSokonganRombongan extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Sokongan Permohonan Rombongan Keluar Negara')
+            ->line('Makluman,Terdapat permohonan rombongan untuk keluar negara daripada pegawai/kakitangan pejabat tuan yang memerlukan sokongan.')
+            ->action('Sokong permohonan', url('/senaraiPendingRombongan'))
+            ->line('Sekian, terima kasih.');
     }
 
     /**

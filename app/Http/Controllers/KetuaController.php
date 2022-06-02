@@ -9,13 +9,20 @@ use App\Rombongan;
 use App\User;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
-use App\Notifications\PermohonanBerjaya;
 use DB;
 use PDF;
 use Auth;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use Alert;
+
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\SenaraiSokongan;
+use App\Notifications\SenaraiSokonganRombongan;
+use App\Notifications\SenaraiKelulusan;
+use App\Notifications\SenaraiKelulusanRombongan;
+use App\Notifications\PermohonanBerjaya;
+use App\Notifications\KeputusanPermohonan;
 
 class KetuaController extends Controller
 {
@@ -88,57 +95,60 @@ class KetuaController extends Controller
             ->with('user')
             ->first();
 
-        $emailnakHantar = $ruj->user;
+        $emailnakHantar = $ruj->user->email;
+
+        // dd($emailnakHantar);
         $negara = $ruj->negara;
         $tarikhMulaPerjalanan = Carbon::parse($ruj->tarikhMulaPerjalanan)->format('d-m-Y');
         $tarikhAkhirPerjalanan = Carbon::parse($ruj->tarikhAkhirPerjalanan)->format('d-m-Y');
         $nokp = $ruj->user->nokp;
         $nama = $ruj->user->nama;
 
-        $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)->first();
+        Notification::send($ruj, new PermohonanBerjaya($ruj, $negara, $tarikhMulaPerjalanan, $tarikhAkhirPerjalanan, $nokp, $nama));
 
-        $pelulus = User::with('userJabatan')
-            // ->with('userJawatan')
-            ->where('usersID', '=', Auth::user()->usersID)
-            ->first();
+        // $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)->first();
 
-        $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
+        // $pelulus = User::with('userJabatan')
+        //     // ->with('userJawatan')
+        //     ->where('usersID', '=', Auth::user()->usersID)
+        //     ->first();
 
-        if (!empty($rujukan)) {
-            if ($rujukan->no_surat < 100) {
-                $jld = $rujukan->jilid;
-                $no = $rujukan->no_surat + 1;
-            } else {
-                $jld = $rujukan->jilid + 1;
-                $no = 1;
-            }
-        } else {
-            $jld = 1;
-            $no = 1;
-        }
-        // dd($no, $jld);
-        $idl = Eln_kelulusan::insertGetId([
-            'id_pengesahan' => $pengesahan->id,
-            'id_pelulus' => Auth::user()->usersID,
-            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
-            'ulasan' => 'tiada',
-            'status_kelulusan' => 'Berjaya',
-            'jilid' => $jld,
-            'no_surat' => $no,
-            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-        ]);
+        // $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
+
+        // if (!empty($rujukan)) {
+        //     if ($rujukan->no_surat < 100) {
+        //         $jld = $rujukan->jilid;
+        //         $no = $rujukan->no_surat + 1;
+        //     } else {
+        //         $jld = $rujukan->jilid + 1;
+        //         $no = 1;
+        //     }
+        // } else {
+        //     $jld = 1;
+        //     $no = 1;
+        // }
+        // // dd($no, $jld);
+        // $idl = Eln_kelulusan::insertGetId([
+        //     'id_pengesahan' => $pengesahan->id,
+        //     'id_pelulus' => Auth::user()->usersID,
+        //     'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+        //     'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
+        //     'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
+        //     'ulasan' => 'tiada',
+        //     'status_kelulusan' => 'Berjaya',
+        //     'jilid' => $jld,
+        //     'no_surat' => $no,
+        //     'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+        //     'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+        // ]);
 
         
-        Notification::send($user, new PermohonanBerjaya($user));
-
-        // dd($tarikhMulaPerjalanan);
-        Permohonan::where('permohonansID', '=', $id)->update([
-            'statusPermohonan' => $ubah,
-            'tarikhLulusan' => \Carbon\Carbon::now(),
-        ]);
+    
+        // // dd($tarikhMulaPerjalanan);
+        // Permohonan::where('permohonansID', '=', $id)->update([
+        //     'statusPermohonan' => $ubah,
+        //     'tarikhLulusan' => \Carbon\Carbon::now(),
+        // ]);
 
         // flash('Permohonan Diluluskan.')->success();
         toast('Permohonan Diluluskan', 'success')->position('top-end');

@@ -23,8 +23,14 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
-use App\Notifications\SenaraiSokongan;
+
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\SenaraiSokongan;
+use App\Notifications\SenaraiSokonganRombongan;
+use App\Notifications\SenaraiKelulusan;
+use App\Notifications\SenaraiKelulusanRombongan;
+use App\Notifications\PermohonanBerjaya;
+use App\Notifications\KeputusanPermohonan;
 
 class permohonanController extends Controller
 {
@@ -1889,13 +1895,15 @@ class permohonanController extends Controller
     public function sendEmail()
     {
         $user = User::where('usersID', Auth::user()->usersID)->get();
-
-        // dd($user);
-
+        dd($user);
         Notification::send($user, new SenaraiSokongan($user));
 
-        // Notification::route('mail', $user)->notify(new SenaraiSokongan($user));
+        Notification::send($user, new SenaraiSokonganRombongan($user));
 
-        // $mail->notify(new SenaraiSokongan($user));
+        Notification::send($user, new SenaraiKelulusan($user));
+        Notification::send($user, new SenaraiKelulusanRombongan($user));
+
+        Notification::send($user, new KeputusanPermohonan($user));
+        // Notification::send($user, new PermohonanBerjaya($user));
     }
 }
