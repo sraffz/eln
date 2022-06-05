@@ -34,6 +34,11 @@ class User extends Authenticatable
     //     //return $this->hasMany(Post::'user_id','id');//sama gak nga atas...user_id nie foreign key dan id itu primary key
     }
 
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
+
     public function userJabatan()
     {
         return $this->belongsTo(Jabatan::class, 'jabatan', 'jabatan_id');

@@ -1896,6 +1896,7 @@ class permohonanController extends Controller
     {
         $user = User::where('usersID', Auth::user()->usersID)->get();
         dd($user);
+        
         Notification::send($user, new SenaraiSokongan($user));
 
         Notification::send($user, new SenaraiSokonganRombongan($user));

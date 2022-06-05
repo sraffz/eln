@@ -7,19 +7,18 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PermohonanBerjaya extends Notification  
+class PeermohonanBerjaya1 extends Notification
 {
+    use Queueable;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
- 
-    private $butiran;
-
-    public function __construct($butiran)
+    public function __construct()
     {
-       $this->butiran=$butiran;        
+        //
     }
 
     /**
@@ -41,19 +40,7 @@ class PermohonanBerjaya extends Notification
      */
     public function toMail($notifiable)
     {
-        $negara = $this->butiran['negara'];
-        $tarikhMulaPerjalanan = $this->butiran['tarikhMulaPerjalanan'];
-        $tarikhAkhirPerjalanan = $this->butiran['tarikhAkhirPerjalanan'];
-        $nama = $this->butiran['nama'];
-        $nokp = $this->butiran['nokp'];
-        
-        return (new MailMessage)->markdown('mail.permohonan.berjaya', [
-            'negara' => $negara,
-            'tarikhMulaPerjalanan' => $tarikhMulaPerjalanan,
-            'tarikhAkhirPerjalanan' => $tarikhAkhirPerjalanan,
-            'nama' => $nama,
-            'nokp' => $nokp,
-        ]);     
+        return (new MailMessage)->markdown('mail.permohonan.berjaya');
     }
 
     /**
@@ -65,7 +52,7 @@ class PermohonanBerjaya extends Notification
     public function toArray($notifiable)
     {
         return [
-            
+            //
         ];
     }
 }
