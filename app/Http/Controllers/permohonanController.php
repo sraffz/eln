@@ -439,6 +439,9 @@ class permohonanController extends Controller
 
         $length = $end->diffInDays($nowsaa);
 
+        $suk = User::where('role', 'DatoSUK')->get();
+        // Notification::send($suk, new SenaraiKelulusan($suk));
+
         // return dd($length);
         $statusPermohonan = 'simpanan';
 
@@ -1000,6 +1003,8 @@ class permohonanController extends Controller
             ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
             ->count();
 
+        $suk = User::where('role', 'DatoSUK')->get();        
+
         // dd($bil, $id, $rombo->rombongans_id);
 
         if ($rombo == null) {
@@ -1054,6 +1059,8 @@ class permohonanController extends Controller
                                 'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                             ];
                             Permohonan::create($data);
+
+                            Notification::send($user, new SenaraiSokongan($user));
                         } elseif ($statusJawatan == 'Aktif') {
                             $statusPermohonan = 'Lulus Semakan BPSM';
     
@@ -1096,6 +1103,8 @@ class permohonanController extends Controller
                                 'created_at' => \Carbon\Carbon::now(), # new \Datetime()
                                 'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
                             ]);
+
+                            Notification::send($suk, new SenaraiKelulusan($suk));
                         }
                         // flash('Permohonan berjaya didaftar.')->success();
                         Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
@@ -1154,6 +1163,9 @@ class permohonanController extends Controller
                                                 'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                                             ];
                                             Permohonan::create($data);
+
+                                            Notification::send($user, new SenaraiSokongan($user));
+
                                         } elseif ($statusJawatan == 'Aktif') {
                                             $statusPermohonan = 'Lulus Semakan BPSM';
     
@@ -1200,6 +1212,8 @@ class permohonanController extends Controller
                                                 'created_at' => \Carbon\Carbon::now(), # new \Datetime()
                                                 'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
                                             ]);
+
+                                            Notification::send($suk, new SenaraiKelulusan($suk));
                                         }
     
                                         // $data = [
@@ -1290,7 +1304,7 @@ class permohonanController extends Controller
         ->get();
 
         // dd($user);
-        
+        $suk = User::where('role', 'DatoSUK')->get();
 
         if ($status == 'Rasmi') {
             if ($dokumenRasmi == 0) {
@@ -1299,7 +1313,10 @@ class permohonanController extends Controller
             } else {
                 if ($statusJawatan == 'Tidak Aktif') {
                     $ubah = 'Ketua Jabatan';
+
                     Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+                    
+                    Notification::send($user, new SenaraiSokongan($user));
                 } elseif ($statusJawatan == 'Aktif') {
                     $ubah = 'Lulus Semakan BPSM';
 
@@ -1321,15 +1338,16 @@ class permohonanController extends Controller
                         'status_pengesah' => 'disokong',
                         'created_at' => \Carbon\Carbon::now(), # new \Datetime()
                         'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+                        
                     ]);
 
                     Permohonan::where('permohonansID', '=', $id)->update([
                         'jumlahHariPermohonanBerlepas' => $length,
                         'statusPermohonan' => $ubah,
                     ]);
-                }
 
-                Notification::send($user, new SenaraiSokongan($user));
+                    Notification::send($suk, new SenaraiKelulusan($suk));
+                }
 
                 // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
                 toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
@@ -1339,6 +1357,7 @@ class permohonanController extends Controller
             if ($statusJawatan == 'Tidak Aktif') {
                 $ubah = 'Ketua Jabatan';
                 Permohonan::where('permohonansID', '=', $id)->update(['statusPermohonan' => $ubah]);
+                Notification::send($user, new SenaraiSokongan($user));
             } elseif ($statusJawatan == 'Aktif') {
                 $ubah = 'Lulus Semakan BPSM';
 
@@ -1366,9 +1385,9 @@ class permohonanController extends Controller
                     'jumlahHariPermohonanBerlepas' => $length,
                     'statusPermohonan' => $ubah,
                 ]);
-            }
 
-            Notification::send($user, new SenaraiSokongan($user));
+                Notification::send($suk, new SenaraiKelulusan($suk));
+            }
 
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             return back();
@@ -1399,14 +1418,18 @@ class permohonanController extends Controller
         ->where('jabatan', $user->jabatan)
         ->get();
 
+        Notification::send($users, new SenaraiSokonganRombongan($users));
+
         $pemohon = Permohonan::with('user')
             ->where('usersID', $user->usersID)
             ->where('rombongans_id', $id)
             ->first();
 
+        $suk = User::where('role', 'DatoSUK')->get();
+
+
         $statusJawatan = $user->userJawatan->statusDato;
         // dd($pemohon->user->userJawatan->namaJawatan, $pemohon->user->userJabatan->jabatan_id);
-
         //echo $peserta;
         if ($d >= 1 && $peserta >= 2) {
             if ($statusJawatan == 'Aktif') {
@@ -1449,10 +1472,33 @@ class permohonanController extends Controller
                     'created_at' => \Carbon\Carbon::now(), # new \Datetime()
                     'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
                 ]);
+
+                Notification::send($suk, new SenaraiKelulusanRombongan($suk));
+
+                Permohonan::where('rombongans_id', $id)
+                ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Lulus Semakan BPSM'])
+                ->update([
+                    'statusPermohonan' => 'Permohonan Gagal',
+                ]);
+
+                toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
+                return back();
+
             } elseif ($statusJawatan == 'Tidak Aktif') {
                 Rombongan::where('rombongans_id', $id)->update([
                     'statusPermohonanRom' => 'Pending',
                 ]);
+
+                Notification::send($users, new SenaraiSokonganRombongan($users));
+
+                Permohonan::where('rombongans_id', $id)
+                ->whereNotIn('statusPermohonan', ['Permohonan Berjaya', 'Lulus Semakan BPSM'])
+                ->update([
+                    'statusPermohonan' => 'Permohonan Gagal',
+                ]);
+
+                toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
+                return back();
             }
 
             Permohonan::where('rombongans_id', $id)
@@ -1461,10 +1507,9 @@ class permohonanController extends Controller
                     'statusPermohonan' => 'Permohonan Gagal',
                 ]);
 
-            Notification::send($users, new SenaraiSokonganRombongan($users));
-
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             return back();
+
         } elseif ($d == 0 && $peserta == 0) {
             if ($rombo->jenis_rombongan == 'Rasmi') {
                 Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi dan peserta');
@@ -1482,7 +1527,7 @@ class permohonanController extends Controller
             // flash('Permohonan rombongan memerlukan sekurang-kurang 2 orang peserta.')->error();
             return back();
         }
-        // }
+        
     }
 
     public function hapus($id)
