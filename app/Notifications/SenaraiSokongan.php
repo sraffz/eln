@@ -40,11 +40,9 @@ class SenaraiSokongan extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Sokongan Permohonan Keluar Negara')
-                    ->line('Makluman,Terdapat permohonan untuk keluar negara daripada pegawai/kakitangan pejabat tuan yang memerlukan sokongan.')
-                    ->action('Sokong permohonan', url('/senaraiPermohonanJabatan'))
-                    ->line('Sekian, terima kasih.');
+                    return (new MailMessage)
+                    ->subject('ELN: PERMOHONAN KELUAR NEGARA PEGAWAI UNTUK SOKONGAN')
+                    ->markdown('mail.permohonan.sokongan-individu'); 
     }
 
     /**

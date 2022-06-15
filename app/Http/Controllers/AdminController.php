@@ -29,6 +29,17 @@ use Illuminate\Support\Facades\Storage;
 use Auth;
 use Alert;
 
+use Illuminate\Support\Facades\Notification;
+
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\SenaraiSokongan;
+use App\Notifications\SenaraiSokonganRombongan;
+use App\Notifications\SenaraiKelulusan;
+use App\Notifications\SenaraiKelulusanRombongan;
+use App\Notifications\PermohonanBerjaya;
+use App\Notifications\PermohonanTidakBerjaya;
+use App\Notifications\KeputusanPermohonan;
+
 class AdminController extends Controller
 {
     /**
@@ -1384,6 +1395,11 @@ class AdminController extends Controller
 
         Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
         // flash('Permohonan telah disokong.', 'success');
+
+        $suk = User::where('role', 'DatoSUK')->get();
+
+        Notification::send($suk, new SenaraiKelulusan($suk));
+        // dd($suk);
         toast('Permohonan telah disokong', 'success')->position('top-end');
         return redirect()->back();
     }

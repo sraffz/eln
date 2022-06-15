@@ -21,7 +21,8 @@
     {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+            &copy; {{ date('Y') }} {{ config('app.name') }}. Hakcipta Terpelihara. <br>
+            //Adalah dimaklumkan bahawa emel ini dijana secara auto melalui Sistem ELN. Sila abaikan emel ini sekiranya tindakan telah diambil
         @endcomponent
     @endslot
 @endcomponent

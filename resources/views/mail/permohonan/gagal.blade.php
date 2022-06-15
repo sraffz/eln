@@ -1,16 +1,21 @@
 @component('mail::message')
-# e-Luar Negara: Permohonan Keluar Negara
+Tuan/Puan, <br>
 
-Dukacita dimaklumkan bahawa permohonan ke luar negara tuan/puan tidak dapat dipertimbangkan.
-Berikut merupakan butiran perjalanan ke luar negara tuan/puan: 
+#<u>PEMAKLUMAN KELULUSAN PERMOHONAN KELUAR NEGARA</u> 
 
+Berikut adalah status kelulusan permohonan keluar negara ELN.
+<br><br>
+Nama: <strong>{{ $nama }}</strong> <br>
+No Kad Pengenalan: <strong>{{ $nokp }}</strong> <br>
 Negara: <strong>{{ $negara }} </strong> <br>
 Tarikh Perjalan: <strong>{{ $tarikhMulaPerjalanan }}</strong>  <br>
 Tarikh Kembali: <strong>{{ $tarikhAkhirPerjalanan }}</strong> <br>
-Nama: <strong>{{ $nama }}</strong> <br>
-No Kad Pengenalan: <strong>{{ $nokp }}</strong> <br>
-Status Permohonan: <strong>Tidak Berjaya</strong>
-
+Status Kelulusan: <strong>Tidak Diluluskan</strong>
+<br>
+<br>
+Sekian, terima kasih. 
+<br>
+<br>
 {{-- @component('mail::button', ['url' => ''])
 Button Text
 @endcomponent --}}

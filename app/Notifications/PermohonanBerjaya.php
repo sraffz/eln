@@ -47,7 +47,9 @@ class PermohonanBerjaya extends Notification
         $nama = $this->butiran['nama'];
         $nokp = $this->butiran['nokp'];
         
-        return (new MailMessage)->markdown('mail.permohonan.berjaya', [
+        return (new MailMessage)
+        ->subject('ELN: PEMAKLUMAN KELULUSAN PERMOHONAN KELUAR NEGARA '.$this->butiran['nama'].'')
+        ->markdown('mail.permohonan.berjaya', [
             'negara' => $negara,
             'tarikhMulaPerjalanan' => $tarikhMulaPerjalanan,
             'tarikhAkhirPerjalanan' => $tarikhAkhirPerjalanan,

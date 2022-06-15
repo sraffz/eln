@@ -1283,6 +1283,15 @@ class permohonanController extends Controller
 
         $status = $per->JenisPermohonan;
 
+        $jabatan = User::where('usersID', Auth::user()->usersID)->first();
+
+        $user = User::where('role', 'jabatan')
+        ->where('jabatan', $jabatan->jabatan)
+        ->get();
+
+        // dd($user);
+        
+
         if ($status == 'Rasmi') {
             if ($dokumenRasmi == 0) {
                 flash('Permohonan Rasmi memerlukan dokumen rasmi.')->error();
@@ -1319,6 +1328,8 @@ class permohonanController extends Controller
                         'statusPermohonan' => $ubah,
                     ]);
                 }
+
+                Notification::send($user, new SenaraiSokongan($user));
 
                 // Alert::success('Berjaya', 'Permohonan Berjaya dihantar');
                 toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
@@ -1357,6 +1368,8 @@ class permohonanController extends Controller
                 ]);
             }
 
+            Notification::send($user, new SenaraiSokongan($user));
+
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             return back();
         }
@@ -1381,6 +1394,10 @@ class permohonanController extends Controller
             ->first();
 
         $user = User::where('usersID', $rombo->usersID)->first();
+
+        $users = User::where('role', 'jabatan')
+        ->where('jabatan', $user->jabatan)
+        ->get();
 
         $pemohon = Permohonan::with('user')
             ->where('usersID', $user->usersID)
@@ -1443,6 +1460,8 @@ class permohonanController extends Controller
                 ->update([
                     'statusPermohonan' => 'Permohonan Gagal',
                 ]);
+
+            Notification::send($users, new SenaraiSokonganRombongan($users));
 
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             return back();

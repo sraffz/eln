@@ -7,14 +7,15 @@ use App\Permohonan;
 use App\Pasangan;
 use App\Rombongan;
 use App\User;
+use App\Dokumen;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
 use DB;
 use PDF;
 use Auth;
-use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use Alert;
+use Illuminate\Support\Facades\Notification;
 
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\SenaraiSokongan;
@@ -42,7 +43,9 @@ class KetuaController extends Controller
             ->orderBy('tarikhmohon','asc')
             ->get();
 
-        return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah'));
+            $dokumen = Dokumen::all();
+
+        return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah', 'dokumen'));
     }
 
     public function senaraiLulus()
