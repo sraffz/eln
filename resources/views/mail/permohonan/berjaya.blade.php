@@ -11,8 +11,11 @@ Negara: <strong>{{ $negara }} </strong> <br>
 Tarikh Perjalan: <strong>{{ $tarikhMulaPerjalanan }}</strong>  <br>
 Tarikh Kembali: <strong>{{ $tarikhAkhirPerjalanan }}</strong> <br>
 Status Kelulusan: <strong>Diluluskan</strong>
-<br>
-<br>
+<br><br>
+Surat/memo keputusan boleh dimuat turun di pautan : 
+@component('mail::button', ['url' => url('/keputusan-permohonan')])
+Surat/Memo
+@endcomponent
 Sekian, terima kasih. 
 <br>
 <br>

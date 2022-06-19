@@ -25,6 +25,7 @@ use App\Notifications\SenaraiKelulusanRombongan;
 use App\Notifications\PermohonanBerjaya;
 use App\Notifications\PermohonanTidakBerjaya;
 use App\Notifications\KeputusanPermohonan;
+use App\Notifications\KeputusanRombongan;
 
 class KetuaController extends Controller
 {
@@ -240,6 +241,18 @@ class KetuaController extends Controller
             ]);
         }
 
+        $ruj = Rombongan::where('rombongans_id', $id)->first();
+
+        $butiran = [
+            'negaraRom' => $ruj->negaraRom,
+            'tarikhMulaRom' => Carbon::parse($ruj->tarikhMulaRom)->format('d/m/Y'),
+            'tarikhAkhirRom' => Carbon::parse($ruj->tarikhAkhirRom)->format('d/m/Y'),
+            'keputusan' => 'Diluluskan',
+        ];
+        $users = User::where('usersID', $ruj->usersID)->get();
+        // dd($butiran);
+        Notification::send($users, new KeputusanRombongan($butiran));
+
         toast('Permohonan Telah Diluluskan', 'success')->position('top-end');
         return back();
     }
@@ -311,6 +324,18 @@ class KetuaController extends Controller
                 'tarikhLulusan' => \Carbon\Carbon::now(),
             ]);
         }
+
+        $ruj = Rombongan::where('rombongans_id', $id)->first();
+
+        $butiran = [
+            'negaraRom' => $ruj->negaraRom,
+            'tarikhMulaRom' => Carbon::parse($ruj->tarikhMulaRom)->format('d/m/Y'),
+            'tarikhAkhirRom' => Carbon::parse($ruj->tarikhAkhirRom)->format('d/m/Y'),
+            'keputusan' => 'Ditolak',
+        ];
+        $users = User::where('usersID', $ruj->usersID)->get();
+        // dd($butiran);
+        Notification::send($users, new KeputusanRombongan($butiran));
 
         toast('Permohonan Telah Ditolak', 'success')->position('top-end');
         return redirect()->back();

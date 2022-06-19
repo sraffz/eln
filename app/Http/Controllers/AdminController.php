@@ -182,13 +182,15 @@ class AdminController extends Controller
                 ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
                 ->whereNotIn('permohonans.statusPermohonan', ['Permohonan Gagal'])
                 ->get();
+            
+                $dokumen = Dokumen::all();
 
             // dd($allPermohonan);
 
             if (Auth::user()->role == 'adminBPSM'){
-                return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+                return view('admin.senaraiPendingRombongan', compact('rombongan', 'allPermohonan', 'dokumen'));
             } elseif (Auth::user()->role == 'jabatan') {
-                return view('jabatan.senaraiPendingRombongan', compact('rombongan', 'allPermohonan'));
+                return view('jabatan.senaraiPendingRombongan', compact('rombongan', 'allPermohonan', 'dokumen'));
 
             }
     }
@@ -550,6 +552,7 @@ class AdminController extends Controller
 
     public function hantarRombo($id)
     {
+      
         $list = Rombongan::where('rombongans_id', $id)
         ->first();
 
@@ -612,10 +615,13 @@ class AdminController extends Controller
             'statusPermohonanRom' => $ubah
         ]);
 
+        $suk = User::where('role', 'DatoSUK')->get();
+        Notification::send($suk, new SenaraiKelulusanRombongan($butiran));
+
         // flash('lulus semakkan.')->success();
         toast('Permohonan Rombongan Disokong', 'success')->position('top-end');
 
-        return back();
+        return redirect('/senaraiPendingRombongan');
     }
 
     public function sebab(Request $request)
@@ -1401,7 +1407,7 @@ class AdminController extends Controller
         Notification::send($suk, new SenaraiKelulusan($suk));
         // dd($suk);
         toast('Permohonan telah disokong', 'success')->position('top-end');
-        return redirect()->back();
+        return redirect('/senaraiPermohonanJabatan');
     }
 
     public function pengesahanTolak(Request $request)
@@ -1447,7 +1453,7 @@ class AdminController extends Controller
 
         // flash('Permohonan Ditolak.')->success();
         toast('Permohonan Ditolak', 'error')->position('top-end');
-        return redirect()->back();
+        return redirect('/senaraiPermohonanJabatan');
     }
     
     public function tukarketuarombongan(Request $request)

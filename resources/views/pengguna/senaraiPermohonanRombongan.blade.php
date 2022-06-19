@@ -164,15 +164,17 @@
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                                 class="fa fa-user-times"></i></a>
                                                     @elseif($rombo->statusPermohonanRom == "Permohonan Berjaya" or $rombo->statusPermohonanRom == "Permohonan Gagal")
-                                                        <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"
-                                                            class="btn btn-primary btn-xs">
-                                                            Surat
-                                                        </a> 
-                                                        <div class="mt-2"></div>
-                                                        <a href="{{ route('memo-rombongan', ['id' => $rombo->rombongans_id]) }}"
-                                                            class="btn btn-primary btn-xs">
-                                                            Memo
-                                                        </a>
+                                                        @if ($rombo->surat == 'MEMO')
+                                                            <a href="{{ route('memo-rombongan', ['id' => $rombo->rombongans_id]) }}"
+                                                                class="btn btn-primary btn-xs">
+                                                                Memo
+                                                            </a>
+                                                        @elseif ($rombo->surat == 'SURAT')
+                                                            <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"
+                                                                class="btn btn-primary btn-xs">
+                                                                Surat
+                                                            </a> 
+                                                        @endif                                                       
                                                     @endif
                                                 </td>
                                         @endforeach

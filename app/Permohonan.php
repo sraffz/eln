@@ -34,7 +34,7 @@ class Permohonan extends Model
 
     public function jabatan()
     {
-        return $this->hasManyThrough('App\Jabatan', 'App\User', 'jabatan', 'jabatan_id');
+        return $this->hasManyThrough('App\Jabatan', 'App\User', 'jabatan', 'jabatan_id', 'permohonansID', 'usersID');
     }
 
     public function jumlahKeluarNegara($id) 

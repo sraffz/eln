@@ -20,6 +20,13 @@ class Rombongan extends Model
     {
     	return $this->hasMany(\App\Permohonan::class,'rombongans_id','rombongans_id');
     }
+
+    public function user()
+    {
+        // return $this->belongsTo('App\User');
+    	return $this->belongsTo(\App\User::class,'usersID','usersID');
+    }
+
     // public function dokumenFile(){
     //     return $this->hasMany('App\Dokumen');
     // }

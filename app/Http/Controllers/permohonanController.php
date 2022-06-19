@@ -1002,7 +1002,7 @@ class permohonanController extends Controller
             ->where('usersID', $id)
             ->whereNotIn('statusPermohonan', ['Permohonan Gagal'])
             ->count();
-
+        $ketua = User::where('role', 'jabatan')->where('jabatan', $user->jabatan)->get();
         $suk = User::where('role', 'DatoSUK')->get();        
 
         // dd($bil, $id, $rombo->rombongans_id);
@@ -1060,7 +1060,7 @@ class permohonanController extends Controller
                             ];
                             Permohonan::create($data);
 
-                            Notification::send($user, new SenaraiSokongan($user));
+                            Notification::send($ketua, new SenaraiSokongan($ketua));
                         } elseif ($statusJawatan == 'Aktif') {
                             $statusPermohonan = 'Lulus Semakan BPSM';
     
@@ -1164,7 +1164,7 @@ class permohonanController extends Controller
                                             ];
                                             Permohonan::create($data);
 
-                                            Notification::send($user, new SenaraiSokongan($user));
+                                            Notification::send($ketua, new SenaraiSokongan($ketua));
 
                                         } elseif ($statusJawatan == 'Aktif') {
                                             $statusPermohonan = 'Lulus Semakan BPSM';
@@ -1418,7 +1418,7 @@ class permohonanController extends Controller
         ->where('jabatan', $user->jabatan)
         ->get();
 
-        Notification::send($users, new SenaraiSokonganRombongan($users));
+        // Notification::send($users, new SenaraiSokonganRombongan($users));
 
         $pemohon = Permohonan::with('user')
             ->where('usersID', $user->usersID)
@@ -1930,9 +1930,13 @@ class permohonanController extends Controller
     {
         $id = Auth::user()->usersID;
 
-        $rombongan = Rombongan::where('usersID', $id)
-            ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
-            ->get();
+        // $rombongan = Rombongan::with('user','jabatan')->where('usersID', $id)
+        //     ->whereIn('statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal'])
+        //      ->get();
+
+        $rombongan = DB::table('senarai_rekod_permohonan_rombongan_suk')->where('usersID', $id)
+        ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
+        ->get();
 
         $allPermohonan = Permohonan::with('user')->get();
 
@@ -1940,7 +1944,7 @@ class permohonanController extends Controller
             ->where('rombongans_id', $id)
             ->get();
 
-        // return dd()
+        // return dd($rombongan->surat);
         return view('pengguna.senaraiPermohonanRombongan', compact('rombongan', 'allPermohonan'));
     }
 
