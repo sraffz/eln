@@ -432,6 +432,10 @@ class AdminController extends Controller
             ->where('permohonansID', '=', $id)
             ->get();
 
+        $dokumen_sokongan = DB::table('dokumen_sokongan')
+            ->where('permohonansID', '=', $id)
+            ->get();
+
         $mula = Carbon::parse($permohonan->tarikhMulaPerjalanan);
         $akhir = Carbon::parse($permohonan->tarikhAkhirPerjalanan);
         $jumlahDate = $mula->diffInDays($akhir);
@@ -440,7 +444,7 @@ class AdminController extends Controller
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
-        return view('admin.detailPermohonan', compact('sejarah','permohonan','pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
+        return view('admin.detailPermohonan', compact('sejarah','permohonan','pasangan', 'dokumen_sokongan','jumlahDate', 'jumlahDateCuti', 'dokumen'));
     }
     
     public function pesertaRombongan()
@@ -510,6 +514,18 @@ class AdminController extends Controller
         $path = $dokumen->pathFile;
 
         $extension = $dokumen->typeFile;
+
+        // return dd($path);
+        return Storage::download($path, 'Dokumen Rasmi.'.$extension.'');
+    }
+    
+    public function downloadDokumensokongan($id)
+    {
+        $dokumen = DB::table('dokumen_sokongan')->where('dokumens_id_sokongan', $id)->first();
+        // $path = $dokumen->namaFile;
+        $path = $dokumen->pathFile_sokongan;
+
+        $extension = $dokumen->typeFile_sokongan;
 
         // return dd($path);
         return Storage::download($path, 'Dokumen Rasmi.'.$extension.'');

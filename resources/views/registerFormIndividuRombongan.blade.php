@@ -15,10 +15,10 @@
 @endsection
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid">
-        @include('flash::message')
-        <div class="row mb-2">
+    <section class="content-header">
+        <div class="container-fluid">
+            @include('flash::message')
+            <div class="row mb-2">
                 <div class="col-sm-6">
                     <h3 class="box-title">Borang Pemohonan Sertai Rombongan</h3>
                 </div>
@@ -29,10 +29,17 @@
                     </ol>
                 </div>
             </div>
+          
         </div><!-- /.container-fluid -->
     </section>
 
-    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['sertai-rombongan', $userDetail->usersID], 'class' => 'form-horizontal', 'autocomplete' => 'off', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($userDetail, [
+        'method' => 'POST',
+        'url' => ['sertai-rombongan', $userDetail->usersID],
+        'class' => 'form-horizontal',
+        'autocomplete' => 'off',
+        'enctype' => 'multipart/form-data',
+    ]) !!}
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
@@ -53,6 +60,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12 mt-3">
+                            <label><i class="fa fa-file"> </i> Dokumen Sokongan</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="filesokonganSertaiRom[]" id="exampleInputFile"
+                                    multiple>
+                                <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                <small><i>*tertakluk kepada kelulusan dalaman bagi pejabat daerah atau perkara
+                                        berkaitan.</i></small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card card-primary">
@@ -66,7 +85,9 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
-                                <input type="text" class="form-control datepicker {{ $errors->has('tarikhMulaCuti') ? 'is-invalid' : '' }}" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
+                                <input type="text"
+                                    class="form-control datepicker {{ $errors->has('tarikhMulaCuti') ? 'is-invalid' : '' }}"
+                                    name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
                                 @if ($errors->has('tarikhMulaCuti'))
                                     <span class="error invalid-feedback">Tarikh diperlukan</span>
                                 @endif
@@ -76,7 +97,9 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                <input type="text" class="form-control datepicker {{ $errors->has('tarikhAkhirCuti') ? 'is-invalid' : '' }}" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                <input type="text"
+                                    class="form-control datepicker {{ $errors->has('tarikhAkhirCuti') ? 'is-invalid' : '' }}"
+                                    name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
                                 @if ($errors->has('tarikhAkhirCuti'))
                                     <span class="error invalid-feedback">Tarikh diperlukan</span>
                                 @endif
@@ -86,7 +109,9 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="text" class="form-control datepicker {{ $errors->has('tarikhKembaliBertugas') ? 'is-invalid' : '' }}" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                <input type="text"
+                                    class="form-control datepicker {{ $errors->has('tarikhKembaliBertugas') ? 'is-invalid' : '' }}"
+                                    name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                                 @if ($errors->has('tarikhKembaliBertugas'))
                                     <span class="error invalid-feedback">Tarikh kembali bertugas diperlukan</span>
                                 @endif
@@ -97,12 +122,13 @@
                             <div class="form-group">
                                 <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input {{ $errors->has('fileCuti') ? 'is-invalid' : '' }}" name="fileCuti[]" id="exampleInputFile"
-                                        multiple>
+                                    <input type="file"
+                                        class="custom-file-input {{ $errors->has('fileCuti') ? 'is-invalid' : '' }}"
+                                        name="fileCuti[]" id="exampleInputFile" multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                     @if ($errors->has('fileCuti'))
-                                    <span class="error invalid-feedback">Dokumen perlu dimuat naik</span>
-                                @endif
+                                        <span class="error invalid-feedback">Dokumen perlu dimuat naik</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -110,8 +136,8 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                              <label for="catatan_permohonan">Catatan</label>
-                              <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
+                                <label for="catatan_permohonan">Catatan</label>
+                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -128,8 +154,8 @@
                             <!-- checkbox -->
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="tick" id="tick" value="yes"
-                                        required>
+                                    <input class="form-check-input" type="checkbox" name="tick" id="tick"
+                                        value="yes" required>
                                     <label class="form-check-label">Saya dengan
                                         ini mematuhi segala peraturan yang telah ditetapkan di perenggan 6(i),(ii) dan
                                         perenggan

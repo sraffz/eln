@@ -166,6 +166,18 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label><i class="fa fa-file"> </i> Dokumen Sokongan</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="filesokonganRom[]"
+                                    id="exampleInputFile" multiple>
+                                <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                <small><i>*tertakluk kepada kelulusan dalaman bagi pejabat daerah atau perkara
+                                        berkaitan.</i></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="catatan_permohonan">Catatan</label>

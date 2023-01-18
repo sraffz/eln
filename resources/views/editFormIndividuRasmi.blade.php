@@ -180,7 +180,39 @@
                         @endif
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-md-4 mt-4">
+                            <label><i class="fa fa-file"></i> Dokumen Sokongan </label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="filesokongan[]"
+                                        id="exampleInputFile" multiple>
+                                    <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                </div>
+                            </div>
+                            @if ($dokumen_sokongan->isEmpty())
+                                <label for="nama" class="label-danger">Tiada Dokumen</label>
+                            @else
+                                @php
+                                    $i = 1;
+                                @endphp
+                                @foreach ($dokumen_sokongan as $doku)
+                                    <div class="mt-2">
+                                        <a class="btn btn-sm btn-info"
+                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id_sokongan]) }}">
+
+                                            <i class="fa fa-download"></i> Dokumen Sokongan {{ $i++ }}
+                                        </a>
+                                        <a
+                                            href="{{ route('detailPermohonan.deleteFileSokongan', ['id' => $doku->dokumens_id_sokongan]) }}">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 mt-4">
                             <div class="form-group">
                                 <label for="catatan_permohonan">Catatan</label>
                                 <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan"

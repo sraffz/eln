@@ -118,13 +118,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jawatan & Gred</label>
-                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                        disabled>{{ $permohonan->jawatan_pemohon }}({{ $permohonan->gred_pemohon }})</textarea>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2" disabled>{{ $permohonan->jawatan_pemohon }}({{ $permohonan->gred_pemohon }})</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jabatan</label>
-                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                        disabled>{{ $permohonan->nama_jabatan }} ({{ $permohonan->kod_jabatan }})</textarea>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2" disabled>{{ $permohonan->nama_jabatan }} ({{ $permohonan->kod_jabatan }})</textarea>
                                 </div>
                             </div>
                         @else
@@ -143,13 +141,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jawatan & Gred</label>
-                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                        disabled>{{ $permohonan->namaJawatan }} ({{ $permohonan->gred_kod_abjad }}{{ $permohonan->gred_angka_nombor }})</textarea>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2" disabled>{{ $permohonan->namaJawatan }} ({{ $permohonan->gred_kod_abjad }}{{ $permohonan->gred_angka_nombor }})</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jabatan</label>
-                                    <textarea style="resize: none" class="form-control" cols="30" rows="2"
-                                        disabled>{{ Auth::user()->userJabatan->nama_jabatan }} ({{ Auth::user()->userJabatan->kod_jabatan }})</textarea>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2" disabled>{{ Auth::user()->userJabatan->nama_jabatan }} ({{ Auth::user()->userJabatan->kod_jabatan }})</textarea>
                                 </div>
                             </div>
                         @endif
@@ -229,8 +225,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="catatan">Catatan</label>
-                                        <textarea style="resize: none" class="form-control" disabled
-                                            disabled>{{ $permohonan->catatan_permohonan }}</textarea>
+                                        <textarea style="resize: none" class="form-control" disabled disabled>{{ $permohonan->catatan_permohonan }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +246,7 @@
 
                             @if ($type == 'Rasmi')
                                 <strong><i class="fa fa-book margin-r-5"></i>Dokumen Rasmi</strong>
+                                <hr>
                                 <p class="text-muted">
                                     @if ($dokumen->isEmpty())
                                         Tiada Dokumen
@@ -260,20 +256,54 @@
                                         @endphp
                                         @foreach ($dokumen as $doku)
                                             <a class="btn btn-block btn-info"
-                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}">Dokumen
+                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}"><i class="fa fa-download"></i> Dokumen
                                                 Rasmi {{ $i++ }}</a>
+                                        @endforeach
+                                    @endif
+                                </p>
+                                <hr>
+                                <strong><i class="fa fa-book margin-r-5"></i>Dokumen Sokongan</strong>
+                                <hr>
+                                <p class="text-muted">
+                                    @if ($dokumen_sokongan->isEmpty())
+                                        Tiada Dokumen
+                                    @else
+                                        @php
+                                            $i = 1;
+                                        @endphp
+                                        @foreach ($dokumen_sokongan as $doku)
+                                            <a class="btn btn-block btn-danger"
+                                                href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doku->dokumens_id_sokongan]) }}">
+                                                <i class="fa fa-download"></i> Dokumen Sokongan {{ $i++ }}</a>
                                         @endforeach
                                     @endif
                                 </p>
                             @elseif ($type == 'Tidak Rasmi' || $type == 'rombongan')
                                 <strong><i class="fa fa-book margin-r-5"></i>Dokumen Cuti</strong>
+                                <hr>
                                 <p class="text-muted">
                                     @if ($permohonan->namaFileCuti == '')
                                         Tiada Dokumen
                                     @else
-                                        <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}">Dokumen
+                                        <a class="btn btn-sm  btn-block btn-info"
+                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}"><i class="fa fa-download"></i> Dokumen
                                             Cuti</a>
+                                    @endif
+                                </p>
+                                <hr>
+                                <strong><i class="fa fa-book margin-r-5"></i>Dokumen Sokongan</strong>
+                                <hr>
+                                <p class="text-muted">
+                                    @if ($dokumen_sokongan->isEmpty())
+                                        Tiada Dokumen
+                                    @else
+                                        @php
+                                            $i = 1;
+                                        @endphp
+                                        @foreach ($dokumen_sokongan as $doku)
+                                            <a class="btn btn-block btn-danger"  href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doku->dokumens_id_sokongan]) }}"><i class="fa fa-download"></i> Dokumen
+                                                Sokongan {{ $i++ }}</a>
+                                        @endforeach
                                     @endif
                                 </p>
                             @endif
@@ -361,8 +391,7 @@
                                     <!-- textarea -->
                                     <div class="form-group">
                                         <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
-                                        <textarea class="form-control" name="alamatPasangan" rows="3" value=""
-                                            disabled>{{ $ppp->alamatPasangan }}</textarea>
+                                        <textarea class="form-control" name="alamatPasangan" rows="3" value="" disabled>{{ $ppp->alamatPasangan }}</textarea>
                                     </div>
                                 </div>
                             </div>

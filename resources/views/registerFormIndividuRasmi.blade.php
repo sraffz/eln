@@ -30,7 +30,13 @@
             </div>
         </div>
     </section>
-    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftarPermohonan', $userDetail->usersID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data', 'autocomplete' => 'off']) !!}
+    {!! Form::model($userDetail, [
+        'method' => 'POST',
+        'url' => ['daftarPermohonan', $userDetail->usersID],
+        'class' => 'form-horizontal',
+        'enctype' => 'multipart/form-data',
+        'autocomplete' => 'off',
+    ]) !!}
 
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
@@ -49,8 +55,8 @@
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
                                 {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
-                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}" name="tarikh"
-                                    value="{{ old('tarikh') }}">
+                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
+                                    name="tarikh" value="{{ old('tarikh') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -60,6 +66,9 @@
                                         style="color:red;">*</span></label>
                                 <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
                                     name="tarikhMula" value="{{ old('tarikhMula') }}" required>
+                                @if ($typeForm == 'tidakRasmi')
+                                    <small><i>*Permohonan mesti dihantar sebelum 14 hari dari tarikh perjalanan.</i></small>
+                                @endif
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -130,13 +139,13 @@
                                         required="required">
                                         <option value="Kerajaan"
                                             {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>Kerajaan</option>
-                                        <option value="Federal"
-                                            {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>Federal</option>
+                                        <option value="Federal" {{ 'Federal' == old('jenisKewangan') ? 'selected' : '' }}>
+                                            Federal</option>
                                         <option value="Persendirian"
                                             {{ 'Persendirian' == old('jenisKewangan') ? 'selected' : '' }}>Persendirian
                                         </option>
-                                        <option value="Jabatan"
-                                            {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>Jabatan</option>
+                                        <option value="Jabatan" {{ 'Jabatan' == old('jenisKewangan') ? 'selected' : '' }}>
+                                            Jabatan</option>
                                         <option value="Syarikat"
                                             {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>Syarikat</option>
                                         <option value="lain-lain"
@@ -146,11 +155,10 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span
-                                        style="color:red;">*</span></label>
+                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span style="color:red;">*</span></label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="fileRasmi[]" id="exampleInputFile"
-                                        multiple>
+                                    <input type="file" class="custom-file-input" name="fileRasmi[]"
+                                        id="exampleInputFile" multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                 </div>
                             </div>
@@ -159,11 +167,22 @@
                         @endif
                     </div>
                     <div class="row">
+                        <div class="col-sm-6 mb-3">
+                            <label><i class="fa fa-file"> </i> Dokumen Sokongan</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="filesokongan[]"
+                                    id="exampleInputFile" multiple>
+                                <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
+                                <small><i>*tertakluk kepada kelulusan dalaman bagi pejabat daerah atau perkara
+                                        berkaitan.</i></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="catatan_permohonan">Catatan</label>
-                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan"
-                                    rows="3">{{ old('catatan_permohonan') }}</textarea>
+                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -238,7 +257,7 @@
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
                                     <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}" required>
+                                        name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -246,15 +265,15 @@
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
                                     <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}" required>
+                                        name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}" name="tarikhKembaliBertugas"
-                                        value="{{ old('tarikhKembaliBertugas') }}" required>
+                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
+                                        name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -283,8 +302,8 @@
                             <!-- checkbox -->
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="tick" id="tick" value="yes"
-                                        required>
+                                    <input class="form-check-input" type="checkbox" name="tick" id="tick"
+                                        value="yes" required>
                                     <label class="form-check-label">Segala keterangan adalah benar dan mematuhi
                                         peraturan.</label>
                                 </div>
@@ -315,7 +334,8 @@
 
 @section('script')
     <!-- bootstrap datepicker -->
-    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}">
+    </script>
     <script>
         $('.datepicker').datepicker({
             autoclose: true,

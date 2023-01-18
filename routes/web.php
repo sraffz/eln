@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('padam-dokumen-cuti/{id}','permohonanController@deleteFileCuti')->name('detailPermohonan.deleteFileCuti');
 	Route::get('padam-dokumen-rasmi/{id}', 'permohonanController@deleteFileRasmi')->name('detailPermohonan.deleteFileRasmi');
+	Route::get('padam-dokumen-sokongan/{id}', 'permohonanController@deleteFileSokongan')->name('detailPermohonan.deleteFileSokongan');
 
 	// ------------------------admin----------------------
 	Route::get('senaraiPending', 'AdminController@index')->name('senaraiPending');
@@ -102,6 +103,7 @@ Route::middleware(['auth'])->group(function () {
 	
 	Route::get('detailPermohonan/{id}/download', 'AdminController@download')->name('detailPermohonan.download');
 	Route::get('detailPermohonanDokumen/{id}/download', 'AdminController@downloadDokumen')->name('detailPermohonanDokumen.download');
+	Route::get('detailPermohonanDokumensokongan/{id}/download', 'AdminController@downloadDokumensokongan')->name('detailPermohonanDokumensokongan.download');
 	
 	Route::get('detailPermohonan/{id}', 'AdminController@show');
 	Route::get('detailPermohonanRombongan/{id}', 'AdminController@showRombongan');
