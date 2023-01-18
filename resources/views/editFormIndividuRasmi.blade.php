@@ -198,7 +198,7 @@
                                 @foreach ($dokumen_sokongan as $doku)
                                     <div class="mt-2">
                                         <a class="btn btn-sm btn-info"
-                                            href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id_sokongan]) }}">
+                                            href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doku->dokumens_id_sokongan]) }}">
 
                                             <i class="fa fa-download"></i> Dokumen Sokongan {{ $i++ }}
                                         </a>

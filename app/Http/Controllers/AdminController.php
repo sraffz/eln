@@ -98,17 +98,34 @@ class AdminController extends Controller
 
     public function kemaskiniprofil(Request $req)
     {
-        User::where('usersID', Auth::user()->usersID)->update([
-            'nama' => $req->input('nama'),
-            'nokp' => $req->input('kp'),
-            'email' => $req->input('email'),
-            'jawatan' => $req->input('jawatan'),
-            'jabatan' => $req->input('jabatan'),
-            'gredKod' => $req->input('gredKod'),
-            'taraf' => $req->input('taraf'),
-            'gredAngka' => $req->input('gredangka'),
-        ]);
+        $user = User::where('usersID', Auth::user()->usersID)->first();
 
+        if ($user->jabatan != $req->input('jabatan')) {
+             User::where('usersID', Auth::user()->usersID)->update([
+                'nama' => $req->input('nama'),
+                'nokp' => $req->input('kp'),
+                'email' => $req->input('email'),
+                'jawatan' => $req->input('jawatan'),
+                'jabatan' => $req->input('jabatan'),
+                'gredKod' => $req->input('gredKod'),
+                'taraf' => $req->input('taraf'),
+                'gredAngka' => $req->input('gredangka'),
+                'role' => 'pengguna',
+            ]);
+        } else {
+             User::where('usersID', Auth::user()->usersID)->update([
+                'nama' => $req->input('nama'),
+                'nokp' => $req->input('kp'),
+                'email' => $req->input('email'),
+                'jawatan' => $req->input('jawatan'),
+                'jabatan' => $req->input('jabatan'),
+                'gredKod' => $req->input('gredKod'),
+                'taraf' => $req->input('taraf'),
+                'gredAngka' => $req->input('gredangka'),
+            ]);
+        }
+        
+        // $user->role == 'pengguna'
         // Session::flash('message', 'Berjaya dikemaskini.');
         toast('Berjaya dikemaskini', 'success')->position('top-end');
         return back();
