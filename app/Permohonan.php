@@ -12,6 +12,8 @@ class Permohonan extends Model
 
     protected $table = 'permohonans';
 
+    // protected $dates = ['tarikhMulaPerjalanan', 'tarikhAkhirPerjalanan'];
+
     public $timestamps = true;
 
     public function user()

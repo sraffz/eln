@@ -51,7 +51,7 @@ class RegisterController extends Controller
         
         return Validator::make($data, [
             'nama'           => 'required',
-            'nokp'           => 'required|unique:Users|max:255',
+            'nokp'           => 'required|unique:Users|max:255|digits:12',
             'email'          => 'required|email',
             'jawatan'           => 'required',
             'jantina'           => 'required',
@@ -63,6 +63,7 @@ class RegisterController extends Controller
             ], [
             'nama.required'           => 'Nama wajib di isi.',
             'nokp.required'           => 'No Kad Pengenalan wajib di isi.',
+            'nokp.digits'           => 'No Kad Pengenalan mesti 12 digit tanpa -.',
             'email.required'          => 'Alamat emel wajib di isi.',
             'jawatan.required'       => 'Jawatan wajib di isi.',
             'jantina.required'       => 'Jantina wajib di isi.',

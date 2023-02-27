@@ -5,8 +5,7 @@
 @section('link')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
@@ -42,6 +41,9 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($permohonan as $index => $mohonan)
+                                                    @php
+                                                        // $mohonan->permohonansID = Hashids::encode($mohonan->permohonansID);
+                                                    @endphp
                                                     <tr class="text-center">
                                                         <td> {{ $index + 1 }} </td>
                                                         <td style="text-transform: capitalize">
@@ -49,14 +51,18 @@
                                                                 <a
                                                                     href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a>
                                                             @else --}}
-                                                                <a
-                                                                    href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                            <a
+                                                                href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
                                                             {{-- @endif --}}
                                                         </td>
                                                         <td>
                                                             {{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
                                                         </td>
-                                                        <td>{{ $mohonan->negara }}</td>
+                                                        <td>
+                                                            {{ $mohonan->negara }}@if ($mohonan->negara_lebih_dari_satu == 1)
+                                                                {{ ', ' . $mohonan->negara_tambahan }}
+                                                            @endif
+                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
@@ -72,14 +78,15 @@
                                                             @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
                                                                 <span class="badge badge-primary">Disokong</span>
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
-                                                                
-                                                                   @if ($mohonan->status_rombongan == 'Gagal')
-                                                                   <span class="badge badge-danger">{{ $mohonan->status_rombongan }}</span>
-                                                                   @else
-                                                                   <span class="badge badge-success">Berjaya</span>
+                                                                @if ($mohonan->status_rombongan == 'Gagal')
+                                                                    <span
+                                                                        class="badge badge-danger">{{ $mohonan->status_rombongan }}</span>
+                                                                @else
+                                                                    <span class="badge badge-success">Berjaya</span>
                                                                     @if ($mohonan->pengesahan_pembatalan == 1)
                                                                         {{-- <span class="badge badge-info">Dibatalkan oleh Pemohon</span> --}}
-                                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-xs"
                                                                             data-toggle="modal"
                                                                             data-sebab="{{ $mohonan->sebab_pembatalan }}"
                                                                             data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}"
@@ -87,12 +94,12 @@
                                                                             <i class="fa fa-info-circle"></i> Dibatalkan
                                                                         </button>
                                                                     @endif
-                                                                   @endif     
-
+                                                                @endif
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                                 <span class="badge badge-danger">Gagal</span>
                                                             @else
-                                                                <span class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
+                                                                <span
+                                                                    class="badge badge-danger">{{ $mohonan->statusPermohonan }}</span>
                                                             @endif
                                                         </td>
                                                         <td>
@@ -230,7 +237,7 @@
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMohon)->format('d/m/Y') }}
                                                         </td>
-                                                        <td>{{ $mohonan->negaraRom }}</td>
+                                                        <td>{{ $mohonan->negaraRom }}@if ($mohonan->negaraRom_lebih == 1 ){{ ', '.$mohonan->negaraRom_tambahan }}@endif</td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaRom)->format('d/m/Y') }}
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
@@ -318,7 +325,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
+        <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog"
+            aria-labelledby="favoritesModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -373,7 +381,7 @@
             $(".modal-body #sebab").val(sebab);
             $(".modal-body #tarikh").val(tarikh);
         });
-        
+
         $(document).ready(function() {
             $('table.display2').DataTable({
                 "pageLength": 5,

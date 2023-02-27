@@ -38,13 +38,13 @@ class KetuaController extends Controller
         //     ->orderBy('created_at', 'asc')
         //     ->get();
 
-            $permohonan = DB::table('senarai_data_permohonan')
+        $permohonan = DB::table('senarai_data_permohonan')
             ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
             ->whereNotIn('JenisPermohonan', ['rombongan'])
-            ->orderBy('tarikhmohon','asc')
+            ->orderBy('tarikhmohon', 'asc')
             ->get();
 
-            $dokumen = Dokumen::all();
+        $dokumen = Dokumen::all();
 
         return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah', 'dokumen'));
     }
@@ -105,7 +105,7 @@ class KetuaController extends Controller
         $users = User::find($userId);
 
         // dd($users);
-        
+
         $butiran = [
             'negara' => $ruj->negara,
             'tarikhMulaPerjalanan' => Carbon::parse($ruj->tarikhMulaPerjalanan)->format('d/m/Y'),
@@ -154,8 +154,8 @@ class KetuaController extends Controller
             'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
         ]);
 
-        
-    
+
+
         // dd($tarikhMulaPerjalanan);
         Permohonan::where('permohonansID', '=', $id)->update([
             'statusPermohonan' => $ubah,
@@ -180,21 +180,21 @@ class KetuaController extends Controller
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
-            
-            $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
 
-            if (!empty($rujukan)) {
-                if ($rujukan->no_surat < 100) {
-                    $jld = $rujukan->jilid;
-                    $no = $rujukan->no_surat + 1;
-                } else {
-                    $jld = $rujukan->jilid + 1;
-                    $no = 1;
-                }
+        $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
+
+        if (!empty($rujukan)) {
+            if ($rujukan->no_surat < 100) {
+                $jld = $rujukan->jilid;
+                $no = $rujukan->no_surat + 1;
             } else {
-                $jld = 1;
+                $jld = $rujukan->jilid + 1;
                 $no = 1;
             }
+        } else {
+            $jld = 1;
+            $no = 1;
+        }
 
         DB::table('eln_pengesahan_bahagian_rombongan')
             ->where('id_rombongan', $id)
@@ -354,7 +354,7 @@ class KetuaController extends Controller
         $users = User::find($userId);
 
         // dd($users);
-        
+
         $butiran = [
             'negara' => $ruj->negara,
             'tarikhMulaPerjalanan' => Carbon::parse($ruj->tarikhMulaPerjalanan)->format('d/m/Y'),
@@ -416,9 +416,9 @@ class KetuaController extends Controller
         $id = $req->id;
 
         $k = Eln_kelulusan::join('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id', '=', 'eln_kelulusan.id_pengesahan')
-        ->where('eln_kelulusan.id', $id)
-        ->first();
-        
+            ->where('eln_kelulusan.id', $id)
+            ->first();
+
         if ($k->status_kelulusan == 'Berjaya') {
             $status = 'Gagal';
             $status2 = 'Permohonan Gagal';
@@ -428,9 +428,9 @@ class KetuaController extends Controller
         }
 
         Permohonan::where('permohonansID', $k->id_permohonan)
-        ->update([
-            'statusPermohonan' => $status2,
-        ]);
+            ->update([
+                'statusPermohonan' => $status2,
+            ]);
 
         Eln_kelulusan::where('id', $id)->update([
             'status_kelulusan' => $status,
@@ -444,8 +444,8 @@ class KetuaController extends Controller
     public function ubahstatusrombongan(Request $req)
     {
         $id = $req->id;
-        
-        $k= Rombongan::where('rombongans_id', $id)->first();
+
+        $k = Rombongan::where('rombongans_id', $id)->first();
 
         if ($k->statusPermohonanRom == 'Permohonan Berjaya') {
             $status = 'Gagal';
@@ -456,15 +456,15 @@ class KetuaController extends Controller
         }
 
         Rombongan::where('rombongans_id', $id)
-        ->update([
-            'statusPermohonanRom' => $status2,
-        ]);
+            ->update([
+                'statusPermohonanRom' => $status2,
+            ]);
 
         DB::table('eln_pengesahan_bahagian_rombongan')
-        ->where('id_rombongan', $id)
-        ->update([
-            'status_kelulusan' => $status,
-        ]);
+            ->where('id_rombongan', $id)
+            ->update([
+                'status_kelulusan' => $status,
+            ]);
 
         // flash('Status Kelulusan berjaya ditukar')->success();
         toast('Status Permohonan Ditukar', 'info')->position('top-end');
@@ -474,7 +474,7 @@ class KetuaController extends Controller
     public function tukarstatussekongan(Request $req)
     {
         $id = $req->id;
-// dd($id);
+        // dd($id);
         $k = Eln_pengesahan_bahagian::where('id', $id)->first();
 
         if ($k->status_pengesah == 'disokong') {
@@ -533,17 +533,17 @@ class KetuaController extends Controller
             ->get();
 
         $tarikhmohon = $permohonan->tarikhmohon;
-        $mula = Carbon::parse($permohonan->tarikhMulaRom);
+        $mula = Carbon::parse($permohonan->tarikhMulaRom)->subDays(1);
         $akhir = Carbon::parse($permohonan->tarikhAkhirRom);
         $jumlahDate = $mula->diffInDays($akhir);
 
         \Carbon\Carbon::setLocale('ms-MY');
 
         $pengesahan = DB::table('eln_pengesahan_bahagian_rombongan')
-        ->join('users', 'users.usersID','=', 'eln_pengesahan_bahagian_rombongan.id_pengesah')
-        ->join('jabatan', 'jabatan.jabatan_id','=', 'eln_pengesahan_bahagian_rombongan.jabatan_pengesah')
-        ->where('id_rombongan', $id)
-        ->first();
+            ->join('users', 'users.usersID', '=', 'eln_pengesahan_bahagian_rombongan.id_pengesah')
+            ->join('jabatan', 'jabatan.jabatan_id', '=', 'eln_pengesahan_bahagian_rombongan.jabatan_pengesah')
+            ->where('id_rombongan', $id)
+            ->first();
 
         $allPermohonan = DB::table('senarai_data_permohonan')
             ->where('rombongans_id', $id)
@@ -563,7 +563,7 @@ class KetuaController extends Controller
         //     ->where('usersID', $sej->usersID)
         //     ->get();
 
-            $sejarah = Permohonan::where('permohonans.usersID', $sej->usersID)
+        $sejarah = Permohonan::where('permohonans.usersID', $sej->usersID)
             ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
             ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya'])
             ->get();
@@ -581,11 +581,11 @@ class KetuaController extends Controller
             ->where('permohonansID', '=', $id)
             ->get();
 
-        $mula = Carbon::parse($permohonan->tarikhMulaPerjalanan);
+        $mula = Carbon::parse($permohonan->tarikhMulaPerjalanan)->subDays(1);
         $akhir = Carbon::parse($permohonan->tarikhAkhirPerjalanan);
         $jumlahDate = $mula->diffInDays($akhir);
 
-        $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti);
+        $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti)->subDays(1);
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
         $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
@@ -655,49 +655,49 @@ class KetuaController extends Controller
             //     ->whereNotIn('JenisPermohonan', ['rombongan'])
             //     ->get();
 
-                $permohonan = DB::table('senarai_data_permohonan')
+            $permohonan = DB::table('senarai_data_permohonan')
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
                 ->whereNotIn('JenisPermohonan', ['rombongan'])
-                ->orderBy('tarikhmohon','asc')
+                ->orderBy('tarikhmohon', 'asc')
                 ->get();
-                // $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
-                //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-                //         ->where('users.jabatan', $jab)
-                //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                //         ->orderBy('permohonans.created_at','asc')
-                //         ->get();
+            // $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
+            //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
+            //         ->where('users.jabatan', $jab)
+            //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+            //         ->orderBy('permohonans.created_at','asc')
+            //         ->get();
 
         } elseif (Auth::user()->role == 'jabatan') {
             $jab = Auth::user()->jabatan;
             // echo $jab;
             if ($jab == 38) {
                 $permohonan = DB::table('senarai_data_permohonan')
-                ->where('statusPermohonan', 'Ketua Jabatan')
-                ->Where('jabatan', $jab)
-                // ->Where('stsukpem', ['1'])
-                ->orWhere(function ($query) {
-                    $query->where('statusPermohonan', 'Ketua Jabatan')
-                    ->Where('stsukpem', 1);
-                })
-                ->orderBy('tarikhmohon','asc')
-                ->get();
-            } elseif  ($jab == 39) {
+                    ->where('statusPermohonan', 'Ketua Jabatan')
+                    ->Where('jabatan', $jab)
+                    // ->Where('stsukpem', ['1'])
+                    ->orWhere(function ($query) {
+                        $query->where('statusPermohonan', 'Ketua Jabatan')
+                            ->Where('stsukpem', 1);
+                    })
+                    ->orderBy('tarikhmohon', 'asc')
+                    ->get();
+            } elseif ($jab == 39) {
                 $permohonan = DB::table('senarai_data_permohonan')
-                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                ->Where('jabatan', $jab)
-                ->orWhere(function ($query) {
-                    $query->where('statusPermohonan', 'Ketua Jabatan')
-                    ->Where('stsukpen', 1);
-                })
-                ->orderBy('tarikhmohon','asc')
-                ->get();
+                    ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                    ->Where('jabatan', $jab)
+                    ->orWhere(function ($query) {
+                        $query->where('statusPermohonan', 'Ketua Jabatan')
+                            ->Where('stsukpen', 1);
+                    })
+                    ->orderBy('tarikhmohon', 'asc')
+                    ->get();
             } else {
                 $permohonan = DB::table('senarai_data_permohonan')
-                ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                ->where('jabatan', $jab)
-                ->whereNotIn('role', ['jabatan'])
-                ->orderBy('tarikhmohon','asc')
-                ->get();
+                    ->whereIn('statusPermohonan', ['Ketua Jabatan'])
+                    ->where('jabatan', $jab)
+                    ->whereNotIn('role', ['jabatan'])
+                    ->orderBy('tarikhmohon', 'asc')
+                    ->get();
             }
 
             // if ($jab == 44) {

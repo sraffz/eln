@@ -59,7 +59,7 @@
                                     {{ $index + 1 }}
                                 </td>
                                 <td>
-                                    {{ $rombo->negaraRom }}
+                                    {{ $rombo->negaraRom }}@if($rombo->negaraRom_lebih == 1){{ ', '.$rombo->negaraRom_tambahan }}@endif
                                 </td>
                                 <td>{{ $rombo->codeRom }}</td>
                                 <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}

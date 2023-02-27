@@ -59,7 +59,9 @@
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Negara Yang Dilawati</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->negaraRom }}</strong> </td>
+                    <td class="text-left"><strong>{{ $permohonan->negaraRom }}@if ($permohonan->negaraRom_lebih == 1){{ ', '.$permohonan->negaraRom_tambahan }}
+                        
+                    @endif</strong> </td>
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Tujuan Lawatan</strong> </td>

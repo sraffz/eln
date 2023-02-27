@@ -175,6 +175,30 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span></label>
+                                       {{-- <div class="icheck-primary mb-2">
+                                         <input class="form-check-input" type="checkbox" value="1"  OnChange="javascript:enableTextBox();" name="negara_lebih" id="negara_lebih" {{ $permohonan->negara_lebih_dari_satu == '1' ? 'checked' : ''}}>
+                                         <label class="form-check-label" for="negara_lebih">
+                                           Adakah melawati lebih daripada 1 negera?
+                                         </label>
+                                       </div> --}}
+                                       <select class="form-control select2bs4" disabled name="negara_tambahan[]" id="negara_tambahan" style="width: 100%;" {{ $permohonan->negara_lebih_dari_satu == 1 ? '' : 'disabled' }} multiple>
+                                        <option value="">SILA PILIH</option>
+                                        @php
+                                            $selected = explode(", ", $permohonan->negara_tambahan);
+                                        @endphp
+                                        @foreach ($negara as $jaw)
+                                            <option value="{{ $jaw->namaNegara }}"
+                                                {{  (in_array($jaw->namaNegara, $selected))  ? 'selected' : '' }}>
+                                                {{ $jaw->namaNegara }}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Jenis Permohonan</label>

@@ -72,6 +72,24 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-globe"></i> Negara Tambahan</label>
+                                           <select class="form-control select2bs4" disabled name="negara_tambahan[]" id="negara_tambahan" style="width: 100%;" {{ $rombooo->negaraRom_lebih == 1 ? '' : 'disabled' }} multiple>
+                                            <option value="">SILA PILIH</option>
+                                            @php
+                                                $selected = explode(", ", $rombooo->negaraRom_tambahan);
+                                            @endphp
+                                            @foreach ($negara as $jaw)
+                                                <option value="{{ $jaw->namaNegara }}"
+                                                    {{  (in_array($jaw->namaNegara, $selected))  ? 'selected' : '' }}>
+                                                    {{ $jaw->namaNegara }}</option>
+                                            @endforeach
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="tujuanRom"><i class="fas fa-keyboard"></i> Tujuan Rombongan</label>

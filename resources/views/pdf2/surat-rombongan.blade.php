@@ -69,6 +69,7 @@
         table {
             border-collapse: collapse;
         }
+
     </style>
 </head>
 
@@ -116,6 +117,7 @@
                                     @php
                                         const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
                                         
+                                        
                                         use Carbon\Carbon;
                                         
                                         $bulan = monthNames[Carbon::parse($kelulusan->tarikh_kelulusan)->month - 1];
@@ -146,16 +148,10 @@
                         $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaRom)->month - 1];
                         $tahunMula = Carbon::parse($permohon->tarikhMulaRom)->year;
                         $hariMula = Carbon::parse($permohon->tarikhMulaRom)->day;
-                        
+
                         $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirRom)->month - 1];
                         $tahunAkhir = Carbon::parse($permohon->tarikhAkhirRom)->year;
                         $hariAkhir = Carbon::parse($permohon->tarikhAkhirRom)->day;
-                        
-                        if ($permohon->negaraRom_lebih == '1') {
-                            $negaraRom_tambahan = ', ' . strtoupper($permohon->negaraRom_tambahan);
-                        } else {
-                            $negaraRom_tambahan = '';
-                        }
                     @endphp
                     <div class="row">
                         <div class="col-md-12" style="text-transform: uppercase; text-align: justify;">
@@ -166,7 +162,7 @@
                                 HINGGA
                                 {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
                                 DI
-                                {{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}
+                                {{ strtoupper($permohon->negaraRom) }}
                             </strong>
                         </div>
                     </div><br>
@@ -185,18 +181,18 @@
                                 dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                     orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
                                 negara
-                                iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> bagi
+                                iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}</strong> bagi
                                 tujuan {{ $permohon->tujuanRom }}
                                 <strong>pada
                                     {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                     hingga
                                     {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
 
-                                    @if ($permohon->statusPermohonanRom == 'Permohonan Berjaya')
-                                        telah <strong>diluluskan.</strong>
-                                    @elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal')
-                                        adalah <strong>tidak dapat dipertimbangkan.</strong>
-                                    @endif
+                                @if ($permohon->statusPermohonanRom == 'Permohonan Berjaya')
+                                    telah <strong>diluluskan.</strong>
+                                @elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal')
+                                    adalah <strong>tidak dapat dipertimbangkan.</strong>
+                                @endif
                             </div><br>
 
                             Sekian, terima kasih.<br><br>

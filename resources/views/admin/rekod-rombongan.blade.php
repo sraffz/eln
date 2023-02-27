@@ -67,7 +67,7 @@
                                                         <td>
                                                             <a
                                                                 href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">
-                                                                {{ $rombo->negaraRom }} </a> <br>
+                                                                {{ $rombo->negaraRom }}@if($rombo->negaraRom_lebih == 1){{ ', '.$rombo->negaraRom_tambahan }}@endif </a> <br>
                                                             {{ $rombo->codeRom }}
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhMohon)->format('d/m/Y') }}

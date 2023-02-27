@@ -75,7 +75,7 @@
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="col-xl-12" align="center">
-                            <img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="27%" height="13%">
+                            <img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="27%" height="27%">
                         </div>
                     </div>
                     <br>
@@ -137,13 +137,6 @@
                                     $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirPerjalanan)->month - 1];
                                     $tahunAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->year;
                                     $hariAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->day;
-
-                                    if($permohon->negara_lebih_dari_satu == '1'){
-                                        $negara_tambahan = ', '.strtoupper($permohon->negara_tambahan);
-                                    }else {
-                                        $negara_tambahan = '';
-                                    }
-
                                 @endphp
                                 <strong>
                                     <font style="text-transform: uppercase">
@@ -153,8 +146,7 @@
                                         HINGGA
                                         {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
                                         DI
-                                        {{ strtoupper($permohon->negara) }}{{ $negara_tambahan }}
-                                    </strong>
+                                        {{ strtoupper($permohon->negara) }}</strong>
                                     </font>
                                 <br>
                                 <br>
@@ -185,7 +177,7 @@
                                 Adalah saya dengan segala hormatnya diarah merujuk kepada perkara di atas.<br><br>
                                 <div style="line-height: 1.0;">
                                     2. Dimaklumkan bahawa permohonan bagi <strong>{{ strtoupper($permohon->user->nama) }}</strong>
-                                    untuk ke luar negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}{{ $negara_tambahan }}</strong> bagi
+                                    untuk ke luar negara iaitu ke <strong>{{ strtoupper($permohon->negara) }}</strong> bagi
                                     menghadiri
                                     urusan rasmi tersebut 
                                     <strong>pada

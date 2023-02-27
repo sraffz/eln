@@ -105,7 +105,7 @@
                 <div class="col-xl-12">
                     <div class="row">
                         <div class="col-xl-12" align="center">
-                            <img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="27%" height="13%">
+                            <img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="27%" height="27%">
                         </div>
                     </div>
                     <br>
@@ -164,12 +164,6 @@
                                     $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirRom)->month - 1];
                                     $tahunAkhir = Carbon::parse($permohon->tarikhAkhirRom)->year;
                                     $hariAkhir = Carbon::parse($permohon->tarikhAkhirRom)->day;
-
-                                    if ($permohon->negaraRom_lebih == '1') {
-                                        $negaraRom_tambahan = ', ' . strtoupper($permohon->negaraRom_tambahan);
-                                    } else {
-                                        $negaraRom_tambahan = '';
-                                    }
                                 @endphp
                                 <font style="text-transform: uppercase">
                                     <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA Secara rombongan bagi tujuan
@@ -179,7 +173,7 @@
                                         HINGGA
                                         {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}
                                         DI
-                                        {{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}
+                                        {{ strtoupper($permohon->negaraRom) }}
                                     </strong>
                                 </font>
                                 <br>
@@ -197,7 +191,7 @@
 
                                     dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                         orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
-                                    negara iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> bagi
+                                    negara iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}</strong> bagi
                                     tujuan {{ $permohon->tujuanRom }}
                                     <strong>pada
                                         {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
