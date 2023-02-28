@@ -128,6 +128,25 @@
                                                                                 </button>
                                                                             @endif
                                                                              
+                                                                        @elseif($rombo->statusPermohonanRom == 'Lulus Semakan')
+                                                                        
+                                                                            @if ($element->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                            <button type="button" data-toggle="modal"
+                                                                                    href='#detaill-{{ $element->permohonansID }}'
+                                                                                    data-nama="{{ $element->nama }}"
+                                                                                    data-nokp="{{ $element->nokp }}"
+                                                                                    {{-- data-email="{{ $element->email }}" --}}
+                                                                                    data-jawatan="{{ $element->jawatan_pemohon }}"
+                                                                                    data-jabatan="{{ $element->jabatan_pemohon }}"
+                                                                                    class="btn btn-success btn-block btn-xs mb-2">
+                                                                                    {{ $element->nama }}
+                                                                                    @if ($rombo->ketua_rombongan == $element->usersID)
+                                                                                        <span
+                                                                                            class="badge badge-pill badge-dark">Ketua</span>
+                                                                                    @endif
+                                                                                </button>
+                                                                            @endif
+
                                                                         @elseif($rombo->statusPermohonanRom == 'Permohonan Gagal')
                                                                             @if ($element->status_kelulusan == 'Gagal')
                                                                             @endif
@@ -254,10 +273,13 @@
                                                                                         @if ($element->status_kelulusan == 'Gagal')
                                                                                         @elseif ($rombo->ketua_rombongan == $element->usersID)    
                                                                                         @else
+                                                                                        @if (Auth::user()->role == 'DatoSUK')
+                                                                                            
                                                                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-romboid="{{ $element->rombongans_id }}" data-id="{{ $element->id_pemohon }}"
                                                                                         data-target="#tukarkr" data-dismiss="modal" >
                                                                                             Jadikan Ketua Rombongan
                                                                                          </button>
+                                                                                        @endif
                                                                                         @endif
                                                                 
                                                                                         {{-- <button type="button" class="btn btn-danger" data-id="{{ $element->id_kelulusan }}"
@@ -277,13 +299,15 @@
                                                                 <span  class="badge badge-success">{{ $rombo->statusPermohonanRom }}</span>
                                                             @elseif ($rombo->statusPermohonanRom == 'Permohonan Gagal')
                                                                 <span class="badge badge-danger">{{ $rombo->statusPermohonanRom }}</span>
+                                                            @elseif ($rombo->statusPermohonanRom == 'Lulus Semakan')
+                                                                <span class="badge badge-info">Disokong</span>
                                                             @else
                                                                 <span class="badge badge-info">{{ $rombo->statusPermohonanRom }}</span>
                                                             @endif
                                                         </td>
                                                         <td class="text-center">
                                                             @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
-                                                                <span class="badge badge-warning">Lulus Semakan</span>
+                                                                 
 
                                                             @elseif($rombo->statusPermohonanRom == 'Permohonan Berjaya' || $rombo->statusPermohonanRom == 'Permohonan Gagal')
                                                                 <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"

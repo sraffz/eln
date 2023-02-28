@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 
@@ -386,6 +387,19 @@ class permohonanController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'filesokongan' => 'max:1024|mimes:jpeg,png,jpg',
+            'fileRasmi' => 'max:1024|mimes:jpeg,png,jpg',
+            'fileCuti' => 'max:1024|mimes:jpeg,png,jpg',
+        ], [
+            'filesokongan.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
+            'filesokongan.mimes' => 'Fail perlu dimuatnaik dalam format JPEG, PNG, JPG',
+            'fileRasmi.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
+            'fileRasmi.mimes' => 'Fail perlu dimuatnaik dalam format JPEG, PNG, JPG',
+            'fileCuti.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
+            'fileCuti.mimes' => 'Fail perlu dimuatnaik dalam format JPEG, PNG, JPG',
+        ]);
+ 
         // dd($request->all());
         $id = $request->input('id');
         $tujuan = $request->input('tujuan');
@@ -397,7 +411,7 @@ class permohonanController extends Controller
         $negara_lebih_dari_satu = $request->input('negara_lebih');
         if ($negara_lebih_dari_satu == 1) {
             $negara_tambahan = implode(', ', $request->input('negara_tambahan'));
-         }else {
+        } else {
             $negara_tambahan = '';
         }
         $alamat = $request->input('alamat');
@@ -417,23 +431,6 @@ class permohonanController extends Controller
         // echo $jenisKew;
         $tick = $request->input('tick');
 
-        // dd($negara_lebih_dari_satu , $negara_tambahan);
-        // $tempohPerjalanan = $request->input('tempohPerjalanan');
-        // $datePer = explode(' - ', $tempohPerjalanan); // dateRange is you string
-        // $dateFrom = $datePer[0];
-        // $dateTo = $datePer[1];
-
-
-        // dd($tempohPerjalanan, $tarikh, $dateFrom, $dateTo);
-
-        // $DateNew1 = strtotime($dateFrom);
-        // $DateNew2 = strtotime($dateTo);
-        // $DateNew3 = strtotime($tarikhBertugas);
-        // $DateNew4 = strtotime($tarikh);
-        // $tarikhMulaPerjalanan = date('Y-m-d', $DateNew1);
-        // $tarikhAkhirPerjalanan = date('Y-m-d', $DateNew2);
-        // $tarikhKembaliBertugas = date('Y-m-d', $DateNew3);
-        // $insuran = date('Y-m-d', $DateNew4);
         $dateFrom = $request->input('tarikhMula');
         $dateTo = $request->input('tarikhAkhir');
 
@@ -442,7 +439,7 @@ class permohonanController extends Controller
         $tarikhKembaliBertugas = Carbon::parse($tarikhBertugas)->format('Y-m-d');
         $insuran = Carbon::parse($tarikh)->format('Y-m-d');
 
-        $end = Carbon::parse($tarikhMulaPerjalanan)->subDays(1);
+        $end = Carbon::parse($tarikhMulaPerjalanan);
         $nowsaa = Carbon::now();
 
         $length = $end->diffInDays($nowsaa);
@@ -453,7 +450,7 @@ class permohonanController extends Controller
         // return dd($length);
         $statusPermohonan = 'simpanan';
 
-        if ($length <= 14) {
+        if ($length < 13) {
             Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
             // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
             return back()->withInput();
@@ -483,19 +480,6 @@ class permohonanController extends Controller
 
                 $idPermohonan =  Permohonan::insertGetId($data);
 
-                // $permohon = DB::table('permohonans')
-                //     ->where('tarikhMulaPerjalanan', '=', $tarikhMulaPerjalanan)
-                //     ->where('tarikhAkhirPerjalanan', '=', $tarikhAkhirPerjalanan)
-                //     ->where('negara', '=', $negara)
-                //     ->where('alamat', '=', $alamat)
-                //     ->where('JenisPermohonan', '=', $jenisPermohonan)
-                //     ->where('lainTujuan', '=', $tujuan)
-                //     ->where('statusPermohonan', '=', $statusPermohonan)
-                //     ->where('usersID', '=', $id)
-                //     ->first();
-
-                // $idPermohonan = $permohon->permohonansID;
-
                 $dataPasangan = [
                     'namaPasangan' => $namaPasangan,
                     'hubungan' => $hubungan,
@@ -515,7 +499,6 @@ class permohonanController extends Controller
                         $filename = $file->hashName();
                         $extension = $file->extension();
 
-                        if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
                             // check folder for 'current year', if not exist, create one
                             $currYear = Carbon::now()->format('Y');
 
@@ -539,13 +522,10 @@ class permohonanController extends Controller
                                 Alert::error('Tidak Berjaya', 'Muat naik Dokumen Sokongan Tidak Berjaya ' . $doc_type);
                                 return redirect('/senaraiPermohonanProses');
                             }
-                        } else {
-                            // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                            Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
-                            return redirect('/senaraiPermohonanProses');
-                        }
+                        
                     }
                 }
+                
 
                 if ($request->hasFile('fileRasmi')) {
                     // $allowedfileExtension=['pdf','jpg','png','docx'];
@@ -557,7 +537,7 @@ class permohonanController extends Controller
                         $extension = $file->extension();
 
                         // dd($filename, $filename2,$extension);
-                        if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
+                        // if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
                             // check folder for 'current year', if not exist, create one
                             $currYear = Carbon::now()->format('Y');
                             // $storagePath = public_path() . 'upload/dokumen/' . $currYear;
@@ -576,16 +556,16 @@ class permohonanController extends Controller
                                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                                 ];
                                 Dokumen::create($data);
-                            } else {
-                                flash::error('Muat naik tidak berjaya' . $doc_type);
-                                Alert::error('Tidak Berjaya', 'Muat naik dokumen rasmi tidak berjaya ' . $doc_type);
-                                return redirect('/senaraiPermohonanProses');
+                            // } else {
+                            //     flash::error('Muat naik tidak berjaya' . $doc_type);
+                            //     Alert::error('Tidak Berjaya', 'Muat naik dokumen rasmi tidak berjaya ' . $doc_type);
+                            //     return redirect('/senaraiPermohonanProses');
                             }
-                        } else {
-                            // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                            Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
-                            return redirect('/senaraiPermohonanProses');
-                        }
+                        // } else {
+                        //     // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
+                        //     Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
+                        //     return redirect('/senaraiPermohonanProses');
+                        // }
                     }
                     // flash('Permohonan berjaya didaftar.')->success();
                     Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
@@ -646,7 +626,7 @@ class permohonanController extends Controller
                         $filename = $file->hashName();
                         $extension = $file->extension();
 
-                        if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
+                        // if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
                             // check folder for 'current year', if not exist, create one
                             $currYear = Carbon::now()->format('Y');
 
@@ -665,16 +645,17 @@ class permohonanController extends Controller
                                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                                 ];
                                 DB::table('dokumen_sokongan')->insert($data);
-                            } else {
-                                flash::error('Muat naik tidak berjaya' . $doc_type);
-                                Alert::error('Tidak Berjaya', 'Muat naik Dokumen Sokongan Tidak Berjaya ' . $doc_type);
-                                return redirect('/senaraiPermohonanProses');
-                            }
-                        } else {
-                            // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                            Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
-                            return redirect('/senaraiPermohonanProses');
-                        }
+                            } 
+                            // else {
+                            //     flash::error('Muat naik tidak berjaya' . $doc_type);
+                            //     Alert::error('Tidak Berjaya', 'Muat naik Dokumen Sokongan Tidak Berjaya ' . $doc_type);
+                            //     return redirect('/senaraiPermohonanProses');
+                            // }
+                        // } else {
+                        //     // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
+                        //     Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
+                        //     return redirect('/senaraiPermohonanProses');
+                        // }
                     }
                 }
 
@@ -689,7 +670,7 @@ class permohonanController extends Controller
 
                         // dd($filename);
 
-                        if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
+                        // if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
                             // check folder for 'current year', if not exist, create one
                             $currYear = Carbon::now()->format('Y');
                             // $storagePath = public_path() . 'upload/dokumen/' . $currYear;
@@ -708,16 +689,17 @@ class permohonanController extends Controller
                                     'jenisFileCuti' => $extension,
                                     'pathFileCuti' => $filePath
                                 ];
-                                Permohonan::where('permohonanID', $idPermohonan)->update($data);
-                            } else {
-                                // Flash::error('Muat naik tidak berjaya.' . $doc_type);
-                                Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya ' . $doc_type);
-                                return redirect('/senaraiPermohonanProses');
-                            }
-                        } else {
-                            echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                            return redirect('/senaraiPermohonanProses');
-                        }
+                                Permohonan::where('permohonansID', $idPermohonan)->update($data);
+                            } 
+                            // else {
+                            //     // Flash::error('Muat naik tidak berjaya.' . $doc_type);
+                            //     Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya ' . $doc_type);
+                            //     return redirect('/senaraiPermohonanProses');
+                            // }
+                        // } else {
+                        //     echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
+                        //     return redirect('/senaraiPermohonanProses');
+                        // }
                     }
                 }
 
@@ -750,8 +732,8 @@ class permohonanController extends Controller
         $negaraRom = $request->input('negaraRom');
         $negaraRom_lebih = $request->input('negaraRom_lebih');
         if ($negaraRom_lebih == 1) {
-             $negaraRom_tambahan = implode(', ', $request->input('negaraRom_tambahan'));
-        }else {
+            $negaraRom_tambahan = implode(', ', $request->input('negaraRom_tambahan'));
+        } else {
             $negaraRom_tambahan = '';
         }
         $alamatRom = $request->input('alamatRom');
@@ -807,13 +789,13 @@ class permohonanController extends Controller
             $tarikhKembaliBertugas = Carbon::parse($kembaliTugas)->format('Y-m-d');
         }
 
-        $end = Carbon::parse($tarikhMulaRom)->subDays(1);
+        $end = Carbon::parse($tarikhMulaRom);
         $nowsaa = Carbon::now();
 
         $length = $end->diffInDays($nowsaa);
         // return dd($length);
 
-        if ($length < 14) {
+        if ($length < 13) {
             Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
             // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
             return back()->withInput();
@@ -908,9 +890,9 @@ class permohonanController extends Controller
                         }
                     }
                 }
-                 // flash('Permohonan berjaya didaftar.')->success();
-                 Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                 return redirect('/senaraiPermohonanProses');
+                // flash('Permohonan berjaya didaftar.')->success();
+                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+                return redirect('/senaraiPermohonanProses');
             } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
                 $co = $rombo->rombongans_id;
 
@@ -962,7 +944,7 @@ class permohonanController extends Controller
                                 $data = [
                                     'namaFileCuti' => $filename,
                                     'jenisFileCuti' => $extension,
-                                    'pathFileCuti' => $filePath,                                  
+                                    'pathFileCuti' => $filePath,
                                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                                 ];
                                 Permohonan::where('permohonansID', $id_permohonan_rombongan)->update($data);
@@ -1053,7 +1035,7 @@ class permohonanController extends Controller
             $tujuanRom = $rombo->tujuanRom;
             $idRom = $rombo->rombongans_id;
 
-            $end = Carbon::parse($tarikhMulaRom)->subDays(1);
+            $end = Carbon::parse($tarikhMulaRom);
             $nowsaa = Carbon::now();
 
             $length = $end->diffInDays($nowsaa);
@@ -1062,7 +1044,7 @@ class permohonanController extends Controller
                 Alert::error('', 'Rombongan ini telah disertai oleh anda');
                 return back()->withInput();
             } else {
-                if ($length <= 14) {
+                if ($length < 13) {
                     Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
                     // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
                     return back()->withInput();
@@ -1140,18 +1122,95 @@ class permohonanController extends Controller
                                 'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
                             ]);
 
-                            Notification::send($suk, new SenaraiKelulusan($suk));
+                            // Notification::send($suk, new SenaraiKelulusan($suk));
                         }
                         // flash('Permohonan berjaya didaftar.')->success();
                         Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
                         return redirect('/senaraiPermohonanProses');
                     } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
-                        // $validated = $request->validate([
-                        //     'tarikhMulaCuti' => 'required',
-                        //     'tarikhAkhirCuti' => 'required',
-                        //     'tarikhKembaliBertugas' => 'required',
-                        //     'fileCuti' => 'required',
-                        // ]);
+
+                        if ($statusJawatan == 'Tidak Aktif') {
+                            $statusPermohonan = 'Ketua Jabatan';
+
+                            $data = [
+                                'tarikhMulaPerjalanan' => $tarikhMulaRom,
+                                'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
+                                'negara' => $negaraRom,
+                                'negara_lebih_dari_satu' => $negaraRom_lebih,
+                                'negara_tambahan' => $negaraRom_tambahan,
+                                'alamat' => $alamatRom,
+                                'statusPermohonan' => $statusPermohonan,
+                                'tarikhMulaCuti' => $tarikhMulaCuti,
+                                'tarikhAkhirCuti' => $tarikhAkhirCuti,
+                                'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
+                                'JenisPermohonan' => $jenisPermohonanrombongan,
+                                'catatan_permohonan' => $catatan_permohonan,
+                                'namaFileCuti' => '',
+                                'jenisFileCuti' => '',
+                                'pathFileCuti' => '',
+                                'lainTujuan' => $tujuanRom,
+                                'tick' => $tick,
+                                'usersID' => $id,
+                                'rombongans_id' => $idRom,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ];
+                            $idd = Permohonan::insertGetId($data);
+
+                            Notification::send($ketua, new SenaraiSokongan($ketua));
+                        } elseif ($statusJawatan == 'Aktif') {
+
+                            $statusPermohonan = 'Lulus Semakan BPSM';
+
+                            $data = [
+                                'tarikhMulaPerjalanan' => $tarikhMulaRom,
+                                'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
+                                'negara' => $negaraRom,
+                                'negara_lebih_dari_satu' => $negaraRom_lebih,
+                                'negara_tambahan' => $negaraRom_tambahan,
+                                'alamat' => $alamatRom,
+                                'statusPermohonan' => $statusPermohonan,
+                                'tarikhMulaCuti' => $tarikhMulaCuti,
+                                'tarikhAkhirCuti' => $tarikhAkhirCuti,
+                                'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
+                                'JenisPermohonan' => $jenisPermohonanrombongan,
+                                'catatan_permohonan' => $catatan_permohonan,
+                                'namaFileCuti' => '',
+                                'jenisFileCuti' => '',
+                                'pathFileCuti' => '',
+                                'lainTujuan' => $tujuanRom,
+                                'tick' => $tick,
+                                'usersID' => $id,
+                                'rombongans_id' => $idRom,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ];
+
+                            $idd = Permohonan::insertGetId($data);
+
+                            Eln_pengesahan_bahagian::insertGetId([
+                                'id_permohonan' => $idd,
+                                'id_rombongan' => $idRom,
+                                'id_pemohon' => Auth::user()->usersID,
+                                'jawatan_pemohon' => $user->userJawatan->namaJawatan,
+                                'gred_pemohon' => '' . $user->userGredKod->gred_kod_abjad . ' ' . $user->userGredAngka->gred_angka_nombor . '',
+                                'jabatan_pemohon' => $user->userJabatan->jabatan_id,
+                                'taraf_pemohon' => $user->taraf,
+                                'id_pengesah' => Auth::user()->usersID,
+                                'jawatan_pengesah' => 'Terus Dato',
+                                'gred_pengesah' => 'Terus Dato',
+                                // 'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+                                // 'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+                                'jabatan_pengesah' => 'Terus Dato',
+                                'ulasan' => 'Disokong',
+                                'status_pengesah' => 'disokong',
+                                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+                            ]);
+
+                            // Notification::send($suk, new SenaraiKelulusan($suk));
+                        }
+
                         if ($request->hasFile('fileCuti')) {
                             // $allowedfileExtension=['pdf','jpg','png','docx'];
                             // $file = $request->file('fileCuti');
@@ -1174,113 +1233,12 @@ class permohonanController extends Controller
                                     $upload_success = $file->storeAs($storagePath, $filename);
 
                                     if ($upload_success) {
-                                        if ($statusJawatan == 'Tidak Aktif') {
-                                            $statusPermohonan = 'Ketua Jabatan';
-
-                                            $data = [
-                                                'tarikhMulaPerjalanan' => $tarikhMulaRom,
-                                                'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
-                                                'negara' => $negaraRom,
-                                                'negara_lebih_dari_satu' => $negaraRom_lebih,
-                                                'negara_tambahan' => $negaraRom_tambahan,
-                                                'alamat' => $alamatRom,
-                                                'statusPermohonan' => $statusPermohonan,
-                                                'tarikhMulaCuti' => $tarikhMulaCuti,
-                                                'tarikhAkhirCuti' => $tarikhAkhirCuti,
-                                                'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
-                                                'JenisPermohonan' => $jenisPermohonanrombongan,
-                                                'catatan_permohonan' => $catatan_permohonan,
-                                                'namaFileCuti' => $filename,
-                                                'jenisFileCuti' => $extension,
-                                                'pathFileCuti' => $filePath,
-                                                'lainTujuan' => $tujuanRom,
-                                                'tick' => $tick,
-                                                'usersID' => $id,
-                                                'rombongans_id' => $idRom,
-                                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                                            ];
-                                            Permohonan::create($data);
-
-                                            Notification::send($ketua, new SenaraiSokongan($ketua));
-                                        } elseif ($statusJawatan == 'Aktif') {
-                                            $statusPermohonan = 'Lulus Semakan BPSM';
-
-                                            $data = [
-                                                'tarikhMulaPerjalanan' => $tarikhMulaRom,
-                                                'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
-                                                'negara' => $negaraRom,
-                                                'negara_lebih_dari_satu' => $negaraRom_lebih,
-                                                'negara_tambahan' => $negaraRom_tambahan,
-                                                'alamat' => $alamatRom,
-                                                'statusPermohonan' => $statusPermohonan,
-                                                'tarikhMulaCuti' => $tarikhMulaCuti,
-                                                'tarikhAkhirCuti' => $tarikhAkhirCuti,
-                                                'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
-                                                'JenisPermohonan' => $jenisPermohonanrombongan,
-                                                'catatan_permohonan' => $catatan_permohonan,
-                                                'namaFileCuti' => $filename,
-                                                'jenisFileCuti' => $extension,
-                                                'pathFileCuti' => $filePath,
-                                                'lainTujuan' => $tujuanRom,
-                                                'tick' => $tick,
-                                                'usersID' => $id,
-                                                'rombongans_id' => $idRom,
-                                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                                            ];
-
-                                            $idd = Permohonan::insertGetId($data);
-
-                                            Eln_pengesahan_bahagian::insertGetId([
-                                                'id_permohonan' => $idd,
-                                                'id_rombongan' => $idRom,
-                                                'id_pemohon' => Auth::user()->usersID,
-                                                'jawatan_pemohon' => $user->userJawatan->namaJawatan,
-                                                'gred_pemohon' => '' . $user->userGredKod->gred_kod_abjad . ' ' . $user->userGredAngka->gred_angka_nombor . '',
-                                                'jabatan_pemohon' => $user->userJabatan->jabatan_id,
-                                                'taraf_pemohon' => $user->taraf,
-                                                'id_pengesah' => Auth::user()->usersID,
-                                                'jawatan_pengesah' => 'Terus Dato',
-                                                'gred_pengesah' => 'Terus Dato',
-                                                // 'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
-                                                // 'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
-                                                'jabatan_pengesah' => 'Terus Dato',
-                                                'ulasan' => 'Disokong',
-                                                'status_pengesah' => 'disokong',
-                                                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-                                                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-                                            ]);
-
-                                            Notification::send($suk, new SenaraiKelulusan($suk));
-                                        }
-
-                                        // $data = [
-                                        //     'tarikhMulaPerjalanan' => $tarikhMulaRom,
-                                        //     'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
-                                        //     'negara' => $negaraRom,
-                                        //     'alamat' => $alamatRom,
-                                        //     'statusPermohonan' => $statusPermohonan,
-                                        //     'tarikhMulaCuti' => $tarikhMulaCuti,
-                                        //     'tarikhAkhirCuti' => $tarikhAkhirCuti,
-                                        //     'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
-                                        //     'JenisPermohonan' => $jenisPermohonanrombongan,
-                                        //     'catatan_permohonan' => $catatan_permohonan,
-                                        //     'namaFileCuti' => $filename,
-                                        //     'jenisFileCuti' => $extension,
-                                        //     'pathFileCuti' => $filePath,
-                                        //     'lainTujuan' => $tujuanRom,
-                                        //     'tick' => $tick,
-                                        //     'usersID' => $id,
-                                        //     'rombongans_id' => $idRom,
-                                        //     'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                        //     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                                        // ];
-                                        // Permohonan::create($data);
-
-                                        // flash('Permohonan berjaya didaftar.')->success();
-                                        Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                                        return redirect('/senaraiPermohonanProses');
+                                        $data = [
+                                            'namaFileCuti' => $filename,
+                                            'jenisFileCuti' => $extension,
+                                            'pathFileCuti' => $filePath,
+                                        ];
+                                        Permohonan::where('permohonansID', $idd)->update($data);
                                     } else {
                                         Flash::error('Error uploading ' . $doc_type);
                                         return back();
@@ -1292,6 +1250,9 @@ class permohonanController extends Controller
                                 }
                             }
                         }
+
+                        Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+                        return redirect('/senaraiPermohonanProses');
                     }
                 }
             }
@@ -1318,7 +1279,7 @@ class permohonanController extends Controller
 
         $tarikhmulajalan = $permohonan->tarikhMulaPerjalanan;
 
-        $end = Carbon::parse($tarikhmulajalan)->subDays(1);
+        $end = Carbon::parse($tarikhmulajalan);
         $nowsaa = Carbon::today();
 
         $length = $end->diffInDays($nowsaa); //panjang hari sebelum berlepas
@@ -1471,7 +1432,8 @@ class permohonanController extends Controller
         $statusJawatan = $user->userJawatan->statusDato;
         // dd($pemohon->user->userJawatan->namaJawatan, $pemohon->user->userJabatan->jabatan_id);
         //echo $peserta;
-        if ($d >= 1 && $peserta >= 2) {
+        if ( $peserta >= 2) {
+        // if ($d >= 1 && $peserta >= 2) {
             if ($statusJawatan == 'Aktif') {
                 Rombongan::where('rombongans_id', $id)->update([
                     'statusPermohonanRom' => 'Lulus Semakan',
@@ -1548,7 +1510,6 @@ class permohonanController extends Controller
 
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             return back();
-
         } elseif ($d == 0 && $peserta == 0) {
 
             if ($rombo->jenis_rombongan == 'Rasmi') {
@@ -1559,28 +1520,24 @@ class permohonanController extends Controller
                 Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi dan peserta');
                 // flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
                 return back();
-
             }
+        // } elseif ($d == 0) {
 
-        } elseif ($d == 0) {
-
-            if ($rombo->jenis_rombongan == 'Rasmi') {
-                Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
-                // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
-                return back();
-            }else {
-                Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
-                // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
-                return back();
-                # code...
-            }
-
+        //     if ($rombo->jenis_rombongan == 'Rasmi') {
+        //         Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
+        //         // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+        //         return back();
+        //     } else {
+        //         Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
+        //         // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+        //         return back();
+        //         # code...
+        //     }
         } elseif ($peserta < 2) {
 
             Alert::info('Makluman', 'Permohonan rombongan memerlukan sekurang-kurang 2 orang peserta');
             // flash('Permohonan rombongan memerlukan sekurang-kurang 2 orang peserta.')->error();
             return back();
-
         }
     }
 
@@ -1652,7 +1609,7 @@ class permohonanController extends Controller
     public function padamrombongan($id)
     {
         // $id = Hashids::decode($id);
-        
+
         $permohonan = DB::table('permohonans')
             ->where('rombongans_id', '=', $id)
             ->get();
@@ -1660,8 +1617,8 @@ class permohonanController extends Controller
         foreach ($permohonan as $p) {
             $pathCuti = $p->pathFileCuti;
             if ($pathCuti ?? '') {
-            Storage::delete($pathCuti);
-            $per = Permohonan::where('rombongans_id', $id)->delete();
+                Storage::delete($pathCuti);
+                $per = Permohonan::where('rombongans_id', $id)->delete();
             }
         }
 
@@ -1800,7 +1757,7 @@ class permohonanController extends Controller
 
     public function updatePermohonan(Request $request, $id)
     {
-        
+
         // dd($request->all());
         $id = $request->input('id');
         $tarikhinsu = $request->input('tarikh');
@@ -1810,7 +1767,7 @@ class permohonanController extends Controller
         $negara_lebih_dari_satu = $request->input('negara_lebih');
         if ($negara_lebih_dari_satu == 1) {
             $negara_tambahan = implode(', ', $request->input('negara_tambahan'));
-         }else {
+        } else {
             $negara_tambahan = '';
         }
         $tujuan = $request->input('tujuan');

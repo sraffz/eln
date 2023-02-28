@@ -176,7 +176,7 @@ class AdminController extends Controller
 
             $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
                 ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->whereIn('statusPermohonanRom', ['Pending'])
+                ->whereIn('statusPermohonanRom', ['Lulus Semakan','Pending'])
                 ->orderBy('rombongans.created_at', 'asc')
                 ->get();
 

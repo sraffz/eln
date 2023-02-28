@@ -80,7 +80,7 @@
                                     name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" required>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row">
                         <div class="col-sm-4 ">
@@ -98,8 +98,8 @@
                         </div>
                         <div class="col-sm-4 mt-4 text-center">
                             <div class="icheck-primary mb-2">
-                                <input class="icheck-primary" OnChange="javascript:enableTextBox();" type="checkbox" value="1" name="negara_lebih"
-                                    id="negara_lebih" @checked(old('negara_lebih') == '1')>
+                                <input class="icheck-primary" OnChange="javascript:enableTextBox();" type="checkbox"
+                                    value="1" name="negara_lebih" id="negara_lebih" @checked(old('negara_lebih') == '1')>
                                 <label class="form-check-label" for="negara_lebih">
                                     Adakah melawati lebih daripada 1 negera?
                                 </label>
@@ -108,7 +108,7 @@
                         <div class="col-sm-4 ">
                             <div class="form-group">
                                 <label><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span>
-                            </label>
+                                </label>
                                 <select class="form-control select2bs4" name="negara_tambahan[]" id="negara_tambahan"
                                     style="width: 100%;" {{ old('negara_lebih') == 1 ? '' : 'disabled' }} multiple>
                                     <option value="">SILA PILIH</option>
@@ -189,6 +189,11 @@
                                         id="exampleInputFile" multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                 </div>
+                                @if ($errors->has('fileRasmi'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('fileRasmi') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         @elseif($typeForm == 'tidakRasmi')
                             <input type="hidden" name="jenisKewangan" value="Persendirian">
@@ -203,6 +208,11 @@
                                 <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                 <small><i>*tertakluk kepada kelulusan dalaman bagi pejabat daerah atau perkara
                                         berkaitan.</i></small>
+                                @if ($errors->has('filesokongan'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('filesokongan') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -332,7 +342,8 @@
                                 <div class="icheck-info">
                                     <input class="form-check-input" type="checkbox" name="tick" id="tick"
                                         value="yes" required>
-                                    <label class="form-check-label" for="tick">Segala keterangan adalah benar dan mematuhi
+                                    <label class="form-check-label" for="tick">Segala keterangan adalah benar dan
+                                        mematuhi
                                         peraturan.</label>
                                 </div>
                             </div>

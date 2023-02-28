@@ -6,7 +6,8 @@
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
     <!-- bootstrap datepicker -->
-    <link rel="stylesheet" href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte/bower_components/select2/dist/css/select2.min.css') }}">
 @endsection
@@ -28,7 +29,13 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    {!! Form::model($userDetail, ['method' => 'POST', 'url' => ['daftar-rombongan', $userDetail->usersID], 'class' => 'form-horizontal','autocomplete' => 'off' , 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($userDetail, [
+        'method' => 'POST',
+        'url' => ['daftar-rombongan', $userDetail->usersID],
+        'class' => 'form-horizontal',
+        'autocomplete' => 'off',
+        'enctype' => 'multipart/form-data',
+    ]) !!}
     {!! Form::hidden('id', $userDetail->usersID) !!}
     <section class="content">
         <div class="container-fluid">
@@ -73,18 +80,18 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan<span
-                                                style="color:red;">**</span></label>
-                                        <input type="text" class="form-control datepicker" id="tarikhMulaRom" name="tarikhMulaRom"
-                                            value="{{ old('tarikhMulaRom') }}" required>
+                                                style="color:red;">*</span></label>
+                                        <input type="text" class="form-control datepicker" id="tarikhMulaRom"
+                                            name="tarikhMulaRom" value="{{ old('tarikhMulaRom') }}" required>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label><i class="fas fa-calendar"></i> Tarikh Akhir Rombongan<span
-                                                style="color:red;">**</span></label>
-                                        <input type="text" class="form-control datepicker" id="tarikhAkhirRom" name="tarikhAkhirRom"
-                                            value="{{ old('tarikhAkhirRom') }}" required>
+                                                style="color:red;">*</span></label>
+                                        <input type="text" class="form-control datepicker" id="tarikhAkhirRom"
+                                            name="tarikhAkhirRom" value="{{ old('tarikhAkhirRom') }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +110,7 @@
                         <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group mt-2">
-                                <label><i class="fas fa-globe"></i> Negara<span style="color:red;">**</span></label>
+                                <label><i class="fas fa-globe"></i> Negara<span style="color:red;">*</span></label>
                                 <select class="form-control select2bs4" name="negaraRom" id="negaraRom" style="width: 100%;"
                                     required>
                                     <option value="">SILA PILIH</option>
@@ -118,20 +125,23 @@
                         <div class="col-sm-4 ">
                             <div class="form-group">
                                 <div class="icheck-primary mb-2">
-                                  <input class="form-check-input" OnChange="javascript:pilihNegaraLain();" type="checkbox" value="1" name="negaraRom_lebih" id="negaraRom_lebih" @checked(old('negaraRom_lebih') == '1')>
-                                  <label class="form-check-label" for="negaraRom_lebih">
-                                    Adakah rombongan lebih daripada 1 negera?
-                                  </label>
+                                    <input class="form-check-input" OnChange="javascript:pilihNegaraLain();" type="checkbox"
+                                        value="1" name="negaraRom_lebih" id="negaraRom_lebih"
+                                        @checked(old('negaraRom_lebih') == '1')>
+                                    <label class="form-check-label" for="negaraRom_lebih">
+                                        Adakah rombongan lebih daripada 1 negera?
+                                    </label>
                                 </div>
                                 <label><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span></label>
-                               <select class="form-control select2bs4" name="negaraRom_tambahan[]" id="negaraRom_tambahan" style="width: 100%;" disabled multiple>
-                                <option value="">SILA PILIH</option>
-                                @foreach ($negara as $jaw)
-                                    <option value="{{ $jaw->namaNegara }}"
-                                        {{ $jaw->namaNegara == old('negaraRom_tambahan') ? 'selected' : '' }}>
-                                        {{ $jaw->namaNegara }}</option>
-                                @endforeach
-                            </select>
+                                <select class="form-control select2bs4" name="negaraRom_tambahan[]" id="negaraRom_tambahan"
+                                    style="width: 100%;" disabled multiple>
+                                    <option value="">SILA PILIH</option>
+                                    @foreach ($negara as $jaw)
+                                        <option value="{{ $jaw->namaNegara }}"
+                                            {{ $jaw->namaNegara == old('negaraRom_tambahan') ? 'selected' : '' }}>
+                                            {{ $jaw->namaNegara }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -140,7 +150,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fa fa-money-bill-alt"></i> Sumber Kewangan<span
-                                        style="color:red;">**</span></label>
+                                        style="color:red;">*</span></label>
                                 <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom" required>
                                     <option value="Kerajaan" {{ 'Kerajaan' == old('jenisKewangan') ? 'selected' : '' }}>
                                         Kerajaan</option>
@@ -153,8 +163,8 @@
                                         Jabatan</option>
                                     <option value="Syarikat" {{ 'Syarikat' == old('jenisKewangan') ? 'selected' : '' }}>
                                         Syarikat</option>
-                                    <option value="lain-lain"
-                                        {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>lain-lain</option>
+                                    <option value="lain-lain" {{ 'lain-lain' == old('jenisKewangan') ? 'selected' : '' }}>
+                                        lain-lain</option>
                                 </select>
                             </div>
                         </div>
@@ -163,7 +173,7 @@
                             <div class="form-group">
                                 <label><i class="fa fa-money-bill-alt"></i> Anggaran Belanja(RM)<span
                                         style="color:red;">*</span></label>
-                                <input class="form-control" type="number" placeholder="0.00" required
+                                <input class="form-control " type="number" placeholder="0.00" required
                                     name="anggaranBelanja" min="0" step="0.01" title="Currency"
                                     pattern="^\d+(?:\.\d{1,2})?$"
                                     onblur="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'"
@@ -179,8 +189,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-map-o"></i>
                                     </div>
-                                    <textarea class="form-control" name="alamatRom" id="alamatRom"
-                                        cols="170" required>{{ old('alamatRom') }}</textarea>
+                                    <textarea class="form-control" name="alamatRom" id="alamatRom" cols="170" required>{{ old('alamatRom') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -201,21 +210,25 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="catatan_permohonan">Catatan</label>
-                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan"
-                                    rows="3">{{ old('catatan_permohonan') }}</textarea>
+                                <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span
-                                        style="color:red;">**</span></label>
+                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span style="color:red;">*</span></label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="fileRasmiRom[]" id="filerasmi"
-                                        multiple  >
+                                        multiple {{ 'Rasmi' == old('jenisRombongan') ? '' : 'disabled' }}>
                                     <label class="custom-file-label" for="filerasmi">Pilih Fail</label>
                                 </div>
+                                @if ($errors->has('fileRasmiRom'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('fileRasmiRom') }}</strong>
+                                    </span>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -232,21 +245,24 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
-                                <input type="text" class="form-control datepicker" id="tarikhMulaCuti" name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
+                                <input type="text" class="form-control datepicker" id="tarikhMulaCuti"
+                                    name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                <input type="text" class="form-control datepicker" id="tarikhAkhirCuti" name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                <input type="text" class="form-control datepicker" id="tarikhAkhirCuti"
+                                    name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="text" class="form-control datepicker" id="tarikhKembaliBertugas" name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                <input type="text" class="form-control datepicker" id="tarikhKembaliBertugas"
+                                    name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -318,29 +334,29 @@
     </script>
 
     <script>
-        $('#jenisRombongan').change(function () {
-             if( $(this).val() == 'Rasmi') {
-                $('#tarikhMulaCuti').prop( "disabled", true );
-                $('#tarikhAkhirCuti').prop( "disabled", true );
-                $('#tarikhKembaliBertugas').prop( "disabled", true );
-                $('#filcuti').prop( "disabled", true );
-                $('#filerasmi').prop( "disabled", false );
-            } else if(  $(this).val() == 'Tidak Rasmi'){
-                $('#tarikhMulaCuti').prop( "disabled", false );
-                $('#tarikhAkhirCuti').prop( "disabled", false );
-                $('#tarikhKembaliBertugas').prop( "disabled", false );
-                $('#filcuti').prop( "disabled", false );
-                $('#filerasmi').prop( "disabled", true );
+        $('#jenisRombongan').change(function() {
+            if ($(this).val() == 'Rasmi') {
+                $('#tarikhMulaCuti').prop("disabled", true);
+                $('#tarikhAkhirCuti').prop("disabled", true);
+                $('#tarikhKembaliBertugas').prop("disabled", true);
+                $('#filcuti').prop("disabled", true);
+                $('#filerasmi').prop("disabled", false);
+            } else if ($(this).val() == 'Tidak Rasmi') {
+                $('#tarikhMulaCuti').prop("disabled", false);
+                $('#tarikhAkhirCuti').prop("disabled", false);
+                $('#tarikhKembaliBertugas').prop("disabled", false);
+                $('#filcuti').prop("disabled", false);
+                $('#filerasmi').prop("disabled", true);
             }
         });
     </script>
 
-<script type="text/javascript" language="javascript">
-    function pilihNegaraLain() {
-        if (document.getElementById("negaraRom_lebih").checked == true)
-            document.getElementById("negaraRom_tambahan").disabled = false;
-        else
-            document.getElementById("negaraRom_tambahan").disabled = true;
-    }
-</script>
+    <script type="text/javascript" language="javascript">
+        function pilihNegaraLain() {
+            if (document.getElementById("negaraRom_lebih").checked == true)
+                document.getElementById("negaraRom_tambahan").disabled = false;
+            else
+                document.getElementById("negaraRom_tambahan").disabled = true;
+        }
+    </script>
 @endsection

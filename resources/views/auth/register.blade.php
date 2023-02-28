@@ -67,7 +67,7 @@
                         </div>
                         @if ($errors->has('nokp'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>No Kad Pengenalan Telah Berdaftar</strong>
+                                <strong>{{ $errors->first('nokp') }}</strong>
                             </span>
                         @endif
                     </div>
