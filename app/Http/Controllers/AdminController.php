@@ -537,6 +537,13 @@ class AdminController extends Controller
 
         $sej = Permohonan::where('permohonansID', $id)->first();
 
+        $pengguna = User::select('users.*', 'jabatan.nama_jabatan as nama_jabatan_pengguna', 'jabatan.kod_jabatan as kod_jabatan_pengguna')
+        ->join('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+        ->where('usersID', $sej->usersID)
+        ->first();
+
+        // dd($pengguna);
+
         $sejarah = Permohonan::where('permohonans.usersID', $sej->usersID)
             ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
             ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya'])
@@ -562,7 +569,7 @@ class AdminController extends Controller
 
         $negara = Negara::all();
 
-        return view('admin.detailPermohonan', compact('sejarah', 'permohonan', 'pasangan', 'dokumen_sokongan', 'jumlahDate', 'jumlahDateCuti', 'dokumen', 'negara'));
+        return view('admin.detailPermohonan', compact('sejarah', 'permohonan', 'pasangan', 'dokumen_sokongan', 'jumlahDate', 'jumlahDateCuti', 'dokumen', 'negara','pengguna'));
     }
 
     public function pesertaRombongan()
@@ -1529,36 +1536,46 @@ class AdminController extends Controller
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
+        $bil = Eln_pengesahan_bahagian::where('id_permohonan', $permohonan->permohonansID)->count();
 
-        Eln_pengesahan_bahagian::insertGetId([
-            'id_permohonan' => $permohonan->permohonansID,
-            'id_rombongan' => $permohonan->rombongans_id,
-            'id_pemohon' => $permohonan->usersID,
-            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => '' . $pemohon->userGredKod->gred_kod_abjad . ' ' . $pemohon->userGredAngka->gred_angka_nombor . '',
-            'taraf_pemohon' => $pemohon->taraf,
-            'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
-            'id_pengesah' => Auth::user()->usersID,
-            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => '' . $pengesah->userGredKod->gred_kod_abjad . ' ' . $pengesah->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
-            'ulasan' => $request->ulasan,
-            'status_pengesah' => 'disokong',
-            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-        ]);
+        if ($bil > 0) {
 
-        Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
-        // flash('Permohonan telah disokong.', 'success');
+            toast('Permohonan telah disokong', 'success')->position('top-end');
+            return redirect('/senaraiPermohonanJabatan');
 
-        $suk = User::where('role', 'DatoSUK')->get();
+        } else {
 
-        if ($permohonan->JenisPermohonan == 'Rasmi' || $permohonan->JenisPermohonan == 'Tidak Rasmi') {
-            Notification::send($suk, new SenaraiKelulusan($suk));
+             Eln_pengesahan_bahagian::insertGetId([
+                'id_permohonan' => $permohonan->permohonansID,
+                'id_rombongan' => $permohonan->rombongans_id,
+                'id_pemohon' => $permohonan->usersID,
+                'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+                'gred_pemohon' => '' . $pemohon->userGredKod->gred_kod_abjad . ' ' . $pemohon->userGredAngka->gred_angka_nombor . '',
+                'taraf_pemohon' => $pemohon->taraf,
+                'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
+                'id_pengesah' => Auth::user()->usersID,
+                'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+                'gred_pengesah' => '' . $pengesah->userGredKod->gred_kod_abjad . ' ' . $pengesah->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+                'ulasan' => $request->ulasan,
+                'status_pengesah' => 'disokong',
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
+
+            Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
+            // flash('Permohonan telah disokong.', 'success');
+    
+            $suk = User::where('role', 'DatoSUK')->get();
+    
+            if ($permohonan->JenisPermohonan == 'Rasmi' || $permohonan->JenisPermohonan == 'Tidak Rasmi') {
+                Notification::send($suk, new SenaraiKelulusan($suk));
+            }
+            // dd($suk);
+            toast('Permohonan telah disokong', 'success')->position('top-end');
+            return redirect('/senaraiPermohonanJabatan');
         }
-        // dd($suk);
-        toast('Permohonan telah disokong', 'success')->position('top-end');
-        return redirect('/senaraiPermohonanJabatan');
+        
     }
 
     public function pengesahanTolak(Request $request)

@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Jabatan</label>
-                                    <textarea style="resize: none" class="form-control" cols="30" rows="2" disabled>{{ Auth::user()->userJabatan->nama_jabatan }} ({{ Auth::user()->userJabatan->kod_jabatan }})</textarea>
+                                    <textarea style="resize: none" class="form-control" cols="30" rows="2" disabled>{{ $pengguna->nama_jabatan_pengguna }} ({{ $pengguna->kod_jabatan_pengguna }})</textarea>
                                 </div>
                             </div>
                         @endif
