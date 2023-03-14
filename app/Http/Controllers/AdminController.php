@@ -176,24 +176,23 @@ class AdminController extends Controller
 
             $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
                 ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->whereIn('statusPermohonanRom', ['Lulus Semakan','Pending'])
+                ->whereIn('statusPermohonanRom', ['Lulus Semakan', 'Pending'])
                 ->orderBy('rombongans.created_at', 'asc')
                 ->get();
-
         } elseif (Auth::user()->role == 'jabatan') {
 
             if ($jab == 38) {
 
                 $rombongan = Rombongan::select('users.*', 'jabatan.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
-                ->whereIn('statusPermohonanRom', ['Pending'])
-                ->WhereIn('users.jabatan', $jab)
-                ->orWhere(function ($query) {
+                    ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->WhereIn('users.jabatan', $jab)
+                    ->orWhere(function ($query) {
                         $query->where('statusPermohonanRom', 'Ketua Jabatan')->Where('stsukpem', 1);
                     })
-                ->orderBy('rombongans.created_at', 'asc')
-                ->get();
+                    ->orderBy('rombongans.created_at', 'asc')
+                    ->get();
 
                 // $permohonan = DB::table('senarai_data_permohonan')
                 //     ->where('statusPermohonan', 'Ketua Jabatan')
@@ -208,17 +207,17 @@ class AdminController extends Controller
             } elseif ($jab == 39) {
 
                 $rombongan = Rombongan::select('users.*', 'jabatan.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
-                ->whereIn('statusPermohonanRom', ['Pending'])
-                ->WhereIn('users.jabatan', ['39', '40', '35', '36'])
-                ->orWhere(function ($query) {
+                    ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->WhereIn('users.jabatan', ['39', '40', '35', '36'])
+                    ->orWhere(function ($query) {
                         $query->where('statusPermohonanRom', 'Ketua Jabatan')->Where('stsukpem', 1);
                     })
-                ->orderBy('rombongans.created_at', 'asc')
-                ->get();
+                    ->orderBy('rombongans.created_at', 'asc')
+                    ->get();
 
-                
+
                 // $permohonan = DB::table('senarai_data_permohonan')
                 //     ->whereIn('statusPermohonan', ['Ketua Jabatan'])
                 //     ->WhereIn('jabatan', ['39', '40', '35', '36'])
@@ -243,8 +242,17 @@ class AdminController extends Controller
                     // PTJ Tanah Merah dan MD Tanah Merah
                     $id_jabatan = ['4', '18'];
                 } elseif ($jab == 5) {
-                    // PTJ Kuala Krai dan MD Kuala Krai
-                    $id_jabatan = ['5', '17'];
+                    if (Auth::user()->jawatan == 215) {
+                        //  MD Dabong
+                        $id_jabatan = ['23'];
+                    } else {
+                        // PTJ Kuala Krai dan MD Kuala Krai
+                        $id_jabatan = ['5', '17'];
+                    }
+ 
+                } elseif ($jab == 5 && Auth::user()->jawatan == 215) {
+                    //  MD Dabong
+                    $id_jabatan = ['23'];
                 } elseif ($jab == 6) {
                     // PTJ Machang dan MD Machang
                     $id_jabatan = ['6', '20'];
@@ -265,12 +273,12 @@ class AdminController extends Controller
                 }
 
                 $rombongan = Rombongan::select('users.*', 'jabatan.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
-                ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
-                ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
-                ->whereIn('statusPermohonanRom', ['Pending'])
-                ->WhereIn('users.jabatan', $id_jabatan)
-                ->orderBy('rombongans.created_at', 'asc')
-                ->get();
+                    ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+                    ->whereIn('statusPermohonanRom', ['Pending'])
+                    ->WhereIn('users.jabatan', $id_jabatan)
+                    ->orderBy('rombongans.created_at', 'asc')
+                    ->get();
             }
 
             // $rombongan = Rombongan::select('users.*', 'jabatan.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
@@ -444,8 +452,8 @@ class AdminController extends Controller
 
         $negaraRom_lebih = $req->input('negaraRom_lebih');
         if ($negaraRom_lebih == 1) {
-             $negaraRom_tambahan = implode(', ', $req->input('negaraRom_tambahan'));
-        }else {
+            $negaraRom_tambahan = implode(', ', $req->input('negaraRom_tambahan'));
+        } else {
             $negaraRom_tambahan = '';
         }
 
@@ -538,9 +546,9 @@ class AdminController extends Controller
         $sej = Permohonan::where('permohonansID', $id)->first();
 
         $pengguna = User::select('users.*', 'jabatan.nama_jabatan as nama_jabatan_pengguna', 'jabatan.kod_jabatan as kod_jabatan_pengguna')
-        ->join('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
-        ->where('usersID', $sej->usersID)
-        ->first();
+            ->join('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+            ->where('usersID', $sej->usersID)
+            ->first();
 
         // dd($pengguna);
 
@@ -569,7 +577,7 @@ class AdminController extends Controller
 
         $negara = Negara::all();
 
-        return view('admin.detailPermohonan', compact('sejarah', 'permohonan', 'pasangan', 'dokumen_sokongan', 'jumlahDate', 'jumlahDateCuti', 'dokumen', 'negara','pengguna'));
+        return view('admin.detailPermohonan', compact('sejarah', 'permohonan', 'pasangan', 'dokumen_sokongan', 'jumlahDate', 'jumlahDateCuti', 'dokumen', 'negara', 'pengguna'));
     }
 
     public function pesertaRombongan()
@@ -592,7 +600,7 @@ class AdminController extends Controller
         $rombongan = Rombongan::leftjoin('users', 'users.usersID', '=', 'rombongans.ketua_rombongan')
             ->where('rombongans_id', $id)
             ->get();
-            // dd($rombongan);
+        // dd($rombongan);
 
         foreach ($rombongan as $rombo) {
             $mula = Carbon::parse($rombo->tarikhMulaRom)->subDays(1);
@@ -600,9 +608,10 @@ class AdminController extends Controller
             $jumlahDate = $mula->diffInDays($akhir);
         }
 
-        $peserta = Permohonan::select('permohonans.*', 'users.*', 'jabatan.*', 'eln_pengesahan_bahagian.*', 'eln_kelulusan.*', 'eln_kelulusan.id as id_pelulus')
+        $peserta = Permohonan::select('permohonans.*', 'users.*', 'jabatan.*', 'jawatan.namaJawatan', 'eln_pengesahan_bahagian.*', 'eln_kelulusan.*', 'eln_kelulusan.id as id_pelulus')
             ->join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
+            ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
             ->leftjoin('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id_permohonan', '=', 'permohonans.permohonansID')
             ->leftjoin('eln_kelulusan', 'eln_kelulusan.id_pengesahan', '=', 'eln_pengesahan_bahagian.id')
             ->where('permohonans.rombongans_id', $id)
@@ -613,7 +622,7 @@ class AdminController extends Controller
             ->where('rombongans_id', '=', $id)
             ->first();
 
-            $negara = Negara::all();
+        $negara = Negara::all();
 
         // dd($dokumen);
 
@@ -1361,7 +1370,7 @@ class AdminController extends Controller
     public function senaraiPermohonanJabatan()
     {
         $jab = Auth::user()->jabatan;
-        // echo $jab;
+        // dd($jab, Auth::user()->jawatan);
 
         if ($jab == 38) {
             $permohonan = DB::table('senarai_data_permohonan')
@@ -1384,6 +1393,7 @@ class AdminController extends Controller
                 ->get();
         } else {
             if ($jab == 1) {
+
                 // PTJ KB dan MD Ketereh
                 $id_jabatan = ['1', '12'];
             } elseif ($jab == 2) {
@@ -1396,8 +1406,13 @@ class AdminController extends Controller
                 // PTJ Tanah Merah dan MD Tanah Merah
                 $id_jabatan = ['4', '18'];
             } elseif ($jab == 5) {
-                // PTJ Kuala Krai dan MD Kuala Krai
-                $id_jabatan = ['5', '17'];
+                if (Auth::user()->jawatan == 215) {
+                    //  MD Dabong
+                    $id_jabatan = ['23'];
+                } else {
+                    // PTJ Kuala Krai dan MD Kuala Krai
+                    $id_jabatan = ['5', '17'];
+                }
             } elseif ($jab == 6) {
                 // PTJ Machang dan MD Machang
                 $id_jabatan = ['6', '20'];
@@ -1449,6 +1464,7 @@ class AdminController extends Controller
     public function senaraiPermohonanLepas()
     {
         $jab = Auth::user()->jabatan;
+
         if ($jab == 38) {
             $permohonan = DB::table('senarai_data_permohonan_ind_rom')
                 ->Where('jabatan_pengesah', $jab)
@@ -1458,6 +1474,12 @@ class AdminController extends Controller
                 })
                 ->orderBy('tarikhmohon', 'desc')
                 ->get();
+
+                $rombo = DB::table('senarai_data_permohonan_rombongan')
+                ->where('jabatan_pemohon', $jab)
+                ->orderBy('tarikhMohon', 'desc')
+                ->get();
+
         } elseif ($jab == 39) {
             $permohonan = DB::table('senarai_data_permohonan_ind_rom')
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Permohonan Berjaya', 'Permohonan Gagal'])
@@ -1467,12 +1489,65 @@ class AdminController extends Controller
                 })
                 ->orderBy('tarikhmohon', 'desc')
                 ->get();
-        } else {
-            $permohonan = DB::table('senarai_data_permohonan_ind_rom')
+
+                $rombo = DB::table('senarai_data_permohonan_rombongan')
                 ->where('jabatan_pemohon', $jab)
+                ->orderBy('tarikhMohon', 'desc')
+                ->get();
+        } else {
+
+            if ($jab == 1) {
+                // PTJ KB dan MD Ketereh
+                $id_jabatan = ['1', '12'];
+            } elseif ($jab == 2) {
+                // PTJ Pasir Mas dan MD Pasir Mas
+                $id_jabatan = ['2', '16'];
+            } elseif ($jab == 3) {
+                // PTJ Tumpat dan MD Tumpat
+                $id_jabatan = ['3', '21'];
+            } elseif ($jab == 4) {
+                // PTJ Tanah Merah dan MD Tanah Merah
+                $id_jabatan = ['4', '18'];
+            } elseif ($jab == 5) {
+                if (Auth::user()->jawatan == 215) {
+                    //  MD Dabong
+                    $id_jabatan = ['23'];
+                } else {
+                    // PTJ Kuala Krai dan MD Kuala Krai
+                    $id_jabatan = ['5', '17'];
+                }
+            } elseif ($jab == 5 && Auth::user()->jawatan == 215) {
+                //  MD Dabong
+                $id_jabatan = ['23'];
+            } elseif ($jab == 6) {
+                // PTJ Machang dan MD Machang
+                $id_jabatan = ['6', '20'];
+            } elseif ($jab == 7) {
+                // PTJ pasir Puteh dan MD pasir Puteh
+                $id_jabatan = ['7', '19'];
+            } elseif ($jab == 8) {
+                // PTJ Bachok dan MD Bachok
+                $id_jabatan = ['8', '22'];
+            } elseif ($jab == 9) {
+                // PTJ Gua Musang dan MD Gua Musang
+                $id_jabatan = ['9', '15'];
+            } elseif ($jab == 10) {
+                // PTJ jeli dan MD jeli
+                $id_jabatan = ['10', '14'];
+            } else {
+                $id_jabatan = [$jab];
+            }
+
+            $permohonan = DB::table('senarai_data_permohonan_ind_rom')
+                ->whereIn('jabatan_pemohon', $id_jabatan)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Permohonan Berjaya', 'Permohonan Gagal'])
                 ->whereNotIn('role', ['jabatan'])
                 ->orderBy('tarikhmohon', 'desc')
+                ->get();
+
+                $rombo = DB::table('senarai_data_permohonan_rombongan')
+                ->whereIn('jabatan_pemohon', $id_jabatan)
+                ->orderBy('tarikhMohon', 'desc')
                 ->get();
         }
 
@@ -1495,10 +1570,11 @@ class AdminController extends Controller
         //     ->orderBy('rombongans.created_at', 'desc')
         //     ->get();
 
-        $rombo = DB::table('senarai_data_permohonan_rombongan')
-            ->where('jabatan_pemohon', $jab)
-            ->orderBy('tarikhMohon', 'desc')
-            ->get();
+        
+        // $rombo = DB::table('senarai_data_permohonan_rombongan')
+        //     ->where('jabatan_pemohon', $jab)
+        //     ->orderBy('tarikhMohon', 'desc')
+        //     ->get();
 
         $jabatan = Jabatan::where('jabatan_id', $jab)->first();
 
@@ -1542,10 +1618,9 @@ class AdminController extends Controller
 
             toast('Permohonan telah disokong', 'success')->position('top-end');
             return redirect('/senaraiPermohonanJabatan');
-
         } else {
 
-             Eln_pengesahan_bahagian::insertGetId([
+            Eln_pengesahan_bahagian::insertGetId([
                 'id_permohonan' => $permohonan->permohonansID,
                 'id_rombongan' => $permohonan->rombongans_id,
                 'id_pemohon' => $permohonan->usersID,
@@ -1565,9 +1640,9 @@ class AdminController extends Controller
 
             Permohonan::where('permohonansID', $id)->update(['ulasan' => $ulasan, 'statusPermohonan' => $upda, 'jumlahHariPermohonanBerlepas' => $length]);
             // flash('Permohonan telah disokong.', 'success');
-    
+
             $suk = User::where('role', 'DatoSUK')->get();
-    
+
             if ($permohonan->JenisPermohonan == 'Rasmi' || $permohonan->JenisPermohonan == 'Tidak Rasmi') {
                 Notification::send($suk, new SenaraiKelulusan($suk));
             }
@@ -1575,7 +1650,6 @@ class AdminController extends Controller
             toast('Permohonan telah disokong', 'success')->position('top-end');
             return redirect('/senaraiPermohonanJabatan');
         }
-        
     }
 
     public function pengesahanTolak(Request $request)

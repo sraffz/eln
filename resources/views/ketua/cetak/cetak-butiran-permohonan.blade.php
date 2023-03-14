@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Butiran Permohonan</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <style>
         .table td {
@@ -24,19 +25,20 @@
         }
 
         footer {
-                position: fixed; 
-                bottom: -30px; 
-                left: 0px; 
-                right: 0px;
-                height: 50px; 
+            position: fixed;
+            bottom: -30px;
+            left: 0px;
+            right: 0px;
+            height: 50px;
 
-                /** Extra personal styles **/
-                background-color: #ffffff;
-                color: rgb(0, 0, 0);
-                text-align: center;
-                line-height: 35px;
-            }
-        
+            /** Extra personal styles **/
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            line-height: 35px;
+        }
+
+    
     </style>
 </head>
 
@@ -116,7 +118,9 @@
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Negara Yang Dilawati</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->negara }}{{ ', '.$permohonan->negara_tambahan }}</strong> </td>
+                    <td class="text-left">
+                        <strong>{{ $permohonan->negara }}{{ ', ' . $permohonan->negara_tambahan }}</strong>
+                    </td>
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Tujuan Lawatan</strong> </td>
@@ -135,7 +139,7 @@
             </tbody>
         </table>
 
-        @if (count($sejarah)>0)
+        @if (count($sejarah) > 0)
             <table class="table table-bordered table-sm">
                 <thead class="thead-dark">
                     <tr style="text-transform: uppercase">
@@ -149,9 +153,11 @@
                                 @foreach ($sejarah as $sej)
                                     @if ($sej->statusPermohonanRom == 'Permohonan Gagal')
                                     @else
-                                        {{ $sej->negara }} ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
+                                        {{ $sej->negara }}
+                                        ({{ date('d/m/Y', strtotime($sej->tarikhMulaPerjalanan)) }}
                                         -
-                                        {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }}), 
+                                        {{ date('d/m/Y', strtotime($sej->tarikhAkhirPerjalanan)) }})
+                                        ,
                                     @endif
                                 @endforeach
                             </strong>
@@ -192,7 +198,6 @@
                         </tr>
                     </tbody>
                 </table>
-
             @endif
         @endforeach
 
@@ -252,13 +257,50 @@
             </tbody>
         </table>
     </div>
-    @if (count($pengesah)>0)
-    <div class="break">
-        @foreach ($pengesah as $psh)
+    @if (count($pengesah) > 0)
+        <div class="break">
+            @foreach ($pengesah as $psh)
+                <table class="table table-bordered table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th colspan="2" class="text-left">PENGESAHAN KETUA BAHAGIAN/JABATAN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-left" style="width: 30%"><strong>Nama Ketua Bahagian</strong> </td>
+                            <td class="text-left"><strong>{{ $psh->nama }}</strong> </td>
+                        </tr>
+                        <tr>
+                            <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
+                            <td class="text-left"><strong>{{ $psh->jawatan_pengesah }}
+                                    ({{ $psh->gred_pengesah }})
+                                </strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
+                            <td class="text-left"><strong>{{ $psh->nama_jabatan }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>
+                            <td class="text-left">
+                                <strong>{{ $psh->ulasan }}</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-left" style="width: 30%"><strong>Tarikh</strong> </td>
+                            <td class="text-left">
+                                <strong>{{ date('d/m/Y', strtotime($psh->tarikhsah)) }}</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            @endforeach
+            <br>
             <table class="table table-bordered table-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th colspan="2" class="text-left">PENGESAHAN KETUA BAHAGIAN</th>
+                        <th colspan="2" class="text-left">PENGESAHAN PEGAWAI PELULUS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -289,9 +331,10 @@
                     </tr>
                 </tbody>
             </table>
-        @endforeach
-        <br>
-    </div>
+            <table>
+
+            </table>
+        </div>
     @endif
     <br>
     <div class="text-center">

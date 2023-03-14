@@ -5,8 +5,7 @@
 @section('link')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <style>
         table th {
@@ -19,7 +18,6 @@
             font-weight: bold;
             vertical-align: middle;
         }
-
     </style>
 @endsection
 
@@ -68,18 +66,19 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($permohonan as $index => $mohonan)
-                                    @php
-                                        $id = $mohonan->permohonansID;
-                                        // $id = Hashids::encode($id);
-                                    @endphp
+                                        @php
+                                            $id = $mohonan->permohonansID;
+                                            // $id = Hashids::encode($id);
+                                        @endphp
                                         <tr class="text-center">
                                             <td>
                                                 {{ $index + 1 }}
                                             </td>
                                             <td>
-                                                <a
-                                                    href='{{ url('detailPermohonan', [$id]) }}'>
-                                                    {{ $mohonan->negara }}@if ($mohonan->negara_lebih_dari_satu == 1){{', '.$mohonan->negara_tambahan }}@endif
+                                                <a href='{{ url('detailPermohonan', [$id]) }}'>
+                                                    {{ $mohonan->negara }}@if ($mohonan->negara_lebih_dari_satu == 1)
+                                                        {{ ', ' . $mohonan->negara_tambahan }}
+                                                    @endif
                                                 </a>
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
@@ -101,8 +100,7 @@
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                     <span class="badge badge-danger">Gagal</span>
                                                 @else
-                                                    <span
-                                                        class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
+                                                    <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span>
                                                 @endif
                                             </td>
                                             <td>
@@ -133,12 +131,12 @@
                                                             class="fa fa-user-times"></i></a>
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
                                                     @if ($mohonan->JenisPermohonan == 'Rasmi')
-                                                        @if ($mohonan->surat = 'MEMO')
+                                                        @if ($mohonan->surat == 'MEMO')
                                                             <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Memo
                                                             </a>
-                                                        @elseif ($mohonan->surat = 'SURAT')
+                                                        @elseif ($mohonan->surat == 'SURAT')
                                                             <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Surat
@@ -147,12 +145,12 @@
                                                         <div class="mt-2">
                                                         </div>
                                                     @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
-                                                        @if ($mohonan->surat = 'MEMO')
+                                                        @if ($mohonan->surat == 'MEMO')
                                                             <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Memo
                                                             </a>
-                                                        @elseif ($mohonan->surat = 'SURAT')
+                                                        @elseif ($mohonan->surat == 'SURAT')
                                                             <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Surat
@@ -161,14 +159,17 @@
                                                         <div class="mt-2">
                                                         </div>
                                                     @elseif($mohonan->JenisPermohonan == 'rombongan')
-                                                        {{-- <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
-                                                            class="btn btn-primary btn-xs">
-                                                            Surat
-                                                        </a>
-                                                        <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
-                                                            class="btn btn-primary btn-xs">
-                                                            Memo
-                                                        </a> --}}
+                                                        @if ($mohonan->surat == 'MEMO')
+                                                            <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                class="btn btn-primary btn-xs">
+                                                                Memo
+                                                            </a>
+                                                        @elseif ($mohonan->surat == 'SURAT')
+                                                            <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                class="btn btn-primary btn-xs">
+                                                                Surat
+                                                            </a>
+                                                        @endif
                                                     @endif
                                                     @if ($mohonan->pengesahan_pembatalan == 1)
                                                         <button type="button" class="btn btn-info btn-xs"
@@ -181,8 +182,7 @@
                                                     @else
                                                         @if ($mohonan->tarikhAkhirPerjalanan >= \Carbon\Carbon::now()->format('Y-m-d'))
                                                             <button type="button" class="btn btn-dark btn-xs"
-                                                                data-toggle="modal"
-                                                                data-id="{{ $mohonan->permohonansID }}"
+                                                                data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
                                                                 data-target="#batalpermohonan">
                                                                 Batal Permohonan
                                                             </button>
@@ -192,12 +192,12 @@
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                     {{-- <span class="badge badge-danger">Gagal</span> --}}
                                                     @if ($mohonan->JenisPermohonan == 'Rasmi')
-                                                        @if ($mohonan->surat = 'MEMO')
+                                                        @if ($mohonan->surat == 'MEMO')
                                                             <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Memo
                                                             </a>
-                                                        @elseif ($mohonan->surat = 'SURAT')
+                                                        @elseif ($mohonan->surat == 'SURAT')
                                                             <a href="{{ route('suratRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Surat
@@ -205,19 +205,30 @@
                                                         @endif
                                                         <div class="mt-2"></div>
                                                     @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
-                                                        @if ($mohonan->surat = 'MEMO')
+                                                        @if ($mohonan->surat == 'MEMO')
                                                             <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Memo
                                                             </a>
                                                             <div class="mt-2"></div>
-                                                        @elseif ($mohonan->surat = 'SURAT')
+                                                        @elseif ($mohonan->surat == 'SURAT')
                                                             <a href="{{ route('suratTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                 class="btn btn-primary btn-xs">
                                                                 Surat
                                                             </a>
                                                         @endif
                                                     @elseif($mohonan->JenisPermohonan == 'rombongan')
+                                                        @if ($mohonan->surat == 'MEMO')
+                                                            <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                class="btn btn-primary btn-xs">
+                                                                Memo
+                                                            </a>
+                                                        @elseif ($mohonan->surat == 'SURAT')
+                                                            <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                class="btn btn-primary btn-xs">
+                                                                Surat
+                                                            </a>
+                                                        @endif
                                                         {{-- <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
                                                             class="btn btn-primary btn-xs">
                                                             Surat

@@ -132,6 +132,20 @@
                                                                     @endif
                                                                     <div class="mt-2">
                                                                     </div>
+                                                                @elseif($mohonan->JenisPermohonan == 'rombongan')
+                                                                    @if ($jabatan->surat == 'MEMO')
+                                                                        <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Memo
+                                                                        </a>
+                                                                    @elseif ($jabatan->surat == 'SURAT')
+                                                                        <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Surat
+                                                                        </a>
+                                                                    @endif
+                                                                    <div class="mt-2">
+                                                                    </div>
                                                                 @endif
                                                                 @if (Auth::user()->role == 'pengguna')
                                                                     @if ($mohonan->pengesahan_pembatalan == 1)
@@ -178,6 +192,20 @@
                                                                             Surat
                                                                         </a>
                                                                     @endif
+                                                                @elseif($mohonan->JenisPermohonan == 'rombongan')
+                                                                    @if ($jabatan->surat == 'MEMO')
+                                                                        <a href="{{ route('memo-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Memo
+                                                                        </a>
+                                                                    @elseif ($jabatan->surat == 'SURAT')
+                                                                        <a href="{{ route('surat-rombongan', ['id' => $mohonan->rombongans_id]) }}"
+                                                                            class="btn btn-primary btn-xs">
+                                                                            Surat
+                                                                        </a>
+                                                                    @endif
+                                                                    <div class="mt-2">
+                                                                    </div>
                                                                 @endif
                                                             @endif
                                                         </td>
@@ -237,7 +265,10 @@
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMohon)->format('d/m/Y') }}
                                                         </td>
-                                                        <td>{{ $mohonan->negaraRom }}@if ($mohonan->negaraRom_lebih == 1 ){{ ', '.$mohonan->negaraRom_tambahan }}@endif</td>
+                                                        <td>{{ $mohonan->negaraRom }}@if ($mohonan->negaraRom_lebih == 1)
+                                                                {{ ', ' . $mohonan->negaraRom_tambahan }}
+                                                            @endif
+                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaRom)->format('d/m/Y') }}
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}

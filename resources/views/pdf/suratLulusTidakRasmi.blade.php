@@ -196,7 +196,7 @@
                     <div style="line-height: 1.6;">
                         2. Sukacita dimaklumkan bahawa permohonan bagi
                         <strong>{{ strtoupper($permohon->user->nama) }}</strong> untuk ke luar negara iaitu
-                        ke <strong>{{ strtoupper($permohon->negara) }}{{ $negara_tambahan }}</strong> bagi menghadiri urusan rasmi
+                        ke <strong>{{ strtoupper($permohon->negara) }}{{ $negara_tambahan }}</strong> bagi urusan persendirian
                         tersebut pada
                         <strong>{{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                             hingga

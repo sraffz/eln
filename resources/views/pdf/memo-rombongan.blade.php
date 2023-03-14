@@ -170,9 +170,16 @@
                                     } else {
                                         $negaraRom_tambahan = '';
                                     }
+
+                                    if ($permohon->jenis_rombongan  == 'RASMI') {
+                                        $jenis_rombongan = 'rasmi';
+                                    } else {
+                                        $jenis_rombongan = 'persendirian';
+                                    }
+                                    
                                 @endphp
                                 <font style="text-transform: uppercase">
-                                    <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA Secara rombongan bagi tujuan
+                                    <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA atas urusan {{ $jenis_rombongan }} Secara rombongan bagi tujuan
                                         {{ $permohon->tujuanRom }}
                                         {{ strtoupper($permohon->lainTujuan) }} PADA
                                         {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
@@ -197,9 +204,9 @@
 
                                     dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                         orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
-                                    negara iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> bagi
-                                    tujuan {{ $permohon->tujuanRom }}
-                                    <strong>pada
+                                    negara iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> atas urusan {{ $jenis_rombongan }} bagi
+                                    tujuan <strong>{{ $permohon->tujuanRom }}</strong>
+                                    pada <strong>
                                         {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                         hingga
                                         {{ $hariAkhir }} {{ $bulanAkhir }} {{ $tahunAkhir }}</strong>

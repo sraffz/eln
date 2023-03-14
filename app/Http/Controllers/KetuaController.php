@@ -625,10 +625,53 @@ class KetuaController extends Controller
                     ->orderBy('rombongans.created_at', 'asc')
                     ->get();
             } else {
+
+                if ($jab == 1) {
+                    // PTJ KB dan MD Ketereh
+                    $id_jabatan = ['1', '12'];
+                } elseif ($jab == 2) {
+                    // PTJ Pasir Mas dan MD Pasir Mas
+                    $id_jabatan = ['2', '16'];
+                } elseif ($jab == 3) {
+                    // PTJ Tumpat dan MD Tumpat
+                    $id_jabatan = ['3', '21'];
+                } elseif ($jab == 4) {
+                    // PTJ Tanah Merah dan MD Tanah Merah
+                    $id_jabatan = ['4', '18'];
+                } elseif ($jab == 5) {
+                    if (Auth::user()->jawatan == 215) {
+                        //  MD Dabong
+                        $id_jabatan = ['23'];
+                    } else {
+                        // PTJ Kuala Krai dan MD Kuala Krai
+                        $id_jabatan = ['5', '17'];
+                    }
+                } elseif ($jab == 5 && Auth::user()->jawatan == 215) {
+                    //  MD Dabong
+                    $id_jabatan = ['23'];
+                } elseif ($jab == 6) {
+                    // PTJ Machang dan MD Machang
+                    $id_jabatan = ['6', '20'];
+                } elseif ($jab == 7) {
+                    // PTJ pasir Puteh dan MD pasir Puteh
+                    $id_jabatan = ['7', '19'];
+                } elseif ($jab == 8) {
+                    // PTJ Bachok dan MD Bachok
+                    $id_jabatan = ['8', '22'];
+                } elseif ($jab == 9) {
+                    // PTJ Gua Musang dan MD Gua Musang
+                    $id_jabatan = ['9', '15'];
+                } elseif ($jab == 10) {
+                    // PTJ jeli dan MD jeli
+                    $id_jabatan = ['10', '14'];
+                } else {
+                    $id_jabatan = [$jab];
+                }
+
                 $rombongan = Rombongan::select('users.*', 'rombongans.*', 'rombongans.created_at as tarikmohon')
                     ->leftjoin('users', 'users.usersID', '=', 'rombongans.usersID')
+                    ->whereIn('users.jabatan', $id_jabatan)
                     ->whereIn('statusPermohonanRom', ['Pending'])
-                    ->where('users.jabatan', $jab)
                     ->orderBy('rombongans.created_at', 'asc')
                     ->get();
             }
@@ -692,34 +735,57 @@ class KetuaController extends Controller
                     ->orderBy('tarikhmohon', 'asc')
                     ->get();
             } else {
+
+                if ($jab == 1) {
+                    // PTJ KB dan MD Ketereh
+                    $id_jabatan = ['1', '12'];
+                } elseif ($jab == 2) {
+                    // PTJ Pasir Mas dan MD Pasir Mas
+                    $id_jabatan = ['2', '16'];
+                } elseif ($jab == 3) {
+                    // PTJ Tumpat dan MD Tumpat
+                    $id_jabatan = ['3', '21'];
+                } elseif ($jab == 4) {
+                    // PTJ Tanah Merah dan MD Tanah Merah
+                    $id_jabatan = ['4', '18'];
+                } elseif ($jab == 5) {
+                    if (Auth::user()->jawatan == 215) {
+                        //  MD Dabong
+                        $id_jabatan = ['23'];
+                    } else {
+                        // PTJ Kuala Krai dan MD Kuala Krai
+                        $id_jabatan = ['5', '17'];
+                    }
+                } elseif ($jab == 5 && Auth::user()->jawatan == 215) {
+                    //  MD Dabong
+                    $id_jabatan = ['23'];
+                } elseif ($jab == 6) {
+                    // PTJ Machang dan MD Machang
+                    $id_jabatan = ['6', '20'];
+                } elseif ($jab == 7) {
+                    // PTJ pasir Puteh dan MD pasir Puteh
+                    $id_jabatan = ['7', '19'];
+                } elseif ($jab == 8) {
+                    // PTJ Bachok dan MD Bachok
+                    $id_jabatan = ['8', '22'];
+                } elseif ($jab == 9) {
+                    // PTJ Gua Musang dan MD Gua Musang
+                    $id_jabatan = ['9', '15'];
+                } elseif ($jab == 10) {
+                    // PTJ jeli dan MD jeli
+                    $id_jabatan = ['10', '14'];
+                } else {
+                    $id_jabatan = [$jab];
+                }
+
                 $permohonan = DB::table('senarai_data_permohonan')
+                    ->WhereIn('jabatan', $id_jabatan)
+                    // ->where('jabatan', $jab)
                     ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-                    ->where('jabatan', $jab)
                     ->whereNotIn('role', ['jabatan'])
                     ->orderBy('tarikhmohon', 'asc')
                     ->get();
             }
-
-            // if ($jab == 44) {
-            //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
-            //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-            //         ->whereIn('users.jabatan', [44, 37])
-            //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-            //         ->orderBy('permohonans.created_at','asc')
-            //         ->get();
-            // } else {
-            //     $permohonan = Permohonan::select('permohonans.*', 'users.*', 'permohonans.created_at as tarikhmohon')
-            //         ->join('users', 'permohonans.usersID', '=', 'users.usersID')
-            //         ->where('users.jabatan', $jab)
-            //         ->whereIn('statusPermohonan', ['Ketua Jabatan'])
-            //         ->orderBy('permohonans.created_at','asc')
-            //         ->get();
-            // }
-
-            // $permohonan = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
-            //     ->where('statusPermohonan', 'Ketua Jabatan')
-            //     ->where('users.jabatan', Auth::user()->jabatan)
-            //     ->get();
         }
         // return dd($permohonan);
         // return view('ketua.cetak.cetak-senarai-permohonan', compact('permohonan'));

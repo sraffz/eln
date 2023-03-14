@@ -159,6 +159,8 @@
                             <option value="Contract For Service (CFS)" {{ old('taraf') == 'Contract For Service (CFS)' ? 'selected' : '' }}>Contract For Service (CFS)</option>
                             <option value="Berelaun" {{ old('taraf') == 'Berelaun' ? 'selected' : '' }}>Berelaun</option>
                             <option value="Sambilan" {{ old('taraf') == 'Sambilan' ? 'selected' : '' }}>Sambilan</option>
+                            <option value="MyStep" {{ old('taraf') == 'MyStep' ? 'selected' : '' }}>Malaysian Short-Term Employment Programme
+                                (MySTEP)</option>
                         </select>
                         @if ($errors->has('taraf'))
                             <span class="invalid-feedback" role="alert">

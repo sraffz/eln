@@ -176,7 +176,7 @@
                                                                 data-nama="{{ $peser->user->nama }}"
                                                                 data-nokp="{{ $peser->user->nokp }}"
                                                                 data-email="{{ $peser->user->email }}"
-                                                                data-jawatan="{{ $peser->user->jawatan }}"
+                                                                data-jawatan="{{ $peser->namaJawatan }}"
                                                                 data-jabatan="{{ $peser->nama_jabatan }}">
                                                                 {{ $peser->user->nama }}</a>
                                                         </td>
@@ -260,7 +260,7 @@
                                                             data-nama="{{ $peser->user->nama }}"
                                                             data-nokp="{{ $peser->user->nokp }}"
                                                             data-email="{{ $peser->user->email }}"
-                                                            data-jawatan="{{ $peser->user->jawatan }}"
+                                                            data-jawatan="{{ $peser->namaJawatan }}"
                                                             data-jabatan="{{ $peser->nama_jabatan }}">
                                                             {{ $peser->user->nama }}
                                                         </a>
@@ -342,11 +342,11 @@
                         <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
                             placeholder="">
                     </div>
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label for="jabatan">Jawatan</label>
-                        <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
+                        <input type="text" class="form-control" name="jawatan" disabled id="jawatan_edit" value=""
                             placeholder="">
-                    </div> --}}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>

@@ -1618,8 +1618,9 @@ class permohonanController extends Controller
             $pathCuti = $p->pathFileCuti;
             if ($pathCuti ?? '') {
                 Storage::delete($pathCuti);
-                $per = Permohonan::where('rombongans_id', $id)->delete();
             }
+
+            Permohonan::where('rombongans_id', $id)->delete();
         }
 
         $dokumen = DB::table('dokumens')
@@ -2053,11 +2054,19 @@ class permohonanController extends Controller
     {
         $id = Auth::user()->usersID;
 
-        $permohonan = Permohonan::where('permohonans.usersID', $id)
-            ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
-            ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
-            ->orderBy('permohonans.created_at', 'desc')
+        // $permohonan = Permohonan::where('permohonans.usersID', $id)
+        //     ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'permohonans.rombongans_id')
+        //     ->whereIn('permohonans.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+        //     ->orderBy('permohonans.created_at', 'desc')
+        //     ->get();
+
+        $permohonan = DB::table('senarai_rekod_permohonan_suk')
+            ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'senarai_rekod_permohonan_suk.rombongans_id')
+            ->whereIn('senarai_rekod_permohonan_suk.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
+            ->where('senarai_rekod_permohonan_suk.usersID', $id)
+            // ->orderBy('permohonans.created_at', 'desc')
             ->get();
+
 
         $rombongan = Rombongan::where('usersID', $id)->get();
 

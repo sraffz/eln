@@ -181,6 +181,7 @@ class PdfController extends Controller
         $allPermohonan = DB::table('senarai_data_permohonan')
             ->where('rombongans_id', $id)
             ->whereIn('status_kelulusan', ['Berjaya'])
+            ->orderBy('gred', 'DESC')
             ->get();
 
         // return dd($bil);
