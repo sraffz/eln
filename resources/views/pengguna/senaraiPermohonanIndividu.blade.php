@@ -135,10 +135,78 @@
                                                         onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                             class="fa fa-user-times"></i></a>
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                    @if ($tarikh_kini < $tarikhMulaPerjalanan)
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-dark btn-xs"
+                                                            data-toggle="modal"
+                                                            data-target="#modalPinda_{{ $mohonan->permohonansID }}">
+                                                            Pindaan
+                                                        </button>
 
-                                                    @if ($tarikh_kini < $tarikhMulaPerjalanan )
-                                                        <a class="btn btn-dark btn-xs" href="#"
-                                                            role="button">Pindaan</a>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade"
+                                                            id="modalPinda_{{ $mohonan->permohonansID }}" tabindex="-1"
+                                                            role="dialog" aria-labelledby="modelTitleId"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Pinda Permohonan</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form action="{{ url('pindaan-permohonan') }}" method="post">
+                                                                        {{ csrf_field() }}
+                                                                        <div class="modal-body text-left">
+                                                                            <div class="container-fluid">
+                                                                                @php
+                                                                                    $tarikhMulaMax = \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)
+                                                                                        ->addDays(7)
+                                                                                        ->format('Y-m-d');
+                                                                                    $tarikhAkhirMax = \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)
+                                                                                        ->addDays(7)
+                                                                                        ->format('Y-m-d');
+                                                                                @endphp
+                                                                                <div class="form-group">
+                                                                                    <label for="pinda_tarikh_mula"> Pindaan Mula
+                                                                                        Perjalanan</label>
+                                                                                    <input type="date"
+                                                                                        min="{{ $mohonan->tarikhMulaPerjalanan }}"
+                                                                                        max="{{ $tarikhMulaMax }}"
+                                                                                        class="form-control"
+                                                                                        name="pinda_tarikh_mula"
+                                                                                        id="pinda_tarikh_mula"
+                                                                                        value="{{  $mohonan->tarikhMulaPerjalanan }}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="pinda_tarikh_akhir">Pindaan
+                                                                                        Akhir Perjalanan</label>
+                                                                                    <input type="date"
+                                                                                        min="{{ $mohonan->tarikhAkhirPerjalanan }}"
+                                                                                        max="{{ $tarikhAkhirMax }}"
+                                                                                        class="form-control"
+                                                                                        name="pinda_tarikh_akhir"
+                                                                                        id="pinda_tarikh_akhir"
+                                                                                        value="{{  $mohonan->tarikhAkhirPerjalanan }}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                  <label for="sebab_pinda">Sebab Pindaan Tarikh</label>
+                                                                                  <textarea class="form-control" name="sebab_pinda" id="sebab_pinda" rows="5"></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-dismiss="modal">Batal</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Simpan</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @endif
 
                                                     @if ($mohonan->JenisPermohonan == 'Rasmi')
@@ -193,7 +261,8 @@
                                                     @else
                                                         @if ($mohonan->tarikhAkhirPerjalanan >= \Carbon\Carbon::now()->format('Y-m-d'))
                                                             <button type="button" class="btn btn-dark btn-xs mt-2"
-                                                                data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
+                                                                data-toggle="modal"
+                                                                data-id="{{ $mohonan->permohonansID }}"
                                                                 data-target="#batalpermohonan">
                                                                 Batal Permohonan
                                                             </button>
