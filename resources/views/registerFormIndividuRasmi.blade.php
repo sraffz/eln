@@ -42,6 +42,17 @@
     <section class="content">
         <div class="container-fluid">
             @include('flash::message')
+            <div class="row">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <!-- general form elements disabled -->
             <div class="card card-primary">
                 <div class="card-header">

@@ -585,9 +585,12 @@ class KetuaController extends Controller
         $akhir = Carbon::parse($permohonan->tarikhAkhirPerjalanan);
         $jumlahDate = $mula->diffInDays($akhir);
 
-        $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti)->subDays(1);
-        $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
-        $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
+ 
+            $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti)->subDays(1);
+            $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
+            $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
+       
+        
 
         // return view('ketua.cetak.cetak-butiran-permohonan', compact('pengesah', 'sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('pengesah', 'sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');

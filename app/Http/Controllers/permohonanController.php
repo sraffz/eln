@@ -20,6 +20,7 @@ use App\Eln_kelulusan;
 use DB;
 use Auth;
 use Alert;
+use Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -387,19 +388,19 @@ class permohonanController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'filesokongan' => 'max:1024|mimes:jpeg,png,jpg',
-            'fileRasmi' => 'max:1024|mimes:jpeg,png,jpg',
-            'fileCuti' => 'max:1024|mimes:jpeg,png,jpg',
+        $validator = Validator::make($request->all(), [
+            // 'filesokongan.*' => 'mimes:doc,pdf,docx|max:1024',
+            'fileRasmi.*' => 'mimes:doc,pdf,docx|max:1024',
+            // 'fileCuti.*' => 'mimes:doc,pdf,docx|max:1024',
         ], [
             'filesokongan.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
-            'filesokongan.mimes' => 'Fail perlu dimuatnaik dalam format JPEG, PNG, JPG',
+            'filesokongan.mimetypes' => 'Fail perlu dimuatnaik dalam format PDF',
             'fileRasmi.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
-            'fileRasmi.mimes' => 'Fail perlu dimuatnaik dalam format JPEG, PNG, JPG',
+            'fileRasmi.mimetypes' => 'Fail perlu dimuatnaik dalam format PDF',
             'fileCuti.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
-            'fileCuti.mimes' => 'Fail perlu dimuatnaik dalam format JPEG, PNG, JPG',
+            'fileCuti.mimetypes' => 'Fail perlu dimuatnaik dalam format PDF',
         ]);
- 
+
         // dd($request->all());
         $id = $request->input('id');
         $tujuan = $request->input('tujuan');
@@ -436,7 +437,13 @@ class permohonanController extends Controller
 
         $tarikhMulaPerjalanan = Carbon::parse($dateFrom)->format('Y-m-d');
         $tarikhAkhirPerjalanan = Carbon::parse($dateTo)->format('Y-m-d');
-        $tarikhKembaliBertugas = Carbon::parse($tarikhBertugas)->format('Y-m-d');
+
+        if ($tarikhBertugas == null) {
+            $tarikhKembaliBertugas = null;
+        } else {
+            $tarikhKembaliBertugas = Carbon::parse($tarikhBertugas)->format('Y-m-d');
+        }
+
         $insuran = Carbon::parse($tarikh)->format('Y-m-d');
 
         $end = Carbon::parse($tarikhMulaPerjalanan);
@@ -450,8 +457,14 @@ class permohonanController extends Controller
         // return dd($length);
         $statusPermohonan = 'simpanan';
 
-        if ($length < 13) {
-            Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
+        if ($jenisPermohonan == 'Rasmi') {
+            $bilHari = 7;
+        } elseif ($jenisPermohonan == 'Tidak Rasmi') {
+            $bilHari = 14;
+        }
+
+        if ($length < $bilHari) {
+            Alert::info('Makluman', 'Permohonan mesti dibuat ' . $bilHari . ' hari sebelum perjalanan bermula bagi urusan ' . $jenisPermohonan . '.');
             // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
             return back()->withInput();
         } else {
@@ -499,99 +512,77 @@ class permohonanController extends Controller
                         $filename = $file->hashName();
                         $extension = $file->extension();
 
-                            // check folder for 'current year', if not exist, create one
-                            $currYear = Carbon::now()->format('Y');
+                        // check folder for 'current year', if not exist, create one
+                        $currYear = Carbon::now()->format('Y');
 
-                            $storagePath = 'upload/dokumen_sokongan/' . $currYear;
+                        $storagePath = 'upload/dokumen_sokongan/' . $currYear;
 
-                            $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
-                            $upload_success = $file->storeAs($storagePath, $filename);
+                        $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
+                        $upload_success = $file->storeAs($storagePath, $filename);
 
-                            if ($upload_success) {
-                                $data = [
-                                    'namaFile_sokongan' => $filename,
-                                    'typeFile_sokongan' => $extension,
-                                    'pathFile_sokongan' => $filePath,
-                                    'permohonansID' => $idPermohonan,
-                                    'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                    'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                                ];
-                                DB::table('dokumen_sokongan')->insert($data);
-                            } else {
-                                flash::error('Muat naik tidak berjaya' . $doc_type);
-                                Alert::error('Tidak Berjaya', 'Muat naik Dokumen Sokongan Tidak Berjaya ' . $doc_type);
-                                return redirect('/senaraiPermohonanProses');
-                            }
-                        
+                        if ($upload_success) {
+                            $data = [
+                                'namaFile_sokongan' => $filename,
+                                'typeFile_sokongan' => $extension,
+                                'pathFile_sokongan' => $filePath,
+                                'permohonansID' => $idPermohonan,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ];
+                            DB::table('dokumen_sokongan')->insert($data);
+                        }
                     }
                 }
-                
+
 
                 if ($request->hasFile('fileRasmi')) {
-                    // $allowedfileExtension=['pdf','jpg','png','docx'];
+
                     $files = $request->file('fileRasmi');
 
                     foreach ($files as $file) {
-                        // $filename = $file->getClientOriginalName();
                         $filename = $file->hashName();
                         $extension = $file->extension();
+                        $currYear = Carbon::now()->format('Y');
+                        $storagePath = 'upload/dokumen/' . $currYear;
+                        $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
 
-                        // dd($filename, $filename2,$extension);
-                        // if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
-                            // check folder for 'current year', if not exist, create one
-                            $currYear = Carbon::now()->format('Y');
-                            // $storagePath = public_path() . 'upload/dokumen/' . $currYear;
-                            $storagePath = 'upload/dokumen/' . $currYear;
-                            $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
+                        $upload_success = $file->storeAs($storagePath, $filename);
 
-                            $upload_success = $file->storeAs($storagePath, $filename);
-
-                            if ($upload_success) {
-                                $data = [
-                                    'namaFile' => $filename,
-                                    'typeFile' => $extension,
-                                    'pathFile' => $filePath,
-                                    'permohonansID' => $idPermohonan,
-                                    'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                    'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                                ];
-                                Dokumen::create($data);
-                            // } else {
-                            //     flash::error('Muat naik tidak berjaya' . $doc_type);
-                            //     Alert::error('Tidak Berjaya', 'Muat naik dokumen rasmi tidak berjaya ' . $doc_type);
-                            //     return redirect('/senaraiPermohonanProses');
-                            }
-                        // } else {
-                        //     // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                        //     Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
-                        //     return redirect('/senaraiPermohonanProses');
-                        // }
+                        if ($upload_success) {
+                            $data = [
+                                'namaFile' => $filename,
+                                'typeFile' => $extension,
+                                'pathFile' => $filePath,
+                                'permohonansID' => $idPermohonan,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ];
+                            Dokumen::create($data);
+                        }
                     }
-                    // flash('Permohonan berjaya didaftar.')->success();
-                    Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                    return redirect('/senaraiPermohonanProses');
                 } else {
                     Alert::warning('Berjaya', 'Permohonan didaftar tanpa dokumen rasmi');
-                    // flash('Berjaya didaftar tanpa dokumen rasmi!')->warning();
                     return redirect('/senaraiPermohonanProses');
                 }
-                
-            } elseif ($jenisPermohonan == 'Tidak Rasmi') {
-                // $tempohCuti = $request->input('tempohCuti');
-                // $dateCuti = explode('-', $tempohCuti); // dateRange is you string
-                // $dateFromCuti = $dateCuti[0];
-                // $dateToCuti = $dateCuti[1];
 
-                // $DateNew1Cuti = strtotime($dateFromCuti);
-                // $DateNew2Cuti = strtotime($dateToCuti);
-                // $tarikhMulaCuti = date('Y-m-d', $DateNew1Cuti);
-                // $tarikhAkhirCuti = date('Y-m-d', $DateNew2Cuti);
+                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+                return redirect('/senaraiPermohonanProses');
+            } elseif ($jenisPermohonan == 'Tidak Rasmi') {
 
                 $dateFromCuti = $request->input('tarikhMulaCuti');
                 $dateToCuti = $request->input('tarikhAkhirCuti');
 
-                $tarikhMulaCuti = Carbon::parse($dateFromCuti)->format('Y-m-d');
-                $tarikhAkhirCuti = Carbon::parse($dateToCuti)->format('Y-m-d');
+                if ($dateFromCuti == null) {
+                    $tarikhMulaCuti = null;
+                } else {
+                    $tarikhMulaCuti = Carbon::parse($dateFromCuti)->format('Y-m-d');
+                }
+
+                if ($dateToCuti == null) {
+                    $tarikhAkhirCuti = null;
+                } else {
+                    $tarikhAkhirCuti = Carbon::parse($dateToCuti)->format('Y-m-d');
+                }
 
                 $data = [
                     'tarikhMulaPerjalanan' => $tarikhMulaPerjalanan,
@@ -625,42 +616,27 @@ class permohonanController extends Controller
                     foreach ($files as $file) {
                         $filename = $file->hashName();
                         $extension = $file->extension();
+                        $currYear = Carbon::now()->format('Y');
+                        $storagePath = 'upload/dokumen_sokongan/' . $currYear;
 
-                        // if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG' || $extension == 'DOC' || $extension == 'doc') {
-                            // check folder for 'current year', if not exist, create one
-                            $currYear = Carbon::now()->format('Y');
+                        $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
+                        $upload_success = $file->storeAs($storagePath, $filename);
 
-                            $storagePath = 'upload/dokumen_sokongan/' . $currYear;
-
-                            $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
-                            $upload_success = $file->storeAs($storagePath, $filename);
-
-                            if ($upload_success) {
-                                $data = [
-                                    'namaFile_sokongan' => $filename,
-                                    'typeFile_sokongan' => $extension,
-                                    'pathFile_sokongan' => $filePath,
-                                    'permohonansID' => $idPermohonan,
-                                    'created_at' => \Carbon\Carbon::now(), # \Datetime()
-                                    'updated_at' => \Carbon\Carbon::now(), # \Datetime()
-                                ];
-                                DB::table('dokumen_sokongan')->insert($data);
-                            } 
-                            // else {
-                            //     flash::error('Muat naik tidak berjaya' . $doc_type);
-                            //     Alert::error('Tidak Berjaya', 'Muat naik Dokumen Sokongan Tidak Berjaya ' . $doc_type);
-                            //     return redirect('/senaraiPermohonanProses');
-                            // }
-                        // } else {
-                        //     // echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                        //     Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya. Hanya fail berformat pdf,jpg,jpeg,png dan doc sahaja.' . $doc_type);
-                        //     return redirect('/senaraiPermohonanProses');
-                        // }
+                        if ($upload_success) {
+                            $data = [
+                                'namaFile_sokongan' => $filename,
+                                'typeFile_sokongan' => $extension,
+                                'pathFile_sokongan' => $filePath,
+                                'permohonansID' => $idPermohonan,
+                                'created_at' => \Carbon\Carbon::now(), # \Datetime()
+                                'updated_at' => \Carbon\Carbon::now(), # \Datetime()
+                            ];
+                            DB::table('dokumen_sokongan')->insert($data);
+                        }
                     }
                 }
 
                 if ($request->hasFile('fileCuti')) {
-                    // $allowedfileExtension=['pdf','jpg','png','docx'];
                     $files = $request->file('fileCuti');
 
                     foreach ($files as $file) {
@@ -668,38 +644,23 @@ class permohonanController extends Controller
                         // $filename = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
 
-                        // dd($filename);
+                        $currYear = Carbon::now()->format('Y');
+                        $storagePath = 'upload/dokumen/' . $currYear . '/cuti/' . $id . '';
+                        $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
 
-                        // if ($extension == 'pdf' || $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'docx' || $extension == 'JPG') {
-                            // check folder for 'current year', if not exist, create one
-                            $currYear = Carbon::now()->format('Y');
-                            // $storagePath = public_path() . 'upload/dokumen/' . $currYear;
-                            $storagePath = 'upload/dokumen/' . $currYear . '/cuti/' . $id . '';
-                            // $storagePath = 'upload/dokumen/' . $currYear;
-                            $filePath = str_replace(base_path() . '/', '', $storagePath) . '/' . $filename;
-
-                            // if (!file_exists($storagePath)) {
-                            //     mkdir($storagePath, 0777, true);
-                            // }
-                            $upload_success = $file->storeAs($storagePath, $filename);
-
-                            if ($upload_success) {
-                                $data = [
-                                    'namaFileCuti' => $filename,
-                                    'jenisFileCuti' => $extension,
-                                    'pathFileCuti' => $filePath
-                                ];
-                                Permohonan::where('permohonansID', $idPermohonan)->update($data);
-                            } 
-                            // else {
-                            //     // Flash::error('Muat naik tidak berjaya.' . $doc_type);
-                            //     Alert::error('Tidak Berjaya', 'Muat naik tidak berjaya ' . $doc_type);
-                            //     return redirect('/senaraiPermohonanProses');
-                            // }
-                        // } else {
-                        //     echo '<div class="alert alert-warning"><strong>Warning!</strong> Sorry Only Upload png , jpg , doc</div>';
-                        //     return redirect('/senaraiPermohonanProses');
+                        // if (!file_exists($storagePath)) {
+                        //     mkdir($storagePath, 0777, true);
                         // }
+                        $upload_success = $file->storeAs($storagePath, $filename);
+
+                        if ($upload_success) {
+                            $data = [
+                                'namaFileCuti' => $filename,
+                                'jenisFileCuti' => $extension,
+                                'pathFileCuti' => $filePath
+                            ];
+                            Permohonan::where('permohonansID', $idPermohonan)->update($data);
+                        }
                     }
                 }
 
@@ -784,9 +745,23 @@ class permohonanController extends Controller
             $dari = $request->input('tarikhMulaCuti');
             $hingga = $request->input('tarikhAkhirCuti');
 
-            $tarikhMulaCuti = Carbon::parse($dari)->format('Y-m-d');
-            $tarikhAkhirCuti = Carbon::parse($hingga)->format('Y-m-d');
-            $tarikhKembaliBertugas = Carbon::parse($kembaliTugas)->format('Y-m-d');
+            if ($dateFromCuti == null) {
+                $tarikhMulaCuti = null;
+            } else {
+                $tarikhMulaCuti = Carbon::parse($dari)->format('Y-m-d');
+            }
+
+            if ($dateToCuti == null) {
+                $tarikhAkhirCuti = null;
+            } else {
+                $tarikhAkhirCuti = Carbon::parse($hingga)->format('Y-m-d');
+            }
+
+            if ($kembaliTugas == null) {
+                $tarikhKembaliBertugas = null;
+            } else {
+                $tarikhKembaliBertugas = Carbon::parse($kembaliTugas)->format('Y-m-d');
+            }
         }
 
         $end = Carbon::parse($tarikhMulaRom);
@@ -979,29 +954,27 @@ class permohonanController extends Controller
 
         $statusJawatan = $user->userJawatan->statusDato;
 
-        // dd($id, $statusJawatan);
-        // $check = Rombongan::where('codeRom', $kodRombo)->first();
+        $dateFromCuti = $request->input('tarikhMulaCuti');
+        $dateToCuti = $request->input('tarikhAkhirCuti');
+        $kembaliTugas = $request->input('tarikhKembaliBertugas');
 
-        // $per = Permohonan::where('rombongans_id', $check->rombongans_id)->first();
+        if ($dateFromCuti == null) {
+            $tarikhMulaCuti = null;
+        } else {
+            $tarikhMulaCuti = Carbon::parse($dateFromCuti)->format('Y-m-d');
+        }
 
-        // dd($per->rombongans_id);
+        if ($dateToCuti == null) {
+            $tarikhAkhirCuti = null;
+        } else {
+            $tarikhAkhirCuti = Carbon::parse($dateToCuti)->format('Y-m-d');
+        }
 
-        $tarikhMulaCuti = Carbon::parse($request->input('tarikhMulaCuti'))->format('Y-m-d');
-        $tarikhAkhirCuti = Carbon::parse($request->input('tarikhAkhirCuti'))->format('Y-m-d');
-        $tarikhKembaliBertugas = Carbon::parse($request->input('tarikhKembaliBertugas'))->format('Y-m-d');
-
-        // $date = explode('-', $tarikhmulaAkhirCuti); // dateRange is you string
-        // $dateFrom = $date[0];
-        // $dateTo = $date[1];
-
-        // $DateNew1 = strtotime($dateFrom);
-        // $DateNew2 = strtotime($dateTo);
-        // $DateNew3 = strtotime($kembaliTugas);
-        // $tarikhMulaCuti = date('Y-m-d', $DateNew1);
-        // $tarikhAkhirCuti = date('Y-m-d', $DateNew2);
-        // $tarikhKembaliBertugas = date('Y-m-d', $DateNew3);
-
-        // $statusPermohonan = 'Ketua Jabatan';
+        if ($kembaliTugas == null) {
+            $tarikhKembaliBertugas = null;
+        } else {
+            $tarikhKembaliBertugas = Carbon::parse($kembaliTugas)->format('Y-m-d');
+        }
 
         $rombo = DB::table('rombongans')
             ->where('codeRom', '=', $kodRombo)
@@ -1432,8 +1405,8 @@ class permohonanController extends Controller
         $statusJawatan = $user->userJawatan->statusDato;
         // dd($pemohon->user->userJawatan->namaJawatan, $pemohon->user->userJabatan->jabatan_id);
         //echo $peserta;
-        if ( $peserta >= 2) {
-        // if ($d >= 1 && $peserta >= 2) {
+        if ($peserta >= 2) {
+            // if ($d >= 1 && $peserta >= 2) {
             if ($statusJawatan == 'Aktif') {
                 Rombongan::where('rombongans_id', $id)->update([
                     'statusPermohonanRom' => 'Lulus Semakan',
@@ -1521,18 +1494,18 @@ class permohonanController extends Controller
                 // flash('Permohonan rombongan memerlukan dokumen rasmi dan peserta.')->error();
                 return back();
             }
-        // } elseif ($d == 0) {
+            // } elseif ($d == 0) {
 
-        //     if ($rombo->jenis_rombongan == 'Rasmi') {
-        //         Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
-        //         // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
-        //         return back();
-        //     } else {
-        //         Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
-        //         // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
-        //         return back();
-        //         # code...
-        //     }
+            //     if ($rombo->jenis_rombongan == 'Rasmi') {
+            //         Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
+            //         // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+            //         return back();
+            //     } else {
+            //         Alert::info('Makluman', 'Permohonan rombongan memerlukan dokumen rasmi');
+            //         // flash('Permohonan rombongan memerlukan dokumen rasmi.')->error();
+            //         return back();
+            //         # code...
+            //     }
         } elseif ($peserta < 2) {
 
             Alert::info('Makluman', 'Permohonan rombongan memerlukan sekurang-kurang 2 orang peserta');

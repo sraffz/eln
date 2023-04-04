@@ -177,24 +177,27 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span></label>
-                                       {{-- <div class="icheck-primary mb-2">
+                                        <label><i class="fas fa-globe"></i> Negara Tambahan<span
+                                                style="color:red;">*</span></label>
+                                        {{-- <div class="icheck-primary mb-2">
                                          <input class="form-check-input" type="checkbox" value="1"  OnChange="javascript:enableTextBox();" name="negara_lebih" id="negara_lebih" {{ $permohonan->negara_lebih_dari_satu == '1' ? 'checked' : ''}}>
                                          <label class="form-check-label" for="negara_lebih">
                                            Adakah melawati lebih daripada 1 negera?
                                          </label>
                                        </div> --}}
-                                       <select class="form-control select2bs4" disabled name="negara_tambahan[]" id="negara_tambahan" style="width: 100%;" {{ $permohonan->negara_lebih_dari_satu == 1 ? '' : 'disabled' }} multiple>
-                                        <option value="">SILA PILIH</option>
-                                        @php
-                                            $selected = explode(", ", $permohonan->negara_tambahan);
-                                        @endphp
-                                        @foreach ($negara as $jaw)
-                                            <option value="{{ $jaw->namaNegara }}"
-                                                {{  (in_array($jaw->namaNegara, $selected))  ? 'selected' : '' }}>
-                                                {{ $jaw->namaNegara }}</option>
-                                        @endforeach
-                                    </select>
+                                        <select class="form-control select2bs4" disabled name="negara_tambahan[]"
+                                            id="negara_tambahan" style="width: 100%;"
+                                            {{ $permohonan->negara_lebih_dari_satu == 1 ? '' : 'disabled' }} multiple>
+                                            <option value="">SILA PILIH</option>
+                                            @php
+                                                $selected = explode(', ', $permohonan->negara_tambahan);
+                                            @endphp
+                                            @foreach ($negara as $jaw)
+                                                <option value="{{ $jaw->namaNegara }}"
+                                                    {{ in_array($jaw->namaNegara, $selected) ? 'selected' : '' }}>
+                                                    {{ $jaw->namaNegara }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +283,8 @@
                                         @endphp
                                         @foreach ($dokumen as $doku)
                                             <a class="btn btn-block btn-info"
-                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}"><i class="fa fa-download"></i> Dokumen
+                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doku->dokumens_id]) }}"><i
+                                                    class="fa fa-download"></i> Dokumen
                                                 Rasmi {{ $i++ }}</a>
                                         @endforeach
                                     @endif
@@ -310,7 +314,8 @@
                                         Tiada Dokumen
                                     @else
                                         <a class="btn btn-sm  btn-block btn-info"
-                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}"><i class="fa fa-download"></i> Dokumen
+                                            href="{{ route('detailPermohonan.download', ['id' => $permohonan->permohonansID]) }}"><i
+                                                class="fa fa-download"></i> Dokumen
                                             Cuti</a>
                                     @endif
                                 </p>
@@ -325,7 +330,9 @@
                                             $i = 1;
                                         @endphp
                                         @foreach ($dokumen_sokongan as $doku)
-                                            <a class="btn btn-block btn-danger"  href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doku->dokumens_id_sokongan]) }}"><i class="fa fa-download"></i> Dokumen
+                                            <a class="btn btn-block btn-danger"
+                                                href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doku->dokumens_id_sokongan]) }}"><i
+                                                    class="fa fa-download"></i> Dokumen
                                                 Sokongan {{ $i++ }}</a>
                                         @endforeach
                                     @endif
@@ -438,35 +445,64 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
+                                    @php
+                                        if ($permohonan->tarikhMulaCuti == null) {
+                                            $tarikhMulaCuti = '';
+                                        } elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas) {
+                                            $tarikhMulaCuti = '';
+                                        } else {
+                                            $tarikhMulaCuti = \Carbon\Carbon::parse($permohonan->tarikhMulaCuti)->format('d/m/Y');
+                                        }
+                                        if ($permohonan->tarikhAkhirCuti == null) {
+                                            $tarikhAkhirCuti = '';
+                                        } elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas) {
+                                            $tarikhAkhirCuti = '';
+                                        } else {
+                                            $tarikhAkhirCuti = \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y');
+                                        }
+                                        if ($permohonan->tarikhKembaliBertugas == null) {
+                                            $tarikhKembaliBertugas = '';
+                                        } elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas) {
+                                            $tarikhKembaliBertugas = '';
+                                        } else {
+                                            $tarikhKembaliBertugas = \Carbon\Carbon::parse($permohonan->tarikhKembaliBertugas)->format('d/m/Y');
+                                        }
+                                        
+                                    @endphp
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="mula">Mula</label>
                                             <input id="mula" type="text" class="form-control"
-                                                value="{{ \Carbon\Carbon::parse($permohonan->tarikhMulaCuti)->format('d/m/Y') }}"
-                                                disabled>
+                                                value="{{ $tarikhMulaCuti }}" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="akhir">Akhir</label>
                                             <input id="akhir" type="text" class="form-control"
-                                                value="{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y') }}"
-                                                disabled>
+                                                value="{{ $tarikhAkhirCuti }}" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="jumlah">Kembali bertugas</label>
                                             <input id="jumlah" type="text" class="form-control"
-                                                value="{{ \Carbon\Carbon::parse($permohonan->tarikhKembaliBertugas)->format('d/m/Y') }}"
-                                                disabled>
+                                                value="{{ $tarikhKembaliBertugas }}" disabled>
                                         </div>
                                     </div>
+                                    @php
+                                        if ($tarikhAkhirCuti == null) {
+                                            $jumlahDateCuti = '';
+                                        } else {
+                                            $jumlahDateCuti = $jumlahDateCuti . ' Hari';
+                                        }
+                                        
+                                    @endphp
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="jumlah">Jumlah Cuti</label>
                                             <input id="jumlah" type="text" class="form-control"
-                                                value="{{ $jumlahDateCuti }} Hari" disabled>
+                                                value="{{ $jumlahDateCuti }} " disabled>
                                         </div>
                                     </div>
                                 </div>

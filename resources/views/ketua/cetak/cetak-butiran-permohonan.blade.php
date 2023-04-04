@@ -205,27 +205,44 @@
             <table class="table table-bordered table-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th colspan="4" class="text-left">MAKLUMAT KELULUSAN CUTI REHAT (SEKIRANYA MEMERLUKAN
-                            KELULUSAN CUTI REHAT)</th>
+                        <th colspan="4" class="text-left">MAKLUMAT KELULUSAN CUTI REHAT (SEKIRANYA MEMERLUKAN KELULUSAN CUTI REHAT)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Mula Cuti</strong> </td>
                         <td class="text-left">
+                            @if ($permohonan->tarikhMulaCuti == null)
+                            @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
+                            @else
                             <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhMulaCuti)->format('d/m/Y') }}</strong>
+                            @endif
                         </td>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Akhir Cuti</strong> </td>
                         <td class="text-left">
-                            <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y') }}</strong>
+                            @if ($permohonan->tarikhAkhirCuti == null)
+                            @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
+                            @else
+                             <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y') }}</strong>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <td class="text-left" style="width: 25%"><strong>Jumlah Cuti</strong> </td>
-                        <td class="text-left"><strong>{{ $jumlahDateCuti }}</strong> </td>
+                        <td class="text-left">
+                            @if ($permohonan->tarikhMulaCuti == null)
+                            @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
+                            @else
+                            <strong>{{ $jumlahDateCuti }}</strong> 
+                            @endif
+                        </td>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Kembali Bertugas</strong> </td>
                         <td class="text-left">
+                            @if ($permohonan->tarikhKembaliBertugas == null)
+                            @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
+                            @else
                             <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhKembaliBertugas)->format('d/m/Y') }}</strong>
+                            @endif
                         </td>
                     </tr>
                 </tbody>

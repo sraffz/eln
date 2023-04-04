@@ -573,7 +573,13 @@ class AdminController extends Controller
 
         $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti)->subDays(1);
         $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
-        $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti, false);
+
+        if ($permohonan->tarikhMulaCuti == null) {
+             $jumlahDateCuti = '';
+        } else {
+             $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti, false);
+        }
+        
 
         $negara = Negara::all();
 
@@ -919,6 +925,7 @@ class AdminController extends Controller
 
         $data = [
             'namaJawatan' => $namajawatan,
+            'statusDato' => 'Tidak Aktif',
             'created_at' => \Carbon\Carbon::now(), # \Datetime()
             'updated_at' => \Carbon\Carbon::now(), # \Datetime()
         ];
