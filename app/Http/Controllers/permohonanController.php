@@ -2037,7 +2037,7 @@ class permohonanController extends Controller
             ->leftjoin('rombongans', 'rombongans.rombongans_id', '=', 'senarai_rekod_permohonan_suk.rombongans_id')
             ->whereIn('senarai_rekod_permohonan_suk.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->where('senarai_rekod_permohonan_suk.usersID', $id)
-            // ->orderBy('permohonans.created_at', 'desc')
+            ->orderBy('permohonans.tarikhMulaPerjalanan', 'desc')
             ->get();
 
 

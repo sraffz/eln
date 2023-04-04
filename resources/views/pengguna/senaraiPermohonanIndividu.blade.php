@@ -112,6 +112,11 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                @php
+                                                    $tarikh_kini = \Carbon\Carbon::now();
+                                                    $tarikhMulaPerjalanan = \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan);
+                                                @endphp
+
                                                 @if ($mohonan->statusPermohonan == 'Pending')
                                                     <span class="badge badge-warning">Pending</span>
                                                 @elseif($mohonan->statusPermohonan == 'simpanan')
@@ -130,6 +135,12 @@
                                                         onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                             class="fa fa-user-times"></i></a>
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+
+                                                    @if ($tarikh_kini < $tarikhMulaPerjalanan )
+                                                        <a class="btn btn-dark btn-xs" href="#"
+                                                            role="button">Pindaan</a>
+                                                    @endif
+
                                                     @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                         @if ($mohonan->surat == 'MEMO')
                                                             <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -172,7 +183,7 @@
                                                         @endif
                                                     @endif
                                                     @if ($mohonan->pengesahan_pembatalan == 1)
-                                                        <button type="button" class="btn btn-info btn-xs"
+                                                        <button type="button" class="btn btn-info btn-xs mt-2"
                                                             data-toggle="modal"
                                                             data-sebab="{{ $mohonan->sebab_pembatalan }}"
                                                             data-tarikh="{{ \Carbon\Carbon::parse($mohonan->tarikh_batal)->format('d-m-Y') }}"
@@ -181,7 +192,7 @@
                                                         </button>
                                                     @else
                                                         @if ($mohonan->tarikhAkhirPerjalanan >= \Carbon\Carbon::now()->format('Y-m-d'))
-                                                            <button type="button" class="btn btn-dark btn-xs"
+                                                            <button type="button" class="btn btn-dark btn-xs mt-2"
                                                                 data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
                                                                 data-target="#batalpermohonan">
                                                                 Batal Permohonan
