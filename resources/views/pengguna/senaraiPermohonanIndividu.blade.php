@@ -81,9 +81,20 @@
                                                     @endif
                                                 </a>
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                <br>
+                                                @if ($mohonan->tarikhMulaPinda != null)
+                                                    <small style="font-weight: bold; color: blue">Dipinda pada :
+                                                        {{ \Carbon\Carbon::parse($mohonan->tarikhMulaPinda)->format('d/m/Y') }}</small>
+                                                @endif
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}<br>
+                                                @if ($mohonan->tarikhAkhirPinda != null)
+                                                    <small style="font-weight: bold; color: blue">Dipinda pada :
+                                                        {{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPinda)->format('d/m/Y') }}</small>
+                                                @endif
                                             </td>
                                             <td>{{ $mohonan->lainTujuan }}<br>({{ $mohonan->JenisPermohonan }})</td>
                                             <td>
@@ -135,10 +146,180 @@
                                                         onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                             class="fa fa-user-times"></i></a>
                                                 @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                    @if ($tarikh_kini < $tarikhMulaPerjalanan)
+                                                        <!-- Button trigger modal pindaan-->
+                                                        @php
+                                                            $maxMula = \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)
+                                                                ->addDay(7)
+                                                                ->format('Y-m-d');
+                                                            $maxAkhir = \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)
+                                                                ->addDay(7)
+                                                                ->format('Y-m-d');
+                                                        @endphp
 
-                                                    @if ($tarikh_kini < $tarikhMulaPerjalanan )
-                                                        <a class="btn btn-dark btn-xs" href="#"
-                                                            role="button">Pindaan</a>
+                                                        @if ($mohonan->JenisPermohonan == 'rombongan')
+                                                            
+                                                        @else
+                                                            @if ($mohonan->tarikhAkhirPinda != null)
+                                                            <button type="button" class="btn btn-danger btn-xs"
+                                                                data-toggle="modal"
+                                                                data-target="#modelDiPindaan-{{ $mohonan->permohonansID }}">
+                                                                Dipinda
+                                                            </button>
+                                                            @else
+                                                            <button type="button" class="btn btn-danger btn-xs"
+                                                                data-toggle="modal"
+                                                                data-target="#modelPindaan-{{ $mohonan->permohonansID }}">
+                                                                Pindaan
+                                                            </button>
+                                                            @endif
+                                                            
+                                                        @endif
+
+                                                        <!-- Modal dipindaan-->
+                                                        <div class="modal fade"
+                                                            id="modelDiPindaan-{{ $mohonan->permohonansID }}" tabindex="-1"
+                                                            role="dialog" aria-labelledby="modelTitleId"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Pinda Permohonan</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form action="{{ url('pinda-permohonan') }}"
+                                                                        method="post">
+                                                                        <div class="modal-body text-left">
+                                                                            {{ csrf_field() }}
+                                                                            <input type="hidden" name="id"
+                                                                                id="id"
+                                                                                value="{{ $mohonan->permohonansID }}">
+                                                                            <div class="form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="tarikhMulaPinda">Tarikh Mula
+                                                                                        Perjalanan</label>
+                                                                                    <input type="date" disabled
+                                                                                        class="form-control"
+                                                                                        name="tarikhMulaPinda"
+                                                                                        min="{{ $mohonan->tarikhMulaPerjalanan }}"
+                                                                                        max="{{ $maxMula }}"
+                                                                                        id="tarikhMulaPinda"
+                                                                                        aria-describedby="helpId"
+                                                                                        value="{{ $mohonan->tarikhMulaPinda }}"
+                                                                                        required>
+                                                                                    <small id="helpId"
+                                                                                        class="form-text text-muted">Pindaan
+                                                                                        hanya dibenarkan hanya 7 hari dari
+                                                                                        tarikh asal dimohon.</small>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="tarikhAkhirPinda">Tarikh
+                                                                                        Akhir Perjalanan</label>
+                                                                                    <input type="date" disabled
+                                                                                        class="form-control"
+                                                                                        name="tarikhAkhirPinda"
+                                                                                        id="tarikhAkhirPinda"
+                                                                                        aria-describedby="helpId"
+                                                                                        min="{{ $mohonan->tarikhAkhirPerjalanan }}"
+                                                                                        max="{{ $maxAkhir }}"
+                                                                                        value="{{ $mohonan->tarikhAkhirPinda }}"
+                                                                                        required>
+                                                                                    <small id="helpId"
+                                                                                        class="form-text text-muted"></small>
+                                                                                </div>
+                                                                                <label for="sebab_pindaan">Nyatakan Sebab
+                                                                                    Pindaan</label>
+                                                                                <textarea disabled class="form-control {{ $errors->has('sebab_pindaan') ? ' is-invalid' : '' }}" name="sebab_pindaan"
+                                                                                    id="sebab_pindaan" rows="3" required>{{ $mohonan->sebab_pinda }}</textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">Tutup</button>
+                                                                            {{-- <button type="submit"
+                                                                                class="btn btn-primary">Pinda
+                                                                                Permohonan</button> --}}
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal pindaan-->
+                                                        <div class="modal fade"
+                                                            id="modelPindaan-{{ $mohonan->permohonansID }}" tabindex="-1"
+                                                            role="dialog" aria-labelledby="modelTitleId"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Pinda Permohonan</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form action="{{ url('pinda-permohonan') }}"
+                                                                        method="post">
+                                                                        <div class="modal-body text-left">
+                                                                            {{ csrf_field() }}
+                                                                            <input type="hidden" name="id"
+                                                                                id="id"
+                                                                                value="{{ $mohonan->permohonansID }}">
+                                                                            <div class="form-group">
+                                                                                <div class="form-group">
+                                                                                    <label for="tarikhMulaPinda">Tarikh Mula
+                                                                                        Perjalanan</label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        name="tarikhMulaPinda"
+                                                                                        min="{{ $mohonan->tarikhMulaPerjalanan }}"
+                                                                                        max="{{ $maxMula }}"
+                                                                                        id="tarikhMulaPinda"
+                                                                                        aria-describedby="helpId"
+                                                                                        value="{{ $mohonan->tarikhMulaPerjalanan }}"
+                                                                                        required>
+                                                                                    <small id="helpId"
+                                                                                        class="form-text text-muted">Pindaan
+                                                                                        hanya dibenarkan hanya 7 hari dari
+                                                                                        tarikh asal dimohon.</small>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="tarikhAkhirPinda">Tarikh
+                                                                                        Akhir Perjalanan</label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        name="tarikhAkhirPinda"
+                                                                                        id="tarikhAkhirPinda"
+                                                                                        aria-describedby="helpId"
+                                                                                        min="{{ $mohonan->tarikhAkhirPerjalanan }}"
+                                                                                        max="{{ $maxAkhir }}"
+                                                                                        value="{{ $mohonan->tarikhAkhirPerjalanan }}"
+                                                                                        required>
+                                                                                    <small id="helpId"
+                                                                                        class="form-text text-muted"></small>
+                                                                                </div>
+                                                                                <label for="sebab_pindaan">Nyatakan Sebab
+                                                                                    Pindaan</label>
+                                                                                <textarea class="form-control {{ $errors->has('sebab_pindaan') ? ' is-invalid' : '' }}" name="sebab_pindaan"
+                                                                                    id="sebab_pindaan" rows="3" required></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Pinda
+                                                                                Permohonan</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @endif
 
                                                     @if ($mohonan->JenisPermohonan == 'Rasmi')
@@ -193,7 +374,8 @@
                                                     @else
                                                         @if ($mohonan->tarikhAkhirPerjalanan >= \Carbon\Carbon::now()->format('Y-m-d'))
                                                             <button type="button" class="btn btn-dark btn-xs mt-2"
-                                                                data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
+                                                                data-toggle="modal"
+                                                                data-id="{{ $mohonan->permohonansID }}"
                                                                 data-target="#batalpermohonan">
                                                                 Batal Permohonan
                                                             </button>
@@ -261,6 +443,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <!-- Modal Batal Permohonan -->
         <div class="modal fade" id="batalpermohonan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"

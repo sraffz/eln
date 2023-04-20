@@ -94,6 +94,10 @@
                                                                             <i class="fa fa-info-circle"></i> Dibatalkan
                                                                         </button>
                                                                     @endif
+                                                                    <br>
+                                                                    @if ($mohonan->tarikhAkhirPinda != null)
+                                                                    Dipinda padan
+                                                                    @endif
                                                                 @endif
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
                                                                 <span class="badge badge-danger">Gagal</span>

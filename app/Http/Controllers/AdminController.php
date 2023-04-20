@@ -17,6 +17,8 @@ use App\GredKod;
 use App\InfoSurat;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
+use App\ELN_Pindaan;
+
 use DB;
 use Carbon\Carbon;
 use File;
@@ -52,7 +54,8 @@ class AdminController extends Controller
         // $permohonan = Permohonan::all();
         //$post = Permohonan::with('pasangans')->where('statusPermohonan','=','Pending')->get();   //sama gak nga many to many
         if (Auth::user()->role == 'adminBPSM') {
-            $permohonan2 = Permohonan::join('users', 'users.usersID', '=', 'permohonans.usersID')
+            $permohonan2 = Permohonan::select('permohonans.*', 'permohonans.created_at as tarikh_permohonan','users.*', 'jabatan.*')
+                ->join('users', 'users.usersID', '=', 'permohonans.usersID')
                 ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
                 ->whereNull('rombongans_id')
                 ->whereIn('statusPermohonan', ['Ketua Jabatan', 'Lulus Semakan BPSM', 'Lulus Semakkan ketua Jabatan'])
@@ -65,6 +68,7 @@ class AdminController extends Controller
                 ->get();
         }
 
+        // dd($permohonan2);
         // $permohonan2 = DB::table('senarai_rekod_permohonan_suk')
         // ->whereNotIn('jenisPermohonan', ['rombongan'])
         // ->orderBy('tarikh_permohonan', 'desc')
@@ -103,7 +107,7 @@ class AdminController extends Controller
         if ($user->jabatan != $req->input('jabatan')) {
             User::where('usersID', Auth::user()->usersID)->update([
                 'nama' => $req->input('nama'),
-                'nokp' => $req->input('kp'),
+                // 'nokp' => $req->input('kp'),
                 'email' => $req->input('email'),
                 'jawatan' => $req->input('jawatan'),
                 'jabatan' => $req->input('jabatan'),
@@ -115,7 +119,7 @@ class AdminController extends Controller
         } else {
             User::where('usersID', Auth::user()->usersID)->update([
                 'nama' => $req->input('nama'),
-                'nokp' => $req->input('kp'),
+                // 'nokp' => $req->input('kp'),
                 'email' => $req->input('email'),
                 'jawatan' => $req->input('jawatan'),
                 'jabatan' => $req->input('jabatan'),
@@ -1546,6 +1550,7 @@ class AdminController extends Controller
             }
 
             $permohonan = DB::table('senarai_data_permohonan_ind_rom')
+            ->leftjoin('eln_pindaan', 'eln_pindaan.id_permohonan', '=', 'senarai_data_permohonan_ind_rom.permohonansID')
                 ->whereIn('jabatan_pemohon', $id_jabatan)
                 ->whereIn('statusPermohonan', ['Lulus Semakan BPSM', 'Permohonan Berjaya', 'Permohonan Gagal'])
                 ->whereNotIn('role', ['jabatan'])

@@ -16,6 +16,7 @@ use App\GredAngka;
 use App\InfoSurat;
 use App\GredKod;
 use DB;
+use App\ELN_Pindaan;
 use Carbon\Carbon;
 use File;
 use Illuminate\Support\Facades\Storage;
@@ -140,10 +141,12 @@ class PdfController extends Controller
 
         // return dd($bilpeserta);
 
-        $allPermohonan = DB::table('senarai_data_permohonan')
+            $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
             ->where('rombongans_id', $id)
             ->whereIn('status_kelulusan', ['Berjaya'])
+            ->orderBy('gred_pendek', 'DESC')
             ->get();
+
 
         $kelulusan = DB::table('senarai_data_permohonan_rombongan')->where('rombongans_id', $id)
         ->first();
@@ -178,12 +181,13 @@ class PdfController extends Controller
         ->where('status_kelulusan', 'Berjaya')
         ->count();
 
-        $allPermohonan = DB::table('senarai_data_permohonan')
+        $allPermohonan = DB::table('senarai_data_permohonan')->select('*',\DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
             ->where('rombongans_id', $id)
             ->whereIn('status_kelulusan', ['Berjaya'])
-            ->orderBy('gred', 'DESC')
+            ->orderBy('gred_pendek', 'DESC')
             ->get();
 
+        // dd($allPermohonan->all());
         // return dd($bil);
 
         $nama = $permohon->nama;

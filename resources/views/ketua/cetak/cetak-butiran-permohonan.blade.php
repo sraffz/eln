@@ -212,37 +212,37 @@
                     <tr>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Mula Cuti</strong> </td>
                         <td class="text-left">
-                            @if ($permohonan->tarikhMulaCuti == null)
+                            {{-- @if ($permohonan->tarikhMulaCuti == null)
                             @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
-                            @else
+                            @else --}}
                             <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhMulaCuti)->format('d/m/Y') }}</strong>
-                            @endif
+                            {{-- @endif --}}
                         </td>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Akhir Cuti</strong> </td>
                         <td class="text-left">
-                            @if ($permohonan->tarikhAkhirCuti == null)
+                            {{-- @if ($permohonan->tarikhAkhirCuti == null)
                             @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
-                            @else
+                            @else --}}
                              <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y') }}</strong>
-                            @endif
+                            {{-- @endif --}}
                         </td>
                     </tr>
                     <tr>
                         <td class="text-left" style="width: 25%"><strong>Jumlah Cuti</strong> </td>
                         <td class="text-left">
-                            @if ($permohonan->tarikhMulaCuti == null)
+                            {{-- @if ($permohonan->tarikhMulaCuti == null)
                             @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
-                            @else
+                            @else --}}
                             <strong>{{ $jumlahDateCuti }}</strong> 
-                            @endif
+                            {{-- @endif --}}
                         </td>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Kembali Bertugas</strong> </td>
                         <td class="text-left">
-                            @if ($permohonan->tarikhKembaliBertugas == null)
+                            {{-- @if ($permohonan->tarikhKembaliBertugas == null)
                             @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
-                            @else
+                            @else --}}
                             <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhKembaliBertugas)->format('d/m/Y') }}</strong>
-                            @endif
+                            {{-- @endif --}}
                         </td>
                     </tr>
                 </tbody>
@@ -274,7 +274,7 @@
             </tbody>
         </table>
     </div>
-    @if (count($pengesah) > 0)
+    @if ($pengesah ?? '')
         <div class="break">
             @foreach ($pengesah as $psh)
                 <table class="table table-bordered table-sm">
@@ -314,7 +314,7 @@
                 </table>
             @endforeach
             <br>
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm" style="border: black">
                 <thead class="thead-dark">
                     <tr>
                         <th colspan="2" class="text-left">PENGESAHAN PEGAWAI PELULUS</th>
@@ -322,28 +322,16 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="text-left" style="width: 30%"><strong>Nama Ketua Bahagian</strong> </td>
-                        <td class="text-left"><strong>{{ $psh->nama }}</strong> </td>
+                        <td class="text-center" style="width: 50%"><strong>LULUS</strong> </td>
+                        <td class="text-center"><strong>TIDAK LULUS</strong> </td>
                     </tr>
                     <tr>
-                        <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
-                        <td class="text-left"><strong>{{ $psh->jawatan_pengesah }}
-                                ({{ $psh->gred_pengesah }})</strong></td>
+                        <td><br><br><br><br></td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
-                        <td class="text-left"><strong>{{ $psh->nama_jabatan }}</strong></td>
-                    </tr>
-                    <tr>
-                        <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>
-                        <td class="text-left">
-                            <strong>{{ $psh->ulasan }}</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-left" style="width: 30%"><strong>Tarikh</strong> </td>
-                        <td class="text-left">
-                            <strong>{{ date('d/m/Y', strtotime($psh->tarikhsah)) }}</strong>
+                        <td colspan="2"><br>
+                            Tarikh : _________________________________ <br><br>
                         </td>
                     </tr>
                 </tbody>

@@ -10,6 +10,8 @@ use App\User;
 use App\Dokumen;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
+use App\ELN_Pindaan;
+
 use DB;
 use PDF;
 use Auth;
@@ -545,10 +547,17 @@ class KetuaController extends Controller
             ->where('id_rombongan', $id)
             ->first();
 
-        $allPermohonan = DB::table('senarai_data_permohonan')
+        $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
             ->where('rombongans_id', $id)
             ->whereIn('statusPermohonan', ['Lulus Semakan BPSM'])
+            ->orderBy('gred_pendek', 'DESC')
             ->get();
+
+            // $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, 2, 2) as gred_pendek'))
+            // ->where('rombongans_id', $id)
+            // ->whereIn('status_kelulusan', ['Berjaya'])
+            // ->orderBy('gred_pendek', 'DESC')
+            // ->get();
 
         // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen', 'pengesahan'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen', 'pengesahan'))->setpaper('a4', 'potrait');
@@ -581,16 +590,13 @@ class KetuaController extends Controller
             ->where('permohonansID', '=', $id)
             ->get();
 
-        $mula = Carbon::parse($permohonan->tarikhMulaPerjalanan)->subDays(1);
+        $mula = Carbon::parse($permohonan->tarikhMulaPerjalanan);
         $akhir = Carbon::parse($permohonan->tarikhAkhirPerjalanan);
         $jumlahDate = $mula->diffInDays($akhir);
 
- 
-            $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti)->subDays(1);
-            $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
-            $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
-       
-        
+        $mulaCuti = Carbon::parse($permohonan->tarikhMulaCuti);
+        $akhirCuti = Carbon::parse($permohonan->tarikhAkhirCuti);
+        $jumlahDateCuti = $mulaCuti->diffInDays($akhirCuti);
 
         // return view('ketua.cetak.cetak-butiran-permohonan', compact('pengesah', 'sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-permohonan', compact('pengesah', 'sejarah', 'permohonan', 'pasangan', 'jumlahDate', 'jumlahDateCuti', 'dokumen'))->setpaper('a4', 'potrait');

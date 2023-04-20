@@ -207,9 +207,13 @@
                                                     <th style="vertical-align: middle">Nama</th>
                                                     <th style="vertical-align: middle">Jabatan</th>
                                                     <th style="vertical-align: middle">Negara</th>
-                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
+                                                    @if (Request::is('senaraiPending'))
+                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
+                                                    @else
+                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     <th style="vertical-align: middle">Tarikh Kelulusan</th>
+                                                    @endif
                                                     <th style="vertical-align: middle">Jenis Permohonan</th>
                                                     {{-- <th style="vertical-align: middle">No Rujukan</th> --}}
                                                     <th style="vertical-align: middle">Status Permohonan</th>
@@ -233,12 +237,21 @@
                                                                 {{ ', ' . $mohonan->negara_tambahan }}
                                                             @endif
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
-                                                        </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                         </td>
-                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikh_kelulusan)->format('d/m/Y') }}
-                                                        </td>
+                                                        @if (Request::is('senaraiPending'))
+                                                            <td>
+                                                                {{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
+                                                            </td>
+                                                            
+                                                        @else
+                                                            <td>
+                                                                {{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
+                                                            </td>
+                                                            <td>{{ \Carbon\Carbon::parse($mohonan->tarikh_kelulusan)->format('d/m/Y') }}
+                                                            </td>
+                                                        @endif
+
                                                         <td>
                                                             {{ $mohonan->JenisPermohonan }}
                                                             {{-- <button type="button" class="btn btn-danger btn-xs" data-id="{{ $mohonan->id_kelulusan }}"

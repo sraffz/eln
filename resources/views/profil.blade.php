@@ -142,7 +142,7 @@
                                             <label for="inputkp" class="col-sm-2 col-form-label">No Kad Pengenalan</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="inputkp" placeholder="kp"
-                                                    name="kp" value="{{ $user->nokp }}" required>
+                                                    name="kp" value="{{ $user->nokp }}" disabled >
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -200,6 +200,7 @@
                                                     <option value="Contract For Service (CFS)" {{ $user->taraf == 'Contract For Service (CFS)' ? 'selected' : '' }}>Contract For Service (CFS)</option>
                                                     <option value="Berelaun" {{ $user->taraf == 'Berelaun' ? 'selected' : '' }}>Berelaun</option>
                                                     <option value="Sambilan" {{ $user->taraf == 'Sambilan' ? 'selected' : '' }}>Sambilan</option>
+                                                    <option value="MyStep" {{ $user->taraf == 'MyStep' ? 'selected' : '' }}>Malaysian Short-Term Employment Programme (MySTEP)</option>
                                                 </select>
                                             </div>
                                         </div>

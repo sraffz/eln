@@ -92,6 +92,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/padam-rombongan/{id}', 'permohonanController@padamrombongan');
 	
 	Route::get('/padam-permohonan/{id}', 'permohonanController@tamatIndividu');
+
+	Route::post('/pinda-permohonan', 'permohonanController@pindaPermohonan')->name('pinda-permohonan');
 	
 	// Route::get('/tolak-permohonan/{id}', 'permohonanController@tolakIndividu');
 
