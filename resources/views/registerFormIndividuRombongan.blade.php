@@ -156,7 +156,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="tick" id="tick"
                                         value="yes" required>
-                                    <label class="form-check-label">Saya dengan
+                                    <label class="form-check-label" for="tick">Saya dengan
                                         ini mematuhi segala peraturan yang telah ditetapkan di perenggan 6(i),(ii) dan
                                         perenggan
                                         10 Surat Pekeliling Bilangan 3 Tahun 2012.</label>

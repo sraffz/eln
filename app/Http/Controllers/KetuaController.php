@@ -268,6 +268,11 @@ class KetuaController extends Controller
             'tarikhStatusPermohonan' => \Carbon\Carbon::now(),
         ]);
 
+        $pelulus = User::with('userJabatan')
+            // ->with('userJawatan')
+            ->where('usersID', '=', Auth::user()->usersID)
+            ->first();
+            
         $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
 
         if (!empty($rujukan)) {

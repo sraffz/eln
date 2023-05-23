@@ -164,9 +164,10 @@ class AdminController extends Controller
         //     ->get();
 
         $permohonan2 = DB::table('senarai_rekod_permohonan_suk')
-            ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
-            ->whereNotIn('jenisPermohonan', ['rombongan'])
-            ->orderBy('tarikh_permohonan', 'desc')
+            ->leftjoin('eln_pindaan', 'eln_pindaan.id_permohonan', '=', 'senarai_rekod_permohonan_suk.permohonansID')
+            ->whereIn('senarai_rekod_permohonan_suk.status_kelulusan', ['Berjaya', 'Gagal'])
+            ->whereNotIn('senarai_rekod_permohonan_suk.jenisPermohonan', ['rombongan'])
+            ->orderBy('senarai_rekod_permohonan_suk.tarikh_permohonan', 'desc')
             ->get();
 
         return view('admin.senaraiPending', compact('permohonan2'));

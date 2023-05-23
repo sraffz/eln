@@ -49,7 +49,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for=""><i class="fas fa-question-circle"></i> Jenis Rombongan</label>
+                                            <label for=""><i class="fas fa-question-circle"></i> Jenis
+                                                Rombongan</label>
                                             <input type="text" class="form-control" disabled
                                                 value="{{ $rombooo->jenis_rombongan }}">
                                         </div>
@@ -66,8 +67,7 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for=""><i class="fas fa-map-marker-alt"></i> Alamat</label>
-                                            <textarea class="form-control" disabled
-                                                rows="3">{{ $rombooo->alamatRom }}</textarea>
+                                            <textarea class="form-control" disabled rows="3">{{ $rombooo->alamatRom }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -75,17 +75,19 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label><i class="fas fa-globe"></i> Negara Tambahan</label>
-                                           <select class="form-control select2bs4" disabled name="negara_tambahan[]" id="negara_tambahan" style="width: 100%;" {{ $rombooo->negaraRom_lebih == 1 ? '' : 'disabled' }} multiple>
-                                            <option value="">SILA PILIH</option>
-                                            @php
-                                                $selected = explode(", ", $rombooo->negaraRom_tambahan);
-                                            @endphp
-                                            @foreach ($negara as $jaw)
-                                                <option value="{{ $jaw->namaNegara }}"
-                                                    {{  (in_array($jaw->namaNegara, $selected))  ? 'selected' : '' }}>
-                                                    {{ $jaw->namaNegara }}</option>
-                                            @endforeach
-                                        </select>
+                                            <select class="form-control select2bs4" disabled name="negara_tambahan[]"
+                                                id="negara_tambahan" style="width: 100%;"
+                                                {{ $rombooo->negaraRom_lebih == 1 ? '' : 'disabled' }} multiple>
+                                                <option value="">SILA PILIH</option>
+                                                @php
+                                                    $selected = explode(', ', $rombooo->negaraRom_tambahan);
+                                                @endphp
+                                                @foreach ($negara as $jaw)
+                                                    <option value="{{ $jaw->namaNegara }}"
+                                                        {{ in_array($jaw->namaNegara, $selected) ? 'selected' : '' }}>
+                                                        {{ $jaw->namaNegara }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -144,8 +146,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="catatan">Catatan</label>
-                                            <textarea style="resize: none" class="form-control" disabled
-                                                disabled>{{ $rombooo->catatan_permohonan }}</textarea>
+                                            <textarea style="resize: none" class="form-control" disabled disabled>{{ $rombooo->catatan_permohonan }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -166,89 +167,127 @@
                                         @endphp
                                         @foreach ($peserta as $peser)
                                             @if (Auth::user()->role == 'jabatan' || Auth::user()->role == 'DatoSUK')
-                                                @if ($peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya' || $peser->statusPermohonan == 'Permohonan Gagal')
-                                                    <tr>
-                                                        <td scope="row" class="text-center">
-                                                            {{ $i++ }}
-                                                        </td>
-                                                        <td style="text-transform: uppercase; width: 65%">
-                                                            <a data-toggle="modal" href='#mdl-kemaskini'
-                                                                data-nama="{{ $peser->user->nama }}"
-                                                                data-nokp="{{ $peser->user->nokp }}"
-                                                                data-email="{{ $peser->user->email }}"
-                                                                data-jawatan="{{ $peser->namaJawatan }}"
-                                                                data-jabatan="{{ $peser->nama_jabatan }}">
-                                                                {{ $peser->user->nama }}</a>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if ($peser->user->usersID == $rombooo->ketua_rombongan)
-                                                                Ketua Rombongan
-                                                            @else
-                                                                @if (Auth::user()->role == 'jabatan' && $peser->status_pengesah == 'disokong')
-                                                                @else
-                                                                <button type="button" class="btn btn-primary btn-xs"
-                                                                    data-toggle="modal"
-                                                                    data-romboid="{{ $rombooo->rombongans_id }}"
-                                                                    data-id="{{ $peser->user->usersID }}"
-                                                                    data-target="#tukarkr">
-                                                                    Lantik Ketua Rombongan
-                                                                </button>
-                                                                @endif
+                                                @if ($rombooo->statusPermohonanRom == 'simpanan')
+                                                <tr>
+                                                    <td scope="row" class="text-center">
+                                                        {{ $i++ }}
+                                                    </td>
+                                                    <td style="text-transform: uppercase">
+                                                        <a data-toggle="modal" href='#mdl-kemaskini'
+                                                            data-nama="{{ $peser->user->nama }}"
+                                                            data-nokp="{{ $peser->user->nokp }}"
+                                                            data-email="{{ $peser->user->email }}"
+                                                            data-jawatan="{{ $peser->namaJawatan }}"
+                                                            data-jabatan="{{ $peser->nama_jabatan }}">
+                                                            {{ $peser->user->nama }}
+                                                        </a>
+                                                        @if ($peser->user->usersID == $rombooo->ketua_rombongan)
+                                                            <i> (Ketua Rombongan)</i>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <i>
+                                                            @if ($peser->statusPermohonan == 'Ketua Jabatan')
+                                                                (Perlu Sokongan Ketua Jabatan)
+                                                            @elseif ($peser->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                (Disokong oleh ketua Jabatan)
+                                                            @elseif ($peser->statusPermohonan == 'Permohonan Gagal')
+                                                                (Permohonan ditolak)
+                                                            @elseif ($peser->statusPermohonan == 'Permohonan Berjaya')
+                                                                (Permohonan Diluluskan)
                                                             @endif
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (Auth::user()->role == 'DatoSUK')
-                                                                @if (!empty($peser->status_kelulusan))
-                                                                    @if ($peser->status_kelulusan == 'Berjaya')
-                                                                        <span
-                                                                            class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
-                                                                        <!-- Button trigger modal -->
-                                                                        <button type="button" class="btn btn-danger btn-xs"
-                                                                            data-id="{{ $peser->id_pelulus }}"
-                                                                            data-toggle="modal"
-                                                                            data-target="#ubahstatuskelulusan">
-                                                                            <i class="fas fa-exchange-alt"></i>
-                                                                        </button>
+                                                        </i>
+                                                    </td>
+                                                </tr>
+                                                @else
+                                                    @if ( $peser->statusPermohonan == 'Lulus Semakan BPSM' || $peser->statusPermohonan == 'Permohonan Berjaya' || $peser->statusPermohonan == 'Permohonan Gagal')
+                                                        <tr>
+                                                            <td scope="row" class="text-center">
+                                                                {{ $i++ }}
+                                                            </td>
+                                                            <td style="text-transform: uppercase; width: 65%">
+                                                                <a data-toggle="modal" href='#mdl-kemaskini'
+                                                                    data-nama="{{ $peser->user->nama }}"
+                                                                    data-nokp="{{ $peser->user->nokp }}"
+                                                                    data-email="{{ $peser->user->email }}"
+                                                                    data-jawatan="{{ $peser->namaJawatan }}"
+                                                                    data-jabatan="{{ $peser->nama_jabatan }}">
+                                                                    {{ $peser->user->nama }}</a>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if ($peser->user->usersID == $rombooo->ketua_rombongan)
+                                                                    Ketua Rombongan
+                                                                @else
+                                                                    @if (Auth::user()->role == 'jabatan' && $peser->status_pengesah == 'disokong')
                                                                     @else
-                                                                        <span
-                                                                            class="badge badge-pill badge-danger">{{ $peser->status_kelulusan }}</span>
-                                                                        <button type="button" class="btn btn-success btn-xs"
-                                                                            data-id="{{ $peser->id_pelulus }}"
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-xs"
                                                                             data-toggle="modal"
-                                                                            data-target="#ubahstatuskelulusan">
-                                                                            <i class="fas fa-exchange-alt"></i>
+                                                                            data-romboid="{{ $rombooo->rombongans_id }}"
+                                                                            data-id="{{ $peser->user->usersID }}"
+                                                                            data-target="#tukarkr">
+                                                                            Lantik Ketua Rombongan
                                                                         </button>
                                                                     @endif
-                                                                @else
-                                                                    <a href="{{ route('senaraiPermohonan.tolakPermohonan', [$peser->permohonansID]) }}"
-                                                                        class="btn btn-danger btn-xs"
-                                                                        onclick="javascript: return confirm('Anda pasti untuk menolak permohonan peserta ini?');">
-                                                                        <i class="far fa-thumbs-down"></i> Tolak
-                                                                        Permohonan
-                                                                    </a>
                                                                 @endif
-                                                            @elseif (Auth::user()->role == 'jabatan')
-                                                                @if (!empty($peser->status_pengesah))
-                                                                    @if ($peser->status_pengesah == 'disokong')
-                                                                        <span
-                                                                            class="badge badge-pill badge-success">{{ $peser->status_pengesah }}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (Auth::user()->role == 'DatoSUK')
+                                                                    @if (!empty($peser->status_kelulusan))
+                                                                        @if ($peser->status_kelulusan == 'Berjaya')
+                                                                            <span
+                                                                                class="badge badge-pill badge-success">{{ $peser->status_kelulusan }}</span>
+                                                                            <!-- Button trigger modal -->
+                                                                            <button type="button"
+                                                                                class="btn btn-danger btn-xs"
+                                                                                data-id="{{ $peser->id_pelulus }}"
+                                                                                data-toggle="modal"
+                                                                                data-target="#ubahstatuskelulusan">
+                                                                                <i class="fas fa-exchange-alt"></i>
+                                                                            </button>
+                                                                        @else
+                                                                            <span
+                                                                                class="badge badge-pill badge-danger">{{ $peser->status_kelulusan }}</span>
+                                                                            <button type="button"
+                                                                                class="btn btn-success btn-xs"
+                                                                                data-id="{{ $peser->id_pelulus }}"
+                                                                                data-toggle="modal"
+                                                                                data-target="#ubahstatuskelulusan">
+                                                                                <i class="fas fa-exchange-alt"></i>
+                                                                            </button>
+                                                                        @endif
                                                                     @else
-                                                                        <span
-                                                                            class="badge badge-pill badge-danger">{{ $peser->status_pengesah }}</span>
+                                                                        <a href="{{ route('senaraiPermohonan.tolakPermohonan', [$peser->permohonansID]) }}"
+                                                                            class="btn btn-danger btn-xs"
+                                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan peserta ini?');">
+                                                                            <i class="far fa-thumbs-down"></i> Tolak
+                                                                            Permohonan
+                                                                        </a>
                                                                     @endif
-                                                                @else
-                                                                    <button type="button" class="btn btn-danger btn-xs"
-                                                                        data-toggle="modal"
-                                                                        data-romboid="{{ $rombooo->rombongans_id }}"
-                                                                        data-id="{{ $peser->permohonansID }}"
-                                                                        data-target="#tolakpermohonan">
-                                                                        <i class="fa fa-thumbs-down"> </i> Tolak
-                                                                        Permohonan
-                                                                    </button>
+                                                                @elseif (Auth::user()->role == 'jabatan')
+                                                                    @if (!empty($peser->status_pengesah))
+                                                                        @if ($peser->status_pengesah == 'disokong')
+                                                                            <span
+                                                                                class="badge badge-pill badge-success">{{ $peser->status_pengesah }}</span>
+                                                                        @else
+                                                                            <span
+                                                                                class="badge badge-pill badge-danger">{{ $peser->status_pengesah }}</span>
+                                                                        @endif
+                                                                    @else
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-xs"
+                                                                            data-toggle="modal"
+                                                                            data-romboid="{{ $rombooo->rombongans_id }}"
+                                                                            data-id="{{ $peser->permohonansID }}"
+                                                                            data-target="#tolakpermohonan">
+                                                                            <i class="fa fa-thumbs-down"> </i> Tolak
+                                                                            Permohonan
+                                                                        </button>
+                                                                    @endif
                                                                 @endif
-                                                            @endif
-                                                        </td>
-                                                    </tr>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 @endif
                                             @else
                                                 <tr>
@@ -295,7 +334,9 @@
                                             @if (is_null($dokumen))
                                                 Tiada Dokumen
                                             @else
-                                                <a class="btn btn-sm btn-info" href="{{ route('detailPermohonanDokumen.download', [$dokumen->dokumens_id]) }}"> Dokumen Rombongan                                            </a>
+                                                <a class="btn btn-sm btn-info"
+                                                    href="{{ route('detailPermohonanDokumen.download', [$dokumen->dokumens_id]) }}">
+                                                    Dokumen Rombongan </a>
                                             @endif
                                         </p>
                                     </div>
@@ -339,13 +380,13 @@
                     </div>
                     <div class="form-group">
                         <label for="jabatan">Jabatan</label>
-                        <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit" value=""
-                            placeholder="">
+                        <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit"
+                            value="" placeholder="">
                     </div>
                     <div class="form-group">
                         <label for="jabatan">Jawatan</label>
-                        <input type="text" class="form-control" name="jawatan" disabled id="jawatan_edit" value=""
-                            placeholder="">
+                        <input type="text" class="form-control" name="jawatan" disabled id="jawatan_edit"
+                            value="" placeholder="">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -391,7 +432,8 @@
     </div>
 
     <!-- Modal Tukar Ketua permohonan-->
-    <div class="modal fade" id="tukarkr" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="tukarkr" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -473,9 +515,9 @@
                     $('#tukarkr').modal('hide');
                     setTimeout(location.reload.bind(location), 1500);
                     Swal.fire(
-                    'Berjaya',
-                    'Ketua Rombongan telah ditukar!',
-                    'success'
+                        'Berjaya',
+                        'Ketua Rombongan telah ditukar!',
+                        'success'
                     );
                 }
             });

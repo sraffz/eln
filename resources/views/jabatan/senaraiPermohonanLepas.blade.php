@@ -64,6 +64,13 @@
                                                             @endif
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
+                                                            <br>
+                                                            {{-- @if ($mohonan->tarikhAkhirPinda != null)
+                                                                <span class="badge badge-primary"> Dipinda :
+                                                                    {{ \Carbon\Carbon::parse($mohonan->tarikhMulaPinda)->format('d/m/Y') }}
+                                                                    -
+                                                                    {{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPinda)->format('d/m/Y') }}</span>
+                                                            @endif --}}
                                                         </td>
                                                         {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
                                                         <td style="text-transform: capitalize">
@@ -96,7 +103,15 @@
                                                                     @endif
                                                                     <br>
                                                                     @if ($mohonan->tarikhAkhirPinda != null)
-                                                                    Dipinda padan
+                                                                         <button type="button"
+                                                                            class="btn btn-dark btn-xs"
+                                                                            data-toggle="modal"
+                                                                            data-sebab="{{ $mohonan->sebab_pinda }}"
+                                                                            data-tarikhmula="{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPinda)->format('d-m-Y') }}"
+                                                                            data-tarikhakhir="{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPinda)->format('d-m-Y') }}"
+                                                                            data-target="#detailpinda">
+                                                                            <i class="fa fa-info-circle"></i> Dipinda
+                                                                        </button>
                                                                     @endif
                                                                 @endif
                                                             @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
@@ -360,6 +375,42 @@
                 </div>
             </div>
         </div>
+        <!-- Modal Detail Pinda Permohonan-->
+        <div class="modal fade" id="detailpinda" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Butiran Pindaan Permohonan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="form-group col-xl-6">
+                                    <label for="tarikhMulaPinda">Tarikh Mula Pinda</label>
+                                    <input type="text" disabled class="form-control" name="tarikhMulaPinda" id="tarikhMulaPinda">
+                                </div>
+                                <div class="form-group col-xl-6">
+                                    <label for="tarikhAkhirPinda">Tarikh Akhir Pinda</label>
+                                    <input type="text" disabled class="form-control" name="tarikhAkhirPinda" id="tarikhAkhirPinda">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sebab">Sebab Pindaan</label>
+                                <textarea style="resize: none" class="form-control" name="sebab" disabled id="sebab" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog"
             aria-labelledby="favoritesModalLabel">
             <div class="modal-dialog" role="document">
@@ -415,6 +466,19 @@
 
             $(".modal-body #sebab").val(sebab);
             $(".modal-body #tarikh").val(tarikh);
+        });
+        
+        $('#detailpinda').on('show.bs.modal', event => {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var sebab = button.data('sebab');
+            var tarikhMulaPinda = button.data('tarikhmula');
+            var tarikhAkhirPinda = button.data('tarikhakhir');
+            // Use above variables to manipulate the DOM
+
+            $(".modal-body #sebab").val(sebab);
+            $(".modal-body #tarikhMulaPinda").val(tarikhMulaPinda);
+            $(".modal-body #tarikhAkhirPinda").val(tarikhAkhirPinda);
         });
 
         $(document).ready(function() {

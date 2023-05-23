@@ -737,6 +737,7 @@ class permohonanController extends Controller
 
     public function storeRombongan(Request $request)
     {
+
         // dd($request);
         $id = $request->input('id');
         $dateInsuran = $request->input('tarikhInsuranRom');
@@ -782,6 +783,9 @@ class permohonanController extends Controller
         // $tarikhAkhirRom = date('Y-m-d', $DateNew2);
         // $tarikhInsuranRom = date('Y-m-d', $DateNew3);
 
+        $statusJawatan = Auth::user()->userJawatan->statusDato;
+        // dd($statusJawatan);
+
         if ($jenisRombongan == 'Tidak Rasmi') {
             // $tt = explode('-', $tarikhmulaAkhirCuti); // dateRange is you string
             // $dari = $tt[0];
@@ -821,13 +825,19 @@ class permohonanController extends Controller
 
         $length = $end->diffInDays($nowsaa);
         // return dd($length);
+        if ($jenisRombongan == 'Rasmi') {
+            $bilHari = 7;
+        } elseif ($jenisRombongan == 'Tidak Rasmi') {
+            $bilHari = 14;
+        }
 
-        if ($length < 13) {
-            Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
-            // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
+        
+        if ($length < $bilHari) {
+
+            Alert::info('Makluman', 'Permohonan mesti dibuat ' . $bilHari . ' hari sebelum perjalanan bermula bagi urusan ' . $jenisRombongan . '.');
+
             return back()->withInput();
-            $negara_tambahan = $request->input('negara_tambahan');
-            $negara_lebih_dari_satu = $request->input('negara_lebih');
+            
         } else {
             $data = [
                 'tarikhMulaRom' => $tarikhMulaRom,
@@ -856,6 +866,7 @@ class permohonanController extends Controller
                 ->first();
 
             if ($rombo->jenis_rombongan == 'Rasmi') {
+
                 $data2 = [
                     'tarikhMulaPerjalanan' => $tarikhMulaRom,
                     'tarikhAkhirPerjalanan' => $tarikhAkhirRom,
@@ -873,7 +884,8 @@ class permohonanController extends Controller
                     'created_at' => \Carbon\Carbon::now(), # \Datetime()
                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                 ];
-                Permohonan::create($data2);
+                // Permohonan::create($data2);
+                $id_permohonan_rombongan = Permohonan::insertGetId($data2);
 
                 $co = $rombo->rombongans_id;
 
@@ -917,9 +929,9 @@ class permohonanController extends Controller
                         }
                     }
                 }
-                // flash('Permohonan berjaya didaftar.')->success();
-                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                return redirect('/senaraiPermohonanProses');
+                // // flash('Permohonan berjaya didaftar.')->success();
+                // Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+                // return redirect('/senaraiPermohonanProses');
             } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
                 $co = $rombo->rombongans_id;
 
@@ -943,7 +955,7 @@ class permohonanController extends Controller
                     'created_at' => \Carbon\Carbon::now(), # \Datetime()
                     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                 ];
-                $id_permohonan_rombongan = Permohonan::insertGetID($data);
+                $id_permohonan_rombongan = Permohonan::insertGetId($data);
 
                 if ($request->hasFile('fileCuti')) {
                     // $allowedfileExtension=['pdf','jpg','png','docx'];
@@ -986,10 +998,34 @@ class permohonanController extends Controller
                         }
                     }
                 }
-                // flash('Permohonan berjaya didaftar.')->success();
-                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                return redirect('/senaraiPermohonanProses');
             }
+
+            // if ($statusJawatan == 'Aktif') {
+            //     Eln_pengesahan_bahagian::insertGetId([
+            //         'id_permohonan' => $id_permohonan_rombongan,
+            //         'id_rombongan' => $co,
+            //         'id_pemohon' => Auth::user()->usersID,
+            //         'jawatan_pemohon' => Auth::user()->userJawatan->namaJawatan,
+            //         'gred_pemohon' => '' . Auth::user()->userGredKod->gred_kod_abjad . ' ' . Auth::user()->userGredAngka->gred_angka_nombor . '',
+            //         'jabatan_pemohon' => Auth::user()->userJabatan->jabatan_id,
+            //         'taraf_pemohon' => Auth::user()->taraf,
+            //         'id_pengesah' => Auth::user()->usersID,
+            //         'jawatan_pengesah' => 'Terus Dato',
+            //         'gred_pengesah' => 'Terus Dato',
+            //         // 'gred_pengesah' => ''.$pengesah->userGredKod->gred_kod_abjad.''.$pengesah->userGredAngka->gred_angka_nombor.'',
+            //         // 'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+            //         'jabatan_pengesah' => 'Terus Dato',
+            //         'ulasan' => 'Disokong',
+            //         'status_pengesah' => 'disokong',
+            //         'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+            //         'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            //     ]);
+            // }
+
+
+            // flash('Permohonan berjaya didaftar.')->success();
+            Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+            return redirect('/senaraiPermohonanProses');
         }
     }
 
@@ -1069,10 +1105,24 @@ class permohonanController extends Controller
                 Alert::error('', 'Rombongan ini telah disertai oleh anda');
                 return back()->withInput();
             } else {
-                if ($length < 13) {
-                    Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
-                    // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
+
+                if ($rombo->jenis_rombongan == 'Rasmi') {
+                    $bilHari = 7;
+                } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
+                    $bilHari = 14;
+                }
+        
+                
+                if ($length < $bilHari) {
+                    Alert::info('Makluman', 'Permohonan mesti dibuat ' . $bilHari . ' hari sebelum perjalanan bermula bagi urusan ' . $rombo->jenis_rombongan . '.');
+        
                     return back()->withInput();
+                // }
+
+                // if ($length < 13) {
+                //     Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
+                //     // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
+                //     return back()->withInput();
                 } else {
                     $jenisPermohonanrombongan = 'rombongan';
                     if ($rombo->jenis_rombongan == 'Rasmi') {
@@ -1486,7 +1536,7 @@ class permohonanController extends Controller
                     'jawatan_pemohon' => $pemohon->user->userJawatan->namaJawatan,
                     'gred_pemohon' => '' . $pemohon->user->userGredKod->gred_kod_abjad . ' ' . $pemohon->user->userGredAngka->gred_angka_nombor . '',
                     'jabatan_pemohon' => $pemohon->user->userJabatan->jabatan_id,
-                    'taraf_pemohon' => $permohonan->user->taraf,
+                    'taraf_pemohon' => $pemohon->user->taraf,
                     'id_pengesah' => Auth::user()->usersID,
                     'jawatan_pengesah' => 'Terus Dato',
                     'gred_pengesah' => 'Terus Dato',
@@ -2147,7 +2197,7 @@ class permohonanController extends Controller
             ->leftjoin('eln_pindaan', 'eln_pindaan.id_permohonan', '=', 'senarai_rekod_permohonan_suk.permohonansID')
             ->whereIn('senarai_rekod_permohonan_suk.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->where('senarai_rekod_permohonan_suk.usersID', $id)
-            ->orderBy('permohonans.tarikhMulaPerjalanan', 'desc')
+            ->orderBy('senarai_rekod_permohonan_suk.tarikhMulaPerjalanan', 'desc')
             ->get();
 
 
