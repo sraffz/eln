@@ -143,7 +143,7 @@ class PdfController extends Controller
 
             $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
             ->where('rombongans_id', $id)
-            ->whereIn('status_kelulusan', ['Berjaya'])
+            ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
             ->orderBy('gred_pendek', 'DESC')
             ->get();
 
