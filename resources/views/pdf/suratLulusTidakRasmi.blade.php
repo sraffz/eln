@@ -111,8 +111,10 @@
                 <div>Ke majlis,</div> <br>
                 {{ $ketua->jawatan_ketua }} <br>
                 {{ $ketua->nama_jabatan }} <br>
-                {{ $ketua->alamat }}, <br>
-                {{ $ketua->poskod }} {{ $ketua->daerah }}, <br>
+                @if ($ketua->alamat != '')
+                    {{ $ketua->alamat }},<br>
+                    @endif
+                 {{ $ketua->poskod }} {{ $ketua->daerah }}, <br>
                 {{ $ketua->negeri }} <br>
                 {{-- {{ ucwords(strtolower($surat->nama_penuh)) }} --}}
                 {{-- K/P : --}}

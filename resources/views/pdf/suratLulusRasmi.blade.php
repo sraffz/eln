@@ -116,7 +116,10 @@
                 Ke majlis, <br><br>
                 {{ $ketua->jawatan_ketua }} <br>
                 {{ $ketua->nama_jabatan }} <br>
-                {{ $ketua->alamat }}, <br>
+                @if ($ketua->alamat != '')
+                    {{ $ketua->alamat }},<br>
+                    @endif
+                {{-- {{ $ketua->alamat }}, <br> --}}
                 {{ $ketua->poskod }} {{ $ketua->daerah }}, <br>
                 {{ $ketua->negeri }} <br>
                 <div class="row">

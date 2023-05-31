@@ -136,7 +136,9 @@
                     Ke majlis, <br><br>
                     {{ $kelulusan->jawatan_ketua }} <br>
                     {{ $kelulusan->nama_jabatan }} <br>
+                    @if ($kelulusan->alamat != '')
                     {{ $kelulusan->alamat }},<br>
+                    @endif
                     {{ $kelulusan->poskod }} {{ $kelulusan->daerah }}, <br>
                     {{ $kelulusan->negeri }}.
                     <div class="row">
