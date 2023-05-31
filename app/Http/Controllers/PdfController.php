@@ -47,7 +47,8 @@ class PdfController extends Controller
        
         // return view('pdf.suratLulusRasmi',compact('permohon', 'pp', 'cogan', 'ketua'));
         $pdf = PDF::loadView('pdf.suratLulusRasmi', compact('permohon', 'pp', 'cogan', 'ketua'))->setPaper('a4', 'portrait');
-        return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        return $pdf->stream('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        // return $pdf->stream('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
     public function suratLulusTidakRasmi($id)
@@ -71,7 +72,7 @@ class PdfController extends Controller
 
         // return view('pdf.suratLulusTidakRasmi',compact('permohon', 'pp', 'cogan', 'ketua'));
         $pdf = PDF::loadView('pdf.suratLulusTidakRasmi', compact('permohon', 'pp', 'cogan', 'ketua'))->setPaper('a4', 'portrait');
-        return $pdf->download('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        return $pdf->stream('Surat Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
     public function memoLulusRasmi($id)
@@ -94,7 +95,9 @@ class PdfController extends Controller
         setlocale(LC_TIME, 'MS-my');
         // return view('pdf.memoLulusRasmi',compact('permohon','pp','cogan','ketua'));
         $pdf = PDF::loadView('pdf.memoLulusRasmi', compact('permohon','pp','cogan', 'ketua'))->setPaper('a4', 'portrait');
-        return $pdf->download('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        return $pdf->stream('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        // return $pdf->setPaper('a4', 'potrait')->stream('Borang Permohonan ' . $permohonan->nama_jawatan . ' ' . $permohonan->no_siri . '.pdf');
+
     }
 
     public function memoTidakRasmi($id)
@@ -118,7 +121,7 @@ class PdfController extends Controller
 
         // return view('pdf.memoLulusTidakRasmi',compact('permohon','pp','cogan', 'ketua'));
         $pdf = PDF::loadView('pdf.memoLulusTidakRasmi', compact('permohon','pp','cogan', 'ketua'))->setPaper('a4', 'portrait');
-        return $pdf->download('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
+        return $pdf->stream('Memo Kelulusan untuk ' . $nama . ' ke ' . $negara . '.pdf');
     }
 
     public function suratrombongan($id)
@@ -158,7 +161,7 @@ class PdfController extends Controller
 
         // return view('pdf.surat-rombongan',compact('kelulusan','hari','tarikh', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'));
         $pdf = PDF::loadView('pdf.surat-rombongan', compact('kelulusan', 'permohon','pp','cogan','bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
-        return $pdf->download('Surat Kelulusan untuk Rombongan ke' . $negara . '.pdf');
+        return $pdf->stream('Surat Kelulusan untuk Rombongan ke' . $negara . '.pdf');
     
     }
 
@@ -200,7 +203,7 @@ class PdfController extends Controller
 
         // return view('pdf.memo-rombongan',compact('kelulusan','permohon','pp','cogan', 'bilpeserta','allPermohonan'));
         $pdf = PDF::loadView('pdf.memo-rombongan', compact('kelulusan','permohon','pp','cogan', 'bilpeserta', 'allPermohonan'))->setPaper('a4', 'portrait');
-        return $pdf->download('MEMO Kelulusan untuk Rombongan ke ' . $negara . '.pdf');
+        return $pdf->stream('MEMO Kelulusan untuk Rombongan ke ' . $negara . '.pdf');
     
     }
 
@@ -242,7 +245,7 @@ class PdfController extends Controller
 
         // return view('pdf.laporanLP',compact('countLBerjaya','countPBerjaya','countLGagal','countPGagal','year'));
         $pdf = PDF::loadView('pdf.laporanLP', ['countLBerjaya' => $countLBerjaya, 'countPBerjaya' => $countPBerjaya, 'countLGagal' => $countLGagal, 'countPGagal' => $countPGagal, 'tahun' => $tahun])->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan ELN Mengikut Jantina '.$tahun.'.pdf');
+        return $pdf->stream('Laporan ELN Mengikut Jantina '.$tahun.'.pdf');
     }
 
     public function laporanindi($id)
@@ -260,7 +263,7 @@ class PdfController extends Controller
         // return view('pdf.cetak-butiran-individu', compact('user','negara'));
 
         $pdf = PDF::loadView('pdf.cetak-butiran-individu', compact('user','negara'))->setPaper('a4', 'landscape');
-        return $pdf->download('Laporan Individu '.$user->nama.'.pdf');
+        return $pdf->stream('Laporan Individu '.$user->nama.'.pdf');
 
     }
 
@@ -273,7 +276,7 @@ class PdfController extends Controller
         
         // return view('pdf.laporanJabatan',compact('list', 'tahun'));
         $pdf = PDF::loadView('pdf.laporanJabatan', compact('list', 'tahun'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan ELN Mengikut Jabatan '.$tahun.'.pdf');
+        return $pdf->stream('Laporan ELN Mengikut Jabatan '.$tahun.'.pdf');
     }
     
     public function laporanNegara($tahun)
@@ -285,7 +288,7 @@ class PdfController extends Controller
         
         // return view('pdf.laporanNegara',compact('list', 'tahun'));
         $pdf = PDF::loadView('pdf.laporanNegara', compact('list', 'tahun'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan ELN Mengikut Negara '.$tahun.'.pdf');
+        return $pdf->stream('Laporan ELN Mengikut Negara '.$tahun.'.pdf');
     }
     
 
@@ -305,7 +308,7 @@ class PdfController extends Controller
 
         // return view('pdf.laporanBulanan', compact('bil','year', 'jumlah'));
         $pdf = PDF::loadView('pdf.laporanBulanan', compact('bil','year', 'jumlah'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Bulanan ELN '.$tahun.'.pdf');
+        return $pdf->stream('Laporan Bulanan ELN '.$tahun.'.pdf');
     }
 
     public function laporanIndividu()
@@ -327,7 +330,7 @@ class PdfController extends Controller
 
         // return view('pdf.laporanTahunan', compact('data'));
         $pdf = PDF::loadView('pdf.laporanTahunan', compact('data'))->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan ELN Mengikut Tahun.pdf');
+        return $pdf->stream('Laporan ELN Mengikut Tahun.pdf');
     }
 
     public function proViewIndividu(request $request)
@@ -340,7 +343,7 @@ class PdfController extends Controller
         // dd($infoUser);
         // return view('pdf.laporanIndividu',compact('infoUser'));
         $pdf = PDF::loadView('pdf.laporanIndividu', ['infoUser' => $infoUser])->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Individu.pdf');
+        return $pdf->stream('Laporan Individu.pdf');
     }
 
     public function proViewBG(request $request)
@@ -356,7 +359,7 @@ class PdfController extends Controller
         // dd($info);
         // return view('pdf.laporanUmum',compact('info'));
         $pdf = PDF::loadView('pdf.laporanUmum', ['info' => $info])->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Status.pdf');
+        return $pdf->stream('Laporan Status.pdf');
     }
 
     public function proViewTahun(request $request)
@@ -372,7 +375,7 @@ class PdfController extends Controller
         // dd($info);
         // return view('pdf.laporanUmum',compact('info'));
         $pdf = PDF::loadView('pdf.laporanUmum', ['info' => $info])->setPaper('a4', 'portrait');
-        return $pdf->download('Laporan Status.pdf');
+        return $pdf->stream('Laporan Status.pdf');
     }
 
     public function manualpengguna()

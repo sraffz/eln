@@ -209,10 +209,10 @@
                                                     <th style="vertical-align: middle">Negara</th>
                                                     <th style="vertical-align: middle">Tarikh Mula Perjalanan</th>
                                                     @if (Request::is('senaraiPending'))
-                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
+                                                        <th style="vertical-align: middle">Tarikh Permohonan</th>
                                                     @else
-                                                    <th style="vertical-align: middle">Tarikh Permohonan</th>
-                                                    <th style="vertical-align: middle">Tarikh Kelulusan</th>
+                                                        <th style="vertical-align: middle">Tarikh Permohonan</th>
+                                                        <th style="vertical-align: middle">Tarikh Kelulusan</th>
                                                     @endif
                                                     <th style="vertical-align: middle">Jenis Permohonan</th>
                                                     {{-- <th style="vertical-align: middle">No Rujukan</th> --}}
@@ -243,7 +243,6 @@
                                                             <td>
                                                                 {{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
                                                             </td>
-                                                            
                                                         @else
                                                             <td>
                                                                 {{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
@@ -260,8 +259,8 @@
                                                                 </button> --}}
 
                                                         </td>
-                                                        {{-- <td>SUK.D.200 (06) 455/16
-                                                            ELN.JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
+                                                        {{-- <td>SUK.D.200 (06) 455/16-4
+                                                            JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
                                                         </td> --}}
                                                         @if ($mohonan->status_kelulusan == 'Berjaya')
                                                             <td>
@@ -280,20 +279,28 @@
                                                                     </button>
                                                                 @endif
                                                                 @if ($mohonan->tarikhAkhirPinda != null)
-                                                                <button type="button"
-                                                                   class="btn btn-dark btn-xs"
-                                                                   data-toggle="modal"
-                                                                   data-sebab="{{ $mohonan->sebab_pinda }}"
-                                                                   data-tarikhmula="{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPinda)->format('d-m-Y') }}"
-                                                                   data-tarikhakhir="{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPinda)->format('d-m-Y') }}"
-                                                                   data-target="#detailpinda">
-                                                                   <i class="fa fa-info-circle"></i> Dipinda
-                                                               </button>
-                                                           @endif
+                                                                    <button type="button" class="btn btn-dark btn-xs"
+                                                                        data-toggle="modal"
+                                                                        data-sebab="{{ $mohonan->sebab_pinda }}"
+                                                                        data-tarikhmula="{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPinda)->format('d-m-Y') }}"
+                                                                        data-tarikhakhir="{{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPinda)->format('d-m-Y') }}"
+                                                                        data-target="#detailpinda">
+                                                                        <i class="fa fa-info-circle"></i> Dipinda
+                                                                    </button>
+                                                                @endif
                                                             </td>
 
                                                             @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                 <td class="text-center">
+                                                                    @php
+                                                                        if ($mohonan->jilid > 1) {
+                                                                            $jld = 'Jld. ' . $mohonan->jilid;
+                                                                        } else {
+                                                                            $jld = '';
+                                                                        }
+                                                                    @endphp
+                                                                    <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }}
+                                                                        ({{ $mohonan->no_surat }})</small>
                                                                     @if ($mohonan->surat == 'MEMO')
                                                                         <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                             class="btn btn-primary btn-xs">
@@ -308,6 +315,15 @@
                                                                 </td>
                                                             @elseif($mohonan->JenisPermohonan == 'Tidak Rasmi')
                                                                 <td class="text-center">
+                                                                    @php
+                                                                        if ($mohonan->jilid > 1) {
+                                                                            $jld = 'Jld. ' . $mohonan->jilid;
+                                                                        } else {
+                                                                            $jld = '';
+                                                                        }
+                                                                    @endphp
+                                                                    <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }}
+                                                                        ({{ $mohonan->no_surat }})</small>
                                                                     @if ($mohonan->surat == 'MEMO')
                                                                         <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
                                                                             class="btn btn-primary btn-xs">
@@ -329,6 +345,15 @@
                                                                     data-dismiss="modal">{{ $mohonan->status_kelulusan }}</span>
                                                             </td>
                                                             <td>
+                                                                @php
+                                                                    if ($mohonan->jilid > 1) {
+                                                                        $jld = 'Jld. ' . $mohonan->jilid;
+                                                                    } else {
+                                                                        $jld = '';
+                                                                    }
+                                                                @endphp
+                                                                <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }}
+                                                                    ({{ $mohonan->no_surat }})</small>
                                                                 @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                     @if ($mohonan->surat == 'MEMO')
                                                                         <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -425,39 +450,41 @@
 
     <!-- Modal Detail Pinda Permohonan-->
     <div class="modal fade" id="detailpinda" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Butiran Pindaan Permohonan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="form-group col-xl-6">
-                            <label for="tarikhMulaPinda">Tarikh Mula Pinda</label>
-                            <input type="text" disabled class="form-control" name="tarikhMulaPinda" id="tarikhMulaPinda">
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Butiran Pindaan Permohonan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="form-group col-xl-6">
+                                <label for="tarikhMulaPinda">Tarikh Mula Pinda</label>
+                                <input type="text" disabled class="form-control" name="tarikhMulaPinda"
+                                    id="tarikhMulaPinda">
+                            </div>
+                            <div class="form-group col-xl-6">
+                                <label for="tarikhAkhirPinda">Tarikh Akhir Pinda</label>
+                                <input type="text" disabled class="form-control" name="tarikhAkhirPinda"
+                                    id="tarikhAkhirPinda">
+                            </div>
                         </div>
-                        <div class="form-group col-xl-6">
-                            <label for="tarikhAkhirPinda">Tarikh Akhir Pinda</label>
-                            <input type="text" disabled class="form-control" name="tarikhAkhirPinda" id="tarikhAkhirPinda">
+                        <div class="form-group">
+                            <label for="sebab">Sebab Pindaan</label>
+                            <textarea style="resize: none" class="form-control" name="sebab" disabled id="sebab" rows="3"></textarea>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="sebab">Sebab Pindaan</label>
-                        <textarea style="resize: none" class="form-control" name="sebab" disabled id="sebab" rows="3"></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <!-- Modal Detail Pembatalan Permohonan-->
     <div class="modal fade" id="detailbatal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
@@ -560,7 +587,7 @@
             $(".modal-body #tarikhMulaPinda").val(tarikhMulaPinda);
             $(".modal-body #tarikhAkhirPinda").val(tarikhAkhirPinda);
         });
-        
+
         $('#ubahstatuskelulusan').on('show.bs.modal', event => {
             var button = $(event.relatedTarget);
             var modal = $(this);

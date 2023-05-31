@@ -6,7 +6,7 @@ Tuan/Puan, <br>
 Adalah dimaklumkan terdapat transaksi permohonan keluar negara pegawai untuk tindakan tuan/puan.
  
 @component('mail::button', ['url' => url('/senaraiPermohonanJabatan')])
-Sokong Permohonan
+Pautan ke Sistem
 @endcomponent
  
 Sekian, terima kasih. 

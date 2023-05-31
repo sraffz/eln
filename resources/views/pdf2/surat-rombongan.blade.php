@@ -101,7 +101,7 @@
                                     Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td style="width: 1%">:</td>
                                 <td>
-                                    SUK.D.200 (06) 455/16 ELN.Jld {{ $kelulusan->jld_surat_rombongan }}
+                                    SUK.D.200 (06) 455/16-4.Jld {{ $kelulusan->jld_surat_rombongan }}
                                     ({{ $kelulusan->no_surat_rombongan }})
                                 </td>
                             </tr>

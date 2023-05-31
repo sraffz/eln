@@ -124,7 +124,7 @@
                                     {{-- {{ \Carbon\Carbon::parse($permohon->tarikhLulusan)->formatLocalized('%d %B %Y') }} --}}
                                     <br>
                                     <hr class="solid">
-                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16 ELN
+                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16-4
                                     @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif
                                     ({{ $ketua->no_surat }})<br>
                                     <hr class="solid">

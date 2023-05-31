@@ -5,8 +5,7 @@
 @section('link')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
@@ -67,7 +66,9 @@
                                                         <td>
                                                             <a
                                                                 href="{{ url('detailPermohonanRombongan', [$rombo->rombongans_id]) }}">
-                                                                {{ $rombo->negaraRom }}@if($rombo->negaraRom_lebih == 1){{ ', '.$rombo->negaraRom_tambahan }}@endif </a> <br>
+                                                                {{ $rombo->negaraRom }}@if ($rombo->negaraRom_lebih == 1)
+                                                                    {{ ', ' . $rombo->negaraRom_tambahan }}
+                                                                @endif </a> <br>
                                                             {{ $rombo->codeRom }}
                                                         </td>
                                                         <td>{{ \Carbon\Carbon::parse($rombo->tarikhMohon)->format('d/m/Y') }}
@@ -126,39 +127,39 @@
                                                                             <div class="mt-2"></div>
                                                                         @endif
                                                                     @elseif($rombo->status_kelulusan == 'Gagal')
-                                                                    @if ($element->status_kelulusan == 'Berjaya')
-                                                                    <button type="button" data-toggle="modal"
-                                                                        href='#detail-{{ $element->permohonansID }}'
-                                                                        data-nama="{{ $element->nama }}"
-                                                                        data-nokp="{{ $element->nokp }}"
-                                                                        {{-- data-email="{{ $element->email }}" --}}
-                                                                        data-jawatan="{{ $element->jawatan_pemohon }}"
-                                                                        data-jabatan="{{ $element->jabatan_pemohon }}"
-                                                                        class="btn btn-success btn-block btn-xs">
-                                                                        {{ $element->nama }}
-                                                                        @if ($element->ketua_rombongan == $element->id_pemohon)
-                                                                            <span
-                                                                                class="badge badge-pill badge-dark">Ketua</span>
+                                                                        @if ($element->status_kelulusan == 'Berjaya')
+                                                                            <button type="button" data-toggle="modal"
+                                                                                href='#detail-{{ $element->permohonansID }}'
+                                                                                data-nama="{{ $element->nama }}"
+                                                                                data-nokp="{{ $element->nokp }}"
+                                                                                {{-- data-email="{{ $element->email }}" --}}
+                                                                                data-jawatan="{{ $element->jawatan_pemohon }}"
+                                                                                data-jabatan="{{ $element->jabatan_pemohon }}"
+                                                                                class="btn btn-success btn-block btn-xs">
+                                                                                {{ $element->nama }}
+                                                                                @if ($element->ketua_rombongan == $element->id_pemohon)
+                                                                                    <span
+                                                                                        class="badge badge-pill badge-dark">Ketua</span>
+                                                                                @endif
+                                                                            </button>
+                                                                            <div class="mt-2"></div>
+                                                                        @elseif($element->status_kelulusan == 'Gagal')
+                                                                            <button type="button" data-toggle="modal"
+                                                                                href='#detail-{{ $element->permohonansID }}'
+                                                                                data-nama="{{ $element->nama }}"
+                                                                                data-nokp="{{ $element->nokp }}"
+                                                                                {{-- data-email="{{ $element->email }}" --}}
+                                                                                data-jawatan="{{ $element->jawatan_pemohon }}"
+                                                                                data-jabatan="{{ $element->jabatan_pemohon }}"
+                                                                                class="btn btn-danger btn-block btn-xs">
+                                                                                {{ $element->nama }}
+                                                                                @if ($element->ketua_rombongan == $element->id_pemohon)
+                                                                                    <span
+                                                                                        class="badge badge-pill badge-dark">Ketua</span>
+                                                                                @endif
+                                                                            </button>
+                                                                            <div class="mt-2"></div>
                                                                         @endif
-                                                                    </button>
-                                                                    <div class="mt-2"></div>
-                                                                @elseif($element->status_kelulusan == 'Gagal')
-                                                                    <button type="button" data-toggle="modal"
-                                                                        href='#detail-{{ $element->permohonansID }}'
-                                                                        data-nama="{{ $element->nama }}"
-                                                                        data-nokp="{{ $element->nokp }}"
-                                                                        {{-- data-email="{{ $element->email }}" --}}
-                                                                        data-jawatan="{{ $element->jawatan_pemohon }}"
-                                                                        data-jabatan="{{ $element->jabatan_pemohon }}"
-                                                                        class="btn btn-danger btn-block btn-xs">
-                                                                        {{ $element->nama }}
-                                                                        @if ($element->ketua_rombongan == $element->id_pemohon)
-                                                                            <span
-                                                                                class="badge badge-pill badge-dark">Ketua</span>
-                                                                        @endif
-                                                                    </button>
-                                                                    <div class="mt-2"></div>
-                                                                @endif
                                                                     @endif
                                                                     <!--- Modal Detail -->
                                                                     <div class="modal fade"
@@ -168,8 +169,7 @@
                                                                                 <div class="modal-header">
                                                                                     <h4 class="modal-title"> Maklumat
                                                                                         Peserta</h4>
-                                                                                    <button type="button"
-                                                                                        class="close"
+                                                                                    <button type="button" class="close"
                                                                                         data-dismiss="modal"
                                                                                         aria-hidden="true">&times;</button>
                                                                                 </div>
@@ -178,19 +178,28 @@
                                                                                     <div
                                                                                         class="form-group{{ $errors->has('nama_edit') ? ' has-error' : '' }}">
                                                                                         {!! Form::label('nama_edit', 'Nama') !!}
-                                                                                        {!! Form::text('nama_edit', $element->nama, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nama_edit']) !!}
+                                                                                        {!! Form::text('nama_edit', $element->nama, [
+                                                                                            'class' => 'form-control',
+                                                                                            'disabled' => 'disabled',
+                                                                                            'id' => 'nama_edit',
+                                                                                        ]) !!}
                                                                                         <small
                                                                                             class="text-danger">{{ $errors->first('nama_edit') }}</small>
                                                                                     </div>
                                                                                     <div
                                                                                         class="form-group{{ $errors->has('nokp_edit') ? ' has-error' : '' }}">
                                                                                         {!! Form::label('nokp_edit', 'Kad Pengenalan') !!}
-                                                                                        {!! Form::text('nokp_edit', $element->nokp, ['class' => 'form-control', 'disabled' => 'disabled', 'id' => 'nokp_edit']) !!}
+                                                                                        {!! Form::text('nokp_edit', $element->nokp, [
+                                                                                            'class' => 'form-control',
+                                                                                            'disabled' => 'disabled',
+                                                                                            'id' => 'nokp_edit',
+                                                                                        ]) !!}
                                                                                         <small
                                                                                             class="text-danger">{{ $errors->first('nokp_edit') }}</small>
                                                                                     </div>
                                                                                     <div class="form-group">
-                                                                                        <label for="jabatan">Jabatan</label>
+                                                                                        <label
+                                                                                            for="jabatan">Jabatan</label>
                                                                                         <input type="text"
                                                                                             class="form-control"
                                                                                             name="jabatan" disabled
@@ -201,7 +210,10 @@
                                                                                     <div
                                                                                         class="form-group{{ $errors->has('jawatan_edit') ? ' has-error' : '' }}">
                                                                                         {!! Form::label('jawatan_edit', 'Jawatan') !!}
-                                                                                        {!! Form::email('jawatan_edit', $element->jawatan_pemohon, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
+                                                                                        {!! Form::email('jawatan_edit', $element->jawatan_pemohon, [
+                                                                                            'class' => 'form-control',
+                                                                                            'disabled' => 'disabled',
+                                                                                        ]) !!}
                                                                                         <small
                                                                                             class="text-danger">{{ $errors->first('jawatan_edit') }}</small>
                                                                                     </div>
@@ -213,7 +225,7 @@
                                                                                         data-dismiss="modal">Batal</button>
                                                                                     @if (Auth::user()->role == 'DatoSUK')
                                                                                         @if ($element->status_kelulusan == 'Gagal')
-                                                                                        @elseif ($element->ketua_rombongan == $element->id_pemohon)
+                                                                                        @elseif($element->ketua_rombongan == $element->id_pemohon)
                                                                                         @else
                                                                                             <button type="button"
                                                                                                 class="btn btn-primary"
@@ -245,13 +257,15 @@
                                                         </td>
                                                         <td>
                                                             @if ($rombo->status_kelulusan == 'Berjaya')
-                                                                <span type="button" data-id="{{ $rombo->rombongans_id }}"
+                                                                <span type="button"
+                                                                    data-id="{{ $rombo->rombongans_id }}"
                                                                     data-toggle="modal" data-target="#ubahstatusrombongan"
                                                                     class="badge badge-success">
                                                                     {{ $rombo->status_kelulusan }}
                                                                 </span>
                                                             @elseif ($rombo->status_kelulusan == 'Gagal')
-                                                                <span type="button" data-id="{{ $rombo->rombongans_id }}"
+                                                                <span type="button"
+                                                                    data-id="{{ $rombo->rombongans_id }}"
                                                                     data-toggle="modal" data-target="#ubahstatusrombongan"
                                                                     class="badge badge-danger">
                                                                     {{ $rombo->status_kelulusan }}
@@ -265,19 +279,25 @@
                                                             @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
                                                                 <span class="badge badge-warning">Lulus Semakan</span>
                                                             @elseif($rombo->statusPermohonanRom == 'Permohonan Berjaya' || $rombo->statusPermohonanRom == 'Permohonan Gagal')
-                                                                @if ($rombo->surat == "MEMO")
-                                                                <a href="{{ route('memo-rombongan', ['id' => $rombo->rombongans_id]) }}"
-                                                                    class="btn btn-primary btn-xs">
-                                                                    Memo
-                                                                </a>
-                                                                @elseif ($rombo->surat == "SURAT")
-                                                                <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"
-                                                                    class="btn btn-primary btn-xs">
-                                                                    Surat
-                                                                </a>
-                                                                    
+                                                                @php
+                                                                    if ($rombo->jld_surat_rombongan > 1) {
+                                                                        $jld = 'Jld. ' . $rombo->jld_surat_rombongan;
+                                                                    } else {
+                                                                        $jld = '';
+                                                                    }
+                                                                @endphp
+                                                                <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }} ({{ $rombo->no_surat_rombongan }})</small> <br>
+                                                                @if ($rombo->surat == 'MEMO')
+                                                                    <a href="{{ route('memo-rombongan', ['id' => $rombo->rombongans_id]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Memo
+                                                                    </a>
+                                                                @elseif ($rombo->surat == 'SURAT')
+                                                                    <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"
+                                                                        class="btn btn-primary btn-xs">
+                                                                        Surat
+                                                                    </a>
                                                                 @endif
-                                                               
                                                             @elseif($rombo->statusPermohonanRom == 'Pending')
                                                                 <a href="{{ route('sokong-permohonan-rombongan', [$rombo->rombongans_id]) }}"
                                                                     class="btn btn-success btn-xs"
@@ -297,7 +317,10 @@
                                                                 </a>
                                                             @elseif($rombo->statusPermohonanRom == 'Diluluskan')
                                                                 <span class="badge badge-success">Diluluskan</span>
-                                                            @elseif($rombo->statusPermohonanRom == 'Permohonan Diluluskan' or $rombo->statusPermohonanRom == 'Permohonan Ditolak' or $rombo->statusPermohonanRom == 'Lulus Semakan')
+                                                            @elseif(
+                                                                $rombo->statusPermohonanRom == 'Permohonan Diluluskan' or
+                                                                    $rombo->statusPermohonanRom == 'Permohonan Ditolak' or
+                                                                    $rombo->statusPermohonanRom == 'Lulus Semakan')
                                                                 <span class="badge badge-primary">Tiada</span>
                                                             @endif
                                                         </td>
@@ -378,8 +401,8 @@
 
         <!-- Modal Tukar Kelulusan Rombongan-->
         @if (Auth::user()->role == 'DatoSUK')
-            <div class="modal fade" id="ubahstatusrombongan" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
-                aria-hidden="true">
+            <div class="modal fade" id="ubahstatusrombongan" tabindex="-1" role="dialog"
+                aria-labelledby="modelTitleId" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

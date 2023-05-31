@@ -74,7 +74,7 @@
                             </td>
                             <td style="width: 1%">:</td>
                             <td>
-                                SUK.D.200 (06) 455/16 ELN.Jld @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif 
+                                SUK.D.200 (06) 455/16-4 @if ($ketua->jilid > 1)jld.{{ $ketua->jilid }}@endif 
                                 ({{ $ketua->no_surat }})
                             </td>
                         </tr>

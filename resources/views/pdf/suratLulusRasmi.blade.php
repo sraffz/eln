@@ -73,8 +73,9 @@
                             </td>
                             <td style="width: 1%">:</td>
                             <td>
-                                SUK.D.200 (06) 455/16 ELN.Jld @if ($ketua->jilid > 1)
-                                    jld.{{ $ketua->jilid }}
+                                SUK.D.200 (06) 455/16-4
+                                @if ($ketua->jilid > 1)
+                                    Jld. {{ $ketua->jilid }}
                                 @endif
                                 ({{ $ketua->no_surat }})
                             </td>
@@ -192,7 +193,8 @@
                         <div style="line-height: 1.2;">
                             2. Sukacita dimaklumkan bahawa permohonan bagi
                             <strong>{{ strtoupper($permohon->user->nama) }}</strong> untuk ke luar negara
-                            iaitu ke <strong>{{ strtoupper($permohon->negara) }}{{ $negara_tambahan }}</strong> bagi menghadiri
+                            iaitu ke <strong>{{ strtoupper($permohon->negara) }}{{ $negara_tambahan }}</strong> bagi
+                            menghadiri
                             urusan rasmi tersebut pada
                             <strong>{{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
                                 hingga
@@ -223,6 +225,8 @@
                         <strong>{{ $pp->maklumat3 }}</strong><br>
                         <strong>{{ $pp->maklumat4 }}</strong><br>
                     </div>
+                    <br>
+                    <i><small>s.k: Dossier</small></i>
                     <br>
                     <br>
                     <div>

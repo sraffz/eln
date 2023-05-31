@@ -100,7 +100,10 @@
                                     Kami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td style="width: 1%">:</td>
                                 <td>
-                                    SUK.D.200 (06) 455/16 ELN.Jld {{ $kelulusan->jld_surat_rombongan }}
+                                    SUK.D.200 (06) 455/16-4
+                                    @if ($kelulusan->jld_surat_rombongan > 1)
+                                        Jld. {{ $kelulusan->jld_surat_rombongan }}
+                                    @endif
                                     ({{ $kelulusan->no_surat_rombongan }})
                                 </td>
                             </tr>
@@ -185,7 +188,8 @@
                                 dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                     orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
                                 negara
-                                iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> bagi
+                                iaitu ke
+                                <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> bagi
                                 tujuan {{ $permohon->tujuanRom }}
                                 <strong>pada
                                     {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
@@ -217,6 +221,8 @@
                             <strong>{{ $pp->maklumat3 }}</strong><br>
                             <strong>{{ $pp->maklumat4 }}</strong><br>
                         </div>
+                        <br>
+                        <i><small>s.k: Dossier</small></i>
                         <br>
                         <br>
                         <div>

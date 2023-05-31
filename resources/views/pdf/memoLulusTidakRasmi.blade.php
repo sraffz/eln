@@ -9,7 +9,7 @@
 
 
     <style>
-        /** 
+        /**
             * Set the margins of the PDF to 0
             * so the background image will cover the entire page.
             **/
@@ -35,14 +35,14 @@
             font-size: 15px;
         }
 
-        /** 
+        /**
             * Define the width, height, margins and position of the watermark.
             **/
         #watermark {
             position: fixed;
             bottom: 0px;
             left: 0px;
-            /** The width and height may change 
+            /** The width and height may change
                     according to the dimensions of your letterhead
                 **/
             width: 21.8cm;
@@ -51,7 +51,6 @@
             /** Your watermark should be behind every content**/
             z-index: -1000;
         }
-
     </style>
 </head>
 
@@ -85,48 +84,47 @@
                             <div align="justify">
                                 <strong>
                                     <hr class="solid">
-                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $ketua->jawatan_ketua }}
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    {{ $ketua->jawatan_ketua }}
                                     <br>
                                     <hr class="solid">
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $pp->maklumat2 }} <br>
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
                                     @php
-                                        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
-                                                "Julai", "Ogos", "September", "October", "November", "Disember"
-                                                ];
-
+                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
+                                        
                                         // setlocale(LC_TIME, config('app.locale'));
                                         use Carbon\Carbon;
-
+                                        
                                         $bulan = monthNames[Carbon::parse($permohon->tarikhLulusan)->month - 1];
                                         $tahun = Carbon::parse($permohon->tarikhLulusan)->year;
                                         $hari = Carbon::parse($permohon->tarikhLulusan)->day;
                                         
                                         // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+                                        
                                     @endphp
                                     {{ $hari }} {{ $bulan }} {{ $tahun }}<br>
                                     <hr class="solid">
-                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
-                                    ELN
+                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16-4
                                     @if ($ketua->jilid > 1)
-                                    .JLD.{{ $ketua->jilid }} 
+                                        Jld. {{ $ketua->jilid }}
                                     @endif
-                                     ({{ $ketua->no_surat }})<br>
+                                    ({{ $ketua->no_surat }})<br>
                                     <hr class="solid">
                                 </strong> <br>
                                 @php
-                                        $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaPerjalanan)->month - 1];
-                                        $tahunMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->year;
-                                        $hariMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->day;
-
-                                        $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirPerjalanan)->month - 1];
-                                        $tahunAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->year;
-                                        $hariAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->day;
-
-                                        if($permohon->negara_lebih_dari_satu == '1'){
-                                        $negara_tambahan = ', '.strtoupper($permohon->negara_tambahan);
-                                    }else {
+                                    $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaPerjalanan)->month - 1];
+                                    $tahunMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->year;
+                                    $hariMula = Carbon::parse($permohon->tarikhMulaPerjalanan)->day;
+                                    
+                                    $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirPerjalanan)->month - 1];
+                                    $tahunAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->year;
+                                    $hariAkhir = Carbon::parse($permohon->tarikhAkhirPerjalanan)->day;
+                                    
+                                    if ($permohon->negara_lebih_dari_satu == '1') {
+                                        $negara_tambahan = ', ' . strtoupper($permohon->negara_tambahan);
+                                    } else {
                                         $negara_tambahan = '';
                                     }
                                 @endphp
@@ -188,6 +186,8 @@
                                 {{-- Saya yang menjalankan amanah,<br><br><br><br> --}}
                                 <strong>({{ $pp->maklumat1 }})</strong>
                             </div>
+                            <br>
+                            <i><small>s.k: Dossier</small></i>
                         </div>
                     </div>
                     <div class="row">

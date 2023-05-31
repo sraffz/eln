@@ -74,7 +74,7 @@
                                   
                                   _________________________________________________________________________________
 								  <br><strong>
-                                  RUJUKAN  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </strong>SUK.D.200 (06) 455/16 ELN.JLD.{{ $permohon->no_ruj_file }} ({{ $permohon->no_ruj_bil }})<br>
+                                  RUJUKAN  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </strong>SUK.D.200 (06) 455/16-4 JLD.{{ $permohon->no_ruj_file }} ({{ $permohon->no_ruj_bil }})<br>
                                   <strong>
                                   _________________________________________________________________________________</strong>
                                   <br>

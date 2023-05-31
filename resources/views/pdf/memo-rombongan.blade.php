@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/skins/_all-skins.min.css') }}"> --}}
 </head>
 <style>
-    /** 
+    /**
         * Set the margins of the PDF to 0
         * so the background image will cover the entire page.
         **/
@@ -46,14 +46,14 @@
         font-size: 15px;
     }
 
-    /** 
+    /**
         * Define the width, height, margins and position of the watermark.
         **/
     #watermark {
         position: fixed;
         bottom: 0px;
         left: 0px;
-        /** The width and height may change 
+        /** The width and height may change
                 according to the dimensions of your letterhead
             **/
         width: 21.8cm;
@@ -82,7 +82,6 @@
     table {
         border-collapse: collapse;
     }
-
 </style>
 {{-- <style>
     /* .page {
@@ -122,56 +121,59 @@
                             </strong>
                         </div>
                     </div>
-                   
+
                     <div class="row">
                         <div class="col-xl-12">
                             <div align="justify">
 
                                 <strong>
                                     <hr class="solid">
-                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $kelulusan->jawatan_ketua }} <br>
+                                    KEPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    {{ $kelulusan->jawatan_ketua }} <br>
                                     <hr class="solid">
                                     DARIPADA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $pp->maklumat2 }} <br>
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
                                     @php
-                                        const monthNames = ["Januari", "Februari", "Mac", "April", "Mei", "Jun",
-                                                "Julai", "Ogos", "September", "October", "November", "Disember"
-                                                ];
-
+                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
+                                        
                                         // setlocale(LC_TIME, config('app.locale'));
                                         use Carbon\Carbon;
-
+                                        
                                         $bulan = monthNames[Carbon::parse($kelulusan->tarikh_kelulusan)->month - 1];
                                         $tahun = Carbon::parse($kelulusan->tarikh_kelulusan)->year;
                                         $hari = Carbon::parse($kelulusan->tarikh_kelulusan)->day;
                                         
                                         // $tarikh = Carbon::parse($kelulusan->tarikh_kelulusan)->formatLocalized('%d %B %Y');
+                                        
                                     @endphp
                                     {{ $hari }} {{ $bulan }} {{ $tahun }}
                                     <br>
 
                                     <hr class="solid">
-                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
-                                    ELN.JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>
+                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16-4
+                                    @if ($kelulusan->jld_surat_rombongan > 1)
+                                        Jld. {{ $kelulusan->jld_surat_rombongan }}
+                                    @endif
+                                    ({{ $kelulusan->no_surat_rombongan }})<br>
                                     <hr class="solid">
                                 </strong> <br>
                                 @php
                                     $bulanMula = monthNames[Carbon::parse($permohon->tarikhMulaRom)->month - 1];
                                     $tahunMula = Carbon::parse($permohon->tarikhMulaRom)->year;
                                     $hariMula = Carbon::parse($permohon->tarikhMulaRom)->day;
-            
+                                    
                                     $bulanAkhir = monthNames[Carbon::parse($permohon->tarikhAkhirRom)->month - 1];
                                     $tahunAkhir = Carbon::parse($permohon->tarikhAkhirRom)->year;
                                     $hariAkhir = Carbon::parse($permohon->tarikhAkhirRom)->day;
-
+                                    
                                     if ($permohon->negaraRom_lebih == '1') {
                                         $negaraRom_tambahan = ', ' . strtoupper($permohon->negaraRom_tambahan);
                                     } else {
                                         $negaraRom_tambahan = '';
                                     }
-
-                                    if ($permohon->jenis_rombongan  == 'RASMI') {
+                                    
+                                    if ($permohon->jenis_rombongan == 'RASMI') {
                                         $jenis_rombongan = 'rasmi';
                                     } else {
                                         $jenis_rombongan = 'persendirian';
@@ -179,7 +181,8 @@
                                     
                                 @endphp
                                 <font style="text-transform: uppercase">
-                                    <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA atas urusan {{ $jenis_rombongan }} Secara rombongan bagi tujuan
+                                    <strong>PERMOHONAN KEBENARAN KE LUAR NEGARA atas urusan {{ $jenis_rombongan }}
+                                        Secara rombongan bagi tujuan
                                         {{ $permohon->tujuanRom }}
                                         {{ strtoupper($permohon->lainTujuan) }} PADA
                                         {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
@@ -204,7 +207,9 @@
 
                                     dimaklumkan bahawa permohonan tuan bagi <strong>{{ $bilpeserta }}
                                         orang</strong> pegawai sebagaimana senarai di lampiran untuk ke luar
-                                    negara iaitu ke <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong> atas urusan {{ $jenis_rombongan }} bagi
+                                    negara iaitu ke
+                                    <strong>{{ strtoupper($permohon->negaraRom) }}{{ $negaraRom_tambahan }}</strong>
+                                    atas urusan {{ $jenis_rombongan }} bagi
                                     tujuan <strong>{{ $permohon->tujuanRom }}</strong>
                                     pada <strong>
                                         {{ $hariMula }} {{ $bulanMula }} {{ $tahunMula }}
@@ -223,6 +228,8 @@
                                 <br>
                                 <strong>( {{ $pp->maklumat1 }})</strong>
                             </div>
+                            <br>
+                            <i><small>s.k: Dossier</small></i>
                         </div>
                     </div>
                     <div class="row">

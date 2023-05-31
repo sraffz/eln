@@ -152,8 +152,7 @@
                                     <br>
 
                                     <hr class="solid">
-                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
-                                    ELN.JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>
+                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16-4 JLD.{{ $kelulusan->jld_surat_rombongan }} ({{ $kelulusan->no_surat_rombongan }})<br>
                                     <hr class="solid">
                                 </strong> <br>
                                 @php

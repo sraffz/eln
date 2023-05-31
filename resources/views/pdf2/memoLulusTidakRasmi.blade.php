@@ -107,8 +107,7 @@
                                     @endphp
                                     {{ $hari }} {{ $bulan }} {{ $tahun }}<br>
                                     <hr class="solid">
-                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16
-                                    ELN
+                                    RUJ. FAIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: SUK.D.200 (06) 455/16-4
                                     @if ($ketua->jilid > 1)
                                     .JLD.{{ $ketua->jilid }} 
                                     @endif
