@@ -56,11 +56,12 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Negara</th>
+                                        <th>Tarikh Permohonan</th>
                                         <th>Tarikh Mula Perjalanan</th>
                                         <th>Tarikh Akhir Perjalanan</th>
                                         <th>Jenis/Tujuan</th>
                                         <th>Status Permohonan</th>
-                                        <th>Tarikh Lulusan</th>
+                                        <th>Tarikh Kelulusan</th>
                                         <th style="width: 13%">Tindakan</th>
                                     </tr>
                                 </thead>
@@ -80,6 +81,9 @@
                                                         {{ ', ' . $mohonan->negara_tambahan }}
                                                     @endif
                                                 </a>
+                                            </td>
+                                            <td>
+                                                {{ \Carbon\Carbon::parse($mohonan->tarikh_permohonan)->format('d/m/Y') }}
                                             </td>
                                             <td>
                                                 {{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}

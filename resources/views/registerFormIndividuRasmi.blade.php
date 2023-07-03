@@ -64,19 +64,27 @@
                         <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
+                                <label for="tarikh"><i class="fas fa-calendar"></i> Tarikh Terima Insuran</label>
                                 {{-- <input type="text" class="form-control" id="datepicker" name="tarikh"> --}}
-                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                    name="tarikh" value="{{ old('tarikh') }}">
+                                <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}" name="tarikh"
+                                    id="tarikh" value="{{ old('tarikh') }}">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <!-- text input -->
+                            @php
+                                if ($typeForm == 'rasmi') {
+                                    $lastDate = 8;
+                                } elseif ($typeForm == 'tidakRasmi') {
+                                    $lastDate = 15;
+                                }
+                            @endphp
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Mula Perjalanan<span
+                                <label for="tarikhMula"><i class="fas fa-calendar"></i> Tarikh Mula Perjalanan<span
                                         style="color:red;">*</span></label>
-                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                    name="tarikhMula" value="{{ old('tarikhMula') }}" required>
+                                <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}" name="tarikhMula"
+                                    value="{{ old('tarikhMula') }}" onBlur="myFunction()" id="tarikhMula"
+                                    min="{{ \Carbon\Carbon::now()->addDays($lastDate)->format('Y-m-d') }}" required>
                                 @if ($typeForm == 'tidakRasmi')
                                     <small><i>*Permohonan mesti dihantar sebelum 14 hari dari tarikh perjalanan.</i></small>
                                 @endif
@@ -85,10 +93,10 @@
                         <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Tarikh Akhir Perjalanan<span
+                                <label for="tarikhAkhir"><i class="fas fa-calendar"></i> Tarikh Akhir Perjalanan<span
                                         style="color:red;">*</span></label>
-                                <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                    name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" required>
+                                <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}" name="tarikhAkhir"
+                                    value="{{ old('tarikhAkhir') }}" id="tarikhAkhir" required>
                             </div>
                         </div>
 
@@ -96,8 +104,10 @@
                     <div class="row">
                         <div class="col-sm-4 ">
                             <div class="form-group">
-                                <label><i class="fas fa-globe"></i> Negara<span style="color:red;">*</span></label>
-                                <select class="form-control select2bs4" name="negara" style="width: 100%;" required>
+                                <label for="negara"><i class="fas fa-globe"></i> Negara<span
+                                        style="color:red;">*</span></label>
+                                <select class="form-control select2bs4" id="negara" name="negara" style="width: 100%;"
+                                    required>
                                     <option value="">SILA PILIH</option>
                                     @foreach ($negara as $jaw)
                                         <option value="{{ $jaw->namaNegara }}"
@@ -118,7 +128,8 @@
                         </div>
                         <div class="col-sm-4 ">
                             <div class="form-group">
-                                <label><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span>
+                                <label for="negara_tambahan"><i class="fas fa-globe"></i> Negara Tambahan<span
+                                        style="color:red;">*</span>
                                 </label>
                                 <select class="form-control select2bs4" name="negara_tambahan[]" id="negara_tambahan"
                                     style="width: 100%;" {{ old('negara_lebih') == 1 ? '' : 'disabled' }} multiple>
@@ -136,17 +147,17 @@
                         <div class="col-sm-4">
                             @if ($typeForm == 'rasmi')
                                 <div class="form-group">
-                                    <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
+                                    <label for="tujuan"><i class="fa fa-edit"> </i> Tujuan Permohonan<span
                                             style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}"
-                                        required>
+                                    <input type="text" class="form-control" id="tujuan" name="tujuan"
+                                        value="{{ old('tujuan') }}" required>
                                 </div>
                             @elseif($typeForm == 'tidakRasmi')
                                 <div class="form-group">
-                                    <label><i class="fa fa-edit"> </i> Tujuan Permohonan<span
+                                    <label for="tujuan"><i class="fa fa-edit"> </i> Tujuan Permohonan<span
                                             style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="tujuan" value="{{ old('tujuan') }}"
-                                        required>
+                                    <input type="text" class="form-control" name="tujuan" id="tujuan"
+                                        value="{{ old('tujuan') }}" required>
                                 </div>
                             @endif
                             <!-- text input -->
@@ -154,17 +165,18 @@
                         <div class="col-sm-4">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fa fa-edit"> </i> Alamat semasa bertugas / bercuti <span
+                                <label for="alamat"><i class="fa fa-edit"> </i> Alamat semasa bertugas / bercuti <span
                                         style="color:red;">*</span></label>
-                                <input type="text" name="alamat" class="form-control" value="{{ old('alamat') }}"
-                                    placeholder="">
+                                <input type="text" id="alamat" name="alamat" class="form-control"
+                                    value="{{ old('alamat') }}" placeholder="">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label><i class="fa fa-phone"> </i> No. Telefon<span style="color:red;">*</span></label>
-                                <input type="text" name="phone" class="form-control" value="{{ old('phone') }}"
-                                    data-inputmask='"mask": "999-99999999"' data-mask>
+                                <label for="phone"><i class="fa fa-phone"> </i> No. Telefon<span
+                                        style="color:red;">*</span></label>
+                                <input type="text" id="phone" name="phone" class="form-control"
+                                    value="{{ old('phone') }}" data-inputmask='"mask": "999-99999999"' data-mask>
                             </div>
                         </div>
                     </div>
@@ -172,7 +184,7 @@
                         @if ($typeForm == 'rasmi')
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-money-bill-alt"></i> Jenis Kewangan<span
+                                    <label for="jenisKewangan"><i class="fas fa-money-bill-alt"></i> Jenis Kewangan<span
                                             style="color:red;">*</span></label>
                                     <select class="form-control" id="jenisKewangan" name="jenisKewangan"
                                         required="required">
@@ -194,7 +206,8 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <label><i class="fa fa-file"> </i> Dokumen Rasmi<span style="color:red;">*</span></label>
+                                <label for="exampleInputFile"><i class="fa fa-file"> </i> Dokumen Rasmi<span
+                                        style="color:red;">*</span></label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="fileRasmi[]"
                                         id="exampleInputFile" multiple>
@@ -212,7 +225,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6 mb-3">
-                            <label><i class="fa fa-file"> </i> Dokumen Sokongan</label>
+                            <label for="exampleInputFile"><i class="fa fa-file"> </i> Dokumen Sokongan</label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="filesokongan[]"
                                     id="exampleInputFile" multiple>
@@ -248,17 +261,17 @@
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fa fa-user"></i> Nama Pasangan</label>
-                                <input type="text" name="namaPasangan" class="form-control" placeholder=""
-                                    value="{{ old('namaPasangan') }}">
+                                <label for="namaPasangan"><i class="fa fa-user"></i> Nama Pasangan</label>
+                                <input type="text" id="namaPasangan" name="namaPasangan" class="form-control"
+                                    placeholder="" value="{{ old('namaPasangan') }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fa fa-user-friends"></i> Hubungan</label>
-                                <input type="text" name="hubungan" class="form-control" placeholder=""
-                                    value="{{ old('hubungan') }}">
+                                <label for="hubungan"><i class="fa fa-user-friends"></i> Hubungan</label>
+                                <input type="text" id="hubungan" name="hubungan" class="form-control"
+                                    placeholder="" value="{{ old('hubungan') }}">
                             </div>
                         </div>
                     </div>
@@ -266,17 +279,18 @@
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fa fa-phone"></i> No Tel Pasangan</label>
-                                <input type="text" name="phonePasangan" class="form-control"
+                                <label for="phonePasangan"><i class="fa fa-phone"></i> No Tel Pasangan</label>
+                                <input type="text" id="phonePasangan" name="phonePasangan" class="form-control"
                                     value="{{ old('phonePasangan') }}" data-mask>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <!-- text input -->
                             <div class="form-group">
-                                <label><i class="fa fa-envelope"></i> Email Pasangan (Jika Ada)</label>
-                                <input type="email" name="emailPasangan" class="form-control" placeholder=""
-                                    value="{{ old('emailPasangan') }}">
+                                <label for="emailPasangan"><i class="fa fa-envelope"></i> Email Pasangan (Jika
+                                    Ada)</label>
+                                <input type="email" id="emailPasangan" name="emailPasangan" class="form-control"
+                                    placeholder="" value="{{ old('emailPasangan') }}">
                             </div>
                         </div>
                     </div>
@@ -284,8 +298,8 @@
                         <div class="col-sm-12">
                             <!-- textarea -->
                             <div class="form-group">
-                                <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
-                                <textarea class="form-control" name="alamatPasangan" rows="3" placeholder="">{{ old('alamatPasangan') }}</textarea>
+                                <label for="alamatPasangan"><i class="fa fa-edit"></i> Alamat Pasangan</label>
+                                <textarea class="form-control" id="alamatPasangan" name="alamatPasangan" rows="3" placeholder="">{{ old('alamatPasangan') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -304,31 +318,35 @@
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
-                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
+                                    <label for="tarikhMulaCuti"><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
+                                    <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}"
+                                        name="tarikhMulaCuti" id="tarikhMulaCuti" onblur="myFunctionCuti()"
+                                        value="{{ old('tarikhMulaCuti') }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                    <label for="tarikhAkhirCuti"><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
+                                    <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}"
+                                        name="tarikhAkhirCuti" id="tarikhAkhirCuti" onblur="myFunctionKembali()"
+                                        value="{{ old('tarikhAkhirCuti') }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                    <input type="text" class="form-control datepicker" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
+                                    <label for="tarikhKembaliBertugas"><i class="fas fa-calendar"></i> Tarikh Kembali
+                                        Bertugas</label>
+                                    <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}"
+                                        name="tarikhKembaliBertugas" id="tarikhKembaliBertugas"
+                                        value="{{ old('tarikhKembaliBertugas') }}">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <!-- text input -->
                                 <div class="form-group">
-                                    <label><i class="fa fa-file"> </i> Dokumen Cuti</label>
+                                    <label for="exampleInputFile"><i class="fa fa-file"> </i> Dokumen Cuti</label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="fileCuti[]"
                                             id="exampleInputFile" multiple>
@@ -419,6 +437,23 @@
                 document.getElementById("negara_tambahan").disabled = false;
             else
                 document.getElementById("negara_tambahan").disabled = true;
+        }
+    </script>
+
+    <script>
+        function myFunction() {
+            var minToDate = document.getElementById("tarikhMula").value;
+            document.getElementById("tarikhAkhir").setAttribute("min", minToDate);
+        }
+
+        function myFunctionCuti() {
+            var minToDate = document.getElementById("tarikhMulaCuti").value;
+            document.getElementById("tarikhAkhirCuti").setAttribute("min", minToDate);
+        }
+
+        function myFunctionKembali() {
+            var minToDate2 = document.getElementById("tarikhAkhirCuti").value;
+            document.getElementById("tarikhKembaliBertugas").setAttribute("min", minToDate2);
         }
     </script>
 @endsection

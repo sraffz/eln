@@ -177,8 +177,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-globe"></i> Negara Tambahan<span
-                                                style="color:red;">*</span></label>
+                                        <label> Negara Tambahan </label>
                                         {{-- <div class="icheck-primary mb-2">
                                          <input class="form-check-input" type="checkbox" value="1"  OnChange="javascript:enableTextBox();" name="negara_lebih" id="negara_lebih" {{ $permohonan->negara_lebih_dari_satu == '1' ? 'checked' : ''}}>
                                          <label class="form-check-label" for="negara_lebih">
@@ -198,6 +197,13 @@
                                                     {{ $jaw->namaNegara }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label><i class="fas fa-date"></i> Tarikh Permohonan</label>
+                                        <input type="text" class="form-control" disabled
+                                            value="{{ \Carbon\Carbon::parse($permohonan->tarikh_permohonan)->format('d/m/Y') }}">
                                     </div>
                                 </div>
                             </div>

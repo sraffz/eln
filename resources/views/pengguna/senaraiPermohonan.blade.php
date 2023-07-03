@@ -83,8 +83,11 @@
                                                     {{-- @php
                                                         $id = Hashids::encode($mohonan->permohonansID);
                                                     @endphp --}}
-                                                    <a
-                                                        href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}@if($mohonan->negara_tambahan != ''){{ ', '.$mohonan->negara_tambahan }}@endif</a>
+                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}
+                                                        @if ($mohonan->negara_tambahan != '')
+                                                            {{ ', ' . $mohonan->negara_tambahan }}
+                                                        @endif
+                                                    </a>
                                                 </td>
                                                 <td class="text-center">
                                                     {{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
@@ -113,6 +116,17 @@
                                                             onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
                                                             data-toggle="tooltip" title="Hantar Permohonan"
                                                             data-placement="left"><i class="fas fa-paper-plane"></i></a>
+                                                        <a href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-info btn-xs" data-toggle="tooltip"
+                                                            title="Kemaskini Permohonan" data-placement="left"><i
+                                                                class="fas fa-edit"></i></a>
+                                                        <a href="{{ url('padam-permohonan', [$mohonan->permohonansID]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Padam maklumat ini?');"
+                                                            data-toggle="tooltip" title="Padam Permohonan"
+                                                            data-placement="left"><i class="fa fa-user-times"></i></a>
+                                                    @elseif($mohonan->statusPermohonan == 'Ketua Jabatan')
+                                                       
                                                         <a href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-info btn-xs" data-toggle="tooltip"
                                                             title="Kemaskini Permohonan" data-placement="left"><i
@@ -173,9 +187,10 @@
                                                     {{ $index + 1 }}
                                                 </td>
                                                 <td>
-                                                    <a
-                                                        href="{{ url('detailPermohonanRombongan', [$id]) }}">
-                                                        {{ $rombo->negaraRom }}@if($rombo->negaraRom_lebih == 1){{ ', '.$rombo->negaraRom_tambahan }}@endif
+                                                    <a href="{{ url('detailPermohonanRombongan', [$id]) }}">
+                                                        {{ $rombo->negaraRom }}@if ($rombo->negaraRom_lebih == 1)
+                                                            {{ ', ' . $rombo->negaraRom_tambahan }}
+                                                        @endif
                                                     </a>
                                                     <br> ({{ $rombo->codeRom }})
                                                 </td>
@@ -231,6 +246,18 @@
                                                 <td class="text-center">
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
                                                         <span class="badge badge-dark">Tiada</span>
+                                                        <a href="{{ url('hantarRombongan', [$id]) }}"
+                                                            class="btn btn-success btn-xs"
+                                                            onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
+                                                            data-toggle="tooltip" title="Hantar Permohonan"
+                                                            data-placement="left"><i class="fas fa-paper-plane"></i></a>
+                                                        <a href="{{ url('kemaskini-rombongan', [$id]) }}"
+                                                            class="btn btn-info btn-xs"><i class="fas fa-edit"></i></a>
+                                                        <a href="{{ url('padam-rombongan', [$id]) }}"
+                                                            class="btn btn-danger btn-xs"
+                                                            onclick="javascript: return confirm('Padam maklumat ini?');"><i
+                                                                class="fa fa-user-times" data-toggle="tooltip"
+                                                                title="Padam Permohonan" data-placement="right"></i></a>
                                                     @elseif($rombo->statusPermohonanRom == 'simpanan')
                                                         <a href="{{ url('hantarRombongan', [$id]) }}"
                                                             class="btn btn-success btn-xs"

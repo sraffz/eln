@@ -218,7 +218,7 @@
                                                     {{-- <th style="vertical-align: middle">No Rujukan</th> --}}
                                                     <th style="vertical-align: middle">Status Permohonan</th>
                                                     @if ($url != url('senaraiRekodIndividu'))
-                                                        <th style="vertical-align: middle">Tindakan</th>
+                                                        <th style=" vertical-align: middle">Tindakan</th>
                                                     @else
                                                         <th style="vertical-align: middle">Dokumen(Cetak)</th>
                                                     @endif
@@ -299,7 +299,8 @@
                                                                             $jld = '';
                                                                         }
                                                                     @endphp
-                                                                    <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }}
+                                                                    <small class="text-bold">SUK.D.200 (06) 455/16-4
+                                                                        {{ $jld }}
                                                                         ({{ $mohonan->no_surat }})</small>
                                                                     @if ($mohonan->surat == 'MEMO')
                                                                         <a href="{{ route('memoRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -322,7 +323,8 @@
                                                                             $jld = '';
                                                                         }
                                                                     @endphp
-                                                                    <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }}
+                                                                    <small class="text-bold">SUK.D.200 (06) 455/16-4
+                                                                        {{ $jld }}
                                                                         ({{ $mohonan->no_surat }})</small>
                                                                     @if ($mohonan->surat == 'MEMO')
                                                                         <a href="{{ route('memoTidakRasmi', ['id' => $mohonan->permohonansID]) }}"
@@ -352,7 +354,8 @@
                                                                         $jld = '';
                                                                     }
                                                                 @endphp
-                                                                <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }}
+                                                                <small class="text-bold">SUK.D.200 (06) 455/16-4
+                                                                    {{ $jld }}
                                                                     ({{ $mohonan->no_surat }})</small>
                                                                 @if ($mohonan->JenisPermohonan == 'Rasmi')
                                                                     @if ($mohonan->surat == 'MEMO')
@@ -400,6 +403,7 @@
                                                                         onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
                                                                             class="fa fa-times">Tolak</i></a>
                                                                 @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
+                                                                    <a class="btn btn-danger btn-xs" href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}" role="button">Kemaskini</a>
                                                                 @endif
                                                             </td>
                                                         @else

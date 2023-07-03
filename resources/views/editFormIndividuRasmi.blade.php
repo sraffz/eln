@@ -50,37 +50,36 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
+                                <label for="tarikh"><i class="fa fa-calendar"></i> Tarikh Terima Insuran</label>
                                 <div class="input-group date">
                                     @php
                                         $da = date('m/d/Y', strtotime($permohonan->tarikhInsuran));
                                     @endphp
-                                    <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
-                                        name="tarikh" value="{{ \Carbon\Carbon::parse($permohonan->tarikhInsuran)->format('d-m-Y') }}">
+                                    <input type="date" pattern="\d{2}-\d{2}-\d{4}" class="form-control"
+                                        name="tarikh" id="tarikh" value="{{ $permohonan->tarikhInsuran }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><i class="fa fa-calendar"></i> Tarikh Mula Perjalanan</label>
+                                <label for="tarikhMulaPerjalanan"><i class="fa fa-calendar"></i> Tarikh Mula Perjalanan</label>
                                 <div class="input-group date">
-                                    @php
-                                        $mula = date('m/d/Y', strtotime($permohonan->tarikhMulaPerjalanan));
-                                    @endphp
-                                    <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
-                                        name="tarikhMulaPerjalanan" value="{{ \Carbon\Carbon::parse($permohonan->tarikhMulaPerjalanan)->format('d-m-Y') }}">
+                                    {{-- {{ $permohonan->created_at }} --}}
+                                    
+                                    <input type="date" pattern="\d{2}-\d{2}-\d{4}" class="form-control" id="tarikhMulaPerjalanan" onblur="myFunction()"
+                                        name="tarikhMulaPerjalanan" min="{{ \Carbon\Carbon::parse($permohonan->created_at)->addDays(15)->format('Y-m-d') }}" value="{{ $permohonan->tarikhMulaPerjalanan }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><i class="fa fa-calendar"></i> Tarikh Akhir Perjalanan</label>
+                                <label for="tarikhAkhirPerjalanan"><i class="fa fa-calendar"></i> Tarikh Akhir Perjalanan</label>
                                 <div class="input-group date">
                                     @php
                                         $akhir = date('m/d/Y', strtotime($permohonan->tarikhAkhirPerjalanan));
                                     @endphp
-                                    <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
-                                        name="tarikhAkhirPerjalanan" value="{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirPerjalanan)->format('d-m-Y') }}">
+                                    <input type="date" pattern="\d{2}-\d{2}-\d{4}" class="form-control" id="tarikhAkhirPerjalanan"
+                                        name="tarikhAkhirPerjalanan" value="{{ $permohonan->tarikhAkhirPerjalanan }}" min="{{ $permohonan->tarikhMulaPerjalanan }}">
                                 </div>
                             </div>
                         </div>
@@ -88,7 +87,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><i class="fa fa-globe"></i> Negara</label>
+                                <label for="negara"><i class="fa fa-globe"></i> Negara</label>
                                 <div class="input-group">
                                     <select style="width: 100%;" id="negara" class="form-control select2bs4" name="negara">
                                         <option value="" selected="selected"></option>
@@ -104,15 +103,15 @@
                         <div class="col-md-4">
                             @if ($typeForm == 'rasmi')
                                 <div class="form-group">
-                                    <label><i class="fa fa-edit"></i> Tujuan Permohonan</label>
+                                    <label for="tujuan"><i class="fa fa-edit"></i> Tujuan Permohonan</label>
                                     <div class="input-group">
-                                        <input type="text" name="tujuan" class="form-control"
+                                        <input type="text" name="tujuan" id="tujuan" class="form-control"
                                             value="{{ $permohonan->lainTujuan }}">
                                     </div>
                                 </div>
                             @elseif($typeForm == 'tidakRasmi')
                                 <div class="form-group">
-                                    <label><i class="fa fa-edit"></i> Tujuan Permohonan</label>
+                                    <label for="tujuan"><i class="fa fa-edit"></i> Tujuan Permohonan</label>
                                     <div class="input-group">
                                         <input type="text" id="tujuan" name="tujuan" class="form-control"
                                             value="{{ $permohonan->lainTujuan }}">
@@ -122,9 +121,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><i class="fa fa-edit"></i> Alamat Semasa Bercuti</label>
+                                <label for="alamat"><i class="fa fa-edit"></i> Alamat Semasa Bercuti</label>
                                 <div class="input-group">
-                                    <input type="text" name="alamat" class="form-control"
+                                    <input type="text" id="alamat" name="alamat" class="form-control"
                                         value="{{ $permohonan->alamat }}">
                                 </div>
                             </div>
@@ -133,7 +132,7 @@
                     <div class="row">
                         <div class="col-sm-4 ">
                             <div class="form-group">
-                                <label><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span></label>
+                                <label for="negara_lebih"><i class="fas fa-globe"></i> Negara Tambahan<span style="color:red;">*</span></label>
                                <div class="icheck-primary mb-2">
                                  <input class="form-check-input" type="checkbox" value="1"  OnChange="javascript:enableTextBox();" name="negara_lebih" id="negara_lebih" {{ $permohonan->negara_lebih_dari_satu == '1' ? 'checked' : ''}}>
                                  <label class="form-check-label" for="negara_lebih">
@@ -156,21 +155,21 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <label><i class="fa fa-phone"></i> No. Telefon</label>
+                            <label for="phone"><i class="fa fa-phone"></i> No. Telefon</label>
                             <div class="input-group">
-                                <input type="text" name="phone" class="form-control"
+                                <input type="text" id="phone" name="phone" class="form-control"
                                     value="{{ $permohonan->telefonPemohon }}">
                             </div>
                         </div>
                         @if ($typeForm == 'rasmi')
                             <div class="col-md-4">
-                                <label><i class="fa fa-calendar"></i> Jenis Kewangan</label>
+                                <label for="jenisKewangan"><i class="fa fa-calendar"></i> Jenis Kewangan</label>
                                 <div class="input-group">
-                                    {!! Form::select('jenisKewangan', ['' => 'Sila pilih', 'Kerajaan' => 'Kerajaan', 'Federal' => 'Federal', 'Persendirian' => 'Persendirian', 'Jabatan' => 'Jabatan', 'Syarikat' => 'Syarikat', 'lain-lain' => 'lain-lain'], $permohonan->jenisKewangan, ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::select('jenisKewangan', ['' => 'Sila pilih', 'Kerajaan' => 'Kerajaan', 'Federal' => 'Federal', 'Persendirian' => 'Persendirian', 'Jabatan' => 'Jabatan', 'Syarikat' => 'Syarikat', 'lain-lain' => 'lain-lain'], $permohonan->jenisKewangan, ['class' => 'form-control', 'required', 'id' => 'jenisKewangan']) !!}
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label><i class="fa fa-file"></i> Dokumen Rasmi </label>
+                                <label for="exampleInputFile"><i class="fa fa-file"></i> Dokumen Rasmi </label>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="fileRasmi[]"
@@ -179,7 +178,7 @@
                                     </div>
                                 </div>
                                 @if ($dokumen->isEmpty())
-                                    <label for="nama" class="label-danger">Tiada Dokumen</label>
+                                    <label class="label-danger">Tiada Dokumen</label>
                                 @else
                                     @php
                                         $i = 1;
@@ -205,7 +204,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 mt-4">
-                            <label><i class="fa fa-file"></i> Dokumen Sokongan </label>
+                            <label for="exampleInputFile"><i class="fa fa-file"></i> Dokumen Sokongan </label>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="filesokongan[]"
@@ -214,7 +213,7 @@
                                 </div>
                             </div>
                             @if ($dokumen_sokongan->isEmpty())
-                                <label for="nama" class="label-danger">Tiada Dokumen</label>
+                                <label class="label-danger">Tiada Dokumen</label>
                             @else
                                 @php
                                     $i = 1;
@@ -256,36 +255,36 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><i class="fa fa-user"></i> Nama Pasangan</label>
+                                <label for="namaPasangan"><i class="fa fa-user"></i> Nama Pasangan</label>
                                 <div class="input-group">
-                                    <input type="text" name="namaPasangan" class="form-control"
+                                    <input type="text" name="namaPasangan" id="namaPasangan" class="form-control"
                                         value="{{ $permohonan->pasanganPermohonan->namaPasangan }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><i class="fa fa-phone"></i> No. Telefon Pasangan</label>
+                                <label for="phonePasangan"><i class="fa fa-phone"></i> No. Telefon Pasangan</label>
                                 <div class="input-group">
-                                    <input type="text" name="phonePasangan" class="form-control"
+                                    <input type="text" name="phonePasangan" id="phonePasangan" class="form-control"
                                         value="{{ $permohonan->pasanganPermohonan->phonePasangan }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><i class="fa fa-envelope"></i> E-mel Pasangan</label>
+                                <label for="emailPasangan"><i class="fa fa-envelope"></i> E-mel Pasangan</label>
                                 <div class="input-group">
-                                    <input type="email" name="emailPasangan" class="form-control"
+                                    <input type="email" id="emailPasangan" name="emailPasangan" class="form-control"
                                         value="{{ $permohonan->pasanganPermohonan->emailPasangan }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><i class="fa fa-user-friends"></i> Hubungan</label>
+                                <label for="hubungan"><i class="fa fa-user-friends"></i> Hubungan</label>
                                 <div class="input-group">
-                                    <input type="text" name="hubungan" class="form-control"
+                                    <input type="text" id="hubungan" name="hubungan" class="form-control"
                                         value="{{ $permohonan->pasanganPermohonan->hubungan }}">
                                 </div>
                             </div>
@@ -293,7 +292,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label><i class="fa fa-edit"></i> Alamat Pasangan</label>
+                            <label for="alamatPasangan"><i class="fa fa-edit"></i> Alamat Pasangan</label>
                             <div class="input-group">
                                 <textarea class="form-control" name="alamatPasangan" id="alamatPasangan"
                                     cols="170">{{ $permohonan->pasanganPermohonan->alamatPasangan }}</textarea>
@@ -313,32 +312,32 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label><i class="fa fa-calendar"></i> Tarikh Mula Cuti</label>
+                                    <label for="tarikhMulaCuti"><i class="fa fa-calendar"></i> Tarikh Mula Cuti</label>
                                     <div class="input-group date">
                                         <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
-                                             name="tarikhMulaCuti"
+                                             name="tarikhMulaCuti" id="tarikhMulaCuti"
                                             value="{{ \Carbon\Carbon::parse($permohonan->tarikhMulaCuti)->format('d-m-Y') }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label><i class="fa fa-calendar"></i> Tarikh Akhir Cuti</label>
+                                    <label for="tarikhAkhirCuti"><i class="fa fa-calendar"></i> Tarikh Akhir Cuti</label>
                                     <div class="input-group date">
                                        
                                         <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
-                                             name="tarikhAkhirCuti"
+                                             name="tarikhAkhirCuti" id="tarikhAkhirCuti"
                                             value="{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d-m-Y') }}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label><i class="fa fa-calendar"></i> Tarikh Kembali Bertugas</label>
+                                    <label for="tarikhKembaliBertugas"><i class="fa fa-calendar"></i> Tarikh Kembali Bertugas</label>
                                     <div class="input-group date">
                                       
                                         <input type="text" pattern="\d{2}-\d{2}-\d{4}" class="form-control datepicker"
-                                            name="tarikhKembaliBertugas"
+                                            name="tarikhKembaliBertugas" id="tarikhKembaliBertugas"
                                             value="{{ \Carbon\Carbon::parse($permohonan->tarikhKembaliBertugas)->format('d-m-Y') }}">
                                     </div>
                                 </div>
@@ -382,7 +381,9 @@
                 <input type="hidden" name="pasanganID" value="{{ $permohonan->pasanganPermohonan->pasangansID }}">
                 <div class="">
                     {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
+                    
                     <a href="{{ url('senaraiPermohonanProses') }}" class="btn btn-danger">Kembali</a>
+
                     {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}
@@ -441,6 +442,23 @@
             document.getElementById("negara_tambahan").disabled = false;
         else
             document.getElementById("negara_tambahan").disabled = true;
+    }
+</script>
+
+<script>
+    function myFunction() {
+        var minToDate = document.getElementById("tarikhMulaPerjalanan").value;
+        document.getElementById("tarikhAkhirPerjalanan").setAttribute("min", minToDate);
+    }
+
+    function myFunctionCuti() {
+        var minToDate = document.getElementById("tarikhMulaCuti").value;
+        document.getElementById("tarikhAkhirCuti").setAttribute("min", minToDate);
+    }
+
+    function myFunctionKembali() {
+        var minToDate2 = document.getElementById("tarikhAkhirCuti").value;
+        document.getElementById("tarikhKembaliBertugas").setAttribute("min", minToDate2);
     }
 </script>
 

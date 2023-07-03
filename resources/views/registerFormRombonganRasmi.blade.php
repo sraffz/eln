@@ -70,7 +70,7 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Terima Insuran </label>
-                                <input type="text" class="form-control datepicker" name="tarikhInsuranRom"
+                                <input type="date" class="form-control" name="tarikhInsuranRom"
                                     value="{{ old('tarikhInsuranRom') }}">
                             </div>
                         </div>
@@ -81,8 +81,9 @@
                                     <div class="form-group">
                                         <label><i class="fas fa-calendar"></i> Tarikh Mula Rombongan<span
                                                 style="color:red;">*</span></label>
-                                        <input type="text" class="form-control datepicker" id="tarikhMulaRom"
-                                            name="tarikhMulaRom" value="{{ old('tarikhMulaRom') }}" required>
+                                        <input type="date" class="form-control" id="tarikhMulaRom" name="tarikhMulaRom"
+                                            value="{{ old('tarikhMulaRom') }}" onblur="myFunction()"
+                                            min="{{ \Carbon\Carbon::now()->addDays(15)->format('Y-m-d') }}" required>
                                     </div>
 
                                 </div>
@@ -90,8 +91,8 @@
                                     <div class="form-group">
                                         <label><i class="fas fa-calendar"></i> Tarikh Akhir Rombongan<span
                                                 style="color:red;">*</span></label>
-                                        <input type="text" class="form-control datepicker" id="tarikhAkhirRom"
-                                            name="tarikhAkhirRom" value="{{ old('tarikhAkhirRom') }}" required>
+                                        <input type="date" class="form-control" id="tarikhAkhirRom" name="tarikhAkhirRom"
+                                            value="{{ old('tarikhAkhirRom') }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -245,23 +246,23 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Mula Cuti</label>
-                                <input type="text" class="form-control datepicker" id="tarikhMulaCuti"
-                                    name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}">
+                                <input type="date" class="form-control" id="tarikhMulaCuti"
+                                    name="tarikhMulaCuti" value="{{ old('tarikhMulaCuti') }}" onblur="myFunctionCuti()">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Akhir Cuti</label>
-                                <input type="text" class="form-control datepicker" id="tarikhAkhirCuti"
-                                    name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}">
+                                <input type="date" class="form-control" id="tarikhAkhirCuti"
+                                    name="tarikhAkhirCuti" value="{{ old('tarikhAkhirCuti') }}" onblur="myFunctionKembali()">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <!-- text input -->
                             <div class="form-group">
                                 <label><i class="fas fa-calendar"></i> Tarikh Kembali Bertugas</label>
-                                <input type="text" class="form-control datepicker" id="tarikhKembaliBertugas"
+                                <input type="date" class="form-control" id="tarikhKembaliBertugas"
                                     name="tarikhKembaliBertugas" value="{{ old('tarikhKembaliBertugas') }}">
                             </div>
                         </div>
@@ -357,6 +358,23 @@
                 document.getElementById("negaraRom_tambahan").disabled = false;
             else
                 document.getElementById("negaraRom_tambahan").disabled = true;
+        }
+    </script>
+
+    <script>
+        function myFunction() {
+            var minToDate = document.getElementById("tarikhMulaRom").value;
+            document.getElementById("tarikhAkhirRom").setAttribute("min", minToDate);
+        }
+
+        function myFunctionCuti() {
+            var minToDate = document.getElementById("tarikhMulaCuti").value;
+            document.getElementById("tarikhAkhirCuti").setAttribute("min", minToDate);
+        }
+
+        function myFunctionKembali() {
+            var minToDate2 = document.getElementById("tarikhAkhirCuti").value;
+            document.getElementById("tarikhKembaliBertugas").setAttribute("min", minToDate2);
         }
     </script>
 @endsection
