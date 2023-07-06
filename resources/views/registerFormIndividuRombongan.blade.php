@@ -44,10 +44,20 @@
     <section class="content">
         <div class="container-fluid">
             @include('flash::message')
+            @php
+            // $url != url('senaraiRekodIndividu')
+            if (Route::current()->getName() == 'borangLewat.sertai-rombongan') {
+                $tema = 'danger';
+                $nilai = 1;
+            } else {
+                $tema = 'primary';
+                $nilai = 0;
+            }
+        @endphp
             <!-- general form elements disabled -->
-            <div class="card card-primary">
+            <div class="card card-{{ $tema }}">
                 <div class="card-header">
-                    <h3 class="card-title">Maklumat Rombongan</h3>
+                    <h3 class="card-title">Maklumat Rombongan</h3>&nbsp;<input type="hidden" name="borang_lewat" id="borang_lewat" value="{{ $nilai }}">
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -74,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card card-primary">
+            <div class="card card-{{ $tema }}">
                 <div class="card-header">
                     <h3 class="card-title">Maklumat kelulusan cuti rehat(Sekiranya memerlukan kelulusan cuti rehat)</h3>
                 </div>
@@ -143,7 +153,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card card-primary">
+            <div class="card card-{{ $tema }}">
                 <div class="card-header">
                     <h3 class="card-title">Perakuan Permohonan</h3>
                 </div>

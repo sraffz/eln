@@ -27,6 +27,14 @@
         </div><!-- /.container-fluid -->
     </section>
 
+    @php
+        if ($permohonan->borang_lewat == 1) {
+            $tema = 'danger';
+        } else {
+            $tema = 'primary';
+        }
+        
+    @endphp
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -153,7 +161,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card card-primary">
+                    <div class="card card-{{ $tema }}">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Permohonan</h3>
                         </div>
@@ -267,7 +275,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card card-primary">
+                    <div class="card card-{{ $tema }}">
                         <div class="card-header">
                             <h3 class="card-title">Dokumen</h3>
                         </div>
@@ -347,7 +355,7 @@
                         </div>
                     </div>
                     @if (Auth::user()->role == 'DatoSUK' || Auth::user()->role == 'jabatan' || Auth::user()->role == 'adminBPSM')
-                        <div class="card card-primary">
+                        <div class="card card-{{ $tema }}">
                             <div class="card-header">
                                 <h3 class="card-title">Sejarah Perjalanan</h3>
                             </div>
@@ -380,7 +388,7 @@
                 @endphp
                 {{-- {{ $jumlah }} --}}
                 @if ($ppp->namaPasangan != null || $ppp->namaPasangan != '')
-                    <div class="card card-primary">
+                    <div class="card card-{{ $tema }}">
                         <div class="card-header">
                             <h3 class="card-title">Maklumat Pasangan/Keluarga/Saudara Pegawai Di Luar Negara</h3>
                         </div>
@@ -445,7 +453,7 @@
             @if ($type == 'Tidak Rasmi' || ($type == 'rombongan' && $permohonan->jenis_rombongan == 'Tidak Rasmi'))
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card card-primary">
+                        <div class="card card-{{ $tema }}">
                             <div class="card-header">
                                 <h3 class="card-title">Maklumat Cuti</h3>
                             </div>

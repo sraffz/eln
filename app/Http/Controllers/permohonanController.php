@@ -18,6 +18,7 @@ use App\GredAngka;
 use App\Eln_pengesahan_bahagian;
 use App\Eln_kelulusan;
 use App\ELN_Pindaan;
+use App\ELN_Pautan_Sementara;
 
 use DB;
 use Auth;
@@ -288,8 +289,8 @@ class permohonanController extends Controller
                     ->whereIn('jabatan', $id_jabatan)
                     // ->whereYear('tarikhLulusan', $year)
                     ->count();
-                    
-                    $TotalProces1Rom = DB::table('rombongans')
+
+                $TotalProces1Rom = DB::table('rombongans')
                     ->join('users', 'rombongans.usersID', '=', 'users.usersID')
                     ->whereNotIn('rombongans.statusPermohonanRom', ['Permohonan Berjaya', 'Permohonan Gagal', 'simpanan'])
                     ->whereIn('users.jabatan', $id_jabatan)
@@ -407,9 +408,45 @@ class permohonanController extends Controller
     {
         $userDetail = User::find(Auth::user()->usersID);
         $negara = Negara::all();
-        //$options = Negara::pluck('namaNegara');
 
         return view('registerFormIndividuRasmi', compact('userDetail', 'negara', 'typeForm'));
+    }
+
+    public function borangLewat($typeForm, $signature)
+    {
+
+        // $checker1 = ELN_Pautan_Sementara::where('signature', $signature)->where('jenis_permohonan', $typeForm)->first();
+        // $user = $checker1->usersID;
+        // dd($mula, $tamat, $user);
+
+        $userDetail = User::find(Auth::user()->usersID);
+        $negara = Negara::all();
+        //$options = Negara::pluck('namaNegara');
+
+        // if ($user == Auth::user()->usersID) {
+        if (ELN_Pautan_Sementara::where('usersID', Auth::user()->usersID)->where('signature', $signature)->where('jenis_permohonan', $typeForm)->exists()) {
+
+            $checker = ELN_Pautan_Sementara::where('usersID', Auth::user()->usersID)->where('jenis_permohonan', $typeForm)->where('signature', $signature)->first();
+
+            $mula = $checker->tempoh_mula;
+            $tamat = $checker->tempoh_tamat;
+            $user = $checker->usersID;
+            $now = \Carbon\Carbon::now();
+
+            if (($now >= $mula) && ($now <= $tamat)) {
+
+                return view('registerFormIndividuRasmi', compact('userDetail', 'negara', 'typeForm'));
+            } else {
+
+                Alert::Error('Ralat', 'Pautan telah tamat tempoh.');
+
+                return redirect('/');
+            }
+        } else {
+            Alert::Error('Ralat', 'Anda tidak mempunyai akses ke halaman tersebut.');
+
+            return redirect('/');
+        }
     }
 
     public function rombongan()
@@ -422,6 +459,41 @@ class permohonanController extends Controller
         return view('registerFormRombonganRasmi', compact('userDetail', 'negara'));
     }
 
+    public function rombonganLewat($signature)
+    {
+        $checker1 = ELN_Pautan_Sementara::where('signature', $signature)->first();
+        $user = $checker1->usersID;
+
+        $id = Auth::user()->usersID;
+
+        $userDetail = User::find($id);
+        $negara = Negara::all();
+
+        if ($user ==  $id) {
+
+            $checker = ELN_Pautan_Sementara::where('usersID', $id)->where('jenis_permohonan', 'rombongan')->where('signature', $signature)->first();
+
+            $mula = $checker->tempoh_mula;
+            $tamat = $checker->tempoh_tamat;
+            $user = $checker->usersID;
+            $now = \Carbon\Carbon::now();
+
+            if (($now >= $mula) && ($now <= $tamat)) {
+
+                return view('registerFormRombonganRasmi', compact('userDetail', 'negara'));
+            } else {
+
+                Alert::Error('Ralat', 'Pautan telah tamat tempoh.');
+
+                return redirect('/');
+            }
+        } else {
+            Alert::Error('Ralat', 'Anda tidak mempunyai akses ke halaman tersebut.');
+
+            return redirect('/');
+        }
+    }
+
     public function sertaiRombongan()
     {
         $id = Auth::user()->usersID;
@@ -431,6 +503,45 @@ class permohonanController extends Controller
         // $userDetail = User::where('nokp', '=', $id)->firstOrFail();
         // echo $userDetail;
         return view('registerFormIndividuRombongan', compact('userDetail', 'options'));
+    }
+
+    public function sertaiRombonganLewat($signature)
+    {
+        $id = Auth::user()->usersID;
+        $userDetail = User::find($id);
+        $negara = Negara::all();
+        $options = Negara::pluck('namaNegara');
+        // $userDetail = User::where('nokp', '=', $id)->firstOrFail();
+        // echo $userDetail;
+
+
+        $checker1 = ELN_Pautan_Sementara::where('signature', $signature)->first();
+        $user = $checker1->usersID;
+        // dd($mula, $tamat, $user);
+
+        if ($user == Auth::user()->usersID) {
+
+            $checker = ELN_Pautan_Sementara::where('usersID', Auth::user()->usersID)->where('jenis_permohonan', 'sertairombongan')->where('signature', $signature)->first();
+
+            $mula = $checker->tempoh_mula;
+            $tamat = $checker->tempoh_tamat;
+            $user = $checker->usersID;
+            $now = \Carbon\Carbon::now();
+
+            if (($now >= $mula) && ($now <= $tamat)) {
+
+                return view('registerFormIndividuRombongan', compact('userDetail', 'options'));
+            } else {
+
+                Alert::Error('Ralat', 'Pautan telah tamat tempoh.');
+
+                return redirect('/');
+            }
+        } else {
+            Alert::Error('Ralat', 'Anda tidak mempunyai akses ke halaman tersebut.');
+
+            return redirect('/');
+        }
     }
 
     public function create()
@@ -481,6 +592,8 @@ class permohonanController extends Controller
         $jenisKew = $request->input('jenisKewangan');
         $catatan_permohonan = $request->input('catatan_permohonan');
 
+        $borang_lewat = $request->input('borang_lewat');
+
         // echo $jenisKew;
         $tick = $request->input('tick');
 
@@ -509,11 +622,16 @@ class permohonanController extends Controller
         // return dd($length);
         $statusPermohonan = 'simpanan';
 
-        if ($jenisPermohonan == 'Rasmi') {
-            $bilHari = 7;
-        } elseif ($jenisPermohonan == 'Tidak Rasmi') {
-            $bilHari = 14;
+        if ($borang_lewat == 1) {
+            $bilHari = 0;
+        } else {
+            if ($jenisPermohonan == 'Rasmi') {
+                $bilHari = 7;
+            } elseif ($jenisPermohonan == 'Tidak Rasmi') {
+                $bilHari = 14;
+            }
         }
+
 
         if ($length < $bilHari) {
             Alert::info('Makluman', 'Permohonan mesti dibuat ' . $bilHari . ' hari sebelum perjalanan bermula bagi urusan ' . $jenisPermohonan . '.');
@@ -535,6 +653,7 @@ class permohonanController extends Controller
                     'statusPermohonan' => $statusPermohonan,
                     'JenisPermohonan' => $jenisPermohonan,
                     'jenisKewangan' => $jenisKew,
+                    'borang_lewat' => $borang_lewat,
                     'lainTujuan' => $tujuan,
                     'tick' => $tick,
                     'usersID' => $id,
@@ -647,6 +766,7 @@ class permohonanController extends Controller
                     'statusPermohonan' => $statusPermohonan,
                     'JenisPermohonan' => $jenisPermohonan,
                     'jenisKewangan' => $jenisKew,
+                    'borang_lewat' => $borang_lewat,
                     'lainTujuan' => $tujuan,
                     'tarikhMulaCuti' => $tarikhMulaCuti,
                     'tarikhAkhirCuti' => $tarikhAkhirCuti,
@@ -756,6 +876,8 @@ class permohonanController extends Controller
         $catatan_permohonan = $request->input('catatan_permohonan');
         $jenisRombongan = $request->input('jenisRombongan');
 
+        $borang_lewat = $request->input('borang_lewat');
+
         $tarikhmulaAkhirCuti = $request->input('tarikhmulaAkhirCuti');
         $kembaliTugas = $request->input('tarikhKembaliBertugas');
 
@@ -825,19 +947,21 @@ class permohonanController extends Controller
 
         $length = $end->diffInDays($nowsaa);
         // return dd($length);
-        if ($jenisRombongan == 'Rasmi') {
-            $bilHari = 7;
-        } elseif ($jenisRombongan == 'Tidak Rasmi') {
-            $bilHari = 14;
+        if ($borang_lewat == 1) {
+            $bilHari = 0;
+        } else {
+            if ($jenisRombongan == 'Rasmi') {
+                $bilHari = 7;
+            } elseif ($jenisRombongan == 'Tidak Rasmi') {
+                $bilHari = 14;
+            }
         }
 
-        
         if ($length < $bilHari) {
 
             Alert::info('Makluman', 'Permohonan mesti dibuat ' . $bilHari . ' hari sebelum perjalanan bermula bagi urusan ' . $jenisRombongan . '.');
 
             return back()->withInput();
-            
         } else {
             $data = [
                 'tarikhMulaRom' => $tarikhMulaRom,
@@ -851,6 +975,7 @@ class permohonanController extends Controller
                 'alamatRom' => $alamatRom,
                 'statusPermohonanRom' => $statusPermohonan,
                 'catatan_permohonan' => $catatan_permohonan,
+                'borang_lewat' => $borang_lewat,
                 'tujuanRom' => $tujuanRom,
                 'jenisKewanganRom' => $jenisKewanganRom,
                 'anggaranBelanja' => $anggaranBelanja,
@@ -877,6 +1002,7 @@ class permohonanController extends Controller
                     'statusPermohonan' => 'Lulus Semakan BPSM',
                     'JenisPermohonan' => 'rombongan',
                     'catatan_permohonan' => $catatan_permohonan,
+                    'borang_lewat' => $borang_lewat,
                     'lainTujuan' => $tujuanRom,
                     'tick' => 'yes',
                     'usersID' => $id,
@@ -946,6 +1072,7 @@ class permohonanController extends Controller
                     'tarikhMulaCuti' => $tarikhMulaCuti,
                     'tarikhAkhirCuti' => $tarikhAkhirCuti,
                     'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
+                    'borang_lewat' => $borang_lewat,
                     'JenisPermohonan' => 'rombongan',
                     'catatan_permohonan' => $catatan_permohonan,
                     'lainTujuan' => $tujuanRom,
@@ -1038,6 +1165,9 @@ class permohonanController extends Controller
         $catatan_permohonan = $request->input('catatan_permohonan');
         $tick = $request->input('tick');
 
+        $borang_lewat = $request->input('borang_lewat');
+
+
         $user = User::where('usersID', '=', $id)->first();
 
         $statusJawatan = $user->userJawatan->statusDato;
@@ -1106,27 +1236,34 @@ class permohonanController extends Controller
                 return back()->withInput();
             } else {
 
-                if ($rombo->jenis_rombongan == 'Rasmi') {
-                    $bilHari = 7;
-                } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
-                    $bilHari = 14;
+                if ($borang_lewat == 1) {
+                    $bilHari = 0;
+                } else {
+                    if ($rombo->jenis_rombongan == 'Rasmi') {
+                        $bilHari = 7;
+                    } elseif ($rombo->jenis_rombongan == 'Tidak Rasmi') {
+                        $bilHari = 14;
+                    }
                 }
-        
-                
+
+
+
                 if ($length < $bilHari) {
                     Alert::info('Makluman', 'Permohonan mesti dibuat ' . $bilHari . ' hari sebelum perjalanan bermula bagi urusan ' . $rombo->jenis_rombongan . '.');
-        
-                    return back()->withInput();
-                // }
 
-                // if ($length < 13) {
-                //     Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
-                //     // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
-                //     return back()->withInput();
+                    return back()->withInput();
+                    // }
+
+                    // if ($length < 13) {
+                    //     Alert::info('Makluman', 'Permohonan mesti dibuat 14 hari sebelum perjalanan bermula');
+                    //     // flash('Permohonan mesti dibuat 14 hari sebelum perjalanan bermula')->error();
+                    //     return back()->withInput();
                 } else {
+
                     $jenisPermohonanrombongan = 'rombongan';
                     if ($rombo->jenis_rombongan == 'Rasmi') {
                         if ($statusJawatan == 'Tidak Aktif') {
+                            // dd($borang_lewat, $bilHari, $rombo->jenis_rombongan, $statusJawatan);
                             $statusPermohonan = 'Ketua Jabatan';
 
                             $data = [
@@ -1137,6 +1274,7 @@ class permohonanController extends Controller
                                 'alamat' => $alamatRom,
                                 'negara_lebih_dari_satu' => $negaraRom_lebih,
                                 'statusPermohonan' => $statusPermohonan,
+                                'borang_lewat' => $borang_lewat,
                                 'tarikhMulaCuti' => $tarikhMulaCuti,
                                 'tarikhAkhirCuti' => $tarikhAkhirCuti,
                                 'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
@@ -1167,6 +1305,7 @@ class permohonanController extends Controller
                                 'tarikhAkhirCuti' => $tarikhAkhirCuti,
                                 'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
                                 'JenisPermohonan' => $jenisPermohonanrombongan,
+                                'borang_lewat' => $borang_lewat,
                                 'catatan_permohonan' => $catatan_permohonan,
                                 'lainTujuan' => $tujuanRom,
                                 'tick' => $tick,
@@ -1219,6 +1358,7 @@ class permohonanController extends Controller
                                 'tarikhAkhirCuti' => $tarikhAkhirCuti,
                                 'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
                                 'JenisPermohonan' => $jenisPermohonanrombongan,
+                                'borang_lewat' => $borang_lewat,
                                 'catatan_permohonan' => $catatan_permohonan,
                                 'namaFileCuti' => '',
                                 'jenisFileCuti' => '',
@@ -1249,6 +1389,7 @@ class permohonanController extends Controller
                                 'tarikhAkhirCuti' => $tarikhAkhirCuti,
                                 'tarikhKembaliBertugas' => $tarikhKembaliBertugas,
                                 'JenisPermohonan' => $jenisPermohonanrombongan,
+                                'borang_lewat' => $borang_lewat,
                                 'catatan_permohonan' => $catatan_permohonan,
                                 'namaFileCuti' => '',
                                 'jenisFileCuti' => '',
@@ -1500,14 +1641,14 @@ class permohonanController extends Controller
             ->where('usersID', $user->usersID)
             ->where('rombongans_id', $id)
             ->first();
-        
+
         $tindakan_ketua = Permohonan::with('user')
             // ->where('usersID', $user->usersID)
             ->where('rombongans_id', $id)
             ->where('statusPermohonan', 'Ketua Jabatan')
             ->count();
 
-            // dd($tindakan_ketua);
+        // dd($tindakan_ketua);
 
         $suk = User::where('role', 'DatoSUK')->get();
 
@@ -1600,7 +1741,6 @@ class permohonanController extends Controller
 
             toast('Permohonan Berjaya dihantar', 'success')->position('top-end');
             return back();
-
         } elseif ($d == 0 && $peserta == 0) {
 
             if ($rombo->jenis_rombongan == 'Rasmi') {
@@ -2197,6 +2337,7 @@ class permohonanController extends Controller
             ->leftjoin('eln_pindaan', 'eln_pindaan.id_permohonan', '=', 'senarai_rekod_permohonan_suk.permohonansID')
             ->whereIn('senarai_rekod_permohonan_suk.statusPermohonan', ['Permohonan Berjaya', 'Permohonan Gagal'])
             ->where('senarai_rekod_permohonan_suk.usersID', $id)
+            // ->where('senarai_rekod_permohonan_suk.borang_lewat', 1)
             ->orderBy('senarai_rekod_permohonan_suk.tarikhMulaPerjalanan', 'desc')
             ->get();
 

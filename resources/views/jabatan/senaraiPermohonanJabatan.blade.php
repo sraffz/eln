@@ -66,7 +66,13 @@
                                                 <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
                                                 <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}</td>
-                                                <td>{{ $mohonan->statusPermohonan }}</td>
+                                                <td>
+                                                    @if ($mohonan->borang_lewat == 1)
+                                                    <span class="badge badge-warning">Lewat</span> <br>
+                                                    @endif
+                                                    <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span> <br>
+                                                    
+                                                </td>
                                                 <td>
                                                     @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
                                                         <a onClick="setUserData({{ $mohonan->permohonansID }});" data-toggle="modal"
@@ -176,7 +182,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="button" class="btn btn-danger">Tolak Permohonan</button>
                             <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
                         </div>
                     </form>

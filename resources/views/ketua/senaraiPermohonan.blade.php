@@ -85,9 +85,9 @@
 
                                                 @if ($first_datetime >= $last_datetime)
                                                     @if ($final_days < 7)
-                                                        <tr class="bg-gradient-danger text-center">
+                                                        <tr class="bg-gradient-danger">
                                                         @elseif ($final_days < 10)
-                                                        <tr class="bg-gradient-warning text-center">
+                                                        <tr class="bg-gradient-warning">
                                                         @else
                                                         <tr>
                                                     @endif
@@ -98,7 +98,7 @@
                                                     {{ $i++ }}
                                                 </td>
                                                 <td style="text-transform: capitalize; font-weight: bold">
-                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}"><span class="badge badge-dark">{{ $mohonan->nama }}</span></a>
                                                 </td>
                                                 <td class="text-center">{{ $mohonan->kod_jabatan }}</td>
                                                 <td class="text-center">{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
@@ -110,7 +110,12 @@
                                                 <td class="text-center">{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- <td>{{\Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y')}}</td> --}}
-                                                <td class="text-center">{{ $mohonan->JenisPermohonan }}</td>
+                                                <td class="text-center">
+                                                    @if ($mohonan->borang_lewat == 1)
+                                                    <span class="badge badge-dark">Kurang 14 Hari</span> <br>
+                                                    @endif
+                                                    <span class="badge badge-primary">{{ $mohonan->JenisPermohonan }}</span>
+                                                </td>
                                                 <td class="text-center">
                                                     @if ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
 

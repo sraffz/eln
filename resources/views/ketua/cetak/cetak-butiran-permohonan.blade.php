@@ -38,7 +38,19 @@
             line-height: 35px;
         }
 
-    
+        .box {
+            height: 30px;
+            width: 30px;
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        .box-expend {
+            height: 30px;
+            width: 200px;
+            border: 3px solid black;
+            background-color: white;
+        }
     </style>
 </head>
 
@@ -46,7 +58,12 @@
     {{-- <footer>
        <i>Borang ini adalah janaan komputer dan tidak memerlukan tandatangan. </i> 
     </footer> --}}
-
+    @if ($permohonan->borang_lewat)
+        <div class="offset-8 box-expend"><span style="font-size: 15px">&nbsp;Permohonan Kurang 14 Hari</span></div>
+        {{-- <p>
+        Permohonan Kurang 14 Hari
+    </p> --}}
+    @endif
     <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="160" height="120"
             alt="User Image" align="center"><br></p>
     <p style="text-transform: uppercase; font-size:17px" align="center">
@@ -205,7 +222,8 @@
             <table class="table table-bordered table-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th colspan="4" class="text-left">MAKLUMAT KELULUSAN CUTI REHAT (SEKIRANYA MEMERLUKAN KELULUSAN CUTI REHAT)</th>
+                        <th colspan="4" class="text-left">MAKLUMAT KELULUSAN CUTI REHAT (SEKIRANYA MEMERLUKAN
+                            KELULUSAN CUTI REHAT)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -223,7 +241,7 @@
                             {{-- @if ($permohonan->tarikhAkhirCuti == null)
                             @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
                             @else --}}
-                             <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y') }}</strong>
+                            <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhAkhirCuti)->format('d/m/Y') }}</strong>
                             {{-- @endif --}}
                         </td>
                     </tr>
@@ -233,7 +251,7 @@
                             {{-- @if ($permohonan->tarikhMulaCuti == null)
                             @elseif ($permohonan->tarikhMulaCuti == $permohonan->tarikhKembaliBertugas)
                             @else --}}
-                            <strong>{{ $jumlahDateCuti }}</strong> 
+                            <strong>{{ $jumlahDateCuti }}</strong>
                             {{-- @endif --}}
                         </td>
                         <td class="text-left" style="width: 25%"><strong>Tarikh Kembali Bertugas</strong> </td>

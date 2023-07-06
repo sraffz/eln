@@ -54,9 +54,27 @@
                 @endif
             </div>
             <!-- general form elements disabled -->
-            <div class="card card-primary">
+            @php
+                // $url != url('senaraiRekodIndividu')
+                if (Route::current()->getName() == 'borangLewat') {
+                    $tema = 'danger';
+                    $nilai = 1;
+                    $lastDate = 0;
+                } else {
+                    $tema = 'primary';
+                    $nilai = 0;
+                
+                    if ($typeForm == 'rasmi') {
+                        $lastDate = 8;
+                    } elseif ($typeForm == 'tidakRasmi') {
+                        $lastDate = 15;
+                    }
+                }
+            @endphp
+            <div class="card card-{{ $tema }}">
                 <div class="card-header">
-                    <h3 class="card-title">Maklumat Permohonan Perjalanan</h3>
+                    <h3 class="card-title">Maklumat Permohonan Perjalanan</h3> <input type="hidden" name="borang_lewat"
+                        id="borang_lewat" value="{{ $nilai }}">
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -70,15 +88,10 @@
                                     id="tarikh" value="{{ old('tarikh') }}">
                             </div>
                         </div>
+
                         <div class="col-sm-4">
                             <!-- text input -->
-                            @php
-                                if ($typeForm == 'rasmi') {
-                                    $lastDate = 8;
-                                } elseif ($typeForm == 'tidakRasmi') {
-                                    $lastDate = 15;
-                                }
-                            @endphp
+
                             <div class="form-group">
                                 <label for="tarikhMula"><i class="fas fa-calendar"></i> Tarikh Mula Perjalanan<span
                                         style="color:red;">*</span></label>
@@ -251,7 +264,7 @@
                 </div>
                 <!-- /.card-body -->
             </div>
-            <div class="card card-primary">
+            <div class="card card-{{ $tema }}">
                 <div class="card-header">
                     <h3 class="card-title">Maklumat Pasangan/Keluarga/Saudara Pegawai Di Luar Negara</h3>
                 </div>
@@ -308,7 +321,7 @@
                 <!-- /.card-body -->
             </div>
             @if ($typeForm == 'tidakRasmi')
-                <div class="card card-primary">
+                <div class="card card-{{ $tema }}">
                     <div class="card-header">
                         <h3 class="card-title">Maklumat Kelulusan Cuti rehat (Jika Perlu)</h3>
                     </div>
@@ -358,7 +371,7 @@
                     </div>
                 </div>
             @endif
-            <div class="card card-primary">
+            <div class="card card-{{ $tema }}">
                 <div class="card-header">
                     <h3 class="card-title">Perakuan Permohonan</h3>
                 </div>

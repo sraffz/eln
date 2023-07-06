@@ -76,6 +76,9 @@
                                                         <td style="text-transform: capitalize">
                                                             {{ $mohonan->JenisPermohonan }}</td>
                                                         <td>
+                                                            @if ($mohonan->borang_lewat == 1)
+                                                            <span class="badge badge-warning">Lewat</span>
+                                                            @endif
                                                             @if ($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
                                                                 <span class="badge badge-warning">Dalam Tindakkan
                                                                     BPSM</span>

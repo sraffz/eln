@@ -59,7 +59,9 @@
                                     {{ $index + 1 }}
                                 </td>
                                 <td>
-                                    {{ $rombo->negaraRom }}@if($rombo->negaraRom_lebih == 1){{ ', '.$rombo->negaraRom_tambahan }}@endif
+                                    {{ $rombo->negaraRom }}@if($rombo->negaraRom_lebih == 1){{ ', '.$rombo->negaraRom_tambahan }}@endif <br><br>@if ($rombo->borang_lewat == 1)
+                                    (Permohonan Kurang 14 Hari)
+                                @endif
                                 </td>
                                 <td>{{ $rombo->codeRom }}</td>
                                 <td>{{ \Carbon\Carbon::parse($rombo->tarikhMulaRom)->format('d/m/Y') }}

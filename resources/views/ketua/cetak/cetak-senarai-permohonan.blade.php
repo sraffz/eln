@@ -76,7 +76,10 @@
                                                                 ->diff(\Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan))
                                                                 ->format('%d Hari');
                                     @endphp
-                                    <br>({{ $tempoh  }})
+                                    <br>({{ $tempoh  }}) <br><br>
+                                    @if ($mohonan->borang_lewat == 1)
+                                        (Permohonan Kurang 14 Hari)
+                                    @endif
                                 </td>
                                 <td>{{ $mohonan->JenisPermohonan }}</td>
                                 <td>

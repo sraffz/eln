@@ -262,8 +262,12 @@
                                                         {{-- <td>SUK.D.200 (06) 455/16-4
                                                             JLD.{{ $mohonan->no_ruj_file }}({{ $mohonan->no_ruj_bil }})
                                                         </td> --}}
+
                                                         @if ($mohonan->status_kelulusan == 'Berjaya')
                                                             <td>
+                                                                @if ($mohonan->borang_lewat == 1)
+                                                                    <span class="badge badge-warning">Lewat</span>
+                                                                @endif
                                                                 <span type="button" data-id="{{ $mohonan->id_kelulusan }}"
                                                                     data-toggle="modal" data-target="#ubahstatuskelulusan"
                                                                     data-dismiss="modal"
@@ -341,6 +345,9 @@
                                                             @endif
                                                         @elseif($mohonan->status_kelulusan == 'Gagal')
                                                             <td>
+                                                                @if ($mohonan->borang_lewat == 1)
+                                                                    <span class="badge badge-warning">Lewat</span>
+                                                                @endif
                                                                 <span class="badge badge-danger" type="button"
                                                                     data-id="{{ $mohonan->id_kelulusan }}"
                                                                     data-toggle="modal" data-target="#ubahstatuskelulusan"
@@ -384,9 +391,19 @@
                                                                 @endif
                                                             </td>
                                                         @elseif ($mohonan->statusPermohonan == 'Ketua Jabatan')
-                                                            <td><span class="badge badge-dark">Belum Disokong</span></td>
+                                                            <td>
+                                                                @if ($mohonan->borang_lewat == 1)
+                                                                    <span class="badge badge-warning">Lewat</span>
+                                                                @endif
+                                                                <span class="badge badge-dark">Belum Disokong</span>
+                                                            </td>
                                                         @elseif ($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                            <td><span class="badge badge-info">Disokong</span></td>
+                                                            <td>
+                                                                @if ($mohonan->borang_lewat == 1)
+                                                                    <span class="badge badge-warning">Lewat</span>
+                                                                @endif
+                                                                <span class="badge badge-info">Disokong</span>
+                                                            </td>
                                                         @endif
 
                                                         @if ($url != url('senaraiRekodIndividu'))
@@ -403,7 +420,9 @@
                                                                         onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
                                                                             class="fa fa-times">Tolak</i></a>
                                                                 @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                                    <a class="btn btn-danger btn-xs" href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}" role="button">Kemaskini</a>
+                                                                    <a class="btn btn-danger btn-xs"
+                                                                        href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                                        role="button">Kemaskini</a>
                                                                 @endif
                                                             </td>
                                                         @else

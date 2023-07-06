@@ -56,6 +56,11 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('registerFormIndividu/{typeForm}', 'permohonanController@individu')->name('registerFormIndividu');
 	Route::get('sertai-rombongan', 'permohonanController@sertaiRombongan')->name('sertai-rombongan');
 
+	//permohonan lewat kurang 14 hari
+	Route::get('borang-permohonan/{typeForm}/{signature}', 'permohonanController@borangLewat')->name('borangLewat');
+	Route::get('borang-sertai-rombongan/{signature}', 'permohonanController@sertaiRombonganLewat')->name('borangLewat.sertai-rombongan');
+	Route::get('borang-permohonan-rombongan/{signature}', 'permohonanController@rombonganLewat')->name('borangLewat.permohonan-rombongan');
+
 	//untuk rombongan
 	Route::get('permohonan-rombongan', 'permohonanController@rombongan')->name('permohonan-rombongan');
 	//Route::get('senaraiPermohonan/{id}','permohonanController@senarai')->name('senaraiPermohonan');
@@ -134,6 +139,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('kemaskini-pengguna/{id}', 'AdminController@kemaskiniPengguna')->name('kemaskini-pengguna');
 	Route::get('kemaskini-pentadbir/{id}', 'AdminController@kemaskiniPengguna')->name('kemaskini-pentadbir');
 	Route::get('reset-kata-laluan/{id}', 'AdminController@resetKatalaluan');
+
+	Route::POST('hantar-pautan-permohonan', 'AdminController@hantarpautan')->name('hantar-pautan-permohonan');
 
 
 	Route::PUT('senaraiPIC/{id}', 'AdminController@updateDataPIC');

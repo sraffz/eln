@@ -5,8 +5,7 @@
 @section('link')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
     <style>
@@ -14,6 +13,7 @@
             vertical-align: middle;
             text-align: center;
         }
+
         .table tr th {
             vertical-align: middle;
             text-align: center;
@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-    
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
@@ -76,7 +76,8 @@
                                                         <td>{{ $ss->nama }} <br> ({{ $ss->nokp }})</td>
                                                         <td>{{ $ss->namaJawatan }}</td>
                                                         <td>{{ $ss->userJabatan->nama_jabatan }}
-                                                            ({{ $ss->userJabatan->kod_jabatan }})</td>
+                                                            ({{ $ss->userJabatan->kod_jabatan }})
+                                                        </td>
                                                         <td>{{ $ss->email }}</td>
                                                         <td>{{ $ss->role }}</td>
                                                         <td>{{ $ss->jumlah_permohonan_semasa }}</td>
@@ -86,6 +87,79 @@
                                                                 <button type="button"
                                                                     class="btn btn-primary btn-xs">Kemaskini</button>
                                                             </a>
+                                                            <button type="button" class="btn btn-danger btn-xs"
+                                                                data-toggle="modal" data-target="#hantarPautanEmail-{{ $ss->usersID }}">Hantar
+                                                                Pautan</button>
+
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="hantarPautanEmail-{{ $ss->usersID }}" tabindex="-1"
+                                                                autanEmail role="dialog" aria-labelledby="modelTitleId"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content text-left">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Hantar Pautan Permohonan
+                                                                                Kurang dari 14 Hari</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <form
+                                                                            action="{{ url('hantar-pautan-permohonan') }}"
+                                                                            method="post">
+                                                                            {{ csrf_field() }}
+                                                                            <div class="modal-body">
+                                                                                <div class="container-fluid">
+                                                                                    <div class="form-group">
+                                                                                        <input type="hidden" name="id"
+                                                                                            id="id"
+                                                                                            value="{{ $ss->usersID }}">
+                                                                                        <input type="hidden" name="email"
+                                                                                            id="email"
+                                                                                            value="{{ $ss->email }}">
+                                                                                        <label for="jenis_permohonan">Jenis
+                                                                                            Permohonan</label>
+                                                                                        <select class="form-control"
+                                                                                            name="jenis_permohonan"
+                                                                                            id="jenis_permohonan" required>
+                                                                                            <option value="">Sila
+                                                                                                Pilih
+                                                                                            </option>
+                                                                                            <option value="rasmi">Rasmi
+                                                                                                (individu)</option>
+                                                                                            <option value="tidakRasmi">Tidak
+                                                                                                Rasmi (individu)</option>
+                                                                                            <option value="rombongan">
+                                                                                                Rombongan
+                                                                                            </option>
+                                                                                            <option value="sertairombongan">
+                                                                                                Sertai Rombongan</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Batal</button>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary">Hantar
+                                                                                    Pautan</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <script>
+                                                                $('#exampleModal').on('show.bs.modal', event => {
+                                                                    var button = $(event.relatedTarget);
+                                                                    var modal = $(this);
+                                                                    // Use above variables to manipulate the DOM
+
+                                                                });
+                                                            </script>
                                                         </td>
                                                     </tr>
                                                 @endforeach

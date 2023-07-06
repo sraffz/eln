@@ -102,6 +102,9 @@
                                             </td>
                                             <td>{{ $mohonan->lainTujuan }}<br>({{ $mohonan->JenisPermohonan }})</td>
                                             <td>
+                                                @if ($mohonan->borang_lewat == 1)
+                                                    <span class="badge badge-warning">Lewat</span>
+                                                @endif
                                                 @if ($mohonan->statusPermohonan == 'simpanan')
                                                     <span class="badge badge-info">Draf</span>
                                                 @elseif($mohonan->statusPermohonan == 'Lulus Semakkan ketua Jabatan')
@@ -131,6 +134,7 @@
                                                     $tarikh_kini = \Carbon\Carbon::now();
                                                     $tarikhMulaPerjalanan = \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan);
                                                 @endphp
+
 
                                                 @if ($mohonan->statusPermohonan == 'Pending')
                                                     <span class="badge badge-warning">Pending</span>
@@ -162,28 +166,26 @@
                                                         @endphp
 
                                                         @if ($mohonan->JenisPermohonan == 'rombongan')
-                                                            
                                                         @else
                                                             @if ($mohonan->tarikhAkhirPinda != null)
-                                                            <button type="button" class="btn btn-danger btn-xs"
-                                                                data-toggle="modal"
-                                                                data-target="#modelDiPindaan-{{ $mohonan->permohonansID }}">
-                                                                Dipinda
-                                                            </button>
+                                                                <button type="button" class="btn btn-danger btn-xs"
+                                                                    data-toggle="modal"
+                                                                    data-target="#modelDiPindaan-{{ $mohonan->permohonansID }}">
+                                                                    Dipinda
+                                                                </button>
                                                             @else
-                                                            <button type="button" class="btn btn-danger btn-xs"
-                                                                data-toggle="modal"
-                                                                data-target="#modelPindaan-{{ $mohonan->permohonansID }}">
-                                                                Pindaan
-                                                            </button>
+                                                                <button type="button" class="btn btn-danger btn-xs"
+                                                                    data-toggle="modal"
+                                                                    data-target="#modelPindaan-{{ $mohonan->permohonansID }}">
+                                                                    Pindaan
+                                                                </button>
                                                             @endif
-                                                            
                                                         @endif
 
                                                         <!-- Modal dipindaan-->
                                                         <div class="modal fade"
-                                                            id="modelDiPindaan-{{ $mohonan->permohonansID }}" tabindex="-1"
-                                                            role="dialog" aria-labelledby="modelTitleId"
+                                                            id="modelDiPindaan-{{ $mohonan->permohonansID }}"
+                                                            tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
                                                             aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                 <div class="modal-content">
@@ -254,10 +256,11 @@
                                                         </div>
                                                         <!-- Modal pindaan-->
                                                         <div class="modal fade"
-                                                            id="modelPindaan-{{ $mohonan->permohonansID }}" tabindex="-1"
-                                                            role="dialog" aria-labelledby="modelTitleId"
+                                                            id="modelPindaan-{{ $mohonan->permohonansID }}"
+                                                            tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
                                                             aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title">Pinda Permohonan</h5>
@@ -275,7 +278,8 @@
                                                                                 value="{{ $mohonan->permohonansID }}">
                                                                             <div class="form-group">
                                                                                 <div class="form-group">
-                                                                                    <label for="tarikhMulaPinda">Tarikh Mula
+                                                                                    <label for="tarikhMulaPinda">Tarikh
+                                                                                        Mula
                                                                                         Perjalanan</label>
                                                                                     <input type="date"
                                                                                         class="form-control"

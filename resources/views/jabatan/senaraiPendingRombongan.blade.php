@@ -191,6 +191,10 @@
                                                             @endif
                                                         </td> --}}
                                                         <td class="text-center">
+                                                            @if ($rombo->borang_lewat == 1)
+                                                                <span class="badge badge-warning">Lewat</span>
+                                                                @endif
+
                                                             @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
                                                                 <span class="badge badge-warning">Lulus Semakan</span>
 

@@ -99,6 +99,9 @@
                                                     ({{ $mohonan->JenisPermohonan }})
                                                 </td>
                                                 <td class="text-center">
+                                                    @if ($mohonan->borang_lewat == 1)
+                                                        <span class="badge badge-warning">Lewat</span>
+                                                    @endif
                                                     @if ($mohonan->statusPermohonan == 'simpanan')
                                                         <span class="badge badge-info">Deraf</span>
                                                     @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
@@ -126,7 +129,6 @@
                                                             data-toggle="tooltip" title="Padam Permohonan"
                                                             data-placement="left"><i class="fa fa-user-times"></i></a>
                                                     @elseif($mohonan->statusPermohonan == 'Ketua Jabatan')
-                                                       
                                                         <a href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-info btn-xs" data-toggle="tooltip"
                                                             title="Kemaskini Permohonan" data-placement="left"><i
@@ -232,6 +234,9 @@
                                                     @endforeach
                                                 </td>
                                                 <td class="text-center">
+                                                    @if ($rombo->borang_lewat == 1)
+                                                        <span class="badge badge-warning">Lewat</span>
+                                                    @endif
                                                     @if ($rombo->statusPermohonanRom == 'Lulus Semakan')
                                                         <span class="badge badge-primary">Disokong</span>
                                                     @elseif ($rombo->statusPermohonanRom == 'simpanan')
