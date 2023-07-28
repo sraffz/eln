@@ -29,7 +29,7 @@
 <body>
     <p align="center"><img src="{{ asset('adminlte/dist/img/kelantan.png') }}" width="160" height="120"
             alt="User Image" align="center"><br></p>
-    <p style="text-transform: uppercase; font-size:17px" align="center">
+    <p style="text-transform: uppercase; font-size:15px" align="center">
         <strong>
             PERMOHONAN PERJALANAN PEGAWAI AWAM KE LUAR NEGARA <br>
             secara Rombongan
@@ -54,6 +54,14 @@
                         <strong>{{ \Carbon\Carbon::parse($permohonan->tarikhMulaRom)->format('d/m/Y') }}
                             sehingga
                             {{ \Carbon\Carbon::parse($permohonan->tarikhAkhirRom)->format('d/m/Y') }}
+                            @php
+                                if ($permohonan->tarikhMulaRom == $permohonan->tarikhAkhirRom) {
+                                    $jumlahDate = 1;
+                                } else {
+                                    $jumlahDate = $jumlahDate + 1;
+                                }
+                                
+                            @endphp
                             ({{ $jumlahDate }} Hari)</strong>
                     </td>
                 </tr>
