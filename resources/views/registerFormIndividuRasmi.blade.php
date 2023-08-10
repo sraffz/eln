@@ -181,7 +181,7 @@
                                 <label for="alamat"><i class="fa fa-edit"> </i> Alamat semasa bertugas / bercuti <span
                                         style="color:red;">*</span></label>
                                 <input type="text" id="alamat" name="alamat" class="form-control"
-                                    value="{{ old('alamat') }}" placeholder="">
+                                    value="{{ old('alamat') }}" placeholder="" required>
                             </div>
                         </div>
                         <div class="col-sm-4">
