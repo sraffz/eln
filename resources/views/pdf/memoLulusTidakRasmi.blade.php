@@ -92,7 +92,7 @@
                                     <hr class="solid">
                                     BERTARIKH &nbsp;&nbsp;&nbsp;:
                                     @php
-                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
+                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
                                         
                                         // setlocale(LC_TIME, config('app.locale'));
                                         use Carbon\Carbon;

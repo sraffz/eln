@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Butiran Permohonan</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     {{-- <link rel="stylesheet" href="{{ asset('adminlte-3/dist/css/adminlte.min.css') }}"> --}}
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
     <style>
@@ -58,7 +59,7 @@
                                 if ($permohonan->tarikhMulaRom == $permohonan->tarikhAkhirRom) {
                                     $jumlahDate = 1;
                                 } else {
-                                    $jumlahDate = $jumlahDate + 1;
+                                    $jumlahDate = $jumlahDate;
                                 }
                                 
                             @endphp
@@ -67,9 +68,10 @@
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Negara Yang Dilawati</strong> </td>
-                    <td class="text-left"><strong>{{ $permohonan->negaraRom }}@if ($permohonan->negaraRom_lebih == 1){{ ', '.$permohonan->negaraRom_tambahan }}
-                        
-                    @endif</strong> </td>
+                    <td class="text-left"><strong>{{ $permohonan->negaraRom }}@if ($permohonan->negaraRom_lebih == 1)
+                                {{ ', ' . $permohonan->negaraRom_tambahan }}
+                            @endif
+                        </strong> </td>
                 </tr>
                 <tr>
                     <td class="text-left" style="width: 30%"><strong>Tujuan Lawatan</strong> </td>
@@ -82,41 +84,41 @@
             </tbody>
         </table>
 
-        @if (count($pengesahan)>0)
-        <table class="table table-bordered table-sm">
-            <thead class="thead-dark">
-                <tr>
-                    <th colspan="2" class="text-left">PENGESAHAN KETUA BAHAGIAN</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Nama Ketua Bahagian</strong> </td>
-                    <td class="text-left"><strong>{{ $pengesahan->nama }}</strong> </td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
-                    <td class="text-left"><strong>{{ $pengesahan->jawatan_pengesah }}
-                            ({{ $pengesahan->gred_pengesah }})</strong></td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
-                    <td class="text-left"><strong>{{ $pengesahan->nama_jabatan }}</strong></td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>
-                    <td class="text-left">
-                        <strong>{{ $pengesahan->ulasan_pengesahan }}</strong>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-left" style="width: 30%"><strong>Tarikh</strong> </td>
-                    <td class="text-left">
-                        <strong>{{ date('d/m/Y', strtotime($pengesahan->tarikh_pengesah)) }}</strong>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        @if (count($pengesahan) > 0)
+            <table class="table table-bordered table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2" class="text-left">PENGESAHAN KETUA BAHAGIAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Nama Ketua Bahagian</strong> </td>
+                        <td class="text-left"><strong>{{ $pengesahan->nama }}</strong> </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Jawatan/Gred</strong> </td>
+                        <td class="text-left"><strong>{{ $pengesahan->jawatan_pengesah }}
+                                ({{ $pengesahan->gred_pengesah }})</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Jabatan</strong> </td>
+                        <td class="text-left"><strong>{{ $pengesahan->nama_jabatan }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Ulasan</strong> </td>
+                        <td class="text-left">
+                            <strong>{{ $pengesahan->ulasan_pengesahan }}</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="width: 30%"><strong>Tarikh</strong> </td>
+                        <td class="text-left">
+                            <strong>{{ date('d/m/Y', strtotime($pengesahan->tarikh_pengesah)) }}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         @endif
 
         <table class="table table-bordered table-sm">
@@ -142,21 +144,21 @@
                         <tr>
                             <td class="text-center"><strong> {{ $i++ }}</strong></td>
                             <td class="text-left">
-                                <strong> 
+                                <strong>
                                     {{ $element->nama }}
                                     @if ($element->usersID == $permohonan->ketua_rombongan)
                                         (Ketua Rombongan)
                                     @endif
-                                </strong> 
+                                </strong>
                             </td>
                             <td><strong> {{ $element->nokp }}</strong></td>
-                            <td><strong>  {{ $element->namaJawatan }} ({{ $element->gred }})</strong></td>
+                            <td><strong> {{ $element->namaJawatan }} ({{ $element->gred }})</strong></td>
                             <td>
                                 {{-- <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> --}}
-                         </td>
-                         <td>
-                               {{-- <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> --}}
-                         </td>
+                            </td>
+                            <td>
+                                {{-- <span style="font-size:30px; padding-left:30%;border:1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> --}}
+                            </td>
                         </tr>
                     @endif
                 @endforeach

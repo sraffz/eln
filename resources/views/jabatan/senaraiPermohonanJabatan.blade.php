@@ -106,7 +106,24 @@
                                                                 href="{{ route('detailPermohonan.download', ['id' => $mohonan->permohonansID]) }}"
                                                                 target="blank"><i class="far fa-file-alt"></i></a>
                                                         @endif
+                                                        @php
+                                                        $dokumen_sokongan = DB::table('dokumen_sokongan')
+                                                            ->where('permohonansID', $mohonan->permohonansID)
+                                                            ->get();
+
+                                                        @endphp
                                                         @if ($dokumen_sokongan ?? '')
+                                                            <hr class="mt-1 mb-1">
+                                                            Sokongan :
+                                                            @foreach ($dokumen_sokongan as $doc)
+                                                                    <a class="btn btn-xs btn-danger"
+                                                                        href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doc->dokumens_id_sokongan]) }}"
+                                                                        target="blank"><i
+                                                                            class="far fa-file-alt"></i></a>
+                                                                
+                                                            @endforeach
+                                                        @endif
+                                                        {{-- @if ($dokumen_sokongan ?? '')
                                                             <hr class="mt-1 mb-1">
                                                             Sokongan :
                                                             @foreach ($dokumen_sokongan as $doc)
@@ -117,7 +134,7 @@
                                                                 @else
                                                                 @endif
                                                             @endforeach
-                                                        @endif
+                                                        @endif --}}
                                                     @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
 
                                                     @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')

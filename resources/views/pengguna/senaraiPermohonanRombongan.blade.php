@@ -145,6 +145,43 @@
                                                         <span class="badge badge-success">Berjaya</span>
                                                     @elseif($rombo->statusPermohonanRom == 'Permohonan Gagal')
                                                         <span class="badge badge-danger">Gagal</span>
+
+                                                        @if ($rombo->ulasan_kelulusan == 'tiada')
+                                                            
+                                                        @else
+                                                        <!-- Button trigger modal -->
+                                                        <span type="button" class="badge badge-info" data-toggle="modal" data-target="#catatan-{{ $rombo->rombongans_id }}">
+                                                            Ulasan / Catatan
+                                                          </span>
+                                                            
+                                                        @endif
+                                                          
+                                                          <!-- Modal -->
+                                                          <div class="modal fade" id="catatan-{{ $rombo->rombongans_id }}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                                              <div class="modal-dialog" role="document">
+                                                                  <div class="modal-content">
+                                                                      <div class="modal-header">
+                                                                          <h5 class="modal-title">Catatan</h5>
+                                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                  <span aria-hidden="true">&times;</span>
+                                                                              </button>
+                                                                      </div>
+                                                                      <div class="modal-body text-left">
+                                                                          <div class="form-group">
+                                                                              <label for="catatan">Ulasan / Catatan</label>
+                                                                              <textarea type="text"
+                                                                                class="form-control" name="catatan" id="catatan" aria-describedby="helpId" disabled placeholder="">{{ $rombo->ulasan_kelulusan }}</textarea>
+                                                                              <small id="helpId" class="form-text text-muted">Catatan atau sebab permohonan ditolak.</small>
+                                                                            </div>  
+                                                                      </div>
+                                                                      <div class="modal-footer">
+                                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                          <button type="button" class="btn btn-primary">Save</button>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+
                                                     @endif
                                                 </td>
                                                 <td>

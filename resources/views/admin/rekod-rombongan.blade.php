@@ -270,6 +270,37 @@
                                                                     class="badge badge-danger">
                                                                     {{ $rombo->status_kelulusan }}
                                                                 </span>
+                                                                <!-- Button trigger modal -->
+                                                                <span type="button" class="badge badge-info" data-toggle="modal" data-target="#catatan-{{ $rombo->rombongans_id }}">
+                                                                  Ulasan / Catatan
+                                                                </span>
+                                                                
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="catatan-{{ $rombo->rombongans_id }}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">Catatan</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                            </div>
+                                                                            <div class="modal-body text-left">
+                                                                                <div class="form-group">
+                                                                                    <label for="catatan">Ulasan / Catatan</label>
+                                                                                    <textarea type="text"
+                                                                                      class="form-control" name="catatan" id="catatan" aria-describedby="helpId" disabled placeholder="">{{ $rombo->ulasan_kelulusan }}</textarea>
+                                                                                    <small id="helpId" class="form-text text-muted">Catatan atau sebab permohonan ditolak.</small>
+                                                                                  </div>  
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                <button type="button" class="btn btn-primary">Save</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
                                                             @else
                                                                 <span
                                                                     class="badge badge-info">{{ $rombo->statusPermohonanRom }}</span>
@@ -286,15 +317,17 @@
                                                                         $jld = '';
                                                                     }
                                                                 @endphp
-                                                                <small class="text-bold">SUK.D.200 (06) 455/16-4 {{ $jld }} ({{ $rombo->no_surat_rombongan }})</small> <br>
+                                                                <small class="text-bold">SUK.D.200 (06) 455/16-4
+                                                                    {{ $jld }}
+                                                                    ({{ $rombo->no_surat_rombongan }})</small> <br>
                                                                 @if ($rombo->surat == 'MEMO')
                                                                     <a href="{{ route('memo-rombongan', ['id' => $rombo->rombongans_id]) }}"
-                                                                        class="btn btn-primary btn-xs">
+                                                                        class="btn btn-primary btn-xs" target="_blank">
                                                                         Memo
                                                                     </a>
                                                                 @elseif ($rombo->surat == 'SURAT')
                                                                     <a href="{{ route('surat-rombongan', ['id' => $rombo->rombongans_id]) }}"
-                                                                        class="btn btn-primary btn-xs">
+                                                                        class="btn btn-primary btn-xs" target="_blank">
                                                                         Surat
                                                                     </a>
                                                                 @endif

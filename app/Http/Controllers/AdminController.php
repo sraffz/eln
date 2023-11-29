@@ -312,11 +312,13 @@ class AdminController extends Controller
 
         // dd($rombongan);
         //senarai peserta rombongan
-        $allPermohonan = Permohonan::select('users.*', 'jabatan.nama_jabatan', 'jawatan.namaJawatan', 'permohonans.*', 'eln_pengesahan_bahagian.id as id_pengesahan')
+        $allPermohonan = Permohonan::select('users.*', 'jabatan.nama_jabatan', 'jawatan.namaJawatan', 'permohonans.*', 'eln_pengesahan_bahagian.id as id_pengesahan', 'gred_kod.gred_kod_abjad', 'gred_angka.gred_angka_nombor')
             ->join('users', 'users.usersID', '=', 'permohonans.usersID')
             ->leftjoin('jabatan', 'jabatan.jabatan_id', '=', 'users.jabatan')
             ->leftjoin('eln_pengesahan_bahagian', 'eln_pengesahan_bahagian.id_permohonan', '=', 'permohonans.permohonansID')
             ->leftjoin('jawatan', 'jawatan.idJawatan', '=', 'users.jawatan')
+            ->leftjoin('gred_kod', 'gred_kod.gred_kod_ID', '=', 'users.gredKod')
+            ->leftjoin('gred_angka', 'gred_angka.gred_angka_ID', '=', 'users.gredAngka')
             ->whereNotIn('permohonans.statusPermohonan', ['Permohonan Gagal'])
             ->get();
 

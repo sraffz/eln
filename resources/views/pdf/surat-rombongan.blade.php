@@ -117,7 +117,7 @@
                                 <td>:</td>
                                 <td>
                                     @php
-                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'October', 'November', 'Disember'];
+                                        const monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
                                         
                                         use Carbon\Carbon;
                                         

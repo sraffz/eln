@@ -127,8 +127,11 @@
                                                                                         <h4 class="modal-title"> Maklumat Peserta</h4>
                                                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                                                                     </div>
+                                                                                    @php
+                                                                                    $jawatan = $element->namaJawatan.' ('.$element->gred_kod_abjad.$element->gred_angka_nombor.')';
+                                                                                     @endphp
                                                                                     {!! Form::open(['method' => 'POST', 'url' => '#']) !!}
-                                                                                    <div class="modal-body">
+                                                                                    <div class="modal-body text-left">
                                                                                         <div
                                                                                             class="form-group{{ $errors->has('nama_edit') ? ' has-error' : '' }}">
                                                                                             {!! Form::label('nama_edit', 'Nama') !!}
@@ -149,10 +152,19 @@
                                                                                             <input type="text" class="form-control" name="jabatan" disabled id="jabatan_edit"
                                                                                                 value="{{ $element->nama_jabatan }}" placeholder="">
                                                                                         </div>
+                                                                                       
                                                                                         <div
                                                                                             class="form-group{{ $errors->has('jawatan_edit') ? ' has-error' : '' }}">
                                                                                             {!! Form::label('jawatan_edit', 'Jawatan') !!}
-                                                                                            {!! Form::email('jawatan_edit', $element->namaJawatan, ['class' => 'form-control', 'disabled' => 'disabled']) !!}
+                                                                                            {!! Form::text('jawatan_edit', $jawatan , ['class' => 'form-control', 'disabled' => 'disabled']) !!}
+                                                                                            <small
+                                                                                                class="text-danger">{{ $errors->first('jawatan_edit') }}</small>
+                                                                                        </div>
+                                                                                        
+                                                                                        <div
+                                                                                            class="form-group{{ $errors->has('jawatan_edit') ? ' has-error' : '' }}">
+                                                                                            {!! Form::label('jawatan_edit', 'Ulasan / Catatan') !!}
+                                                                                            {!! Form::text('jawatan_edit', $element->ulasan , ['class' => 'form-control', 'disabled' => 'disabled']) !!}
                                                                                             <small
                                                                                                 class="text-danger">{{ $errors->first('jawatan_edit') }}</small>
                                                                                         </div>

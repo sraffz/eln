@@ -48,7 +48,9 @@ class KetuaController extends Controller
 
         $dokumen = Dokumen::all();
 
-        return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah', 'dokumen'));
+        $dokumen_sokongans = DB::table('dokumen_sokongan')->get();
+
+        return view('ketua.senaraiPermohonan', compact('permohonan', 'sejarah', 'dokumen', 'dokumen_sokongans'));
     }
 
     public function senaraiLulus()
@@ -259,8 +261,9 @@ class KetuaController extends Controller
         return back();
     }
 
-    public function ketuaRejectRombongan($id)
+    public function ketuaRejectRombongan($id, Request $request)
     {
+        // dd($request->catatan);
         $ubah = 'Permohonan Gagal';
 
         Rombongan::where('rombongans_id', '=', $id)->update([
@@ -272,7 +275,7 @@ class KetuaController extends Controller
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
-            
+
         $rujukan = Eln_kelulusan::orderBy('id', 'DESC')->first();
 
         if (!empty($rujukan)) {
@@ -295,7 +298,7 @@ class KetuaController extends Controller
                 'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
                 'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
                 'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
-                'ulasan_kelulusan' => 'tiada',
+                'ulasan_kelulusan' => $request->catatan,
                 'status_kelulusan' => 'Gagal',
                 'jld_surat_rombongan' => $jld,
                 'no_surat_rombongan' => $no,
@@ -558,11 +561,11 @@ class KetuaController extends Controller
             ->orderBy('gred_pendek', 'DESC')
             ->get();
 
-            // $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, 2, 2) as gred_pendek'))
-            // ->where('rombongans_id', $id)
-            // ->whereIn('status_kelulusan', ['Berjaya'])
-            // ->orderBy('gred_pendek', 'DESC')
-            // ->get();
+        // $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, 2, 2) as gred_pendek'))
+        // ->where('rombongans_id', $id)
+        // ->whereIn('status_kelulusan', ['Berjaya'])
+        // ->orderBy('gred_pendek', 'DESC')
+        // ->get();
 
         // return view('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen', 'pengesahan'));
         $pdf = PDF::loadView('ketua.cetak.cetak-butiran-rombongan', compact('permohonan', 'tarikhmohon', 'jumlahDate', 'allPermohonan', 'dokumen', 'pengesahan'))->setpaper('a4', 'potrait');

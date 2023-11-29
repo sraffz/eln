@@ -137,10 +137,31 @@ class PdfController extends Controller
 
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
         
-        $bilpeserta = DB::table('senarai_nama_rombongan')
-        ->where('rombongans_id', $id)
-        ->where('status_kelulusan', 'Berjaya')
-        ->count();
+        if ($permohon->statusPermohonanRom == 'Permohonan Berjaya') {
+            $bilpeserta = DB::table('senarai_nama_rombongan')
+            ->where('rombongans_id', $id)
+            ->where('status_kelulusan', 'Berjaya')
+            ->count();
+
+            $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
+            ->where('rombongans_id', $id)
+            ->whereIn('status_kelulusan', ['Berjaya'])
+            ->orderBy('gred_pendek', 'DESC')
+            ->get();
+
+        } elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal'){
+            $bilpeserta = DB::table('senarai_nama_rombongan')
+            ->where('rombongans_id', $id)
+            ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
+            ->count();
+
+            $allPermohonan = DB::table('senarai_data_permohonan')->select('*', \DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
+            ->where('rombongans_id', $id)
+            ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
+            ->orderBy('gred_pendek', 'DESC')
+            ->get();
+        }
+        
 
         // return dd($bilpeserta);
 
@@ -179,16 +200,30 @@ class PdfController extends Controller
 
         $cogan = InfoSurat::where('perkara', '=', 'Cogan Kata')->first();
 
-        $bilpeserta = DB::table('senarai_nama_rombongan')
-        ->where('rombongans_id', $id)
-        ->where('status_kelulusan', 'Berjaya')
-        ->count();
-
-        $allPermohonan = DB::table('senarai_data_permohonan')->select('*',\DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
+        if ($permohon->statusPermohonanRom == 'Permohonan Berjaya') {
+            $bilpeserta = DB::table('senarai_nama_rombongan')
             ->where('rombongans_id', $id)
-            ->whereIn('status_kelulusan', ['Berjaya'])
-            ->orderBy('gred_pendek', 'DESC')
-            ->get();
+            ->where('status_kelulusan', 'Berjaya')
+            ->count();
+
+            $allPermohonan = DB::table('senarai_data_permohonan')->select('*',\DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
+                ->where('rombongans_id', $id)
+                ->whereIn('status_kelulusan', ['Berjaya'])
+                ->orderBy('gred_pendek', 'DESC')
+                ->get();
+
+        } elseif ($permohon->statusPermohonanRom == 'Permohonan Gagal'){
+            $bilpeserta = DB::table('senarai_nama_rombongan')
+            ->where('rombongans_id', $id)
+            ->count();
+
+            $allPermohonan = DB::table('senarai_data_permohonan')->select('*',\DB::raw('SUBSTRING(gred, -2) as gred_pendek'))
+                ->where('rombongans_id', $id)
+                ->whereIn('status_kelulusan', ['Berjaya', 'Gagal'])
+                ->orderBy('gred_pendek', 'DESC')
+                ->get();
+        }
+
 
         // dd($allPermohonan->all());
         // return dd($bil);

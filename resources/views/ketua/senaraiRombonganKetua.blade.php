@@ -128,9 +128,53 @@
                                                                 class="fa fa-thumbs-up"></i></a>
 
                                                         <a href="{{ url('tolak-rombongan', [$rombo->rombongans_id]) }}"
-                                                            class="btn btn-danger btn-xs"
-                                                            onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
-                                                                class="fa fa-thumbs-down"></i></a>
+                                                            class="btn btn-danger btn-xs" onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i class="fa fa-thumbs-down"></i></a>
+
+                                                                <!-- Button trigger modal -->
+                                                                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#tolakRombongan-{{ $rombo->rombongans_id }}">
+                                                                    <i class="fa fa-thumbs-down"></i>
+                                                                </button>
+                                                                
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="tolakRombongan-{{ $rombo->rombongans_id }}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                        <h5 class="modal-title">Tolak Permohonan ini?</h5>
+                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                    </div>
+                                                                                    <form action="{{ url('tolak-rombongan', [$rombo->rombongans_id]) }}" method="post">
+                                                                                        {{ csrf_field() }}
+                                                                                        <div class="modal-body">
+                                                                                            <div class="container-fluid">
+                                                                                                <div class="form-group">
+                                                                                                  <label for="catatan">Ulasan / Catatan</label>
+                                                                                                  <textarea type="text"
+                                                                                                    class="form-control" name="catatan" id="catatan" aria-describedby="helpId" placeholder=""></textarea>
+                                                                                                  <small id="helpId" class="form-text text-muted">Catatan atau sebab permohonan ditolak.</small>
+                                                                                                </div>  
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                                            <button type="submit" class="btn btn-danger">Tolak Permohonan</button>
+                                                                                        </div>
+
+                                                                                    </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <script>
+                                                                    $('#exampleModal').on('show.bs.modal', event => {
+                                                                        var button = $(event.relatedTarget);
+                                                                        var modal = $(this);
+                                                                        // Use above variables to manipulate the DOM
+                                                                        
+                                                                    });
+                                                                </script>
 
                                                         <a href="{{ route('cetak-butiran-rombongan', [$rombo->rombongans_id]) }}"
                                                             class="btn btn-dark btn-xs">

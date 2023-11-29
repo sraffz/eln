@@ -72,7 +72,7 @@
                                     {{ \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->format('d/m/Y') }}
 
                                     @php
-                                        $tempoh = \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)
+                                        $tempoh = \Carbon\Carbon::parse($mohonan->tarikhAkhirPerjalanan)->addDays(1)
                                                                 ->diff(\Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan))
                                                                 ->format('%d Hari');
                                     @endphp
