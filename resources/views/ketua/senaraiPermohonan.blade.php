@@ -109,8 +109,7 @@
                                                         {{ $i++ }}
                                                     </td>
                                                     <td style="text-transform: capitalize; font-weight: bold">
-                                                        <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}"><span
-                                                                class="badge badge-{{ $theme }}">{{ $mohonan->nama }}</span></a>
+                                                        <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}"><span class="badge badge-{{ $theme }}">{{ $mohonan->nama }}</span></a>
                                                                 <br>
                                                                 <span class="text-sm">{{ $mohonan->namaJawatan }} ( {{ $mohonan->gred }} )</span>
                                                     </td>

@@ -736,8 +736,8 @@ class permohonanController extends Controller
                     return redirect('/senaraiPermohonanProses');
                 }
 
-                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                return redirect('/senaraiPermohonanProses');
+                // Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+                // return redirect('/senaraiPermohonanProses');
             } elseif ($jenisPermohonan == 'Tidak Rasmi') {
 
                 $dateFromCuti = $request->input('tarikhMulaCuti');
@@ -849,10 +849,16 @@ class permohonanController extends Controller
 
                 DB::table('pasangans')->insert($dataPasangan);
                 // flash('Permohonan berjaya didaftar.')->success();
-                Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
-                return redirect('/senaraiPermohonanProses');
+                // Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+                // return redirect('/senaraiPermohonanProses');
             }
+
+            $this->hantarIndividu($idPermohonan);
+
+            Alert::success('Berjaya', 'Permohonan Berjaya DidaftarKan');
+            return redirect('/senaraiPermohonanProses');
         }
+
     }
 
     public function storeRombongan(Request $request)

@@ -143,32 +143,47 @@ class KetuaController extends Controller
             $jld = 1;
             $no = 1;
         }
+
+        $bil = Eln_kelulusan::where('id_pengesahan', $pengesahan->id)->count();
         // dd($no, $jld);
-        $idl = Eln_kelulusan::insertGetId([
-            'id_pengesahan' => $pengesahan->id,
-            'id_pelulus' => Auth::user()->usersID,
-            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
-            'ulasan' => 'tiada',
-            'status_kelulusan' => 'Berjaya',
-            'jilid' => $jld,
-            'no_surat' => $no,
-            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-        ]);
+        if ($bil > 0) {
 
+             // dd($tarikhMulaPerjalanan);
+             Permohonan::where('permohonansID', '=', $id)->update([
+                'statusPermohonan' => $ubah,
+                'tarikhLulusan' => \Carbon\Carbon::now(),
+            ]);
+            
+            toast('Permohonan Diluluskan', 'success')->position('top-end');
+            return redirect()->back();
 
-
-        // dd($tarikhMulaPerjalanan);
-        Permohonan::where('permohonansID', '=', $id)->update([
-            'statusPermohonan' => $ubah,
-            'tarikhLulusan' => \Carbon\Carbon::now(),
-        ]);
-
-        // flash('Permohonan Diluluskan.')->success();
-        toast('Permohonan Diluluskan', 'success')->position('top-end');
-        return redirect()->back();
+        } else {
+ 
+            $idl = Eln_kelulusan::insertGetId([
+                'id_pengesahan' => $pengesahan->id,
+                'id_pelulus' => Auth::user()->usersID,
+                'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
+                'ulasan' => 'tiada',
+                'status_kelulusan' => 'Berjaya',
+                'jilid' => $jld,
+                'no_surat' => $no,
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
+       
+            // dd($tarikhMulaPerjalanan);
+            Permohonan::where('permohonansID', '=', $id)->update([
+                'statusPermohonan' => $ubah,
+                'tarikhLulusan' => \Carbon\Carbon::now(),
+            ]);
+    
+            // flash('Permohonan Diluluskan.')->success();
+            toast('Permohonan Diluluskan', 'success')->position('top-end');
+            return redirect()->back();
+        }
+        
     }
 
     public function lulusrombongan($id)

@@ -753,41 +753,49 @@ class AdminController extends Controller
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
 
-        Eln_pengesahan_bahagian::insertGetId([
-            'id_permohonan' => $id_permohonan,
-            'id_rombongan' => $id,
-            'id_pemohon' => $userid,
-            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => '' . $pemohon->userGredKod->gred_kod_abjad . ' ' . $pemohon->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
-            'taraf_pemohon' => $pemohon->taraf,
-            'id_pengesah' => Auth::user()->usersID,
-            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => '' . $pengesah->userGredKod->gred_kod_abjad . ' ' . $pengesah->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
-            'ulasan' => 'disokong',
-            'status_pengesah' => 'disokong',
-            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-        ]);
+        $bil_sah = Eln_pengesahan_bahagian::where('id_permohonan', $id_permohonan)->where('id_rombongan', $id)->count();
 
-        DB::table('eln_pengesahan_bahagian_rombongan')->insertGetId([
-            'id_rombongan' => $id,
-            'id_pemohon' => $userid,
-            'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
-            'gred_pemohon' => '' . $pemohon->userGredKod->gred_kod_abjad . ' ' . $pemohon->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
-            'taraf_pemohon' => $pemohon->taraf,
-            'id_pengesah' => Auth::user()->usersID,
-            'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
-            'gred_pengesah' => '' . $pengesah->userGredKod->gred_kod_abjad . ' ' . $pengesah->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
-            'ulasan_pengesahan' => 'disokong',
-            'status_pengesah' => 'disokong',
-            'tarikh_pengesah' => \Carbon\Carbon::now(), # new \Datetime()
-            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-        ]);
+        if ($bil_sah == '0') {
+            Eln_pengesahan_bahagian::insertGetId([
+                'id_permohonan' => $id_permohonan,
+                'id_rombongan' => $id,
+                'id_pemohon' => $userid,
+                'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+                'gred_pemohon' => '' . $pemohon->userGredKod->gred_kod_abjad . ' ' . $pemohon->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
+                'taraf_pemohon' => $pemohon->taraf,
+                'id_pengesah' => Auth::user()->usersID,
+                'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+                'gred_pengesah' => '' . $pengesah->userGredKod->gred_kod_abjad . ' ' . $pengesah->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+                'ulasan' => 'disokong',
+                'status_pengesah' => 'disokong',
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
+        }
+
+        $bil_sah_rombo = DB::table('eln_pengesahan_bahagian_rombongan')->where('id_rombongan', $id)->count();
+
+        if ($bil_sah_rombo == 0) {
+             DB::table('eln_pengesahan_bahagian_rombongan')->insertGetId([
+                'id_rombongan' => $id,
+                'id_pemohon' => $userid,
+                'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
+                'gred_pemohon' => '' . $pemohon->userGredKod->gred_kod_abjad . ' ' . $pemohon->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pemohon' => $pemohon->userJabatan->jabatan_id,
+                'taraf_pemohon' => $pemohon->taraf,
+                'id_pengesah' => Auth::user()->usersID,
+                'jawatan_pengesah' => $pengesah->userJawatan->namaJawatan,
+                'gred_pengesah' => '' . $pengesah->userGredKod->gred_kod_abjad . ' ' . $pengesah->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pengesah' => $pengesah->userJabatan->jabatan_id,
+                'ulasan_pengesahan' => 'disokong',
+                'status_pengesah' => 'disokong',
+                'tarikh_pengesah' => \Carbon\Carbon::now(), # new \Datetime()
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
+        }
 
         $ubah = 'Lulus Semakan';
 
@@ -1670,6 +1678,7 @@ class AdminController extends Controller
             // ->with('userJawatan')
             ->where('usersID', '=', Auth::user()->usersID)
             ->first();
+
         $bil = Eln_pengesahan_bahagian::where('id_permohonan', $permohonan->permohonansID)->count();
 
         if ($bil > 0) {
