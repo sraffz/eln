@@ -44,103 +44,120 @@
                                     <tbody>
                                         @foreach ($permohonan as $index => $mohonan)
                                             @php
+                                                $first_datetime = new DateTime($mohonan->tarikhMulaPerjalanan);
+                                                $last_datetime = new DateTime(now());
+                                                $interval = $first_datetime->diff($last_datetime);
+                                                $final_days = $interval->format('%a'); //and then print do whatever you like with $final_days
+
+                                                if ($mohonan->JenisPermohonan == 'Tidak Rasmi') {
+                                                    $lastDate =  14;
+                                                } elseif($mohonan->JenisPermohonan == 'Rasmi') {
+                                                    $lastDate =  7;
+                                                }                                            
                                                 // $mohonan->permohonansID = Hashids::encode($mohonan->permohonansID);
                                             @endphp
-                                            <tr class="text-center">
-                                                <td>{{ $index + 1 }}</td>
-                                                <td style="text-transform: capitalize">
-                                                    {{-- @if ($mohonan->JenisPermohonan == 'rombongan') --}}
-                                                    {{-- <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a> --}}
-                                                    {{-- @else --}}
-                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
-                                                    {{-- @endif --}}
-                                                </td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
-                                                </td>
-                                                <td>
-                                                    {{ $mohonan->negara }}
-                                                    @if ($mohonan->negara_tambahan != '')
-                                                        {{ ', ' . $mohonan->negara_tambahan }}
-                                                    @endif
-                                                </td>
-                                                <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }}
-                                                </td>
-                                                <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}</td>
-                                                <td>
-                                                    @if ($mohonan->borang_lewat == 1)
-                                                    <span class="badge badge-warning">Lewat</span> <br>
-                                                    @endif
-                                                    <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span> <br>
-                                                    
-                                                </td>
-                                                <td>
-                                                    @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
-                                                        <a onClick="setUserData({{ $mohonan->permohonansID }});" data-toggle="modal"
-                                                            data-target="#terimapermohonan"
-                                                            class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i>
-                                                        </a>
-                                                        <!-- Button trigger modal -->
-                                                        <button type="button" class="btn btn-danger btn-xs"
-                                                            data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
-                                                            data-target="#tolakpermohonan">
-                                                            <i class="fa fa-thumbs-down"></i>
-                                                        </button>
+                                            @if ($last_datetime <= $first_datetime)
+                                                @if ($final_days >= $lastDate)
+                                                    <tr class="text-center">
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td style="text-transform: capitalize">
+                                                            {{-- @if ($mohonan->JenisPermohonan == 'rombongan') --}}
+                                                            {{-- <a href="{{ url('detailPermohonanRombongan', [$mohonan->rombongans_id]) }}">{{ $mohonan->nama }}</a> --}}
+                                                            {{-- @else --}}
+                                                            <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+                                                            {{-- @endif --}}
+                                                        </td>
+                                                        <td>
+                                                            {{ \Carbon\Carbon::parse($mohonan->tarikhmohon)->format('d/m/Y') }}
 
-                                                        <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
-                                                            class="btn btn-dark btn-xs">
-                                                            <i class="fa fa-print"></i>
-                                                        </a>
-                                                        <hr class="mt-1 mb-1">
-                                                        @if ($mohonan->JenisPermohonan == 'Rasmi')
-                                                            Rasmi :
-                                                            @foreach ($dokumen as $doc)
-                                                                @if ($mohonan->permohonansID == $doc->permohonansID)
-                                                                    <a class="btn btn-xs btn-primary"
-                                                                        href="{{ route('detailPermohonanDokumen.download', ['id' => $doc->dokumens_id]) }}"
+                                                        </td>
+                                                        <td>
+                                                            {{ $mohonan->negara }}
+                                                            @if ($mohonan->negara_tambahan != '')
+                                                                {{ ', ' . $mohonan->negara_tambahan }}
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($mohonan->tarikhMulaPerjalanan)->format('d/m/Y') }} <br>
+                                                            {{ $final_days }}
+                                                        </td>
+                                                        <td style="text-transform: capitalize">{{ $mohonan->JenisPermohonan }}</td>
+                                                        <td>
+                                                            @if ($mohonan->borang_lewat == 1)
+                                                            <span class="badge badge-warning">Lewat</span> <br>
+                                                            @endif
+                                                            <span class="badge badge-info">{{ $mohonan->statusPermohonan }}</span> <br>
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            @if ($mohonan->statusPermohonan == 'Ketua Jabatan')
+                                                                <a onClick="setUserData({{ $mohonan->permohonansID }});" data-toggle="modal"
+                                                                    data-target="#terimapermohonan"
+                                                                    class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i>
+                                                                </a>
+                                                                <!-- Button trigger modal -->
+                                                                <button type="button" class="btn btn-danger btn-xs"
+                                                                    data-toggle="modal" data-id="{{ $mohonan->permohonansID }}"
+                                                                    data-target="#tolakpermohonan">
+                                                                    <i class="fa fa-thumbs-down"></i>
+                                                                </button>
+
+                                                                <a href="{{ url('cetak-butiran-permohonan', [$mohonan->permohonansID]) }}"
+                                                                    class="btn btn-dark btn-xs">
+                                                                    <i class="fa fa-print"></i>
+                                                                </a>
+                                                                <hr class="mt-1 mb-1">
+                                                                @if ($mohonan->JenisPermohonan == 'Rasmi')
+                                                                    Rasmi :
+                                                                    @foreach ($dokumen as $doc)
+                                                                        @if ($mohonan->permohonansID == $doc->permohonansID)
+                                                                            <a class="btn btn-xs btn-primary"
+                                                                                href="{{ route('detailPermohonanDokumen.download', ['id' => $doc->dokumens_id]) }}"
+                                                                                target="blank"><i class="far fa-file-alt"></i></a>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @elseif ($mohonan->JenisPermohonan == 'Tidak Rasmi')
+                                                                    {{-- {{ $mohonan->pathFileCuti }} --}}Tidak Rasmi :
+                                                                    <a class="btn btn-xs btn-info"
+                                                                        href="{{ route('detailPermohonan.download', ['id' => $mohonan->permohonansID]) }}"
                                                                         target="blank"><i class="far fa-file-alt"></i></a>
                                                                 @endif
-                                                            @endforeach
-                                                        @elseif ($mohonan->JenisPermohonan == 'Tidak Rasmi')
-                                                            {{-- {{ $mohonan->pathFileCuti }} --}}Tidak Rasmi :
-                                                            <a class="btn btn-xs btn-info"
-                                                                href="{{ route('detailPermohonan.download', ['id' => $mohonan->permohonansID]) }}"
-                                                                target="blank"><i class="far fa-file-alt"></i></a>
-                                                        @endif
-                                                        @php
-                                                        $dokumen_sokongan = DB::table('dokumen_sokongan')
-                                                            ->where('permohonansID', $mohonan->permohonansID)
-                                                            ->get();
+                                                                @php
+                                                                $dokumen_sokongan = DB::table('dokumen_sokongan')
+                                                                    ->where('permohonansID', $mohonan->permohonansID)
+                                                                    ->get();
 
-                                                        @endphp
-                                                        @if ($dokumen_sokongan ?? '')
-                                                            <hr class="mt-1 mb-1">
-                                                            Sokongan :
-                                                            @foreach ($dokumen_sokongan as $doc)
-                                                                    <a class="btn btn-xs btn-danger"
-                                                                        href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doc->dokumens_id_sokongan]) }}"
-                                                                        target="blank"><i
-                                                                            class="far fa-file-alt"></i></a>
-                                                                
-                                                            @endforeach
-                                                        @endif
-                                                        {{-- @if ($dokumen_sokongan ?? '')
-                                                            <hr class="mt-1 mb-1">
-                                                            Sokongan :
-                                                            @foreach ($dokumen_sokongan as $doc)
-                                                                @if ($mohonan->permohonansID == $doc->permohonansID)
-                                                                    <a class="btn btn-xs btn-danger"
-                                                                        href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doc->dokumens_id_sokongan]) }}"
-                                                                        target="blank"><i class="far fa-file-alt"></i></a>
-                                                                @else
+                                                                @endphp
+                                                                @if ($dokumen_sokongan ?? '')
+                                                                    <hr class="mt-1 mb-1">
+                                                                    Sokongan :
+                                                                    @foreach ($dokumen_sokongan as $doc)
+                                                                            <a class="btn btn-xs btn-danger"
+                                                                                href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doc->dokumens_id_sokongan]) }}"
+                                                                                target="blank"><i
+                                                                                    class="far fa-file-alt"></i></a>
+                                                                        
+                                                                    @endforeach
                                                                 @endif
-                                                            @endforeach
-                                                        @endif --}}
-                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
+                                                                {{-- @if ($dokumen_sokongan ?? '')
+                                                                    <hr class="mt-1 mb-1">
+                                                                    Sokongan :
+                                                                    @foreach ($dokumen_sokongan as $doc)
+                                                                        @if ($mohonan->permohonansID == $doc->permohonansID)
+                                                                            <a class="btn btn-xs btn-danger"
+                                                                                href="{{ route('detailPermohonanDokumensokongan.download', ['id' => $doc->dokumens_id_sokongan]) }}"
+                                                                                target="blank"><i class="far fa-file-alt"></i></a>
+                                                                        @else
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif --}}
+                                                            @elseif($mohonan->statusPermohonan == 'Permohonan Berjaya')
 
-                                                    @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                                            @elseif($mohonan->statusPermohonan == 'Permohonan Gagal')
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

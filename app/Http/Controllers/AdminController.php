@@ -241,7 +241,7 @@ class AdminController extends Controller
 
                 if ($jab == 1) {
                     // PTJ KB dan MD Ketereh
-                    $id_jabatan = ['1', '12'];
+                    $id_jabatan = ['1', '13'];
                 } elseif ($jab == 2) {
                     // PTJ Pasir Mas dan MD Pasir Mas
                     $id_jabatan = ['2', '16'];
@@ -1433,7 +1433,7 @@ class AdminController extends Controller
             if ($jab == 1) {
 
                 // PTJ KB dan MD Ketereh
-                $id_jabatan = ['1', '12'];
+                $id_jabatan = ['1', '13'];
             } elseif ($jab == 2) {
                 // PTJ Pasir Mas dan MD Pasir Mas
                 $id_jabatan = ['2', '16'];
@@ -1546,7 +1546,7 @@ class AdminController extends Controller
 
             if ($jab == 1) {
                 // PTJ KB dan MD Ketereh
-                $id_jabatan = ['1', '12'];
+                $id_jabatan = ['1', '13'];
             } elseif ($jab == 2) {
                 // PTJ Pasir Mas dan MD Pasir Mas
                 $id_jabatan = ['2', '16'];

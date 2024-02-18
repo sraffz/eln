@@ -95,14 +95,17 @@
                                                     @php
                                                         if ($first_datetime >= $last_datetime) {
                                                             if ($final_days < 3) {
-                                                                $theme = 'danger';
+                                                                $theme = 'dark';
+                                                                // $theme = 'danger';
                                                             } elseif ($final_days < 7) {
-                                                                $theme = 'warning';
+                                                                // $theme = 'warning';
+                                                                $theme = 'dark';
                                                             } else {
                                                                 $theme = 'dark';
                                                             }
                                                         } else {
-                                                            $theme = 'danger';
+                                                            $theme = 'dark';
+                                                            // $theme = 'danger';
                                                         }
                                                     @endphp
                                                     <td class="text-center">

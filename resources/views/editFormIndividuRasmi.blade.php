@@ -35,7 +35,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    {!! Form::model($permohonan, ['method' => 'POST', 'url' => ['updatePermohonan', $permohonan->permohonansID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($permohonan, ['method' => 'POST', 'url' => ['luar_negara/updatePermohonan', $permohonan->permohonansID], 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
     {!! Form::hidden('id', $permohonan->permohonansID) !!}
     <section class="content">
         <div class="container-fluid">
@@ -382,7 +382,7 @@
                 <div class="">
                     {{-- {!! Form::reset("Semula", ['class' => 'btn btn-warning']) !!} --}}
                     
-                    <a href="{{ url('senaraiPermohonanProses') }}" class="btn btn-danger">Kembali</a>
+                    <a href="{{ url('luar_negara/senaraiPermohonanProses') }}" class="btn btn-danger">Kembali</a>
 
                     {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                 </div>

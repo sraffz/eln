@@ -7,8 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PermohonanBerjaya extends Notification  
+class PermohonanBerjaya extends Notification implements ShouldQueue
 {
+    use Queueable;
     /**
      * Create a new notification instance.
      *

@@ -6,6 +6,12 @@
     <!-- bootstrap datepicker -->
     <link rel="stylesheet"
         href="{{ asset('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -32,10 +38,12 @@
     </section>
     {!! Form::model($userDetail, [
         'method' => 'POST',
-        'url' => ['daftarPermohonan', $userDetail->usersID],
+        'route' => ['negara.permohonan', $userDetail->usersID],
+        // 'url' => ['daftarPermohonan', $userDetail->usersID],
         'class' => 'form-horizontal',
         'enctype' => 'multipart/form-data',
         'autocomplete' => 'off',
+        'id' => 'myform',
     ]) !!}
 
     {!! Form::hidden('id', $userDetail->usersID) !!}
@@ -63,14 +71,15 @@
                 } else {
                     $tema = 'primary';
                     $nilai = 0;
-                
+
                     if ($typeForm == 'rasmi') {
-                        $lastDate = 8;
+                        $lastDate = 15;
                     } elseif ($typeForm == 'tidakRasmi') {
                         $lastDate = 15;
                     }
                 }
             @endphp
+
             <div class="card card-{{ $tema }}">
                 <div class="card-header">
                     <h3 class="card-title">Maklumat Permohonan Perjalanan</h3> <input type="hidden" name="borang_lewat"
@@ -99,6 +108,8 @@
                                     value="{{ old('tarikhMula') }}" onBlur="myFunction()" id="tarikhMula"
                                     min="{{ \Carbon\Carbon::now()->addDays($lastDate)->format('Y-m-d') }}" required>
                                 @if ($typeForm == 'tidakRasmi')
+                                    <small><i>*Permohonan mesti dihantar sebelum 14 hari dari tarikh perjalanan.</i></small>
+                                @elseif ($typeForm == 'rasmi')
                                     <small><i>*Permohonan mesti dihantar sebelum 14 hari dari tarikh perjalanan.</i></small>
                                 @endif
                             </div>
@@ -400,7 +411,11 @@
                             @endif
                             <div class="">
                                 {!! Form::reset('Semula', ['class' => 'btn btn-danger']) !!}
-                                {!! Form::submit('Hantar', ['class' => 'btn btn-success']) !!}
+                                {{-- {!! Form::submit('Hantar', ['class' => 'btn btn-success submit btn-txt']) !!} --}}
+                                <button class="submit btn btn-success" type="submit">
+                                    <i class="loading-icon fa-lg fas fa-spinner fa-spin hide"></i>
+                                    <i class="czi-user mr-2 ml-n1"></i>
+                                    <span class="btn-txt">{{ __('Hantar') }}</span></button>
                             </div>
                         </div>
                     </div>
@@ -468,5 +483,25 @@
             var minToDate2 = document.getElementById("tarikhAkhirCuti").value;
             document.getElementById("tarikhKembaliBertugas").setAttribute("min", minToDate2);
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#myform").submit(function() {
+                $(".result").text("");
+                $(".loading-icon").removeClass("hide");
+                $(".submit").attr("disabled", true);
+                $(".btn-txt").text("Sedang menghantar...");
+            });
+        });
+
+        $(window).on('load', function() {
+            hapus = Swal.fire({
+                title: "Perhatian ",
+                text: "Sila Pastikan permohonan yang dibuat disokong oleh ketua jabatan sebelum 14 hari dari tarikh perjalanan. Jika tidak disokong dalam tempoh tersebut, permohonan tidak akan dipertimbangkan",
+                type: "warning",
+                 
+            });
+        });
     </script>
 @endsection

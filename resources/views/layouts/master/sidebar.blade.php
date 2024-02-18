@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="{{ url('/') }}" class="brand-link">
         {{-- <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
-        <span class="brand-text text-center font-weight-light">E-Luar Negara</span>
+        <span class="brand-text text-center font-weight-light">Perkhidmatan BPSM</span>
     </a>
 
     <!-- Sidebar -->
@@ -14,7 +14,8 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="#"class="d-block hyphens">{{ \Illuminate\Support\Str::limit(Auth::user()->nama, 23, $end='...') }}</a>
+                <a
+                    href="#"class="d-block hyphens">{{ \Illuminate\Support\Str::limit(Auth::user()->nama, 23, $end = '...') }}</a>
             </div>
         </div>
 
@@ -33,41 +34,49 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <li class="nav-header">MENU PENTADBIR</li>
                 <li class="nav-item">
-                    <a href="{{ url('/luar_negara') }}"
-                        class="nav-link {{  url()->current() == url('/luar_negara') ? ' active' : '' }}">
+                    <a href="{{ url('/') }}" class="nav-link {{ url()->current() == url('/') ? ' active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Halaman Utama</p>
                     </a>
                 </li>
-                @if (Auth::user()->role == 'pengguna')
-                    @include('layouts.sidebarMenu')
-                @elseif (Auth::user()->role == "adminBPSM")
-                    @include('layouts.sidebarMenuAdminBPSM')
-                @elseif (Auth::user()->role == "DatoSUK")
-                    @include('layouts.sidebarMenuKPP')
-                @elseif (Auth::user()->role == "jabatan")
-                    @include('layouts.sidebarMenuJabatan')
-                @endif
-                @if (Auth::user()->role == 'pengguna')
+                <li class="nav-header">APLIKASI</li>
                 <li class="nav-item">
-                    <a href="{{ url('panduan-pengguna') }}" class="nav-link">
-                        <i class="nav-icon fas fa-book-open"></i>
-                        <p class="text">Panduan Pengguna</p>
+                    <a href="{{ route('halamanUtamaNegara') }}" class="nav-link  ">
+                        {{-- <i class="nav-icon fas fa-book"></i> --}}
+                        <i class="nav-icon fas fa-fighter-jet"></i>
+                        <p>E-Luar Negara</p>
                     </a>
                 </li>
-                @elseif (Auth::user()->role == "jabatan")
                 <li class="nav-item">
-                    <a href="{{ url('panduan-penggunaKetua') }}" class="nav-link">
-                        <i class="nav-icon fas fa-book-open"></i>
-                        <p class="text">Panduan Pengguna</p>
+                    <a href="{{ route('halamanUtamaNegeri') }}" class="nav-link  ">
+                        {{-- <i class="nav-icon fas fa-book"></i> --}}
+                        <i class="nav-icon fas fa-car-side"></i>
+                        <p>E-Luar Negeri</p>
                     </a>
                 </li>
+                <li class="nav-header">PENGGUNA</li>
+                @if (Auth::user()->role == 'pengguna')
+                    <li class="nav-item">
+                        <a href="{{ url('panduan-pengguna') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p class="text">Panduan Pengguna</p>
+                        </a>
+                    </li>
+                @elseif (Auth::user()->role == 'jabatan')
+                    <li class="nav-item">
+                        <a href="{{ url('panduan-penggunaKetua') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book-open"></i>
+                            <p class="text">Panduan Pengguna</p>
+                        </a>
+                    </li>
                 @endif
                 <li class="nav-item">
-                    <a href="{{ url('profil') }}" class="nav-link {{ url()->current() == url('profil') ? ' active' : '' }}">
+                    <a href="{{ url('profil') }}"
+                        class="nav-link {{ url()->current() == url('profil') ? ' active' : '' }}">
                         <i class="nav-icon fas fa-id-card"></i>
                         <p class="text">Profil</p>
                     </a>

@@ -118,8 +118,8 @@ class KetuaController extends Controller
             'nama' => $ruj->user->nama
         ];
         // dd($butiran);
-
-        Notification::send($users, new PermohonanBerjaya($butiran));
+        // Notification::send($users, new PermohonanBerjaya($butiran));
+        
         // dd('done');
 
         $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)->first();
@@ -178,7 +178,8 @@ class KetuaController extends Controller
                 'statusPermohonan' => $ubah,
                 'tarikhLulusan' => \Carbon\Carbon::now(),
             ]);
-    
+            
+            Notification::send($users, new PermohonanBerjaya($butiran));
             // flash('Permohonan Diluluskan.')->success();
             toast('Permohonan Diluluskan', 'success')->position('top-end');
             return redirect()->back();
@@ -389,7 +390,7 @@ class KetuaController extends Controller
         ];
         // dd($butiran);
 
-        Notification::send($users, new PermohonanTidakBerjaya($butiran));
+        // Notification::send($users, new PermohonanTidakBerjaya($butiran));
 
         $pengesahan = Eln_pengesahan_bahagian::where('id_permohonan', $id)->first();
 
@@ -412,25 +413,38 @@ class KetuaController extends Controller
             $jld = 1;
             $no = 1;
         }
-        // dd($no, $jld);
-        $idl = Eln_kelulusan::insertGetId([
-            'id_pengesahan' => $pengesahan->id,
-            'id_pelulus' => Auth::user()->usersID,
-            'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
-            'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
-            'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
-            'ulasan' => 'tiada',
-            'status_kelulusan' => 'Gagal',
-            'jilid' => $jld,
-            'no_surat' => $no,
-            'created_at' => \Carbon\Carbon::now(), # new \Datetime()
-            'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
-        ]);
 
-        Permohonan::where('permohonansID', '=', $id)->update([
-            'statusPermohonan' => $ubah,
-            'tarikhLulusan' => \Carbon\Carbon::now(),
-        ]);
+        $bil = Eln_kelulusan::where('id_pengesahan', $pengesahan->id)->count();
+        // dd($no, $jld);
+        if ($bil > 0) {
+            Permohonan::where('permohonansID', '=', $id)->update([
+                'statusPermohonan' => $ubah,
+                'tarikhLulusan' => \Carbon\Carbon::now(),
+            ]);
+        }
+        else {
+             // dd($no, $jld);
+            $idl = Eln_kelulusan::insertGetId([
+                'id_pengesahan' => $pengesahan->id,
+                'id_pelulus' => Auth::user()->usersID,
+                'jawatan_pelulus' => $pelulus->userJawatan->namaJawatan,
+                'gred_pelulus' => '' . $pelulus->userGredKod->gred_kod_abjad . ' ' . $pelulus->userGredAngka->gred_angka_nombor . '',
+                'jabatan_pelulus' => $pelulus->userJabatan->id_jabatan,
+                'ulasan' => 'tiada',
+                'status_kelulusan' => 'Gagal',
+                'jilid' => $jld,
+                'no_surat' => $no,
+                'created_at' => \Carbon\Carbon::now(), # new \Datetime()
+                'updated_at' => \Carbon\Carbon::now(), # new \Datetime()
+            ]);
+    
+            Permohonan::where('permohonansID', '=', $id)->update([
+                'statusPermohonan' => $ubah,
+                'tarikhLulusan' => \Carbon\Carbon::now(),
+            ]);
+    
+            Notification::send($users, new PermohonanTidakBerjaya($butiran));
+        }
 
         toast('Permohonan Ditolak', 'error')->position('top-end');
         return back();

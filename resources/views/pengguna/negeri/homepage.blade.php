@@ -1,6 +1,6 @@
-@extends('layouts.eln')
+@extends('layouts.elnegeri.master')
 
-@section('title', 'E-Luar Negara | Halaman Utama')
+@section('title', 'E-Luar Negeri | Halaman Utama')
 
 @section('link')
 
@@ -12,12 +12,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>E-Luar Negara</h1>
+                    <h1>E-Luar Negeri</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/') }}">Halaman Utama</a></li>
-                        <li class="breadcrumb-item active">E-Luar Negara</li>
+                        <li class="breadcrumb-item active">E-Luar Negeri</li>
                     </ol>
                 </div>
             </div>
@@ -31,9 +31,9 @@
             <div class="row">
                 <div class="col-lg-3">
                     <!-- small box -->
-                    <div class="small-box bg-primary">
+                    <div class="small-box bg-lightblue">
                         <div class="inner">
-                            <h3>{{ $TotalPerm + $TotalPermRomb }}</h3>
+                            {{-- <h3>{{ $TotalPerm + $TotalPermRomb }}</h3> --}}
                             <p>Jumlah Permohonan</p>
                         </div>
                         <div class="icon">
@@ -45,9 +45,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3">
                     <!-- small box -->
-                    <div class="small-box bg-green">
+                    <div class="small-box bg-olive">
                         <div class="inner">
-                            <h3>{{ $TotalBerjaya + $TotalBerjayaRomb }}</h3>
+                            {{-- <h3>{{ $TotalBerjaya + $TotalBerjayaRomb }}</h3> --}}
                             <p>Permohonan Berjaya</p>
                         </div>
                         <div class="icon">
@@ -59,9 +59,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3">
                     <!-- small box -->
-                    <div class="small-box bg-red">
+                    <div class="small-box bg-maroon">
                         <div class="inner">
-                            <h3>{{ $TotalGagal + $TotalGagalRomb }}</h3>
+                            {{-- <h3>{{ $TotalGagal + $TotalGagalRomb }}</h3> --}}
                             <p>Permohonan Gagal</p>
                         </div>
                         <div class="icon">
@@ -73,9 +73,9 @@
                 <!-- ./col -->
                 <div class="col-lg-3">
                     <!-- small box -->
-                    <div class="small-box bg-yellow">
+                    <div class="small-box bg-orange">
                         <div class="inner">
-                            <h3>{{ $TotalProces + $TotalProcesRomb }}</h3>
+                            {{-- <h3>{{ $TotalProces + $TotalProcesRomb }}</h3> --}}
                             <p>Permohonan dalam proses</p>
                         </div>
                         <div class="icon">
@@ -86,8 +86,8 @@
                 </div>
                 <!-- ./col -->
             </div>
-
-            <div class="row">
+         
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <div class="timeline timeline-inverse">
                         <!-- timeline time label -->
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-            </div>
+            </div> --}}
             <!-- /.row -->
 
         </div>
@@ -134,5 +134,5 @@
 @endsection
 
 @section('script')
-
+   
 @endsection

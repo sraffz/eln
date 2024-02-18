@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Halaman Utama</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/luar_negara') }}">Halaman Utama</a></li>
                         <li class="breadcrumb-item active">Senarai Permohonan</li>
                     </ol>
                 </div>
@@ -83,7 +83,7 @@
                                                     {{-- @php
                                                         $id = Hashids::encode($mohonan->permohonansID);
                                                     @endphp --}}
-                                                    <a href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}
+                                                    <a href="{{ url('/luar_negara/detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->negara }}
                                                         @if ($mohonan->negara_tambahan != '')
                                                             {{ ', ' . $mohonan->negara_tambahan }}
                                                         @endif
@@ -114,26 +114,26 @@
                                                     @if ($mohonan->statusPermohonan == 'Pending')
                                                         <span class="badge badge-warning">Dihantar</span>
                                                     @elseif($mohonan->statusPermohonan == 'simpanan')
-                                                        <a href="{{ url('hantar-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                        <a href="{{ url('/luar_negara/hantar-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-success btn-xs"
                                                             onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
                                                             data-toggle="tooltip" title="Hantar Permohonan"
                                                             data-placement="left"><i class="fas fa-paper-plane"></i></a>
-                                                        <a href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                        <a href="{{ url('/luar_negara/kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-info btn-xs" data-toggle="tooltip"
                                                             title="Kemaskini Permohonan" data-placement="left"><i
                                                                 class="fas fa-edit"></i></a>
-                                                        <a href="{{ url('padam-permohonan', [$mohonan->permohonansID]) }}"
+                                                        <a href="{{ url('/luar_negara/padam-permohonan', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"
                                                             data-toggle="tooltip" title="Padam Permohonan"
                                                             data-placement="left"><i class="fa fa-user-times"></i></a>
                                                     @elseif($mohonan->statusPermohonan == 'Ketua Jabatan')
-                                                        <a href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
+                                                        <a href="{{ url('/luar_negara/kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-info btn-xs" data-toggle="tooltip"
                                                             title="Kemaskini Permohonan" data-placement="left"><i
                                                                 class="fas fa-edit"></i></a>
-                                                        <a href="{{ url('padam-permohonan', [$mohonan->permohonansID]) }}"
+                                                        <a href="{{ url('/luar_negara/padam-permohonan', [$mohonan->permohonansID]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"
                                                             data-toggle="tooltip" title="Padam Permohonan"
@@ -189,7 +189,7 @@
                                                     {{ $index + 1 }}
                                                 </td>
                                                 <td>
-                                                    <a href="{{ url('detailPermohonanRombongan', [$id]) }}">
+                                                    <a href="{{ url('/luar_negara/detailPermohonanRombongan', [$id]) }}">
                                                         {{ $rombo->negaraRom }}@if ($rombo->negaraRom_lebih == 1)
                                                             {{ ', ' . $rombo->negaraRom_tambahan }}
                                                         @endif
@@ -216,7 +216,7 @@
                                                             @elseif($element->statusPermohonan == 'Lulus Semakan BPSM' && $rombo->statusPermohonanRom == 'simpanan')
                                                                 - {{ $element->user->nama }}
                                                                 @if (!($element->user->id == Auth::user()->id))
-                                                                    <a href="{{ url('tolak-permohonan', [$element->permohonansID]) }}"
+                                                                    <a href="{{ url('/luar_negara/tolak-permohonan', [$element->permohonansID]) }}"
                                                                         class="btn-danger btn-xs"
                                                                         onclick="javascript: return confirm('Padam maklumat ini?');">
                                                                         <i class="fa  fa-times"></i>
@@ -251,27 +251,27 @@
                                                 <td class="text-center">
                                                     @if ($rombo->statusPermohonanRom == 'Pending')
                                                         <span class="badge badge-dark">Tiada</span>
-                                                        <a href="{{ url('hantarRombongan', [$id]) }}"
+                                                        <a href="{{ url('/luar_negara/hantarRombongan', [$id]) }}"
                                                             class="btn btn-success btn-xs"
                                                             onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
                                                             data-toggle="tooltip" title="Hantar Permohonan"
                                                             data-placement="left"><i class="fas fa-paper-plane"></i></a>
-                                                        <a href="{{ url('kemaskini-rombongan', [$id]) }}"
+                                                        <a href="{{ url('/luar_negara/kemaskini-rombongan', [$id]) }}"
                                                             class="btn btn-info btn-xs"><i class="fas fa-edit"></i></a>
-                                                        <a href="{{ url('padam-rombongan', [$id]) }}"
+                                                        <a href="{{ url('/luar_negara/padam-rombongan', [$id]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                                 class="fa fa-user-times" data-toggle="tooltip"
                                                                 title="Padam Permohonan" data-placement="right"></i></a>
                                                     @elseif($rombo->statusPermohonanRom == 'simpanan')
-                                                        <a href="{{ url('hantarRombongan', [$id]) }}"
+                                                        <a href="{{ url('/luar_negara/hantarRombongan', [$id]) }}"
                                                             class="btn btn-success btn-xs"
                                                             onclick="javascript: return confirm('Adakah anda pasti untuk menghantar maklumat permohonan?');"
                                                             data-toggle="tooltip" title="Hantar Permohonan"
                                                             data-placement="left"><i class="fas fa-paper-plane"></i></a>
-                                                        <a href="{{ url('kemaskini-rombongan', [$id]) }}"
+                                                        <a href="{{ url('/luar_negara/kemaskini-rombongan', [$id]) }}"
                                                             class="btn btn-info btn-xs"><i class="fas fa-edit"></i></a>
-                                                        <a href="{{ url('padam-rombongan', [$id]) }}"
+                                                        <a href="{{ url('/luar_negara/padam-rombongan', [$id]) }}"
                                                             class="btn btn-danger btn-xs"
                                                             onclick="javascript: return confirm('Padam maklumat ini?');"><i
                                                                 class="fa fa-user-times" data-toggle="tooltip"

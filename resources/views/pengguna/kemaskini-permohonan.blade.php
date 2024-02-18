@@ -26,7 +26,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form action="{{ url('kemaskini-rombongan') }}" method="post" autocomplete="off"
+                            <form action="{{ url('luar_negara/kemaskini-rombongan') }}" method="post" autocomplete="off"
                                 enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 @foreach ($rombongan as $rmbgn)
@@ -102,7 +102,8 @@
                                                 <div class="icheck-primary">
                                                     <input class="form-check-input" OnChange="javascript:pilihNegaraLain();"
                                                         type="checkbox" value="1" name="negaraRom_lebih"
-                                                        id="negaraRom_lebih" {{ $rmbgn->negaraRom_lebih == '1'? 'checked' : '' }}>
+                                                        id="negaraRom_lebih"
+                                                        {{ $rmbgn->negaraRom_lebih == '1' ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="negaraRom_lebih">
                                                         Adakah rombongan lebih daripada 1 negera?
                                                     </label>
@@ -113,12 +114,14 @@
                                                     $selected = explode(', ', $rmbgn->negaraRom_tambahan);
                                                 @endphp
                                                 <select class="form-control select2bs4" name="negaraRom_tambahan[]"
-                                                    id="negaraRom_tambahan" style="width: 100%;" multiple {{ $rmbgn->negaraRom_lebih == '1'? '' : 'disabled' }}>
+                                                    id="negaraRom_tambahan" style="width: 100%;" multiple
+                                                    {{ $rmbgn->negaraRom_lebih == '1' ? '' : 'disabled' }}>
                                                     <option value="">SILA PILIH</option>
                                                     @foreach ($negara as $jaw)
-                                                        <option value="{{ $jaw->namaNegara }}" {{ in_array($jaw->namaNegara, $selected) ? 'selected' : '' }}>
+                                                        <option value="{{ $jaw->namaNegara }}"
+                                                            {{ in_array($jaw->namaNegara, $selected) ? 'selected' : '' }}>
                                                             {{ $jaw->namaNegara }}
-                                                            </option>
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -129,24 +132,31 @@
                                             <div class="form-group">
                                                 <label><i class="fa fa-money-bill-alt"></i> Sumber Kewangan<span
                                                         style="color:red;">**</span></label>
-                                                <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom" required>
-                                                    <option value="Kerajaan" {{ 'Kerajaan' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
+                                                <select class="form-control" id="jenisKewanganRom" name="jenisKewanganRom"
+                                                    required>
+                                                    <option value="Kerajaan"
+                                                        {{ 'Kerajaan' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
                                                         Kerajaan</option>
-                                                    <option value="Federal" {{ 'Federal' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
+                                                    <option value="Federal"
+                                                        {{ 'Federal' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
                                                         Federal</option>
                                                     <option value="Persendirian"
-                                                        {{ 'Persendirian' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>Persendirian
+                                                        {{ 'Persendirian' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
+                                                        Persendirian
                                                     </option>
-                                                    <option value="Jabatan" {{ 'Jabatan' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
+                                                    <option value="Jabatan"
+                                                        {{ 'Jabatan' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
                                                         Jabatan</option>
-                                                    <option value="Syarikat" {{ 'Syarikat' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
+                                                    <option value="Syarikat"
+                                                        {{ 'Syarikat' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
                                                         Syarikat</option>
                                                     <option value="lain-lain"
-                                                        {{ 'lain-lain' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>lain-lain</option>
+                                                        {{ 'lain-lain' == $rmbgn->jenisKewanganRom ? 'selected' : '' }}>
+                                                        lain-lain</option>
                                                 </select>
                                             </div>
 
-{{-- 
+                                            {{-- 
                                             <div class="form-group">
                                                 <label><i class="fas fa-money-bill"></i> Sumber Kewangan</label>
                                                 
@@ -292,7 +302,7 @@
                                             @endif
                                         </div>
                                         <div class="col-md-12 text-center">
-                                            <a class="btn btn-danger" href="{{ url('senaraiPermohonanProses') }}"
+                                            <a class="btn btn-danger" href="{{ url('/luar_negara/senaraiPermohonanProses') }}"
                                                 role="button">Kembali</a>
                                             {!! Form::submit('Kemaskini', ['class' => 'btn btn-primary']) !!}
                                         </div>

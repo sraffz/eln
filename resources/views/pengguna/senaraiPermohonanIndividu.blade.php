@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Halaman Utama</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/luar_negara') }}">Halaman Utama</a></li>
                         <li class="breadcrumb-item active">Senarai Permohonan</li>
                     </ol>
                 </div>
@@ -76,7 +76,7 @@
                                                 {{ $index + 1 }}
                                             </td>
                                             <td>
-                                                <a href='{{ url('detailPermohonan', [$id]) }}'>
+                                                <a href='{{ url('/luar_negara/detailPermohonan', [$id]) }}'>
                                                     {{ $mohonan->negara }}@if ($mohonan->negara_lebih_dari_satu == 1)
                                                         {{ ', ' . $mohonan->negara_tambahan }}
                                                     @endif
@@ -196,7 +196,7 @@
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
-                                                                    <form action="{{ url('pinda-permohonan') }}"
+                                                                    <form action="{{ url('/luar_negara/pinda-permohonan') }}"
                                                                         method="post">
                                                                         <div class="modal-body text-left">
                                                                             {{ csrf_field() }}
@@ -269,7 +269,7 @@
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
-                                                                    <form action="{{ url('pinda-permohonan') }}"
+                                                                    <form action="{{ url('/luar_negara/pinda-permohonan') }}"
                                                                         method="post">
                                                                         <div class="modal-body text-left">
                                                                             {{ csrf_field() }}
@@ -465,7 +465,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ url('batal-permohonan') }}" method="post">
+                    <form action="{{ url('/luar_negara/batal-permohonan') }}" method="post">
                         <div class="modal-body">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" id="id" value="">

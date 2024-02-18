@@ -1,4 +1,4 @@
-@extends('layouts.eln', ['activePage' => 'profil'])
+@extends('layouts.master.master', ['activePage' => 'profil'])
 
 @section('title', 'Maklumat Diri')
 

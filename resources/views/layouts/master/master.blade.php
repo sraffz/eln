@@ -10,7 +10,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" type="image/png" href="{{ asset('img/sukk.png') }}">
-    <title>@yield('title')</title>
+    <title>Perkhidmatan BPSM</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -87,10 +87,10 @@ desired effect
    
     <div class="wrapper">
         {{-- </header> --}}
-        @include('layouts.eln.nav')
+        @include('layouts.master.nav')
 
         <!-- Main Sidebar Container -->
-        @include('layouts.eln.sidebar')
+        @include('layouts.master.sidebar')
 
         <div class="content-wrapper">
             @yield('content')
@@ -326,8 +326,6 @@ desired effect
         });
     </script>
      @include('sweetalert::alert')
-     {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
-
 </body>
 
 </html>

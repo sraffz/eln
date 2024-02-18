@@ -39,7 +39,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte-3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte-3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <!-- sweetalert2 -->
     <link rel="stylesheet" href="{{ asset('sweetalert/sweetalert2.min.css') }}">
     @yield('link')
@@ -58,7 +59,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         .hyphens {
             hyphens: auto;
         }
-
     </style>
 </head>
 
@@ -84,13 +84,13 @@ desired effect
 -->
 
 <body class="hold-transition skin-red sidebar-mini">
-   
+
     <div class="wrapper">
         {{-- </header> --}}
-        @include('layouts.eln.nav')
+        @include('layouts.elnegeri.nav')
 
         <!-- Main Sidebar Container -->
-        @include('layouts.eln.sidebar')
+        @include('layouts.elnegeri.sidebar')
 
         <div class="content-wrapper">
             @yield('content')
@@ -125,9 +125,10 @@ desired effect
 
                                         <div class="form-group">
                                             <label for="confirmpassword">Taip Semula Kata Laluan Baru</label>
-                                            <input type="password" class="form-control {{ $errors->has('confirmpassword') ? ' is-invalid' : '' }}"
-                                                name="confirmpassword" id="confirmpassword" aria-invalid="true" aria-describedby="helpId"
-                                                required>
+                                            <input type="password"
+                                                class="form-control {{ $errors->has('confirmpassword') ? ' is-invalid' : '' }}"
+                                                name="confirmpassword" id="confirmpassword" aria-invalid="true"
+                                                aria-describedby="helpId" required>
                                             <small id="helpId" class="error invalid-feedback">
                                                 {{ $errors->first('confirmpassword') }}
                                             </small>
@@ -173,8 +174,7 @@ desired effect
     <script src="{{ asset('adminlte-3/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('adminlte-3/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{ asset('adminlte-3/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}">
-    </script>
+    <script src="{{ asset('adminlte-3/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <!-- Summernote -->
     <script src="{{ asset('adminlte-3/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <!-- overlayScrollbars -->
@@ -220,7 +220,7 @@ desired effect
             });
         });
 
-        
+
 
 
 
@@ -325,9 +325,7 @@ desired effect
             $('#myModal').modal('show');
         });
     </script>
-     @include('sweetalert::alert')
-     {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
-
+    @include('sweetalert::alert')
 </body>
 
 </html>

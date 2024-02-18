@@ -61,7 +61,7 @@ $url = url()->current();
     <a href="{{ route('senaraiPermohonanProses') }}"
         class="nav-link {{ $url == route('senaraiPermohonanProses') ? 'active' : '' }}">
         <i class="nav-icon fas fa-book"></i>
-        <p>Permohonan Baru</p>
+        <p>Permohonan</p>
     </a>
 </li>
 <li
