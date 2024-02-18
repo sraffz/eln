@@ -53,7 +53,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($list as $permohonan)
+                                        @foreach ($rekod as $permohonan)
                                             <tr class="text-center">
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>

@@ -42,8 +42,8 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Negeri</th>
                                             <th>Program</th>
+                                            <th>Negeri</th>
                                             <th>Tarikh Mula Program</th>
                                             <th>Tarikh Akhir Program</th>
                                             <th>Status Permohonan</th>
@@ -51,7 +51,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        @foreach ($list as $permohonan)
+                                            <tr class="text-center">
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td> 
+                                                    <a href="{{ route('negeri.butiran-permohonan', [$permohonan->id]) }}"
+                                                    class="badge bg-dark" >{{ $permohonan->program }}</a >
+                                                </td>
+                                                <td>{{ $permohonan->negeri }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_mula)->format('d/m/Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_akhir)->format('d/m/Y') }}</td>
+                                                 <td>{{ $permohonan->status }}</td>
+                                                <td>Tindakan</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

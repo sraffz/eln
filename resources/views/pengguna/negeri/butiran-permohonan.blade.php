@@ -67,7 +67,7 @@
                                     <label for="program"><i class="fa fa-edit"> </i> Program <span
                                             style="color:red;">*</span></label>
                                     <input type="text" class="form-control" id="program" name="program"
-                                        value="{{ old('program') }}" required>
+                                        value="{{ old('program', $detail->program) }}" disabled>
                                     <small><i>Nama Mesyuarat/Bengkel/Kursus/Taklimat.</i></small>
                                 </div>
                                 <!-- text input -->
@@ -82,7 +82,7 @@
                                     <label for="tarikhMula"><i class="fas fa-calendar"></i> Tarikh Mula Program <span
                                             style="color:red;">*</span></label>
                                     <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}" name="tarikhMula"
-                                        value="{{ old('tarikhMula') }}" onBlur="myFunction()" id="tarikhMula"
+                                        value="{{ old('tarikhMula',$detail->tarikh_mula) }}" disabled onBlur="myFunction()" id="tarikhMula"
                                         min="{{ \Carbon\Carbon::now()->addDays($lastDate)->format('Y-m-d') }}" required>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                     <label for="tarikhAkhir"><i class="fas fa-calendar"></i> Tarikh Akhir Program <span
                                             style="color:red;">*</span></label>
                                     <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhAkhir" value="{{ old('tarikhAkhir') }}" id="tarikhAkhir" required>
+                                        name="tarikhAkhir" value="{{ old('tarikhAkhir', $detail->tarikh_akhir) }}" disabled id="tarikhAkhir" required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -100,7 +100,7 @@
                                     <label for="phone"><i class="fa fa-phone"> </i> No. Telefon <span
                                             style="color:red;">*</span></label>
                                     <input type="text" id="phone" name="phone" class="form-control"
-                                        value="{{ old('phone') }}" data-inputmask='"mask": "999-99999999"' data-mask>
+                                        value="{{ old('phone', $detail->no_tel) }}" data-inputmask='"mask": "999-99999999"' disabled data-mask>
                                 </div>
                             </div>
                         </div>
@@ -111,18 +111,18 @@
                                     <label for="tempat_program"><i class="fas fa-map-marker-alt"></i> Tempat Program <span
                                             style="color:red;">*</span></label>
                                     <input type="text" id="tempat_program" name="tempat_program" class="form-control"
-                                        value="{{ old('tempat_program') }}" placeholder="" required>
+                                        value="{{ old('tempat_program', $detail->tempat_program) }}" disabled placeholder="" required>
                                 </div>
                             </div>
                             <div class="col-sm-4 ">
                                 <div class="form-group">
                                     <label for="negeri"><i class="fas fa-flag"></i> Negeri </label>
-                                    <select class="form-control select2bs4" id="negeri" name="negeri"
+                                    <select class="form-control select2bs4" id="negeri" name="negeri" disabled
                                         style="width: 100%;" required>
                                         <option value="">SILA PILIH</option>
                                         @foreach ($negeri as $state)
                                             <option value="{{ $state->negeri }}"
-                                                {{ $state->negeri == old('negeri') ? 'selected' : '' }}>
+                                                {{ $state->negeri == old('negeri', $detail->negeri) ? 'selected' : '' }}>
                                                 {{ $state->negeri }}</option>
                                         @endforeach
                                     </select>
@@ -134,8 +134,8 @@
                                 <div class="form-group">
                                     <div class="icheck-primary  ">
                                         <input class="icheck-primary" OnChange="javascript:enableTextBox();"
-                                            type="checkbox" value="1" name="negeri_lebih" id="negeri_lebih"
-                                            @checked(old('negeri_lebih') == '1')>
+                                            type="checkbox" value="1" name="negeri_lebih" disabled id="negeri_lebih"
+                                            {{ $detail->negeri_lebih_dari_satu == 1 ? 'checked' : '' }} >
                                         <label class="form-check-label" for="negeri_lebih">
                                             <strong> Adakah melawati lebih daripada 1 negeri?</strong>
                                         </label>
@@ -143,9 +143,12 @@
                                     <select class="form-control select2bs4" name="negeri_tambahan[]" id="negeri_tambahan"
                                         style="width: 100%;" {{ old('negeri_lebih') == 1 ? '' : 'disabled' }} multiple>
                                         <option value="">SILA PILIH</option>
+                                        @php
+                                                $selected = explode(', ', $detail->negeri_tambahan);
+                                            @endphp
                                         @foreach ($negeri as $state)
                                             <option value="{{ $state->negeri }}"
-                                                {{ $state->negeri == old('negeri') ? 'selected' : '' }}>
+                                                {{ in_array($state->negeri, $selected) ? 'selected' : '' }}>
                                                 {{ $state->negeri }}</option>
                                         @endforeach
                                     </select>
@@ -155,7 +158,7 @@
                                 <label for="exampleInputFile"><i class="fa fa-file"> </i> Surat
                                     Mesyuarat/Bengkel/Kursus/Taklimat <span style="color:red;">*</span></label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="dokumen"
+                                    <input type="file" disabled class="custom-file-input" name="dokumen[]"
                                         id="exampleInputFile" multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                     {{-- <small><i>*tertakluk kepada kelulusan dalaman bagi pejabat daerah atau perkara berkaitan.</i></small> --}}
@@ -165,13 +168,16 @@
                                         </span>
                                     @endif
                                 </div>
+                                <a class="btn mt-2 btn-info"
+                                href="{{ route('negeri.download.dokumen', ['id' => $detail->id]) }}"><i class="fa fa-download"></i> Dokumen
+                                Rasmi  </a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="catatan_permohonan">Catatan</label>
-                                    <textarea class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan') }}</textarea>
+                                    <textarea disabled class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan',  $detail->catatan) }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -195,17 +201,17 @@
                                             style="color:red;">*</span> : - </label>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input custom-control-input-teal" type="radio"
-                                            id="customPejabat" name="jenisKenderaan" value="Kenderaan Pejabat" checked>
+                                            id="customPejabat" name="jenisKenderaan" value="Kenderaan Pejabat" disabled {{ $detail->jenis_perjalanan == "Kenderaan Pejabat" ? 'checked' : '' }}>
                                         <label for="customPejabat" class="custom-control-label">Kenderaan Pejabat</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input custom-control-input-teal" type="radio"
-                                            id="customUdara" name="jenisKenderaan" value="Waran Udara">
+                                            id="customUdara" name="jenisKenderaan" value="Waran Udara" disabled {{ $detail->jenis_perjalanan == "Waran Udara" ? 'checked' : '' }}>
                                         <label for="customUdara" class="custom-control-label">Waran Udara</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input custom-control-input-teal" type="radio"
-                                            id="customSendiri" name="jenisKenderaan" value="Kenderaan Sendiri">
+                                            id="customSendiri" name="jenisKenderaan" disabled value="Kenderaan Sendiri" {{ $detail->jenis_perjalanan == "Kenderaan Sendiri" ? 'checked' : '' }}>
                                         <label for="customSendiri" class="custom-control-label">Kenderaan Sendiri</label>
                                     </div>
 
@@ -216,16 +222,23 @@
                     </div>
                 </div>
                 {{-- borang kenderaan sendiri --}}
-                @include('pengguna.negeri.borang.kenderaan-sendiri')
+                @include('pengguna.negeri.borang.detail.kenderaan-sendiri')
 
                 {{-- borang waran udara --}}
-                @include('pengguna.negeri.borang.waran-udara')
-                <div class="row mb-4">
+                @include('pengguna.negeri.borang.detail.waran-udara')
+                <div class="row mb-5">
                     <div class="col-sm-12 text-center">
-                        <button type="reset" class="btn btn-danger"> Semula</button>
-                        <button type="submit" class="btn btn-primary"> Hantar</button>
-                        <br>
-                        <br>
+                         <a
+                            name=""
+                            id=""
+                            class="btn btn-primary"
+                            href="{{ url()->previous() }}"
+                            role="button"
+                            >Kembali</a
+                        >
+                        
+                        <button class="btn btn-danger"> Kemaskini</button>
+                        <br><br>
                     </div>
                 </div>
             </form>

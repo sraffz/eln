@@ -1,6 +1,6 @@
 @extends('layouts.elnegeri.master')
 
-@section('title', 'E-Luar Negeri | Keputusan Permohonan')
+@section('title', 'E-Luar Negeri | Senarai Permohonan')
 
 @section('link')
 
@@ -12,13 +12,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>E-Luar Negeri | Keputusan Permohonan</h1>
+                    <h1>E-Luar Negeri | Senarai Permohonan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/') }}">Halaman Utama</a></li>
                         <li class="breadcrumb-item active"><a href="{{ route('halamanUtamaNegeri') }}">E-Luar Negeri</a></li>
-                        <li class="breadcrumb-item active">Keputusan Permohonan</li>
+                        <li class="breadcrumb-item active">Senarai Permohonan</li>
                     </ol>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     @include('flash::message')
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Keputusan Permohonan</h3>
+                            <h3 class="card-title">Senarai Permohonan</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -44,11 +44,8 @@
                                             <th>No</th>
                                             <th>Program</th>
                                             <th>Negeri</th>
-                                            <th>Tarikh Permohonan</th>
                                             <th>Tarikh Mula Program</th>
                                             <th>Tarikh Akhir Program</th>
-                                            <th>Tarikh Kelulusan</th>
-                                            <th>Status Permohonan</th>
                                             <th>Tindakan</th>
                                         </tr>
                                     </thead>
@@ -56,25 +53,28 @@
                                         @foreach ($list as $permohonan)
                                             <tr class="text-center">
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>
+                                                <td> 
                                                     <a href="{{ route('negeri.butiran-permohonan', [$permohonan->id]) }}"
-                                                        class="badge bg-dark" >{{ $permohonan->program }}</a >
+                                                    class="badge bg-dark" >{{ $permohonan->program }}</a >
                                                 </td>
                                                 <td>{{ $permohonan->negeri }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($permohonan->created_at)->format('d/m/Y') }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_mula)->format('d/m/Y') }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_akhir)->format('d/m/Y') }}</td>
-                                                 <td>Tarikh Kelulusan</td>
-                                                 <td>
-                                                    @if ($permohonan->status == 'Berjaya')
-                                                    <span class="badge bg-success" >{{ $permohonan->status }}</span>
-                                                    @else
-                                                    <span class="badge bg-danger" >{{ $permohonan->status }}</span>
-                                                    @endif
-                                                </td>
                                                 <td>
-                                                    <a class="btn btn-primary btn-xs" href="#" role="button" >Surat/Memo</a >
-                                                    <a class="btn btn-dark btn-xs" href="#" role="button" >Batal</a >
+                                                    <a href="{{ route('negeri.lulus_permohonan', ['id' => $permohonan->id]) }}"
+                                                        class="btn btn-success btn-xs"
+                                                        onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
+                                                        <i class="far fa-thumbs-up"></i>
+                                                    </a>
+                                                    <a href="{{ route('negeri.tolak_permohonan', ['id' => $permohonan->id]) }}"
+                                                        class="btn btn-danger btn-xs"
+                                                        onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
+                                                            class="far fa-thumbs-down"></i>
+                                                    </a>
+                                                    <a href="{{ route('negeri.cetak-butiran-permohonan', [$permohonan->id]) }}"
+                                                        class="btn btn-dark btn-xs">
+                                                        <i class="fa fa-print"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -90,5 +90,5 @@
 @endsection
 
 @section('script')
-
+   
 @endsection

@@ -61,12 +61,35 @@ Route::middleware(['auth'])->group(function () {
 	Route::prefix('luar_negeri')->group(function () {
 		Route::get('/', 'NegeriPermohonanController@index')->name('halamanUtamaNegeri');
 
+		#permohonan
 		Route::get('/borang-permohonan', 'NegeriPermohonanController@borangPermohonan')->name('negeri.borang-permohonan');
 		Route::get('/senarai-permohonan', 'NegeriPermohonanController@senaraiPermohonan')->name('negeri.senarai-permohonan');
 		Route::get('/keputusan-permohonan', 'NegeriPermohonanController@keputusanPermohonan')->name('negeri.keputusan-permohonan');
+		Route::get('/butiran-permohonan/{id}', 'NegeriPermohonanController@butiranPermohonan')->name('negeri.butiran-permohonan');
+
+
+		Route::get('muat-turun/{id}/dokumen', 'NegeriPermohonanController@downloadDokumen')->name('negeri.download.dokumen');
 
 
 		Route::post('/hantar-permohonan', 'NegeriPermohonanController@hantarPermohonan')->name('negeri.hantar-permohonan');
+
+
+		#penyokong
+		Route::prefix('jabatan')->group(function () {
+			Route::get('senarai-permohonan', 'NegeriPermohonanController@senaraiPermohonanJabatan')->name('negeri.jabatan.senarai-permohonan');
+			Route::get('rekod-permohonan', 'NegeriPermohonanController@rekodPermohonanJabatan')->name('negeri.jabatan.rekod-permohonan');
+		});
+		
+		#pelulus
+		Route::prefix('kelulusan')->group(function () {
+			Route::get('senarai-permohonan', 'NegeriPermohonanController@senaraiPermohonanPelulus')->name('negeri.pelulus.senarai-permohonan');
+			Route::get('rekod-permohonan', 'NegeriPermohonanController@rekodPermohonanPelulus')->name('negeri.pelulus.rekod-permohonan');
+			
+			Route::get('lulus-permohonan/{id}', 'NegeriPermohonanController@lulusPermohonan')->name('negeri.lulus_permohonan');
+			Route::get('tolak-permohonan/{id}', 'NegeriPermohonanController@tolakPermohonan')->name('negeri.tolak_permohonan');
+
+			Route::get('cetak-butiran-permohonan', 'NegeriPermohonanController@cetakButiranPermohonan')->name('negeri.cetak-butiran-permohonan');
+		});
 	});
 
 	Route::prefix('luar_negara')->group(function () {
