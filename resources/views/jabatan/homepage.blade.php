@@ -29,21 +29,21 @@
                         <a href="#" class="small-box-footer">Selanjut <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div> --}}
-                 <!-- ./col -->
-                 <div class="col-lg-4 col-xs-6">
+                <!-- ./col -->
+                <div class="col-lg-4 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h5>Permohonan dalam proses</h5>
-                            <h3>{{ $TotalProces1+$TotalProces1Rom }}</h3>
+                            <h3>{{ $TotalProces1 + $TotalProces1Rom }}</h3>
 
                             <h5>
-                                Individu : 
+                                Individu :
                                 <a class="badge badge-danger" href="{{ url('senaraiPermohonanJabatan') }}">
                                     {{ $TotalProces1 }}
                                 </a>
                                 <br>
-                                Rombongan : 
+                                Rombongan :
                                 <a class="badge badge-danger" href="{{ url('senaraiPendingRombongan') }}">
                                     {{ $TotalProces1Rom }}
                                 </a>
@@ -61,14 +61,14 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h5>Permohonan Berjaya</h5>
-                            <h3>{{ $TotalBerjaya1+$TotalBerjaya1Rom }}</h3>
+                            <h3>{{ $TotalBerjaya1 + $TotalBerjaya1Rom }}</h3>
                             <h5>
-                                Individu :  
+                                Individu :
                                 <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
                                     {{ $TotalBerjaya1 }}
                                 </a>
                                 <br>
-                                Rombongan : 
+                                Rombongan :
                                 <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
                                     {{ $TotalBerjaya1Rom }}
                                 </a>
@@ -90,11 +90,11 @@
                             <h3>{{ $TotalGagal1 }}</h3>
 
                             <h5>
-                                Individu : 
+                                Individu :
                                 <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
                                     {{ $TotalGagal1 }}
                                 </a><br>
-                                Rombongan :  
+                                Rombongan :
                                 <a class="badge badge-dark" href="{{ url('rekod-permohonan') }}">
                                     {{ $TotalGagal1Rom }}
                                 </a>
@@ -125,7 +125,7 @@
                                 @endphp
                                 @if ($status == 'Permohonan Berjaya')
                                     <span class="bg-green">
-                                    @elseif($status=="Permohonan Gagal")
+                                    @elseif($status == 'Permohonan Gagal')
                                         <span class="bg-red">
                                 @endif
                                 @php
@@ -141,17 +141,29 @@
                             <div>
                                 <i class="fa fa-envelope bg-blue"></i>
                                 <div class="timeline-item">
-                                    <h3 class="timeline-header">{{ $sena->statusPermohonan }} ke<a href="#">
-                                            {{ $sena->negara }}</a> pada
+                                    @php
+                                        if ($sena->statusPermohonan == 'Permohonan Berjaya') {
+                                            $keputusan = 'Berjaya';
+                                        } elseif ($sena->statusPermohonan == 'Permohonan Gagal') {
+                                            $keputusan = 'Tidak Dipertimbangkan';
+                                        }
+
+                                    @endphp
+                                    <h3 class="timeline-header"> Permohonan ke<a href="#"> {{ $sena->negara }}</a>
+                                        pada
                                         @php
                                             $mula = $sena->tarikhMulaPerjalanan;
                                             $jale = strtotime($mula);
                                             $mulaJale = date('d-m-Y', $jale);
                                             echo $mulaJale;
-                                            echo ' .';
-                                        @endphp</h3>
+                                        @endphp
+                                        {{ $keputusan }}.</h3>
                                     <div class="timeline-body">
-                                        {{ $sena->JenisPermohonan }} {{ $sena->lainTujuan }}
+                                        Nama Pegawai : <span class="badge badge-pill  badge-dark">{{ $sena->nama }}
+                                        </span> <br>
+                                        Urusan : <span
+                                            class="badge badge-pill badge-dark">{{ $sena->JenisPermohonan }}</span> - <span
+                                            class="badge badge-pill badge-dark">{{ $sena->lainTujuan }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +183,7 @@
                         <div>
                             <i class="fa fa-clock bg-gray"></i>
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <!-- /.col -->
             </div>

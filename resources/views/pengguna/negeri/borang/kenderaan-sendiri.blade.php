@@ -4,25 +4,15 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-sm-6">
+            {{-- <div class="col-sm-6">
                 <div class="form-group">
                     <label for="gaji"><i class="fa fa-money-check-alt"> </i> Gaji (RM)<span style="color:red;">*</span></label>
                     <input type="number" step="0.01"  class="form-control" id="gaji" name="gaji" value="{{ old('gaji') }}"
                     >
                     <small><i></i></small>
                 </div>
-                <!-- text input -->
-            </div>
-            <div class="col-sm-6">
-                <!-- text input -->
-                <div class="form-group">
-                    <label for="jenis_kenderaan"><i class="fas fa-car"></i> Jenis Kenderaan <span
-                            style="color:red;">*</span></label>
-                    <input type="type" class="form-control" name="jenis_kenderaan"
-                        value="{{ old('jenis_kenderaan') }}" id="jenis_kenderaan">
-                        <small><i>Jenama dan Model Kenderaan</i></small>
-                </div>
-            </div>
+             </div> --}}
+           
         </div>
         <div class="row">
             <div class="col-sm-4">
@@ -47,13 +37,23 @@
                 </div>
             </div>
             <div class="col-sm-4">
+                <!-- text input -->
+                <div class="form-group">
+                    <label for="jenis_kenderaan"><i class="fas fa-car"></i> Jenis Kenderaan <span
+                            style="color:red;">*</span></label>
+                    <input type="type" class="form-control" name="jenis_kenderaan"
+                        value="{{ old('jenis_kenderaan') }}" id="jenis_kenderaan">
+                        <small><i>Jenama dan Model Kenderaan</i></small>
+                </div>
+            </div>
+            {{-- <div class="col-sm-4">
                 <div class="form-group">
                     <label for="kelas_perbatuan"><i class="fas fa-layer-group"></i> Kelas Perbatuan <span
                             style="color:red;">*</span></label>
                     <input type="type" class="form-control" name="kelas_perbatuan"
                         value="{{ old('kelas_perbatuan') }}" id="kelas_perbatuan">
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 

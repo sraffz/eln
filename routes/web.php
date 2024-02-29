@@ -23,7 +23,8 @@ Route::get('/clear-cache', function () {
 });
 
 Route::get('cron-mail', function () {
-	return Artisan::call('schedule:run');
+	return Artisan::call('queue:work');
+	// return Artisan::call('queue:work --tries=3 sleep=3');
 });
 
 Route::get('auto-tolak-permohonan', 'permohonanController@autoreject')->name('auto-tolak-permohonan');
@@ -79,13 +80,13 @@ Route::middleware(['auth'])->group(function () {
 			Route::get('senarai-permohonan', 'NegeriPermohonanController@senaraiPermohonanJabatan')->name('negeri.jabatan.senarai-permohonan');
 			Route::get('rekod-permohonan', 'NegeriPermohonanController@rekodPermohonanJabatan')->name('negeri.jabatan.rekod-permohonan');
 		});
-		
+
 		#pelulus
 		Route::prefix('kelulusan')->group(function () {
 			Route::get('senarai-permohonan', 'NegeriPermohonanController@senaraiPermohonanPelulus')->name('negeri.pelulus.senarai-permohonan');
 			Route::get('rekod-permohonan', 'NegeriPermohonanController@rekodPermohonanPelulus')->name('negeri.pelulus.rekod-permohonan');
-			
-			Route::get('lulus-permohonan/{id}', 'NegeriPermohonanController@lulusPermohonan')->name('negeri.lulus_permohonan');
+
+			Route::post('lulus-permohonan/{id}', 'NegeriPermohonanController@lulusPermohonan')->name('negeri.lulus_permohonan');
 			Route::get('tolak-permohonan/{id}', 'NegeriPermohonanController@tolakPermohonan')->name('negeri.tolak_permohonan');
 
 			Route::get('cetak-butiran-permohonan', 'NegeriPermohonanController@cetakButiranPermohonan')->name('negeri.cetak-butiran-permohonan');
@@ -156,6 +157,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('senaraiRekodRombongan', 'AdminController@senaraiRekodRombongan')->name('senaraiRekodRombongan');
 		Route::post('/sebab', 'AdminController@sebab');
 
+		Route::post('/padamPermohonan/{id}', 'AdminController@padamPermohonan')->name('padamPermohonan');
 		Route::post('/sebabRombongan', 'AdminController@sebabRombongan');
 
 		Route::get('/senaraiPending/{id}/hantar', 'AdminController@hantar')->name('senaraiPending.hantar');

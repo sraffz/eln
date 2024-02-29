@@ -231,6 +231,8 @@
                                                         <td>
                                                             <a
                                                                 href="{{ url('detailPermohonan', [$mohonan->permohonansID]) }}">{{ $mohonan->nama }}</a>
+
+
                                                         </td>
                                                         <td>{{ $mohonan->kod_jabatan }}</td>
                                                         <td>{{ $mohonan->negara }} @if ($mohonan->negara_lebih_dari_satu == 1)
@@ -420,9 +422,60 @@
                                                                         onclick="javascript: return confirm('Anda pasti untuk kembalikan semula permohonan ini?');"><i
                                                                             class="fa fa-times">Tolak</i></a>
                                                                 @elseif($mohonan->statusPermohonan == 'Lulus Semakan BPSM')
-                                                                    <a class="btn btn-danger btn-xs"
+                                                                    <a class="btn btn-primary btn-xs"
                                                                         href="{{ url('kemaskini-permohonan-individu', [$mohonan->permohonansID]) }}"
-                                                                        role="button">Kemaskini</a>
+                                                                        role="button"><i class="fas fa-pencil-alt"></i></a>
+
+                                                                    <a class="btn btn-danger btn-xs" data-toggle="modal"
+                                                                        data-target="#padamPermohonan-{{ $mohonan->permohonansID }}"
+                                                                        href="{{ route('padamPermohonan', [$mohonan->permohonansID]) }}"
+                                                                        role="button"><i class="fas fa-trash"></i>
+                                                                    </a>
+
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade"
+                                                                        id="padamPermohonan-{{ $mohonan->permohonansID }}"
+                                                                        tabindex="-1" role="dialog"
+                                                                        aria-labelledby="modelTitleId" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">Padam
+                                                                                        Permohonan</h5>
+                                                                                    <button type="button" class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                        <span
+                                                                                            aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <form
+                                                                                    action="{{ route('padamPermohonan', [$mohonan->permohonansID]) }}"
+                                                                                    method="post">
+                                                                                    {{ csrf_field() }}
+                                                                                    <div class="modal-body">
+                                                                                        <div class="container-fluid">
+                                                                                           <h5> Adakah anda ingin padam
+                                                                                            permohonan ini?</h5>
+
+                                                                                            <br>
+                                                                                            <div class="text-left">
+                                                                                                <h5>Pegawai : {{ $mohonan->nama }}</h5>
+                                                                                                <h5>Negara : {{ $mohonan->negara }} @if ($mohonan->negara_lebih_dari_satu == 1)
+                                                                                                    {{ ', ' . $mohonan->negara_tambahan }}
+                                                                                                @endif</h5>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"  class="btn btn-dark" data-dismiss="modal">Batal</button>
+                                                                                        <button type="submit" class="btn btn-danger">Padam</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 @endif
                                                             </td>
                                                         @else

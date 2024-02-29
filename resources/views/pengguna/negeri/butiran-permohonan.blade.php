@@ -82,7 +82,8 @@
                                     <label for="tarikhMula"><i class="fas fa-calendar"></i> Tarikh Mula Program <span
                                             style="color:red;">*</span></label>
                                     <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}" name="tarikhMula"
-                                        value="{{ old('tarikhMula',$detail->tarikh_mula) }}" disabled onBlur="myFunction()" id="tarikhMula"
+                                        value="{{ old('tarikhMula', $detail->tarikh_mula) }}" disabled onBlur="myFunction()"
+                                        id="tarikhMula"
                                         min="{{ \Carbon\Carbon::now()->addDays($lastDate)->format('Y-m-d') }}" required>
                                 </div>
                             </div>
@@ -92,7 +93,8 @@
                                     <label for="tarikhAkhir"><i class="fas fa-calendar"></i> Tarikh Akhir Program <span
                                             style="color:red;">*</span></label>
                                     <input type="date" class="form-control" pattern="\d{2}-\d{2}-\d{4}"
-                                        name="tarikhAkhir" value="{{ old('tarikhAkhir', $detail->tarikh_akhir) }}" disabled id="tarikhAkhir" required>
+                                        name="tarikhAkhir" value="{{ old('tarikhAkhir', $detail->tarikh_akhir) }}" disabled
+                                        id="tarikhAkhir" required>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -100,7 +102,8 @@
                                     <label for="phone"><i class="fa fa-phone"> </i> No. Telefon <span
                                             style="color:red;">*</span></label>
                                     <input type="text" id="phone" name="phone" class="form-control"
-                                        value="{{ old('phone', $detail->no_tel) }}" data-inputmask='"mask": "999-99999999"' disabled data-mask>
+                                        value="{{ old('phone', $detail->no_tel) }}" data-inputmask='"mask": "999-99999999"'
+                                        disabled data-mask>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +114,8 @@
                                     <label for="tempat_program"><i class="fas fa-map-marker-alt"></i> Tempat Program <span
                                             style="color:red;">*</span></label>
                                     <input type="text" id="tempat_program" name="tempat_program" class="form-control"
-                                        value="{{ old('tempat_program', $detail->tempat_program) }}" disabled placeholder="" required>
+                                        value="{{ old('tempat_program', $detail->tempat_program) }}" disabled
+                                        placeholder="" required>
                                 </div>
                             </div>
                             <div class="col-sm-4 ">
@@ -134,8 +138,8 @@
                                 <div class="form-group">
                                     <div class="icheck-primary  ">
                                         <input class="icheck-primary" OnChange="javascript:enableTextBox();"
-                                            type="checkbox" value="1" name="negeri_lebih" disabled id="negeri_lebih"
-                                            {{ $detail->negeri_lebih_dari_satu == 1 ? 'checked' : '' }} >
+                                            type="checkbox" value="1" name="negeri_lebih" disabled
+                                            id="negeri_lebih" {{ $detail->negeri_lebih_dari_satu == 1 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="negeri_lebih">
                                             <strong> Adakah melawati lebih daripada 1 negeri?</strong>
                                         </label>
@@ -144,8 +148,8 @@
                                         style="width: 100%;" {{ old('negeri_lebih') == 1 ? '' : 'disabled' }} multiple>
                                         <option value="">SILA PILIH</option>
                                         @php
-                                                $selected = explode(', ', $detail->negeri_tambahan);
-                                            @endphp
+                                            $selected = explode(', ', $detail->negeri_tambahan);
+                                        @endphp
                                         @foreach ($negeri as $state)
                                             <option value="{{ $state->negeri }}"
                                                 {{ in_array($state->negeri, $selected) ? 'selected' : '' }}>
@@ -168,16 +172,24 @@
                                         </span>
                                     @endif
                                 </div>
-                                <a class="btn mt-2 btn-info"
-                                href="{{ route('negeri.download.dokumen', ['id' => $detail->id]) }}"><i class="fa fa-download"></i> Dokumen
-                                Rasmi  </a>
+                                @php
+                                    $dokumen = explode(', ', $detail->dokumen_program);
+
+                                @endphp
+                                @foreach ($dokumen as $doc)
+                                    {{-- <a class="btn mt-2 btn-info" target="_blank" href="{{ storage_path($doc) }}"><i
+                                            class="fa fa-download"></i> Dokumen Rasmi {{ $loop->iteration }}</a> --}}
+                                    <a class="btn mt-2 btn-info" href="{{ route('negeri.download.dokumen', ['id' => $detail->id]) }}"><i
+                                            class="fa fa-download"></i> Dokumen Rasmi {{ $loop->iteration }}</a>
+                                @endforeach
+
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="catatan_permohonan">Catatan</label>
-                                    <textarea disabled class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan',  $detail->catatan) }}</textarea>
+                                    <textarea disabled class="form-control" name="catatan_permohonan" id="catatan_permohonan" rows="3">{{ old('catatan_permohonan', $detail->catatan) }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -201,17 +213,20 @@
                                             style="color:red;">*</span> : - </label>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input custom-control-input-teal" type="radio"
-                                            id="customPejabat" name="jenisKenderaan" value="Kenderaan Pejabat" disabled {{ $detail->jenis_perjalanan == "Kenderaan Pejabat" ? 'checked' : '' }}>
+                                            id="customPejabat" name="jenisKenderaan" value="Kenderaan Pejabat" disabled
+                                            {{ $detail->jenis_perjalanan == 'Kenderaan Pejabat' ? 'checked' : '' }}>
                                         <label for="customPejabat" class="custom-control-label">Kenderaan Pejabat</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input custom-control-input-teal" type="radio"
-                                            id="customUdara" name="jenisKenderaan" value="Waran Udara" disabled {{ $detail->jenis_perjalanan == "Waran Udara" ? 'checked' : '' }}>
+                                            id="customUdara" name="jenisKenderaan" value="Waran Udara" disabled
+                                            {{ $detail->jenis_perjalanan == 'Waran Udara' ? 'checked' : '' }}>
                                         <label for="customUdara" class="custom-control-label">Waran Udara</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input custom-control-input-teal" type="radio"
-                                            id="customSendiri" name="jenisKenderaan" disabled value="Kenderaan Sendiri" {{ $detail->jenis_perjalanan == "Kenderaan Sendiri" ? 'checked' : '' }}>
+                                            id="customSendiri" name="jenisKenderaan" disabled value="Kenderaan Sendiri"
+                                            {{ $detail->jenis_perjalanan == 'Kenderaan Sendiri' ? 'checked' : '' }}>
                                         <label for="customSendiri" class="custom-control-label">Kenderaan Sendiri</label>
                                     </div>
 
@@ -228,15 +243,9 @@
                 @include('pengguna.negeri.borang.detail.waran-udara')
                 <div class="row mb-5">
                     <div class="col-sm-12 text-center">
-                         <a
-                            name=""
-                            id=""
-                            class="btn btn-primary"
-                            href="{{ url()->previous() }}"
-                            role="button"
-                            >Kembali</a
-                        >
-                        
+                        <a name="" id="" class="btn btn-primary" href="{{ url()->previous() }}"
+                            role="button">Kembali</a>
+
                         <button class="btn btn-danger"> Kemaskini</button>
                         <br><br>
                     </div>

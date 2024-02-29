@@ -50,8 +50,9 @@ class NegeriPermohonanController extends Controller
     {
         $permohonan = Permohonan_Negeri::find($id);
         $path = $permohonan->dokumen;
+        dd($path);
 
-        return Storage::download($path, 'Dokumen Rasmi.pdf');
+        return Storage::download($id, 'Dokumen Rasmi.pdf');
     }
 
     public function senaraiPermohonan()
@@ -81,11 +82,10 @@ class NegeriPermohonanController extends Controller
             'jenisKenderaan' => 'required',
             'negeri' => 'required',
             'negeri_tambahan' => 'required_if:negeri_lebih,1',
-            'gaji' => 'required_if:jenisKenderaan,Kenderaan Pejabat',
+            // 'gaji' => 'required_if:jenisKenderaan,Kenderaan Pejabat',
             'jenis_kenderaan' => 'required_if:jenisKenderaan,Kenderaan Pejabat',
             'no_kenderaan' => 'required_if:jenisKenderaan,Kenderaan Pejabat',
-             'dokumen.*' => 'mimes:doc,pdf,docx|max:1024|required',
-            // 'fileCuti.*' => 'mimes:doc,pdf,docx|max:1024',
+             'dokumen.*' => 'mimes:doc,pdf,docx|max:1024|required'
         ], [
             'dokumen.max' => 'fail yang dimuatnaik mesti tidak boleh melebihi 1MB',
             'dokumen.mimetypes' => 'Fail perlu dimuatnaik dalam format PDF',
@@ -118,9 +118,10 @@ class NegeriPermohonanController extends Controller
 
          if ($request->hasFile('dokumen')) {
 
-            $file = $request->file('dokumen');
+            $files = $request->file('dokumen');
+            $locations = [];
 
-            // foreach ($files as $file) {
+            foreach ($files as $file) {
                 $filename = $file->hashName();
                 $extension = $file->extension();
                 $currYear = Carbon::now()->format('Y');
@@ -139,26 +140,32 @@ class NegeriPermohonanController extends Controller
                     //     'updated_at' => \Carbon\Carbon::now(), # \Datetime()
                     // ];
                     // Dokumen::create($data);
-                    Permohonan_Negeri::where('id', $id_permohoanan)->update([
-                        'dokumen_program' => $filePath
-                    ]);
+                   
+                    $locations[] = $filePath;
                 }
-            // }
+            }
+
+            $allFiles = implode(", ",$locations);
+            // dd( $allFiles);
+
+            Permohonan_Negeri::where('id', $id_permohoanan)->update([
+                'dokumen_program' => $allFiles
+            ]);
         }
 
          if ($request->jenisKenderaan == 'Kenderaan Sendiri') {
             DB::table('negeri_kenderaan_sendiri')->insert([
                 'id_permohonan' => $id_permohoanan,
-                'gaji' => $request->gaji,
                 'jenis_kenderaan' => $request->jenis_kenderaan,
                 'no_kenderaan' => $request->no_kenderaan,
                 'kuasa_enjin_kenderaan' => $request->kuasa_enjin,
-                'kelas_perbatuan_kenderaan' => $request->kelas_perbatuan,
+                // 'gaji' => $request->gaji,
+                // 'kelas_perbatuan_kenderaan' => $request->kelas_perbatuan,
                 'status' => 'baru',
                 'created_at' => \Carbon\Carbon::now()
              ]);
          }elseif ($request->jenisKenderaan == 'Waran Udara') {
-            # code...
+            
          }
 
         Alert::success('Berjaya', 'Permohonan Berjaya Dihantar');

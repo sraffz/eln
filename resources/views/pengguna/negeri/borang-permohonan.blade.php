@@ -51,7 +51,7 @@
                     $lastDate = 0;
                 }
             @endphp
-            <form action="{{ route('negeri.hantar-permohonan') }}" method="post" autocomplete="off">
+            <form action="{{ route('negeri.hantar-permohonan') }}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 {{-- borang maklumat permohonan --}}
                 <div class="card card-{{ $tema }}">
@@ -155,7 +155,7 @@
                                 <label for="exampleInputFile"><i class="fa fa-file"> </i> Surat
                                     Mesyuarat/Bengkel/Kursus/Taklimat <span style="color:red;">*</span></label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="dokumen"
+                                    <input type="file" class="custom-file-input" name="dokumen[]"
                                         id="exampleInputFile" multiple>
                                     <label class="custom-file-label" for="exampleInputFile">Pilih Fail</label>
                                     {{-- <small><i>*tertakluk kepada kelulusan dalaman bagi pejabat daerah atau perkara berkaitan.</i></small> --}}
@@ -178,19 +178,6 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{-- <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="customRadio1" name="customRadio">
-                                    <label for="customRadio1" class="custom-control-label">Custom Radio</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="customRadio2" name="customRadio"
-                                        checked>
-                                    <label for="customRadio2" class="custom-control-label">Custom Radio checked</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="customRadio3" disabled>
-                                    <label for="customRadio3" class="custom-control-label">Custom Radio disabled</label>
-                                </div> --}}
                                     <label for="catatan_permohonan">Sila Pilih Jenis Perjalanan <span
                                             style="color:red;">*</span> : - </label>
                                     <div class="custom-control custom-radio">
@@ -208,7 +195,6 @@
                                             id="customSendiri" name="jenisKenderaan" value="Kenderaan Sendiri">
                                         <label for="customSendiri" class="custom-control-label">Kenderaan Sendiri</label>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

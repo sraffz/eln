@@ -53,19 +53,68 @@
                                         @foreach ($list as $permohonan)
                                             <tr class="text-center">
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td> 
+                                                <td>
                                                     <a href="{{ route('negeri.butiran-permohonan', [$permohonan->id]) }}"
-                                                    class="badge bg-dark" >{{ $permohonan->program }}</a >
+                                                        class="badge bg-dark">{{ $permohonan->program }}</a>
                                                 </td>
                                                 <td>{{ $permohonan->negeri }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_mula)->format('d/m/Y') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_akhir)->format('d/m/Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_mula)->format('d/m/Y') }}
+                                                </td>
+                                                <td>{{ \Carbon\Carbon::parse($permohonan->tarikh_akhir)->format('d/m/Y') }}
+                                                </td>
                                                 <td>
-                                                    <a href="{{ route('negeri.lulus_permohonan', ['id' => $permohonan->id]) }}"
-                                                        class="btn btn-success btn-xs"
-                                                        onclick="javascript: return confirm('Anda pasti untuk meluluskan Semakan permohonan ini?');">
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#lulusPermohonan-{{ $permohonan->id }}">
                                                         <i class="far fa-thumbs-up"></i>
-                                                    </a>
+                                                    </button>
+                                                    
+                                                    <!-- Modal -->
+                                                    <div class="modal fade text-left" id="lulusPermohonan-{{ $permohonan->id }}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-center" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Lulus Permohonan</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                </div>
+                                                                <form action="{{ route('negeri.lulus_permohonan', ['id' => $permohonan->id]) }}" method="post">
+                                                                    {{ csrf_field() }}
+                                                                    <div class="modal-body">
+                                                                        Luluskan Permohonan ini? 
+                                                                        {{-- <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="form-group">
+                                                                                    <label for="catatan_permohonan">Sila Pilih Jenis Perjalanan <span
+                                                                                            style="color:red;">*</span> : - </label>
+                                                                                    <div class="custom-control custom-radio">
+                                                                                        <input class="custom-control-input custom-control-input-teal" type="radio"
+                                                                                            id="customPejabat" name="jenisKenderaan" value="Kenderaan Pejabat" checked>
+                                                                                        <label for="customPejabat" class="custom-control-label">Kenderaan Pejabat</label>
+                                                                                    </div>
+                                                                                    <div class="custom-control custom-radio">
+                                                                                        <input class="custom-control-input custom-control-input-teal" type="radio"
+                                                                                            id="customUdara" name="jenisKenderaan" value="Waran Udara">
+                                                                                        <label for="customUdara" class="custom-control-label">Waran Udara</label>
+                                                                                    </div>
+                                                                                    <div class="custom-control custom-radio">
+                                                                                        <input class="custom-control-input custom-control-input-teal" type="radio"
+                                                                                            id="customSendiri" name="jenisKenderaan" value="Kenderaan Sendiri">
+                                                                                        <label for="customSendiri" class="custom-control-label">Kenderaan Sendiri</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div> --}}
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                                        <button type="submit" class="btn btn-success">Luluskan</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <a href="{{ route('negeri.tolak_permohonan', ['id' => $permohonan->id]) }}"
                                                         class="btn btn-danger btn-xs"
                                                         onclick="javascript: return confirm('Anda pasti untuk menolak permohonan ini?');"><i
@@ -90,5 +139,5 @@
 @endsection
 
 @section('script')
-   
+
 @endsection

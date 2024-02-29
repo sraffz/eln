@@ -778,7 +778,7 @@ class AdminController extends Controller
         $bil_sah_rombo = DB::table('eln_pengesahan_bahagian_rombongan')->where('id_rombongan', $id)->count();
 
         if ($bil_sah_rombo == 0) {
-             DB::table('eln_pengesahan_bahagian_rombongan')->insertGetId([
+            DB::table('eln_pengesahan_bahagian_rombongan')->insertGetId([
                 'id_rombongan' => $id,
                 'id_pemohon' => $userid,
                 'jawatan_pemohon' => $pemohon->userJawatan->namaJawatan,
@@ -1012,6 +1012,38 @@ class AdminController extends Controller
         toast('Maklumat telah ditambah', 'success')->position('top-end');
 
         return redirect('senaraiGredAngka');
+    }
+
+    public function padamPermohonan($id)
+    {
+        // $id = Hashids::decode($id);
+        // return dd($id);
+        $delfilecuti = Permohonan::where('permohonansID', $id)->first();
+        // dd($delfilecuti->all());
+        if ($delfilecuti->pathFileCuti ?? '') {
+            Storage::delete($delfilecuti->pathFileCuti); // Padam file cuti
+
+        }
+
+        Eln_pengesahan_bahagian::where('id_permohonan', $id)->delete(); // Padam data pasangan
+
+        Pasangan::where('permohonansID', $id)->delete(); // Padam data pasangan
+
+        $doc = Dokumen::where('permohonansID', $id)->get();
+
+        foreach ($doc as $file) {
+            $url = $file->pathFile;
+
+            Storage::delete($url); //Padam Setiap Fail Dokumen Rasmi
+        }
+
+        Dokumen::where('permohonansID', $id)->delete(); //Padam data Dokumen Rasmi
+
+        Permohonan::where('permohonansID', $id)->delete(); // Padam data permohonan
+
+        Alert::success('Berjaya', 'Rekod berjaya dipadamkan');
+        // flash('Rekod berjaya dipadamkan.')->success();
+        return redirect()->back();
     }
 
     public function kemaskiniangkagred(Request $req)
